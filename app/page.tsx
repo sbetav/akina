@@ -4,7 +4,7 @@ import { FC } from "react";
 const Page: FC = () => {
   return (
     <div className="flex min-h-dvh w-full items-center justify-center">
-      <Button>Click me</Button>
+      <Button size="lg">Click me</Button>
     </div>
   );
 };
