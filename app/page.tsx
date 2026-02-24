@@ -1,9 +1,10 @@
+import { Button } from "@/components/ui/button";
 import { FC } from "react";
 
 const Page: FC = () => {
   return (
     <div className="flex min-h-dvh w-full items-center justify-center">
-      Hello World!
+      <Button>Click me</Button>
     </div>
   );
 };
