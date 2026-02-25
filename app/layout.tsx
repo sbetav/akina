@@ -1,3 +1,4 @@
+import Providers from "@/components/providers/providers";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { JetBrains_Mono, Space_Grotesk } from "next/font/google";
@@ -27,12 +28,12 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          jetBrainsMono.className,
+          jetBrainsMono.variable,
           spaceGrotesk.variable,
-          "antialiased",
+          "font-mono antialiased",
         )}
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

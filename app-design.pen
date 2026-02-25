@@ -350,13 +350,53 @@
           "fill": "#080808",
           "layout": "vertical",
           "padding": 60,
-          "justifyContent": "center",
           "alignItems": "center",
           "children": [
             {
               "type": "frame",
-              "id": "bgyjT",
-              "name": "Form Container",
+              "id": "backBtn",
+              "name": "Back Button",
+              "width": "fill_container",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "backIcon",
+                  "name": "backIcon",
+                  "width": 14,
+                  "height": 14,
+                  "iconFontName": "arrow-left",
+                  "iconFontFamily": "lucide",
+                  "fill": "#00FF88"
+                },
+                {
+                  "type": "text",
+                  "id": "backText",
+                  "name": "backText",
+                  "fill": "#00FF88",
+                  "content": "VOLVER",
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 11,
+                  "fontWeight": "500",
+                  "letterSpacing": 0.5
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "formCenterWrapper",
+              "name": "Form Center Wrapper",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "bgyjT",
+                  "name": "Form Container",
               "width": "fill_container",
               "layout": "vertical",
               "gap": 32,
@@ -662,6 +702,7 @@
                   "name": "Signup Link",
                   "width": "fill_container",
                   "gap": 6,
+                  "justifyContent": "center",
                   "children": [
                     {
                       "type": "text",
@@ -689,6 +730,8 @@
                 }
               ]
             }
+          ]
+        }
           ]
         },
         {
@@ -867,6 +910,140 @@
               "fill": "#1A1A1A",
               "width": 1,
               "height": 900
+            },
+            {
+              "type": "frame",
+              "id": "brandText",
+              "name": "Brand Text Block",
+              "x": 356,
+              "y": 668,
+              "width": 420,
+              "layout": "vertical",
+              "gap": 16,
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "brandLogo",
+                  "name": "Brand Logo",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "brandLogoMark",
+                      "name": "Brand Logo Mark",
+                      "width": 32,
+                      "height": 32,
+                      "fill": "#00FF88",
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "brandLogoLetter",
+                          "name": "brandLogoLetter",
+                          "fill": "#0C0C0C",
+                          "content": "A",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 18,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "brandLogoName",
+                      "name": "brandLogoName",
+                      "fill": "#FFFFFF",
+                      "content": "AKINA",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 16,
+                      "fontWeight": "600",
+                      "letterSpacing": 2
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "brandHeadline",
+                  "name": "Brand Headline",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 0,
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "brandLine1Frame",
+                      "name": "Brand Line 1",
+                      "gap": 0,
+                      "alignItems": "baseline",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "brandLine1a",
+                          "name": "brandLine1a",
+                          "fill": "#FFFFFF",
+                          "content": "El sistema ",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 36,
+                          "fontWeight": "600",
+                          "letterSpacing": -1
+                        },
+                        {
+                          "type": "text",
+                          "id": "brandLine1b",
+                          "name": "brandLine1b",
+                          "fill": "#00FF88",
+                          "content": "POS",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 36,
+                          "fontWeight": "600",
+                          "letterSpacing": -1,
+                          "textDecoration": "underline"
+                        },
+                        {
+                          "type": "text",
+                          "id": "brandLine1c",
+                          "name": "brandLine1c",
+                          "fill": "#FFFFFF",
+                          "content": " ideal",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 36,
+                          "fontWeight": "600",
+                          "letterSpacing": -1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "brandLine2",
+                      "name": "brandLine2",
+                      "fill": "#FFFFFF",
+                      "content": "para tu negocio",
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": 36,
+                      "fontWeight": "600",
+                      "letterSpacing": -1,
+                      "textAlign": "right"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "brandSubtitle",
+                  "name": "brandSubtitle",
+                  "fill": "#6a6a6a",
+                  "content": "AKINA POS © 2025",
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 11,
+                  "fontWeight": "normal",
+                  "letterSpacing": 0.5,
+                  "textAlign": "right"
+                }
+              ]
             }
           ]
         }
