@@ -1,37 +1,27 @@
-import LoginForm from "@/components/auth/login-form";
 import BackButton from "@/components/back-button";
 import Silk from "@/components/backgrounds/silk";
 import { AppLogo } from "@/components/ui/app-logo";
-import { buttonVariants } from "@/components/ui/button";
 import Container from "@/components/ui/container";
-import Link from "next/link";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 
-const Page: FC = () => {
+interface LayoutProps {
+  children: ReactNode;
+}
+
+const Layout: FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="flex w-full items-center divide-x">
+    <div className="flex h-dvh w-full items-center divide-x">
       {/* FORM COLUMN */}
-      <Container className="flex min-h-dvh w-full shrink-0 flex-col items-start py-12 xl:max-w-xl 2xl:max-w-2xl">
-        <BackButton />
-        <div className="mx-auto flex w-full max-w-md flex-1 flex-col items-start justify-center gap-8">
+      <Container className="flex h-full w-full shrink-0 flex-col items-start gap-8 overflow-y-auto py-10 md:py-14 lg:px-14 xl:max-w-xl">
+        <BackButton mode="redirect" href="/" />
+        <div className="mx-auto flex w-full max-w-md flex-1 flex-col items-start justify-center gap-8 xl:max-w-none">
           <AppLogo />
-          <LoginForm />
-          <div className="mt-2 flex w-full items-center justify-center">
-            <p className="text-muted-foreground text-xs uppercase">
-              ¿No tienes una cuenta?{" "}
-              <Link
-                href="/register"
-                className={buttonVariants({ variant: "link" })}
-              >
-                Regístrate
-              </Link>
-            </p>
-          </div>
+          {children}
         </div>
       </Container>
 
       {/* IMAGE COLUMN */}
-      <section className="bg-primary/20 relative hidden h-dvh flex-1 xl:block">
+      <section className="bg-primary/20 relative hidden h-full flex-1 xl:block">
         <Silk
           speed={6.1}
           scale={1.1}
@@ -57,4 +47,4 @@ const Page: FC = () => {
   );
 };
 
-export default Page;
+export default Layout;

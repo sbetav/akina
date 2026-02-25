@@ -1,5 +1,6 @@
 "use client";
 
+import useTabVisible from "@/hooks/use-tab-visible";
 import { Canvas, RootState, useFrame, useThree } from "@react-three/fiber";
 import React, {
   forwardRef,
@@ -7,6 +8,7 @@ import React, {
   useLayoutEffect,
   useMemo,
   useRef,
+  useState,
 } from "react";
 import { Color, IUniform, Mesh, ShaderMaterial } from "three";
 
@@ -164,6 +166,8 @@ const Silk: React.FC<SilkProps> = ({
   rotation = 0,
 }) => {
   const meshRef = useRef<Mesh>(null);
+  const isTabVisible = useTabVisible();
+  const [isReady, setIsReady] = useState(false);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const uniforms = useMemo<SilkUniforms>(
@@ -190,13 +194,23 @@ const Silk: React.FC<SilkProps> = ({
   }, [speed, scale, noiseIntensity, rotation, color]);
 
   return (
-    <Canvas
-      dpr={[1, 2]}
-      frameloop="always"
-      style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+    <div
+      style={{
+        position: "absolute",
+        inset: 0,
+        opacity: isReady ? 1 : 0,
+        transition: "opacity 1s ease",
+      }}
     >
-      <SilkPlane ref={meshRef} uniforms={uniforms} />
-    </Canvas>
+      <Canvas
+        dpr={[1, 2]}
+        frameloop={isTabVisible ? "always" : "never"}
+        style={{ width: "100%", height: "100%" }}
+        onCreated={() => setIsReady(true)}
+      >
+        <SilkPlane ref={meshRef} uniforms={uniforms} />
+      </Canvas>
+    </div>
   );
 };
 

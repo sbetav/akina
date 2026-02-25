@@ -1,6 +1,6 @@
 "use client";
 
-import { loginSchema } from "@/lib/form-schemas";
+import { LoginFormSchemaType, loginFormSchema } from "@/lib/form-schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   EyeIcon,
@@ -12,9 +12,8 @@ import {
 import Link from "next/link";
 import { FC, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
 import { Button, buttonVariants } from "../ui/button";
-import { Field, FieldError, FieldLabel } from "../ui/field";
+import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import {
   InputGroup,
   InputGroupAddon,
@@ -25,8 +24,8 @@ import {
 const LoginForm: FC = () => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const { handleSubmit, control } = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+  const { handleSubmit, control } = useForm<LoginFormSchemaType>({
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -48,7 +47,7 @@ const LoginForm: FC = () => {
         </p>
       </div>
 
-      <div className="flex flex-col gap-5">
+      <FieldGroup>
         <Controller
           control={control}
           name="email"
@@ -66,13 +65,7 @@ const LoginForm: FC = () => {
                   <MailIcon className="text-muted-foreground" />
                 </InputGroupAddon>
               </InputGroup>
-              <FieldError
-                errors={
-                  fieldState.error
-                    ? [{ message: fieldState.error.message }]
-                    : undefined
-                }
-              />
+              <FieldError errors={[fieldState.error]} />
             </Field>
           )}
         />
@@ -96,8 +89,6 @@ const LoginForm: FC = () => {
                 </InputGroupAddon>
                 <InputGroupAddon align="inline-end">
                   <InputGroupButton
-                    aria-label="Copy"
-                    title="Copy"
                     size="icon-xs"
                     onClick={() => {
                       setShowPassword(!showPassword);
@@ -107,13 +98,7 @@ const LoginForm: FC = () => {
                   </InputGroupButton>
                 </InputGroupAddon>
               </InputGroup>
-              <FieldError
-                errors={
-                  fieldState.error
-                    ? [{ message: fieldState.error.message }]
-                    : undefined
-                }
-              />
+              <FieldError errors={[fieldState.error]} />
             </Field>
           )}
         />
@@ -126,7 +111,7 @@ const LoginForm: FC = () => {
             ¿Olvidaste tu contraseña?
           </Link>
         </div>
-      </div>
+      </FieldGroup>
 
       <Button type="submit" size="lg">
         <LogInIcon className="size-4" />

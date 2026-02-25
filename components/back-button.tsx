@@ -1,30 +1,34 @@
 "use client";
 
 import { useGoBack } from "@/hooks/use-go-back";
+import { useRouter } from "@bprogress/next";
 import { ArrowLeftIcon } from "lucide-react";
 import type { FC } from "react";
 import { Button } from "./ui/button";
 
 interface BackButtonProps {
-  fallbackHref?: string;
   label?: string;
   className?: string;
-  onClick?: () => void;
+  mode?: "back" | "redirect";
+  href?: string;
 }
 
 const BackButton: FC<BackButtonProps> = ({
-  fallbackHref = "/",
   label = "Volver",
   className,
-  onClick,
+  mode = "back",
+  href = "/",
 }) => {
-  const { goBack } = useGoBack();
+  const router = useRouter();
+  const { goBack } = useGoBack({
+    fallbackHref: href,
+  });
 
   const handleClick = () => {
-    if (onClick) {
-      onClick();
+    if (mode === "redirect") {
+      router.push(href);
     } else {
-      goBack(fallbackHref);
+      goBack();
     }
   };
 

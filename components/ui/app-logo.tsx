@@ -14,8 +14,8 @@ const AppLogo: FC<AppLogoProps> = ({
   showLabel = true,
   label = "AKINA",
   letter = "A",
-  bgColor = "#00FF88",
-  textColor = "#0C0C0C",
+  bgColor = "var(--primary)",
+  textColor = "var(--primary-foreground)",
 }) => {
   return (
     <div className="flex items-center gap-3">
@@ -34,7 +34,7 @@ const AppLogo: FC<AppLogoProps> = ({
           dominantBaseline="central"
           textAnchor="middle"
           fill={textColor}
-          fontSize={size * 0.5}
+          fontSize={size * 0.55}
           fontWeight="700"
           className="font-sans select-none"
         >
@@ -43,7 +43,7 @@ const AppLogo: FC<AppLogoProps> = ({
       </svg>
       {showLabel && (
         <span
-          className="mt-px leading-none font-semibold"
+          className="mt-px font-sans leading-none font-semibold tracking-wide"
           style={{ fontSize: size * 0.6 }}
         >
           {label}

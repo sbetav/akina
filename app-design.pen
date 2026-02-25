@@ -1048,6 +1048,899 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "Reg01",
+      "x": 3980,
+      "y": 0,
+      "name": "Register - Split Layout",
+      "width": 1440,
+      "height": 900,
+      "fill": "#0C0C0C",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Reg02",
+          "name": "Left Panel - Form",
+          "width": 560,
+          "height": "fill_container",
+          "fill": "#080808",
+          "layout": "vertical",
+          "padding": 60,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Reg03",
+              "name": "Back Button",
+              "width": "fill_container",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "Reg04",
+                  "name": "backIcon",
+                  "width": 14,
+                  "height": 14,
+                  "iconFontName": "arrow-left",
+                  "iconFontFamily": "lucide",
+                  "fill": "#00FF88"
+                },
+                {
+                  "type": "text",
+                  "id": "Reg05",
+                  "name": "backText",
+                  "fill": "#00FF88",
+                  "content": "VOLVER",
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 11,
+                  "fontWeight": "500",
+                  "letterSpacing": 0.5
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Reg06",
+              "name": "Form Center Wrapper",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Reg07",
+                  "name": "Form Container",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 32,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Reg08",
+                      "name": "Logo Section",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Reg09",
+                          "name": "Logo Row",
+                          "gap": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Reg10",
+                              "name": "Logo Mark",
+                              "width": 40,
+                              "height": 40,
+                              "fill": "#00FF88",
+                              "layout": "vertical",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "Reg11",
+                                  "name": "logoLetter",
+                                  "fill": "#0C0C0C",
+                                  "content": "A",
+                                  "fontFamily": "Space Grotesk",
+                                  "fontSize": 22,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "Reg12",
+                              "name": "logoName",
+                              "fill": "#FFFFFF",
+                              "content": "AKINA",
+                              "fontFamily": "JetBrains Mono",
+                              "fontSize": 18,
+                              "fontWeight": "600",
+                              "letterSpacing": 2
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Reg13",
+                      "name": "Header Text",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Reg14",
+                          "name": "titleText",
+                          "fill": "#FFFFFF",
+                          "content": "Crear Cuenta",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 32,
+                          "fontWeight": "700",
+                          "letterSpacing": -1
+                        },
+                        {
+                          "type": "text",
+                          "id": "Reg15",
+                          "name": "subtitleText",
+                          "fill": "#8a8a8a",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Completa el formulario para comenzar",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Reg16",
+                      "name": "Form Fields",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 20,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Reg17",
+                          "name": "Name Row",
+                          "width": "fill_container",
+                          "layout": "horizontal",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Reg18",
+                              "name": "First Name Field",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 8,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "Reg19",
+                                  "name": "firstNameLbl",
+                                  "fill": "#8a8a8a",
+                                  "content": "NOMBRE",
+                                  "fontFamily": "JetBrains Mono",
+                                  "fontSize": 11,
+                                  "fontWeight": "700",
+                                  "letterSpacing": 0.5
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "Reg20",
+                                  "name": "First Name Input",
+                                  "width": "fill_container",
+                                  "fill": "#141414",
+                                  "stroke": {
+                                    "align": "inside",
+                                    "thickness": 1,
+                                    "fill": "#2f2f2f"
+                                  },
+                                  "gap": 10,
+                                  "padding": [12, 14],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon_font",
+                                      "id": "Reg21",
+                                      "name": "userIcon",
+                                      "width": 16,
+                                      "height": 16,
+                                      "iconFontName": "user",
+                                      "iconFontFamily": "lucide",
+                                      "fill": "#6a6a6a"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "Reg22",
+                                      "name": "firstNamePlaceholder",
+                                      "fill": "#6a6a6a",
+                                      "content": "Juan",
+                                      "fontFamily": "JetBrains Mono",
+                                      "fontSize": 13,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Reg23",
+                              "name": "Last Name Field",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 8,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "Reg24",
+                                  "name": "lastNameLbl",
+                                  "fill": "#8a8a8a",
+                                  "content": "APELLIDO",
+                                  "fontFamily": "JetBrains Mono",
+                                  "fontSize": 11,
+                                  "fontWeight": "700",
+                                  "letterSpacing": 0.5
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "Reg25",
+                                  "name": "Last Name Input",
+                                  "width": "fill_container",
+                                  "fill": "#141414",
+                                  "stroke": {
+                                    "align": "inside",
+                                    "thickness": 1,
+                                    "fill": "#2f2f2f"
+                                  },
+                                  "gap": 10,
+                                  "padding": [12, 14],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon_font",
+                                      "id": "Reg26",
+                                      "name": "userIcon2",
+                                      "width": 16,
+                                      "height": 16,
+                                      "iconFontName": "user",
+                                      "iconFontFamily": "lucide",
+                                      "fill": "#6a6a6a"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "Reg27",
+                                      "name": "lastNamePlaceholder",
+                                      "fill": "#6a6a6a",
+                                      "content": "Pérez",
+                                      "fontFamily": "JetBrains Mono",
+                                      "fontSize": 13,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Reg28",
+                          "name": "Email Field",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 8,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Reg29",
+                              "name": "emailLbl",
+                              "fill": "#8a8a8a",
+                              "content": "CORREO ELECTRÓNICO",
+                              "fontFamily": "JetBrains Mono",
+                              "fontSize": 11,
+                              "fontWeight": "700",
+                              "letterSpacing": 0.5
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Reg30",
+                              "name": "Email Input",
+                              "width": "fill_container",
+                              "fill": "#141414",
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 1,
+                                "fill": "#2f2f2f"
+                              },
+                              "gap": 10,
+                              "padding": [12, 14],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon_font",
+                                  "id": "Reg31",
+                                  "name": "mailIcon",
+                                  "width": 16,
+                                  "height": 16,
+                                  "iconFontName": "mail",
+                                  "iconFontFamily": "lucide",
+                                  "fill": "#6a6a6a"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "Reg32",
+                                  "name": "emailPlaceholder",
+                                  "fill": "#6a6a6a",
+                                  "content": "tu@correo.com",
+                                  "fontFamily": "JetBrains Mono",
+                                  "fontSize": 13,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Reg33",
+                          "name": "Password Field",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 8,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Reg34",
+                              "name": "passLbl",
+                              "fill": "#8a8a8a",
+                              "content": "CONTRASEÑA",
+                              "fontFamily": "JetBrains Mono",
+                              "fontSize": 11,
+                              "fontWeight": "700",
+                              "letterSpacing": 0.5
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Reg35",
+                              "name": "Password Input",
+                              "width": "fill_container",
+                              "fill": "#141414",
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 1,
+                                "fill": "#2f2f2f"
+                              },
+                              "gap": 10,
+                              "padding": [12, 14],
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "Reg36",
+                                  "name": "Pass Left",
+                                  "gap": 10,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon_font",
+                                      "id": "Reg37",
+                                      "name": "lockIcon",
+                                      "width": 16,
+                                      "height": 16,
+                                      "iconFontName": "lock",
+                                      "iconFontFamily": "lucide",
+                                      "fill": "#6a6a6a"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "Reg38",
+                                      "name": "passPlaceholder",
+                                      "fill": "#6a6a6a",
+                                      "content": "••••••••",
+                                      "fontFamily": "JetBrains Mono",
+                                      "fontSize": 13,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "icon_font",
+                                  "id": "Reg39",
+                                  "name": "eyeIcon",
+                                  "width": 16,
+                                  "height": 16,
+                                  "iconFontName": "eye-off",
+                                  "iconFontFamily": "lucide",
+                                  "fill": "#6a6a6a"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Reg40",
+                          "name": "Confirm Password Field",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 8,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Reg41",
+                              "name": "confirmPassLbl",
+                              "fill": "#8a8a8a",
+                              "content": "CONFIRMAR CONTRASEÑA",
+                              "fontFamily": "JetBrains Mono",
+                              "fontSize": 11,
+                              "fontWeight": "700",
+                              "letterSpacing": 0.5
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Reg42",
+                              "name": "Confirm Password Input",
+                              "width": "fill_container",
+                              "fill": "#141414",
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 1,
+                                "fill": "#2f2f2f"
+                              },
+                              "gap": 10,
+                              "padding": [12, 14],
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "Reg43",
+                                  "name": "Confirm Pass Left",
+                                  "gap": 10,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon_font",
+                                      "id": "Reg44",
+                                      "name": "lockIcon2",
+                                      "width": 16,
+                                      "height": 16,
+                                      "iconFontName": "lock",
+                                      "iconFontFamily": "lucide",
+                                      "fill": "#6a6a6a"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "Reg45",
+                                      "name": "confirmPassPlaceholder",
+                                      "fill": "#6a6a6a",
+                                      "content": "••••••••",
+                                      "fontFamily": "JetBrains Mono",
+                                      "fontSize": 13,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "icon_font",
+                                  "id": "Reg46",
+                                  "name": "eyeIcon2",
+                                  "width": 16,
+                                  "height": 16,
+                                  "iconFontName": "eye-off",
+                                  "iconFontFamily": "lucide",
+                                  "fill": "#6a6a6a"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Reg47",
+                      "name": "Register Button",
+                      "width": "fill_container",
+                      "fill": "#00FF88",
+                      "gap": 8,
+                      "padding": [12, 16],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "Reg48",
+                          "name": "registerIcon",
+                          "width": 14,
+                          "height": 14,
+                          "iconFontName": "user-plus",
+                          "iconFontFamily": "lucide",
+                          "fill": "#0C0C0C"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Reg49",
+                          "name": "registerText",
+                          "fill": "#0C0C0C",
+                          "content": "CREAR CUENTA",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 11,
+                          "fontWeight": "700",
+                          "letterSpacing": 0.5
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Reg50",
+                      "name": "Login Link",
+                      "width": "fill_container",
+                      "gap": 6,
+                      "justifyContent": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Reg51",
+                          "name": "loginText",
+                          "fill": "#8a8a8a",
+                          "content": "¿YA TIENES UNA CUENTA?",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "Reg52",
+                          "name": "loginLink",
+                          "fill": "#00FF88",
+                          "content": "INICIA SESIÓN",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 11,
+                          "fontWeight": "700",
+                          "letterSpacing": 0.5
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Reg53",
+          "name": "Right Panel - Branding",
+          "clip": true,
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "#0A0A0A",
+          "stroke": {
+            "align": "inside",
+            "thickness": {
+              "left": 1
+            },
+            "fill": "#2f2f2f"
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "Reg54",
+              "x": 0,
+              "y": 100,
+              "name": "gridH1",
+              "fill": "#1A1A1A",
+              "width": 880,
+              "height": 1
+            },
+            {
+              "type": "rectangle",
+              "id": "Reg55",
+              "x": 0,
+              "y": 200,
+              "name": "gridH2",
+              "fill": "#1A1A1A",
+              "width": 880,
+              "height": 1
+            },
+            {
+              "type": "rectangle",
+              "id": "Reg56",
+              "x": 0,
+              "y": 300,
+              "name": "gridH3",
+              "fill": "#1A1A1A",
+              "width": 880,
+              "height": 1
+            },
+            {
+              "type": "rectangle",
+              "id": "Reg57",
+              "x": 0,
+              "y": 400,
+              "name": "gridH4",
+              "fill": "#1A1A1A",
+              "width": 880,
+              "height": 1
+            },
+            {
+              "type": "rectangle",
+              "id": "Reg58",
+              "x": 0,
+              "y": 500,
+              "name": "gridH5",
+              "fill": "#1A1A1A",
+              "width": 880,
+              "height": 1
+            },
+            {
+              "type": "rectangle",
+              "id": "Reg59",
+              "x": 0,
+              "y": 600,
+              "name": "gridH6",
+              "fill": "#1A1A1A",
+              "width": 880,
+              "height": 1
+            },
+            {
+              "type": "rectangle",
+              "id": "Reg60",
+              "x": 0,
+              "y": 700,
+              "name": "gridH7",
+              "fill": "#1A1A1A",
+              "width": 880,
+              "height": 1
+            },
+            {
+              "type": "rectangle",
+              "id": "Reg61",
+              "x": 0,
+              "y": 800,
+              "name": "gridH8",
+              "fill": "#1A1A1A",
+              "width": 880,
+              "height": 1
+            },
+            {
+              "type": "rectangle",
+              "id": "Reg62",
+              "x": 100,
+              "y": 0,
+              "name": "gridV1",
+              "fill": "#1A1A1A",
+              "width": 1,
+              "height": 900
+            },
+            {
+              "type": "rectangle",
+              "id": "Reg63",
+              "x": 200,
+              "y": 0,
+              "name": "gridV2",
+              "fill": "#1A1A1A",
+              "width": 1,
+              "height": 900
+            },
+            {
+              "type": "rectangle",
+              "id": "Reg64",
+              "x": 300,
+              "y": 0,
+              "name": "gridV3",
+              "fill": "#1A1A1A",
+              "width": 1,
+              "height": 900
+            },
+            {
+              "type": "rectangle",
+              "id": "Reg65",
+              "x": 400,
+              "y": 0,
+              "name": "gridV4",
+              "fill": "#1A1A1A",
+              "width": 1,
+              "height": 900
+            },
+            {
+              "type": "rectangle",
+              "id": "Reg66",
+              "x": 500,
+              "y": 0,
+              "name": "gridV5",
+              "fill": "#1A1A1A",
+              "width": 1,
+              "height": 900
+            },
+            {
+              "type": "rectangle",
+              "id": "Reg67",
+              "x": 600,
+              "y": 0,
+              "name": "gridV6",
+              "fill": "#1A1A1A",
+              "width": 1,
+              "height": 900
+            },
+            {
+              "type": "rectangle",
+              "id": "Reg68",
+              "x": 700,
+              "y": 0,
+              "name": "gridV7",
+              "fill": "#1A1A1A",
+              "width": 1,
+              "height": 900
+            },
+            {
+              "type": "rectangle",
+              "id": "Reg69",
+              "x": 800,
+              "y": 0,
+              "name": "gridV8",
+              "fill": "#1A1A1A",
+              "width": 1,
+              "height": 900
+            },
+            {
+              "type": "frame",
+              "id": "Reg70",
+              "name": "Brand Text Block",
+              "x": 356,
+              "y": 668,
+              "width": 420,
+              "layout": "vertical",
+              "gap": 16,
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Reg71",
+                  "name": "Brand Logo",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Reg72",
+                      "name": "Brand Logo Mark",
+                      "width": 32,
+                      "height": 32,
+                      "fill": "#00FF88",
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Reg73",
+                          "name": "brandLogoLetter",
+                          "fill": "#0C0C0C",
+                          "content": "A",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 18,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "Reg74",
+                      "name": "brandLogoName",
+                      "fill": "#FFFFFF",
+                      "content": "AKINA",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 16,
+                      "fontWeight": "600",
+                      "letterSpacing": 2
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Reg75",
+                  "name": "Brand Headline",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 0,
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Reg76",
+                      "name": "Brand Line 1",
+                      "gap": 0,
+                      "alignItems": "baseline",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Reg77",
+                          "name": "brandLine1a",
+                          "fill": "#FFFFFF",
+                          "content": "El sistema ",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 36,
+                          "fontWeight": "600",
+                          "letterSpacing": -1
+                        },
+                        {
+                          "type": "text",
+                          "id": "Reg78",
+                          "name": "brandLine1b",
+                          "fill": "#00FF88",
+                          "content": "POS",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 36,
+                          "fontWeight": "600",
+                          "letterSpacing": -1,
+                          "textDecoration": "underline"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Reg79",
+                          "name": "brandLine1c",
+                          "fill": "#FFFFFF",
+                          "content": " ideal",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 36,
+                          "fontWeight": "600",
+                          "letterSpacing": -1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "Reg80",
+                      "name": "brandLine2",
+                      "fill": "#FFFFFF",
+                      "content": "para tu negocio",
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": 36,
+                      "fontWeight": "600",
+                      "letterSpacing": -1,
+                      "textAlign": "right"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "Reg81",
+                  "name": "brandSubtitle",
+                  "fill": "#6a6a6a",
+                  "content": "AKINA POS © 2025",
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 11,
+                  "fontWeight": "normal",
+                  "letterSpacing": 0.5,
+                  "textAlign": "right"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "variables": {
