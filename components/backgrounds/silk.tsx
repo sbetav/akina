@@ -14,12 +14,6 @@ import { Color, IUniform, Mesh, ShaderMaterial } from "three";
 
 type NormalizedRGB = [number, number, number];
 
-// Resolves any CSS color string — including var(--token) and oklch() — to
-// normalized RGB.
-// Step 1: a DOM element resolves CSS variables to their computed value.
-// Step 2: a 1×1 canvas converts any color format (oklch, hsl, etc.) to sRGB
-//         pixels, which Chrome 111+ returns as oklch from getComputedStyle
-//         and would break a plain rgb() regex.
 const resolveCSSColor = (color: string): NormalizedRGB => {
   if (typeof document === "undefined") return [1, 1, 1];
 
@@ -50,6 +44,10 @@ interface SilkUniforms {
   uColor: UniformValue<Color>;
   uRotation: UniformValue<number>;
   uTime: UniformValue<number>;
+  uBrightness: UniformValue<number>;
+  uVignetteStrength: UniformValue<number>;
+  uVignetteSoftness: UniformValue<number>;
+  uBgColor: UniformValue<Color>;
   [uniform: string]: IUniform;
 }
 
@@ -74,6 +72,10 @@ uniform float uSpeed;
 uniform float uScale;
 uniform float uRotation;
 uniform float uNoiseIntensity;
+uniform float uBrightness;
+uniform float uVignetteStrength;
+uniform float uVignetteSoftness;
+uniform vec3  uBgColor;
 
 const float e = 2.71828182845904523536;
 
@@ -106,6 +108,20 @@ void main() {
 
   vec4 col = vec4(uColor, 1.0) * vec4(pattern) - rnd / 15.0 * uNoiseIntensity;
   col.a = 1.0;
+
+  // Brightness
+  col.rgb *= uBrightness;
+
+  // Radial vignette — grows from corners inward.
+  // uVignetteStrength = 0 → no effect, 1 → edges fully blend to uBgColor.
+  // uVignetteSoftness controls how gradual the falloff is (0 = sharp, 1 = very gradual).
+  vec2  vigUv  = vUv - 0.5;                        // center at (0,0)
+  float dist   = length(vigUv);                    // 0 at center, ~0.71 at corners
+  float inner  = 0.5 - uVignetteSoftness * 0.4;   // blend start (pulled inward by softness)
+  float shape  = smoothstep(inner, 0.71, dist);    // 0 at center, 1 at corners
+  float vignette = shape * uVignetteStrength;      // 0 strength = fully off
+  col.rgb = mix(col.rgb, uBgColor, clamp(vignette, 0.0, 1.0));
+
   gl_FragColor = col;
 }
 `;
@@ -156,14 +172,28 @@ export interface SilkProps {
   color?: string;
   noiseIntensity?: number;
   rotation?: number;
+  /** 0 = full color, 1 = black. Default 1. */
+  brightness?: number;
+  /**
+   * vignetteStrength: 0 = off, 1 = edges fully blend to vignetteColor. Default 0.
+   * vignetteSoftness: 0 = sharp edge, 1 = very gradual falloff. Default 1.
+   * vignetteColor: color to blend toward at edges. Default "var(--background)".
+   */
+  vignetteStrength?: number;
+  vignetteSoftness?: number;
+  vignetteColor?: string;
 }
 
 const Silk: React.FC<SilkProps> = ({
   speed = 5,
   scale = 1,
-  color = "#7B7481",
-  noiseIntensity = 1.5,
+  color = "var(--primary)",
+  noiseIntensity = 1.2,
   rotation = 0,
+  brightness = 1,
+  vignetteStrength = 0,
+  vignetteSoftness = 1,
+  vignetteColor = "var(--background)",
 }) => {
   const meshRef = useRef<Mesh>(null);
   const isTabVisible = useTabVisible();
@@ -178,9 +208,13 @@ const Silk: React.FC<SilkProps> = ({
       uColor: { value: new Color(...resolveCSSColor(color)) },
       uRotation: { value: rotation },
       uTime: { value: 0 },
+      uBrightness: { value: brightness },
+      uVignetteStrength: { value: vignetteStrength },
+      uVignetteSoftness: { value: vignetteSoftness },
+      uBgColor: { value: new Color(...resolveCSSColor(vignetteColor)) },
     }),
-    [],
-  ); // created once — props are synced imperatively below
+    [], // created once — props are synced imperatively below
+  );
 
   useEffect(() => {
     const mesh = meshRef.current;
@@ -191,7 +225,21 @@ const Silk: React.FC<SilkProps> = ({
     mat.uniforms.uNoiseIntensity.value = noiseIntensity;
     mat.uniforms.uRotation.value = rotation;
     mat.uniforms.uColor.value.setRGB(...resolveCSSColor(color));
-  }, [speed, scale, noiseIntensity, rotation, color]);
+    mat.uniforms.uBrightness.value = brightness;
+    mat.uniforms.uVignetteStrength.value = vignetteStrength;
+    mat.uniforms.uVignetteSoftness.value = vignetteSoftness;
+    mat.uniforms.uBgColor.value.setRGB(...resolveCSSColor(vignetteColor));
+  }, [
+    speed,
+    scale,
+    noiseIntensity,
+    rotation,
+    color,
+    brightness,
+    vignetteStrength,
+    vignetteSoftness,
+    vignetteColor,
+  ]);
 
   return (
     <div

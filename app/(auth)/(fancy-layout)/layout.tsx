@@ -21,24 +21,21 @@ const Layout: FC<LayoutProps> = ({ children }) => {
       </Container>
 
       {/* IMAGE COLUMN */}
-      <section className="bg-primary/20 relative hidden h-full flex-1 xl:block">
+      <section className="bg-primary/5 relative hidden h-full flex-1 xl:block">
         <Silk
-          speed={6.1}
-          scale={1.1}
-          color="var(--primary)"
-          noiseIntensity={1.2}
-          rotation={2.9}
+          brightness={0.5}
+          vignetteStrength={0.85}
+          vignetteSoftness={0.85}
         />
-        {/* BG OVERLAY */}
-        <div className="absolute inset-0 z-10 bg-[radial-gradient(ellipse_at_center,transparent_20%,var(--background)_100%)] backdrop-brightness-50 backdrop-saturate-90" />
+
         {/* TEXT */}
         <div className="absolute right-26 bottom-26 z-11 flex max-w-[400px] flex-col items-end font-sans text-4xl font-semibold">
           <AppLogo size={32} />
-          <p className="mt-4 text-right tracking-tight">
+          <p className="mt-5 text-right tracking-tight">
             El sistema <span className="text-primary underline">POS</span> ideal
             para tu negocio
           </p>
-          <span className="text-muted-foreground mt-6 text-xs">
+          <span className="text-foreground/60 mt-6 text-xs">
             AKINA POS &copy; {new Date().getFullYear()}
           </span>
         </div>
