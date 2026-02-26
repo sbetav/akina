@@ -19,7 +19,7 @@
           "id": "0K41V",
           "name": "Login Card",
           "width": 420,
-          "fill": "#0A0A0A",
+          "fill": "#141414",
           "stroke": {
             "align": "inside",
             "thickness": 1,
@@ -77,7 +77,7 @@
                   "type": "text",
                   "id": "zbiNM",
                   "name": "subtitle",
-                  "fill": "#8a8a8a",
+                  "fill": "#A1A1A1",
                   "content": "PUNTO DE VENTA",
                   "fontFamily": "JetBrains Mono",
                   "fontSize": 11,
@@ -106,7 +106,7 @@
                       "type": "text",
                       "id": "jivsp",
                       "name": "emailLabel",
-                      "fill": "#8a8a8a",
+                      "fill": "#A1A1A1",
                       "content": "CORREO ELECTRÓNICO",
                       "fontFamily": "JetBrains Mono",
                       "fontSize": 11,
@@ -118,7 +118,7 @@
                       "id": "ythkM",
                       "name": "Email Input",
                       "width": "fill_container",
-                      "fill": "#141414",
+                      "fill": "#1A1A1A",
                       "stroke": {
                         "align": "inside",
                         "thickness": 1,
@@ -167,7 +167,7 @@
                       "type": "text",
                       "id": "xW828",
                       "name": "passwordLabel",
-                      "fill": "#8a8a8a",
+                      "fill": "#A1A1A1",
                       "content": "CONTRASEÑA",
                       "fontFamily": "JetBrains Mono",
                       "fontSize": 11,
@@ -179,7 +179,7 @@
                       "id": "3uqHp",
                       "name": "Password Input",
                       "width": "fill_container",
-                      "fill": "#141414",
+                      "fill": "#1A1A1A",
                       "stroke": {
                         "align": "inside",
                         "thickness": 1,
@@ -307,7 +307,7 @@
                   "type": "text",
                   "id": "T9Z6u",
                   "name": "signupText",
-                  "fill": "#8a8a8a",
+                  "fill": "#A1A1A1",
                   "content": "¿NO TIENES CUENTA?",
                   "fontFamily": "JetBrains Mono",
                   "fontSize": 11,
@@ -397,241 +397,263 @@
                   "type": "frame",
                   "id": "bgyjT",
                   "name": "Form Container",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 32,
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "Y2Ywu",
-                  "name": "Logo Section",
                   "width": "fill_container",
                   "layout": "vertical",
-                  "gap": 8,
+                  "gap": 32,
                   "children": [
                     {
                       "type": "frame",
-                      "id": "zwNgR",
-                      "name": "Logo Row",
-                      "gap": 12,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "UlE95",
-                          "name": "Logo Mark",
-                          "width": 40,
-                          "height": 40,
-                          "fill": "#00FF88",
-                          "layout": "vertical",
-                          "justifyContent": "center",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "VkrTc",
-                              "name": "logoLetter2",
-                              "fill": "#0C0C0C",
-                              "content": "A",
-                              "fontFamily": "Space Grotesk",
-                              "fontSize": 22,
-                              "fontWeight": "700"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "id": "AmFB4",
-                          "name": "logoName2",
-                          "fill": "#FFFFFF",
-                          "content": "AKINA",
-                          "fontFamily": "JetBrains Mono",
-                          "fontSize": 18,
-                          "fontWeight": "600",
-                          "letterSpacing": 2
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "be1FR",
-                  "name": "Header Text",
-                  "width": "fill_container",
-                  "layout": "vertical",
-                  "gap": 8,
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "egpKZ",
-                      "name": "titleText",
-                      "fill": "#FFFFFF",
-                      "content": "Iniciar Sesión",
-                      "fontFamily": "Space Grotesk",
-                      "fontSize": 32,
-                      "fontWeight": "700",
-                      "letterSpacing": -1
-                    },
-                    {
-                      "type": "text",
-                      "id": "A09xR",
-                      "name": "subtitleText",
-                      "fill": "#8a8a8a",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "Ingresa tus credenciales para acceder",
-                      "fontFamily": "JetBrains Mono",
-                      "fontSize": 13,
-                      "fontWeight": "normal"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "hRre8",
-                  "name": "Form Fields",
-                  "width": "fill_container",
-                  "layout": "vertical",
-                  "gap": 20,
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "wmjde",
-                      "name": "Email Field",
+                      "id": "Y2Ywu",
+                      "name": "Logo Section",
                       "width": "fill_container",
                       "layout": "vertical",
                       "gap": 8,
                       "children": [
                         {
-                          "type": "text",
-                          "id": "7D6d5",
-                          "name": "emailLbl",
-                          "fill": "#8a8a8a",
-                          "content": "CORREO ELECTRÓNICO",
-                          "fontFamily": "JetBrains Mono",
-                          "fontSize": 11,
-                          "fontWeight": "700",
-                          "letterSpacing": 0.5
-                        },
-                        {
                           "type": "frame",
-                          "id": "sEKbm",
-                          "name": "Email Input",
-                          "width": "fill_container",
-                          "fill": "#141414",
-                          "stroke": {
-                            "align": "inside",
-                            "thickness": 1,
-                            "fill": "#2f2f2f"
-                          },
-                          "gap": 10,
-                          "padding": [
-                            12,
-                            14
-                          ],
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "icon_font",
-                              "id": "lVvRN",
-                              "name": "mailIcon",
-                              "width": 16,
-                              "height": 16,
-                              "iconFontName": "mail",
-                              "iconFontFamily": "lucide",
-                              "fill": "#6a6a6a"
-                            },
-                            {
-                              "type": "text",
-                              "id": "Z5u0P",
-                              "name": "mailPlaceholder",
-                              "fill": "#6a6a6a",
-                              "content": "tu@correo.com",
-                              "fontFamily": "JetBrains Mono",
-                              "fontSize": 13,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "UxOjC",
-                      "name": "Password Field",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 8,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "r5DDh",
-                          "name": "passLbl",
-                          "fill": "#8a8a8a",
-                          "content": "CONTRASEÑA",
-                          "fontFamily": "JetBrains Mono",
-                          "fontSize": 11,
-                          "fontWeight": "700",
-                          "letterSpacing": 0.5
-                        },
-                        {
-                          "type": "frame",
-                          "id": "D1k0x",
-                          "name": "Password Input",
-                          "width": "fill_container",
-                          "fill": "#141414",
-                          "stroke": {
-                            "align": "inside",
-                            "thickness": 1,
-                            "fill": "#2f2f2f"
-                          },
-                          "gap": 10,
-                          "padding": [
-                            12,
-                            14
-                          ],
-                          "justifyContent": "space_between",
+                          "id": "zwNgR",
+                          "name": "Logo Row",
+                          "gap": 12,
                           "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
-                              "id": "E4l1H",
-                              "name": "Pass Left",
+                              "id": "UlE95",
+                              "name": "Logo Mark",
+                              "width": 40,
+                              "height": 40,
+                              "fill": "#00FF88",
+                              "layout": "vertical",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "VkrTc",
+                                  "name": "logoLetter2",
+                                  "fill": "#0C0C0C",
+                                  "content": "A",
+                                  "fontFamily": "Space Grotesk",
+                                  "fontSize": 22,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "AmFB4",
+                              "name": "logoName2",
+                              "fill": "#FFFFFF",
+                              "content": "AKINA",
+                              "fontFamily": "JetBrains Mono",
+                              "fontSize": 18,
+                              "fontWeight": "600",
+                              "letterSpacing": 2
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "be1FR",
+                      "name": "Header Text",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "egpKZ",
+                          "name": "titleText",
+                          "fill": "#FFFFFF",
+                          "content": "Iniciar Sesión",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 32,
+                          "fontWeight": "700",
+                          "letterSpacing": -1
+                        },
+                        {
+                          "type": "text",
+                          "id": "A09xR",
+                          "name": "subtitleText",
+                          "fill": "#A1A1A1",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Ingresa tus credenciales para acceder",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hRre8",
+                      "name": "Form Fields",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 20,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "wmjde",
+                          "name": "Email Field",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 8,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "7D6d5",
+                              "name": "emailLbl",
+                              "fill": "#A1A1A1",
+                              "content": "CORREO ELECTRÓNICO",
+                              "fontFamily": "JetBrains Mono",
+                              "fontSize": 11,
+                              "fontWeight": "700",
+                              "letterSpacing": 0.5
+                            },
+                            {
+                              "type": "frame",
+                              "id": "sEKbm",
+                              "name": "Email Input",
+                              "width": "fill_container",
+                              "fill": "#1A1A1A",
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 1,
+                                "fill": "#2f2f2f"
+                              },
                               "gap": 10,
+                              "padding": [
+                                12,
+                                14
+                              ],
                               "alignItems": "center",
                               "children": [
                                 {
                                   "type": "icon_font",
-                                  "id": "Jnbcl",
-                                  "name": "lockIcon",
+                                  "id": "lVvRN",
+                                  "name": "mailIcon",
                                   "width": 16,
                                   "height": 16,
-                                  "iconFontName": "lock",
+                                  "iconFontName": "mail",
                                   "iconFontFamily": "lucide",
                                   "fill": "#6a6a6a"
                                 },
                                 {
                                   "type": "text",
-                                  "id": "4hFUL",
-                                  "name": "passPlaceholder2",
+                                  "id": "Z5u0P",
+                                  "name": "mailPlaceholder",
                                   "fill": "#6a6a6a",
-                                  "content": "••••••••",
+                                  "content": "tu@correo.com",
                                   "fontFamily": "JetBrains Mono",
                                   "fontSize": 13,
                                   "fontWeight": "normal"
                                 }
                               ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "UxOjC",
+                          "name": "Password Field",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 8,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "r5DDh",
+                              "name": "passLbl",
+                              "fill": "#A1A1A1",
+                              "content": "CONTRASEÑA",
+                              "fontFamily": "JetBrains Mono",
+                              "fontSize": 11,
+                              "fontWeight": "700",
+                              "letterSpacing": 0.5
                             },
                             {
-                              "type": "icon_font",
-                              "id": "Sij08",
-                              "name": "eyeIcon2",
-                              "width": 16,
-                              "height": 16,
-                              "iconFontName": "eye-off",
-                              "iconFontFamily": "lucide",
-                              "fill": "#6a6a6a"
+                              "type": "frame",
+                              "id": "D1k0x",
+                              "name": "Password Input",
+                              "width": "fill_container",
+                              "fill": "#1A1A1A",
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 1,
+                                "fill": "#2f2f2f"
+                              },
+                              "gap": 10,
+                              "padding": [
+                                12,
+                                14
+                              ],
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "E4l1H",
+                                  "name": "Pass Left",
+                                  "gap": 10,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon_font",
+                                      "id": "Jnbcl",
+                                      "name": "lockIcon",
+                                      "width": 16,
+                                      "height": 16,
+                                      "iconFontName": "lock",
+                                      "iconFontFamily": "lucide",
+                                      "fill": "#6a6a6a"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "4hFUL",
+                                      "name": "passPlaceholder2",
+                                      "fill": "#6a6a6a",
+                                      "content": "••••••••",
+                                      "fontFamily": "JetBrains Mono",
+                                      "fontSize": 13,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "icon_font",
+                                  "id": "Sij08",
+                                  "name": "eyeIcon2",
+                                  "width": 16,
+                                  "height": 16,
+                                  "iconFontName": "eye-off",
+                                  "iconFontFamily": "lucide",
+                                  "fill": "#6a6a6a"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "A8yIC",
+                          "name": "Forgot Password",
+                          "width": "fill_container",
+                          "justifyContent": "end",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "uLP9f",
+                              "name": "forgotLink2",
+                              "fill": "#00FF88",
+                              "content": "¿OLVIDASTE TU CONTRASEÑA?",
+                              "fontFamily": "JetBrains Mono",
+                              "fontSize": 11,
+                              "fontWeight": "500",
+                              "letterSpacing": 0.5
                             }
                           ]
                         }
@@ -639,99 +661,77 @@
                     },
                     {
                       "type": "frame",
-                      "id": "A8yIC",
-                      "name": "Forgot Password",
+                      "id": "R9pPa",
+                      "name": "Login Button",
                       "width": "fill_container",
-                      "justifyContent": "end",
+                      "fill": "#00FF88",
+                      "gap": 8,
+                      "padding": [
+                        12,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "x8eF2",
+                          "name": "loginIcon2",
+                          "width": 14,
+                          "height": 14,
+                          "iconFontName": "log-in",
+                          "iconFontFamily": "lucide",
+                          "fill": "#0C0C0C"
+                        },
+                        {
+                          "type": "text",
+                          "id": "5LogF",
+                          "name": "loginText2",
+                          "fill": "#0C0C0C",
+                          "content": "INICIAR SESIÓN",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 11,
+                          "fontWeight": "700",
+                          "letterSpacing": 0.5
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tgpyK",
+                      "name": "Signup Link",
+                      "width": "fill_container",
+                      "gap": 6,
+                      "justifyContent": "center",
                       "children": [
                         {
                           "type": "text",
-                          "id": "uLP9f",
-                          "name": "forgotLink2",
-                          "fill": "#00FF88",
-                          "content": "¿OLVIDASTE TU CONTRASEÑA?",
+                          "id": "1S9vJ",
+                          "name": "signupText2",
+                          "fill": "#A1A1A1",
+                          "content": "¿NO TIENES UNA CUENTA?",
                           "fontFamily": "JetBrains Mono",
                           "fontSize": 11,
                           "fontWeight": "500",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "dJXz5",
+                          "name": "signupLink2",
+                          "fill": "#00FF88",
+                          "content": "REGÍSTRATE",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 11,
+                          "fontWeight": "700",
                           "letterSpacing": 0.5
                         }
                       ]
                     }
                   ]
-                },
-                {
-                  "type": "frame",
-                  "id": "R9pPa",
-                  "name": "Login Button",
-                  "width": "fill_container",
-                  "fill": "#00FF88",
-                  "gap": 8,
-                  "padding": [
-                    12,
-                    16
-                  ],
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon_font",
-                      "id": "x8eF2",
-                      "name": "loginIcon2",
-                      "width": 14,
-                      "height": 14,
-                      "iconFontName": "log-in",
-                      "iconFontFamily": "lucide",
-                      "fill": "#0C0C0C"
-                    },
-                    {
-                      "type": "text",
-                      "id": "5LogF",
-                      "name": "loginText2",
-                      "fill": "#0C0C0C",
-                      "content": "INICIAR SESIÓN",
-                      "fontFamily": "JetBrains Mono",
-                      "fontSize": 11,
-                      "fontWeight": "700",
-                      "letterSpacing": 0.5
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "tgpyK",
-                  "name": "Signup Link",
-                  "width": "fill_container",
-                  "gap": 6,
-                  "justifyContent": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "1S9vJ",
-                      "name": "signupText2",
-                      "fill": "#8a8a8a",
-                      "content": "¿NO TIENES UNA CUENTA?",
-                      "fontFamily": "JetBrains Mono",
-                      "fontSize": 11,
-                      "fontWeight": "500",
-                      "letterSpacing": 0.5
-                    },
-                    {
-                      "type": "text",
-                      "id": "dJXz5",
-                      "name": "signupLink2",
-                      "fill": "#00FF88",
-                      "content": "REGÍSTRATE",
-                      "fontFamily": "JetBrains Mono",
-                      "fontSize": 11,
-                      "fontWeight": "700",
-                      "letterSpacing": 0.5
-                    }
-                  ]
                 }
               ]
             }
-          ]
-        }
           ]
         },
         {
@@ -741,7 +741,7 @@
           "clip": true,
           "width": "fill_container",
           "height": "fill_container",
-          "fill": "#0A0A0A",
+          "fill": "#141414",
           "stroke": {
             "align": "inside",
             "thickness": {
@@ -914,9 +914,9 @@
             {
               "type": "frame",
               "id": "brandText",
-              "name": "Brand Text Block",
               "x": 356,
               "y": 668,
+              "name": "Brand Text Block",
               "width": 420,
               "layout": "vertical",
               "gap": 16,
@@ -971,15 +971,12 @@
                   "name": "Brand Headline",
                   "width": "fill_container",
                   "layout": "vertical",
-                  "gap": 0,
                   "alignItems": "end",
                   "children": [
                     {
                       "type": "frame",
                       "id": "brandLine1Frame",
                       "name": "Brand Line 1",
-                      "gap": 0,
-                      "alignItems": "baseline",
                       "children": [
                         {
                           "type": "text",
@@ -1001,8 +998,7 @@
                           "fontFamily": "Space Grotesk",
                           "fontSize": 36,
                           "fontWeight": "600",
-                          "letterSpacing": -1,
-                          "textDecoration": "underline"
+                          "letterSpacing": -1
                         },
                         {
                           "type": "text",
@@ -1023,11 +1019,11 @@
                       "name": "brandLine2",
                       "fill": "#FFFFFF",
                       "content": "para tu negocio",
+                      "textAlign": "right",
                       "fontFamily": "Space Grotesk",
                       "fontSize": 36,
                       "fontWeight": "600",
-                      "letterSpacing": -1,
-                      "textAlign": "right"
+                      "letterSpacing": -1
                     }
                   ]
                 },
@@ -1037,11 +1033,11 @@
                   "name": "brandSubtitle",
                   "fill": "#6a6a6a",
                   "content": "AKINA POS © 2025",
+                  "textAlign": "right",
                   "fontFamily": "JetBrains Mono",
                   "fontSize": 11,
                   "fontWeight": "normal",
-                  "letterSpacing": 0.5,
-                  "textAlign": "right"
+                  "letterSpacing": 0.5
                 }
               ]
             }
@@ -1195,7 +1191,7 @@
                           "type": "text",
                           "id": "Reg15",
                           "name": "subtitleText",
-                          "fill": "#8a8a8a",
+                          "fill": "#A1A1A1",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "Completa el formulario para comenzar",
@@ -1218,7 +1214,6 @@
                           "id": "Reg17",
                           "name": "Name Row",
                           "width": "fill_container",
-                          "layout": "horizontal",
                           "gap": 12,
                           "children": [
                             {
@@ -1233,7 +1228,7 @@
                                   "type": "text",
                                   "id": "Reg19",
                                   "name": "firstNameLbl",
-                                  "fill": "#8a8a8a",
+                                  "fill": "#A1A1A1",
                                   "content": "NOMBRE",
                                   "fontFamily": "JetBrains Mono",
                                   "fontSize": 11,
@@ -1245,14 +1240,17 @@
                                   "id": "Reg20",
                                   "name": "First Name Input",
                                   "width": "fill_container",
-                                  "fill": "#141414",
+                                  "fill": "#1A1A1A",
                                   "stroke": {
                                     "align": "inside",
                                     "thickness": 1,
                                     "fill": "#2f2f2f"
                                   },
                                   "gap": 10,
-                                  "padding": [12, 14],
+                                  "padding": [
+                                    12,
+                                    14
+                                  ],
                                   "alignItems": "center",
                                   "children": [
                                     {
@@ -1291,7 +1289,7 @@
                                   "type": "text",
                                   "id": "Reg24",
                                   "name": "lastNameLbl",
-                                  "fill": "#8a8a8a",
+                                  "fill": "#A1A1A1",
                                   "content": "APELLIDO",
                                   "fontFamily": "JetBrains Mono",
                                   "fontSize": 11,
@@ -1303,14 +1301,17 @@
                                   "id": "Reg25",
                                   "name": "Last Name Input",
                                   "width": "fill_container",
-                                  "fill": "#141414",
+                                  "fill": "#1A1A1A",
                                   "stroke": {
                                     "align": "inside",
                                     "thickness": 1,
                                     "fill": "#2f2f2f"
                                   },
                                   "gap": 10,
-                                  "padding": [12, 14],
+                                  "padding": [
+                                    12,
+                                    14
+                                  ],
                                   "alignItems": "center",
                                   "children": [
                                     {
@@ -1351,7 +1352,7 @@
                               "type": "text",
                               "id": "Reg29",
                               "name": "emailLbl",
-                              "fill": "#8a8a8a",
+                              "fill": "#A1A1A1",
                               "content": "CORREO ELECTRÓNICO",
                               "fontFamily": "JetBrains Mono",
                               "fontSize": 11,
@@ -1363,14 +1364,17 @@
                               "id": "Reg30",
                               "name": "Email Input",
                               "width": "fill_container",
-                              "fill": "#141414",
+                              "fill": "#1A1A1A",
                               "stroke": {
                                 "align": "inside",
                                 "thickness": 1,
                                 "fill": "#2f2f2f"
                               },
                               "gap": 10,
-                              "padding": [12, 14],
+                              "padding": [
+                                12,
+                                14
+                              ],
                               "alignItems": "center",
                               "children": [
                                 {
@@ -1409,7 +1413,7 @@
                               "type": "text",
                               "id": "Reg34",
                               "name": "passLbl",
-                              "fill": "#8a8a8a",
+                              "fill": "#A1A1A1",
                               "content": "CONTRASEÑA",
                               "fontFamily": "JetBrains Mono",
                               "fontSize": 11,
@@ -1421,14 +1425,17 @@
                               "id": "Reg35",
                               "name": "Password Input",
                               "width": "fill_container",
-                              "fill": "#141414",
+                              "fill": "#1A1A1A",
                               "stroke": {
                                 "align": "inside",
                                 "thickness": 1,
                                 "fill": "#2f2f2f"
                               },
                               "gap": 10,
-                              "padding": [12, 14],
+                              "padding": [
+                                12,
+                                14
+                              ],
                               "justifyContent": "space_between",
                               "alignItems": "center",
                               "children": [
@@ -1487,7 +1494,7 @@
                               "type": "text",
                               "id": "Reg41",
                               "name": "confirmPassLbl",
-                              "fill": "#8a8a8a",
+                              "fill": "#A1A1A1",
                               "content": "CONFIRMAR CONTRASEÑA",
                               "fontFamily": "JetBrains Mono",
                               "fontSize": 11,
@@ -1499,14 +1506,17 @@
                               "id": "Reg42",
                               "name": "Confirm Password Input",
                               "width": "fill_container",
-                              "fill": "#141414",
+                              "fill": "#1A1A1A",
                               "stroke": {
                                 "align": "inside",
                                 "thickness": 1,
                                 "fill": "#2f2f2f"
                               },
                               "gap": 10,
-                              "padding": [12, 14],
+                              "padding": [
+                                12,
+                                14
+                              ],
                               "justifyContent": "space_between",
                               "alignItems": "center",
                               "children": [
@@ -1562,7 +1572,10 @@
                       "width": "fill_container",
                       "fill": "#00FF88",
                       "gap": 8,
-                      "padding": [12, 16],
+                      "padding": [
+                        12,
+                        16
+                      ],
                       "justifyContent": "center",
                       "alignItems": "center",
                       "children": [
@@ -1601,7 +1614,7 @@
                           "type": "text",
                           "id": "Reg51",
                           "name": "loginText",
-                          "fill": "#8a8a8a",
+                          "fill": "#A1A1A1",
                           "content": "¿YA TIENES UNA CUENTA?",
                           "fontFamily": "JetBrains Mono",
                           "fontSize": 11,
@@ -1634,7 +1647,7 @@
           "clip": true,
           "width": "fill_container",
           "height": "fill_container",
-          "fill": "#0A0A0A",
+          "fill": "#141414",
           "stroke": {
             "align": "inside",
             "thickness": {
@@ -1807,9 +1820,9 @@
             {
               "type": "frame",
               "id": "Reg70",
-              "name": "Brand Text Block",
               "x": 356,
               "y": 668,
+              "name": "Brand Text Block",
               "width": 420,
               "layout": "vertical",
               "gap": 16,
@@ -1864,15 +1877,12 @@
                   "name": "Brand Headline",
                   "width": "fill_container",
                   "layout": "vertical",
-                  "gap": 0,
                   "alignItems": "end",
                   "children": [
                     {
                       "type": "frame",
                       "id": "Reg76",
                       "name": "Brand Line 1",
-                      "gap": 0,
-                      "alignItems": "baseline",
                       "children": [
                         {
                           "type": "text",
@@ -1894,8 +1904,7 @@
                           "fontFamily": "Space Grotesk",
                           "fontSize": 36,
                           "fontWeight": "600",
-                          "letterSpacing": -1,
-                          "textDecoration": "underline"
+                          "letterSpacing": -1
                         },
                         {
                           "type": "text",
@@ -1916,11 +1925,11 @@
                       "name": "brandLine2",
                       "fill": "#FFFFFF",
                       "content": "para tu negocio",
+                      "textAlign": "right",
                       "fontFamily": "Space Grotesk",
                       "fontSize": 36,
                       "fontWeight": "600",
-                      "letterSpacing": -1,
-                      "textAlign": "right"
+                      "letterSpacing": -1
                     }
                   ]
                 },
@@ -1930,13 +1939,1067 @@
                   "name": "brandSubtitle",
                   "fill": "#6a6a6a",
                   "content": "AKINA POS © 2025",
+                  "textAlign": "right",
                   "fontFamily": "JetBrains Mono",
                   "fontSize": 11,
                   "fontWeight": "normal",
-                  "letterSpacing": 0.5,
-                  "textAlign": "right"
+                  "letterSpacing": 0.5
                 }
               ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "FP001",
+      "x": 5520,
+      "y": 0,
+      "name": "Forgot Password - Centered Card",
+      "width": 1440,
+      "height": 900,
+      "fill": "#0C0C0C",
+      "layout": "vertical",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "FP050",
+          "name": "Center Wrapper",
+          "width": 420,
+          "layout": "vertical",
+          "gap": 24,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "FP003",
+              "name": "Logo Section",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "FP004",
+                  "name": "Logo Mark",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "#00FF88",
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "FP005",
+                      "name": "logoLetter",
+                      "fill": "#0C0C0C",
+                      "content": "A",
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "FP006",
+                  "name": "logoName",
+                  "fill": "#FFFFFF",
+                  "content": "AKINA",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 22,
+                  "fontWeight": "600",
+                  "letterSpacing": 1
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "FP002",
+              "name": "Forgot Password Card",
+              "width": "fill_container",
+              "fill": "#141414",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#2f2f2f"
+              },
+              "layout": "vertical",
+              "gap": 32,
+              "padding": 40,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "FP008",
+                  "name": "Message Section",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "FP009",
+                      "name": "lockIcon",
+                      "width": 32,
+                      "height": 32,
+                      "iconFontName": "key-round",
+                      "iconFontFamily": "lucide",
+                      "fill": "#00FF88"
+                    },
+                    {
+                      "type": "text",
+                      "id": "FP010",
+                      "name": "heading",
+                      "fill": "#FFFFFF",
+                      "content": "RECUPERA TU CONTRASEÑA",
+                      "textAlign": "center",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 14,
+                      "fontWeight": "700",
+                      "letterSpacing": 0.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "FP011",
+                      "name": "description",
+                      "fill": "#A1A1A1",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Enviaremos un enlace de recuperación a tu correo electrónico",
+                      "lineHeight": 1.5,
+                      "textAlign": "center",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "FP012",
+                  "name": "Email Field Group",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "FP013",
+                      "name": "emailLabel",
+                      "fill": "#A1A1A1",
+                      "content": "CORREO ELECTRÓNICO",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 11,
+                      "fontWeight": "700",
+                      "letterSpacing": 0.5
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FP014",
+                      "name": "Email Input",
+                      "width": "fill_container",
+                      "fill": "#1A1A1A",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#2f2f2f"
+                      },
+                      "gap": 10,
+                      "padding": [
+                        12,
+                        14
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "FP015",
+                          "name": "emailIcon",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "mail",
+                          "iconFontFamily": "lucide",
+                          "fill": "#6a6a6a"
+                        },
+                        {
+                          "type": "text",
+                          "id": "FP016",
+                          "name": "emailPlaceholder",
+                          "fill": "#6a6a6a",
+                          "content": "tu@correo.com",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "FP017",
+                  "name": "Send Button",
+                  "width": "fill_container",
+                  "fill": "#00FF88",
+                  "gap": 8,
+                  "padding": [
+                    12,
+                    16
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "FP018",
+                      "name": "sendIcon",
+                      "width": 14,
+                      "height": 14,
+                      "iconFontName": "send",
+                      "iconFontFamily": "lucide",
+                      "fill": "#0C0C0C"
+                    },
+                    {
+                      "type": "text",
+                      "id": "FP019",
+                      "name": "sendText",
+                      "fill": "#0C0C0C",
+                      "content": "ENVIAR ENLACE",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 11,
+                      "fontWeight": "700",
+                      "letterSpacing": 0.5
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "FP020",
+                  "name": "Back to Login Row",
+                  "width": "fill_container",
+                  "gap": 6,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "FP021",
+                      "name": "arrowLeftIcon",
+                      "width": 12,
+                      "height": 12,
+                      "iconFontName": "arrow-left",
+                      "iconFontFamily": "lucide",
+                      "fill": "#00FF88"
+                    },
+                    {
+                      "type": "text",
+                      "id": "FP022",
+                      "name": "backToLoginLink",
+                      "fill": "#00FF88",
+                      "content": "VOLVER A INICIAR SESIÓN",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 11,
+                      "fontWeight": "700",
+                      "letterSpacing": 0.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "FP060",
+              "name": "copyright",
+              "fill": "#4a4a4a",
+              "content": "AKINA POS © 2026",
+              "fontFamily": "JetBrains Mono",
+              "fontSize": 10,
+              "fontWeight": "500",
+              "letterSpacing": 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "RP001",
+      "x": 7060,
+      "y": 0,
+      "name": "Reset Password - Centered Card",
+      "width": 1440,
+      "height": 900,
+      "fill": "#0C0C0C",
+      "layout": "vertical",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "RP050",
+          "name": "Center Wrapper",
+          "width": 420,
+          "layout": "vertical",
+          "gap": 24,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "RP003",
+              "name": "Logo Section",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "RP004",
+                  "name": "Logo Mark",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "#00FF88",
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "RP005",
+                      "name": "logoLetter",
+                      "fill": "#0C0C0C",
+                      "content": "A",
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "RP006",
+                  "name": "logoName",
+                  "fill": "#FFFFFF",
+                  "content": "AKINA",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 22,
+                  "fontWeight": "600",
+                  "letterSpacing": 1
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "RP002",
+              "name": "Reset Password Card",
+              "width": "fill_container",
+              "fill": "#141414",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#2f2f2f"
+              },
+              "layout": "vertical",
+              "gap": 32,
+              "padding": 40,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "RP008",
+                  "name": "Message Section",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "RP009",
+                      "name": "shieldIcon",
+                      "width": 32,
+                      "height": 32,
+                      "iconFontName": "shield-check",
+                      "iconFontFamily": "lucide",
+                      "fill": "#00FF88"
+                    },
+                    {
+                      "type": "text",
+                      "id": "RP010",
+                      "name": "heading",
+                      "fill": "#FFFFFF",
+                      "content": "CREA TU NUEVA CONTRASEÑA",
+                      "textAlign": "center",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 14,
+                      "fontWeight": "700",
+                      "letterSpacing": 0.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "RP011",
+                      "name": "description",
+                      "fill": "#A1A1A1",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Ingresa y confirma tu nueva contraseña para recuperar el acceso a tu cuenta.",
+                      "lineHeight": 1.5,
+                      "textAlign": "center",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "RP012",
+                  "name": "Form Fields",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "RP013",
+                      "name": "New Password Field Group",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RP014",
+                          "name": "newPassLabel",
+                          "fill": "#A1A1A1",
+                          "content": "NUEVA CONTRASEÑA",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 11,
+                          "fontWeight": "700",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "frame",
+                          "id": "RP015",
+                          "name": "New Password Input",
+                          "width": "fill_container",
+                          "fill": "#1A1A1A",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "#2f2f2f"
+                          },
+                          "gap": 10,
+                          "padding": [
+                            12,
+                            14
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "RP016",
+                              "name": "Pass Left",
+                              "gap": 10,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon_font",
+                                  "id": "RP017",
+                                  "name": "passIcon",
+                                  "width": 16,
+                                  "height": 16,
+                                  "iconFontName": "lock",
+                                  "iconFontFamily": "lucide",
+                                  "fill": "#6a6a6a"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "RP018",
+                                  "name": "passPlaceholder",
+                                  "fill": "#6a6a6a",
+                                  "content": "••••••••",
+                                  "fontFamily": "JetBrains Mono",
+                                  "fontSize": 13,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "RP019",
+                              "name": "eyeIcon",
+                              "width": 16,
+                              "height": 16,
+                              "iconFontName": "eye-off",
+                              "iconFontFamily": "lucide",
+                              "fill": "#6a6a6a"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "RP020",
+                      "name": "Confirm Password Field Group",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RP021",
+                          "name": "confirmPassLabel",
+                          "fill": "#A1A1A1",
+                          "content": "CONFIRMAR CONTRASEÑA",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 11,
+                          "fontWeight": "700",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "frame",
+                          "id": "RP022",
+                          "name": "Confirm Password Input",
+                          "width": "fill_container",
+                          "fill": "#1A1A1A",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "#2f2f2f"
+                          },
+                          "gap": 10,
+                          "padding": [
+                            12,
+                            14
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "RP023",
+                              "name": "Confirm Pass Left",
+                              "gap": 10,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon_font",
+                                  "id": "RP024",
+                                  "name": "confirmPassIcon",
+                                  "width": 16,
+                                  "height": 16,
+                                  "iconFontName": "lock",
+                                  "iconFontFamily": "lucide",
+                                  "fill": "#6a6a6a"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "RP025",
+                                  "name": "confirmPassPlaceholder",
+                                  "fill": "#6a6a6a",
+                                  "content": "••••••••",
+                                  "fontFamily": "JetBrains Mono",
+                                  "fontSize": 13,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "icon_font",
+                              "id": "RP026",
+                              "name": "confirmEyeIcon",
+                              "width": 16,
+                              "height": 16,
+                              "iconFontName": "eye-off",
+                              "iconFontFamily": "lucide",
+                              "fill": "#6a6a6a"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "RP030",
+                  "name": "Save Button",
+                  "width": "fill_container",
+                  "fill": "#00FF88",
+                  "gap": 8,
+                  "padding": [
+                    12,
+                    16
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "RP031",
+                      "name": "saveIcon",
+                      "width": 14,
+                      "height": 14,
+                      "iconFontName": "check",
+                      "iconFontFamily": "lucide",
+                      "fill": "#0C0C0C"
+                    },
+                    {
+                      "type": "text",
+                      "id": "RP032",
+                      "name": "saveText",
+                      "fill": "#0C0C0C",
+                      "content": "GUARDAR CONTRASEÑA",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 11,
+                      "fontWeight": "700",
+                      "letterSpacing": 0.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "RP060",
+              "name": "copyright",
+              "fill": "#4a4a4a",
+              "content": "AKINA POS © 2026",
+              "fontFamily": "JetBrains Mono",
+              "fontSize": 10,
+              "fontWeight": "500",
+              "letterSpacing": 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "OTP01",
+      "x": 8600,
+      "y": 0,
+      "name": "Email OTP Verification - Centered Card",
+      "width": 1440,
+      "height": 900,
+      "fill": "#0C0C0C",
+      "layout": "vertical",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "OTP50",
+          "name": "Center Wrapper",
+          "width": 420,
+          "layout": "vertical",
+          "gap": 24,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "OTP03",
+              "name": "Logo Section",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "OTP04",
+                  "name": "Logo Mark",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "#00FF88",
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "OTP05",
+                      "name": "logoLetter",
+                      "fill": "#0C0C0C",
+                      "content": "A",
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "OTP06",
+                  "name": "logoName",
+                  "fill": "#FFFFFF",
+                  "content": "AKINA",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 22,
+                  "fontWeight": "600",
+                  "letterSpacing": 1
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "OTP02",
+              "name": "OTP Card",
+              "width": "fill_container",
+              "fill": "#141414",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#2f2f2f"
+              },
+              "layout": "vertical",
+              "gap": 32,
+              "padding": 40,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "OTP08",
+                  "name": "Message Section",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "OTP09",
+                      "name": "mailIcon",
+                      "width": 32,
+                      "height": 32,
+                      "iconFontName": "mail-check",
+                      "iconFontFamily": "lucide",
+                      "fill": "#00FF88"
+                    },
+                    {
+                      "type": "text",
+                      "id": "OTP10",
+                      "name": "heading",
+                      "fill": "#FFFFFF",
+                      "content": "VERIFICA TU CORREO",
+                      "textAlign": "center",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 14,
+                      "fontWeight": "700",
+                      "letterSpacing": 0.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "OTP11",
+                      "name": "description",
+                      "fill": "#A1A1A1",
+                      "content": "Enviamos un código de 6 dígitos a",
+                      "lineHeight": 1.5,
+                      "textAlign": "center",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "OTP12",
+                      "name": "maskedEmail",
+                      "fill": "#FFFFFF",
+                      "content": "s****o@gmail.com",
+                      "textAlign": "center",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "OTP13",
+                  "name": "OTP Input Row",
+                  "width": "fill_container",
+                  "gap": 10,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "OTP14",
+                      "name": "Digit 1",
+                      "width": 46,
+                      "height": 52,
+                      "fill": "#1A1A1A",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#2f2f2f"
+                      },
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "OT14t",
+                          "name": "digit1Text",
+                          "fill": "#6a6a6a",
+                          "content": "—",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 18,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "OTP15",
+                      "name": "Digit 2",
+                      "width": 46,
+                      "height": 52,
+                      "fill": "#1A1A1A",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#2f2f2f"
+                      },
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "OT15t",
+                          "name": "digit2Text",
+                          "fill": "#6a6a6a",
+                          "content": "—",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 18,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "OTP16",
+                      "name": "Digit 3",
+                      "width": 46,
+                      "height": 52,
+                      "fill": "#1A1A1A",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#2f2f2f"
+                      },
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "OT16t",
+                          "name": "digit3Text",
+                          "fill": "#6a6a6a",
+                          "content": "—",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 18,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "OTP17",
+                      "name": "Digit 4",
+                      "width": 46,
+                      "height": 52,
+                      "fill": "#1A1A1A",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#2f2f2f"
+                      },
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "OT17t",
+                          "name": "digit4Text",
+                          "fill": "#6a6a6a",
+                          "content": "—",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 18,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "OTP18",
+                      "name": "Digit 5",
+                      "width": 46,
+                      "height": 52,
+                      "fill": "#1A1A1A",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#2f2f2f"
+                      },
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "OT18t",
+                          "name": "digit5Text",
+                          "fill": "#6a6a6a",
+                          "content": "—",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 18,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "OTP19",
+                      "name": "Digit 6",
+                      "width": 46,
+                      "height": 52,
+                      "fill": "#1A1A1A",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#2f2f2f"
+                      },
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "OT19t",
+                          "name": "digit6Text",
+                          "fill": "#6a6a6a",
+                          "content": "—",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 18,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "OTP30",
+                  "name": "Verify Button",
+                  "width": "fill_container",
+                  "fill": "#00FF88",
+                  "gap": 8,
+                  "padding": [
+                    12,
+                    16
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "OTP32",
+                      "name": "verifyText",
+                      "fill": "#0C0C0C",
+                      "content": "VERIFICAR CÓDIGO",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 11,
+                      "fontWeight": "700",
+                      "letterSpacing": 0.5
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "OTP40",
+                  "name": "Resend Row",
+                  "width": "fill_container",
+                  "gap": 6,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "OTP41",
+                      "name": "resendLabel",
+                      "fill": "#A1A1A1",
+                      "content": "¿NO RECIBISTE EL CÓDIGO?",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 11,
+                      "fontWeight": "500",
+                      "letterSpacing": 0.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "OTP42",
+                      "name": "resendLink",
+                      "fill": "#00FF88",
+                      "content": "REENVIAR (0:59)",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 11,
+                      "fontWeight": "700",
+                      "letterSpacing": 0.5
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "OTP45",
+                  "name": "Back Row",
+                  "width": "fill_container",
+                  "gap": 6,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "OTP46",
+                      "name": "arrowLeftIcon",
+                      "width": 12,
+                      "height": 12,
+                      "iconFontName": "arrow-left",
+                      "iconFontFamily": "lucide",
+                      "fill": "#00FF88"
+                    },
+                    {
+                      "type": "text",
+                      "id": "OTP47",
+                      "name": "backLink",
+                      "fill": "#00FF88",
+                      "content": "VOLVER",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 11,
+                      "fontWeight": "700",
+                      "letterSpacing": 0.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "OT060",
+              "name": "copyright",
+              "fill": "#4a4a4a",
+              "content": "AKINA POS © 2026",
+              "fontFamily": "JetBrains Mono",
+              "fontSize": 10,
+              "fontWeight": "500",
+              "letterSpacing": 0.5
             }
           ]
         }
@@ -1946,11 +3009,11 @@
   "variables": {
     "bg-card": {
       "type": "color",
-      "value": "#0A0A0A"
+      "value": "#141414"
     },
     "bg-elevated": {
       "type": "color",
-      "value": "#141414"
+      "value": "#1A1A1A"
     },
     "bg-page": {
       "type": "color",
@@ -2050,7 +3113,7 @@
     },
     "gray-500": {
       "type": "color",
-      "value": "#8a8a8a"
+      "value": "#A1A1A1"
     },
     "green-primary": {
       "type": "color",
