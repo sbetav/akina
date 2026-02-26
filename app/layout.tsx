@@ -32,6 +32,7 @@ export default function RootLayout({
           spaceGrotesk.variable,
           "font-mono antialiased",
         )}
+        suppressHydrationWarning
       >
         <Providers>{children}</Providers>
       </body>

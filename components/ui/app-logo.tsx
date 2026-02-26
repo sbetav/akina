@@ -18,7 +18,7 @@ const AppLogo: FC<AppLogoProps> = ({
   textColor = "var(--primary-foreground)",
 }) => {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 select-none">
       <svg
         width={size}
         height={size}

@@ -23,9 +23,9 @@ const Layout: FC<LayoutProps> = ({ children }) => {
       {/* IMAGE COLUMN */}
       <section className="bg-primary/5 relative hidden h-full flex-1 xl:block">
         <Silk
-          brightness={0.5}
+          brightness={0.45}
           vignetteStrength={0.85}
-          vignetteSoftness={0.85}
+          vignetteSoftness={0.9}
         />
 
         {/* TEXT */}
