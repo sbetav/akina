@@ -14,12 +14,14 @@ interface EmailOtpFormProps {
 const EmailOtpForm: FC<EmailOtpFormProps> = ({ onResend }) => {
   const [countdown, setCountdown] = useState(59);
 
-  const { handleSubmit, control } = useForm<EmailOtpFormSchemaType>({
+  const { handleSubmit, control, watch } = useForm<EmailOtpFormSchemaType>({
     resolver: zodResolver(emailOtpFormSchema),
     defaultValues: {
       otp: "",
     },
   });
+
+  const otp = watch("otp");
 
   useEffect(() => {
     if (countdown <= 0) return;
@@ -46,11 +48,7 @@ const EmailOtpForm: FC<EmailOtpFormProps> = ({ onResend }) => {
         name="otp"
         render={({ field, fieldState }) => (
           <div className="flex items-center justify-center">
-            <InputOTP
-              maxLength={6}
-              value={field.value}
-              onChange={field.onChange}
-            >
+            <InputOTP {...field} maxLength={6}>
               <InputOTPGroup>
                 {Array.from({ length: 6 }).map((_, i) => (
                   <InputOTPSlot

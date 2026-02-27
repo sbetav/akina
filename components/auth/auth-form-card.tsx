@@ -23,7 +23,7 @@ const AuthFormCard: FC<AuthFormCardProps> = ({
     <Container className="w-full">
       <article
         className={cn(
-          "bg-card mx-auto flex w-full max-w-md flex-col gap-8 border px-5 py-10 pb-11 md:px-10",
+          "bg-card xs:px-10 mx-auto flex w-full max-w-md flex-col gap-8 border px-5 py-10 pb-11",
           className,
         )}
       >

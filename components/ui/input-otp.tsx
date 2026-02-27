@@ -1,12 +1,13 @@
-import { OTPInput, OTPInputContext } from "input-otp";
-import * as React from "react";
-
+import useDelayedFalse from "@/hooks/use-delayed-false";
 import { cn } from "@/lib/utils";
+import { OTPInput, OTPInputContext, REGEXP_ONLY_DIGITS } from "input-otp";
 import { MinusIcon } from "lucide-react";
+import * as React from "react";
 
 function InputOTP({
   className,
   containerClassName,
+  pattern = REGEXP_ONLY_DIGITS,
   ...props
 }: React.ComponentProps<typeof OTPInput> & {
   containerClassName?: string;
@@ -15,11 +16,12 @@ function InputOTP({
     <OTPInput
       data-slot="input-otp"
       containerClassName={cn(
-        "cn-input-otp flex items-center has-disabled:opacity-50",
+        "cn-input-otp xs:gap-2 flex min-w-0 items-center gap-1.5 has-disabled:opacity-50",
         containerClassName,
       )}
       spellCheck={false}
       className={cn("disabled:cursor-not-allowed", className)}
+      pattern={pattern}
       {...props}
     />
   );
@@ -30,7 +32,7 @@ function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="input-otp-group"
       className={cn(
-        "has-aria-invalid:ring-destructive/20 dark:has-aria-invalid:ring-destructive/40 has-aria-invalid:border-destructive flex items-center gap-2.5",
+        "has-aria-invalid:ring-destructive/20 dark:has-aria-invalid:ring-destructive/40 has-aria-invalid:border-destructive xs:gap-2 flex min-w-0 items-center gap-1.5 rounded-md",
         className,
       )}
       {...props}
@@ -48,22 +50,27 @@ function InputOTPSlot({
   const inputOTPContext = React.useContext(OTPInputContext);
   const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? {};
 
+  const showCaret = hasFakeCaret || (isActive && !char);
+  const delayedShowCaret = useDelayedFalse(showCaret, 100);
+
   return (
     <div
       data-slot="input-otp-slot"
       data-active={isActive}
       className={cn(
-        "bg-secondary border-input data-[active=true]:border-ring data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:ring-destructive/20 dark:data-[active=true]:aria-invalid:ring-destructive/40 aria-invalid:border-destructive data-[active=true]:aria-invalid:border-destructive relative flex h-13 w-11.5 items-center justify-center border font-mono text-lg font-semibold transition-all outline-none data-[active=true]:z-10 data-[active=true]:ring-3",
+        "dark:bg-input/30 border-input data-[active=true]:border-ring data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:ring-destructive/20 dark:data-[active=true]:aria-invalid:ring-destructive/40 aria-invalid:border-destructive data-[active=true]:aria-invalid:border-destructive xs:h-13 xs:w-11 xs:text-base relative flex h-11 w-9 min-w-0 shrink items-center justify-center border text-sm shadow-xs transition-all outline-none first:rounded-l-md data-[active=true]:z-10 data-[active=true]:ring-3",
         className,
       )}
       {...props}
     >
-      {char ||
-        (!isActive && <span className="text-muted-foreground/30">—</span>)}
-      {hasFakeCaret && (
+      {delayedShowCaret && !char ? (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
           <div className="animate-caret-blink bg-foreground h-4 w-px duration-1000" />
         </div>
+      ) : char ? (
+        <span>{char}</span>
+      ) : (
+        !isActive && <span className="text-muted-foreground/30">—</span>
       )}
     </div>
   );
