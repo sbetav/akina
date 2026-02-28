@@ -32,11 +32,9 @@
           "children": [
             {
               "type": "frame",
-              "id": "YYgsR",
-              "name": "Logo Section",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 8,
+              "id": "rUmWiLR",
+              "name": "App Logo",
+              "gap": 12,
               "alignItems": "center",
               "children": [
                 {
@@ -68,20 +66,9 @@
                   "name": "logoName",
                   "fill": "#FFFFFF",
                   "content": "AKINA",
-                  "fontFamily": "JetBrains Mono",
-                  "fontSize": 20,
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 26,
                   "fontWeight": "600",
-                  "letterSpacing": 2
-                },
-                {
-                  "type": "text",
-                  "id": "zbiNM",
-                  "name": "subtitle",
-                  "fill": "#A1A1A1",
-                  "content": "PUNTO DE VENTA",
-                  "fontFamily": "JetBrains Mono",
-                  "fontSize": 11,
-                  "fontWeight": "500",
                   "letterSpacing": 1
                 }
               ]
@@ -146,7 +133,7 @@
                           "id": "XX6ze",
                           "name": "emailPlaceholder",
                           "fill": "#6a6a6a",
-                          "content": "tu@correo.com",
+                          "content": "ejemplo@email.com",
                           "fontFamily": "JetBrains Mono",
                           "fontSize": 13,
                           "fontWeight": "normal"
@@ -403,54 +390,44 @@
                   "children": [
                     {
                       "type": "frame",
-                      "id": "Y2Ywu",
-                      "name": "Logo Section",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 8,
+                      "id": "UlELR",
+                      "name": "App Logo",
+                      "gap": 12,
+                      "alignItems": "center",
                       "children": [
                         {
                           "type": "frame",
-                          "id": "zwNgR",
-                          "name": "Logo Row",
-                          "gap": 12,
+                          "id": "UlE95",
+                          "name": "Logo Mark",
+                          "width": 40,
+                          "height": 40,
+                          "fill": "#00FF88",
+                          "layout": "vertical",
+                          "justifyContent": "center",
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "frame",
-                              "id": "UlE95",
-                              "name": "Logo Mark",
-                              "width": 40,
-                              "height": 40,
-                              "fill": "#00FF88",
-                              "layout": "vertical",
-                              "justifyContent": "center",
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "VkrTc",
-                                  "name": "logoLetter2",
-                                  "fill": "#0C0C0C",
-                                  "content": "A",
-                                  "fontFamily": "Space Grotesk",
-                                  "fontSize": 22,
-                                  "fontWeight": "700"
-                                }
-                              ]
-                            },
-                            {
                               "type": "text",
-                              "id": "AmFB4",
-                              "name": "logoName2",
-                              "fill": "#FFFFFF",
-                              "content": "AKINA",
-                              "fontFamily": "JetBrains Mono",
-                              "fontSize": 18,
-                              "fontWeight": "600",
-                              "letterSpacing": 2
+                              "id": "uAe7A",
+                              "name": "logoLetter",
+                              "fill": "#0C0C0C",
+                              "content": "A",
+                              "fontFamily": "Space Grotesk",
+                              "fontSize": 22,
+                              "fontWeight": "700"
                             }
                           ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "AmFB4",
+                          "name": "logoName",
+                          "fill": "#FFFFFF",
+                          "content": "AKINA",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 24,
+                          "fontWeight": "600",
+                          "letterSpacing": 1
                         }
                       ]
                     },
@@ -547,7 +524,7 @@
                                   "id": "Z5u0P",
                                   "name": "mailPlaceholder",
                                   "fill": "#6a6a6a",
-                                  "content": "tu@correo.com",
+                                  "content": "ejemplo@email.com",
                                   "fontFamily": "JetBrains Mono",
                                   "fontSize": 13,
                                   "fontWeight": "normal"
@@ -924,15 +901,15 @@
               "children": [
                 {
                   "type": "frame",
-                  "id": "brandLogo",
-                  "name": "Brand Logo",
-                  "gap": 10,
+                  "id": "brandLogoMarkLR",
+                  "name": "App Logo",
+                  "gap": 12,
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "frame",
                       "id": "brandLogoMark",
-                      "name": "Brand Logo Mark",
+                      "name": "Logo Mark",
                       "width": 32,
                       "height": 32,
                       "fill": "#00FF88",
@@ -943,7 +920,7 @@
                         {
                           "type": "text",
                           "id": "brandLogoLetter",
-                          "name": "brandLogoLetter",
+                          "name": "logoLetter",
                           "fill": "#0C0C0C",
                           "content": "A",
                           "fontFamily": "Space Grotesk",
@@ -955,13 +932,13 @@
                     {
                       "type": "text",
                       "id": "brandLogoName",
-                      "name": "brandLogoName",
+                      "name": "logoName",
                       "fill": "#FFFFFF",
                       "content": "AKINA",
-                      "fontFamily": "JetBrains Mono",
-                      "fontSize": 16,
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": 19,
                       "fontWeight": "600",
-                      "letterSpacing": 2
+                      "letterSpacing": 1
                     }
                   ]
                 },
@@ -1032,7 +1009,7 @@
                   "id": "brandSubtitle",
                   "name": "brandSubtitle",
                   "fill": "#6a6a6a",
-                  "content": "AKINA POS © 2025",
+                  "content": "AKINA POS © 2026",
                   "textAlign": "right",
                   "fontFamily": "JetBrains Mono",
                   "fontSize": 11,
@@ -1117,54 +1094,44 @@
                   "children": [
                     {
                       "type": "frame",
-                      "id": "Reg08",
-                      "name": "Logo Section",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 8,
+                      "id": "RegLR",
+                      "name": "App Logo",
+                      "gap": 12,
+                      "alignItems": "center",
                       "children": [
                         {
                           "type": "frame",
-                          "id": "Reg09",
-                          "name": "Logo Row",
-                          "gap": 12,
+                          "id": "Reg10",
+                          "name": "Logo Mark",
+                          "width": 40,
+                          "height": 40,
+                          "fill": "#00FF88",
+                          "layout": "vertical",
+                          "justifyContent": "center",
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "frame",
-                              "id": "Reg10",
-                              "name": "Logo Mark",
-                              "width": 40,
-                              "height": 40,
-                              "fill": "#00FF88",
-                              "layout": "vertical",
-                              "justifyContent": "center",
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "Reg11",
-                                  "name": "logoLetter",
-                                  "fill": "#0C0C0C",
-                                  "content": "A",
-                                  "fontFamily": "Space Grotesk",
-                                  "fontSize": 22,
-                                  "fontWeight": "700"
-                                }
-                              ]
-                            },
-                            {
                               "type": "text",
-                              "id": "Reg12",
-                              "name": "logoName",
-                              "fill": "#FFFFFF",
-                              "content": "AKINA",
-                              "fontFamily": "JetBrains Mono",
-                              "fontSize": 18,
-                              "fontWeight": "600",
-                              "letterSpacing": 2
+                              "id": "Reg11",
+                              "name": "logoLetter",
+                              "fill": "#0C0C0C",
+                              "content": "A",
+                              "fontFamily": "Space Grotesk",
+                              "fontSize": 22,
+                              "fontWeight": "700"
                             }
                           ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "Reg12",
+                          "name": "logoName",
+                          "fill": "#FFFFFF",
+                          "content": "AKINA",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 24,
+                          "fontWeight": "600",
+                          "letterSpacing": 1
                         }
                       ]
                     },
@@ -1254,16 +1221,6 @@
                                   "alignItems": "center",
                                   "children": [
                                     {
-                                      "type": "icon_font",
-                                      "id": "Reg21",
-                                      "name": "userIcon",
-                                      "width": 16,
-                                      "height": 16,
-                                      "iconFontName": "user",
-                                      "iconFontFamily": "lucide",
-                                      "fill": "#6a6a6a"
-                                    },
-                                    {
                                       "type": "text",
                                       "id": "Reg22",
                                       "name": "firstNamePlaceholder",
@@ -1314,16 +1271,6 @@
                                   ],
                                   "alignItems": "center",
                                   "children": [
-                                    {
-                                      "type": "icon_font",
-                                      "id": "Reg26",
-                                      "name": "userIcon2",
-                                      "width": 16,
-                                      "height": 16,
-                                      "iconFontName": "user",
-                                      "iconFontFamily": "lucide",
-                                      "fill": "#6a6a6a"
-                                    },
                                     {
                                       "type": "text",
                                       "id": "Reg27",
@@ -1392,7 +1339,7 @@
                                   "id": "Reg32",
                                   "name": "emailPlaceholder",
                                   "fill": "#6a6a6a",
-                                  "content": "tu@correo.com",
+                                  "content": "ejemplo@email.com",
                                   "fontFamily": "JetBrains Mono",
                                   "fontSize": 13,
                                   "fontWeight": "normal"
@@ -1830,15 +1777,15 @@
               "children": [
                 {
                   "type": "frame",
-                  "id": "Reg71",
-                  "name": "Brand Logo",
-                  "gap": 10,
+                  "id": "UsDIv",
+                  "name": "App Logo",
+                  "gap": 12,
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "frame",
                       "id": "Reg72",
-                      "name": "Brand Logo Mark",
+                      "name": "Logo Mark",
                       "width": 32,
                       "height": 32,
                       "fill": "#00FF88",
@@ -1849,7 +1796,7 @@
                         {
                           "type": "text",
                           "id": "Reg73",
-                          "name": "brandLogoLetter",
+                          "name": "logoLetter",
                           "fill": "#0C0C0C",
                           "content": "A",
                           "fontFamily": "Space Grotesk",
@@ -1861,13 +1808,13 @@
                     {
                       "type": "text",
                       "id": "Reg74",
-                      "name": "brandLogoName",
+                      "name": "logoName",
                       "fill": "#FFFFFF",
                       "content": "AKINA",
-                      "fontFamily": "JetBrains Mono",
-                      "fontSize": 16,
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": 19,
                       "fontWeight": "600",
-                      "letterSpacing": 2
+                      "letterSpacing": 1
                     }
                   ]
                 },
@@ -1938,7 +1885,7 @@
                   "id": "Reg81",
                   "name": "brandSubtitle",
                   "fill": "#6a6a6a",
-                  "content": "AKINA POS © 2025",
+                  "content": "AKINA POS © 2026",
                   "textAlign": "right",
                   "fontFamily": "JetBrains Mono",
                   "fontSize": 11,
@@ -1975,8 +1922,8 @@
           "children": [
             {
               "type": "frame",
-              "id": "FP003",
-              "name": "Logo Section",
+              "id": "FPLR",
+              "name": "App Logo",
               "gap": 12,
               "alignItems": "center",
               "children": [
@@ -2038,44 +1985,74 @@
                   "name": "Message Section",
                   "width": "fill_container",
                   "layout": "vertical",
-                  "gap": 12,
+                  "gap": 20,
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon_font",
-                      "id": "FP009",
-                      "name": "lockIcon",
-                      "width": 32,
-                      "height": 32,
-                      "iconFontName": "key-round",
-                      "iconFontFamily": "lucide",
-                      "fill": "#00FF88"
+                      "type": "frame",
+                      "id": "FP009_badge",
+                      "name": "Icon Badge",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "#113725",
+                      "stroke": {
+                        "align": "outside",
+                        "thickness": 4,
+                        "fill": "#122C20"
+                      },
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "FP009",
+                          "name": "lockIcon",
+                          "width": 28,
+                          "height": 28,
+                          "iconFontName": "key-round",
+                          "iconFontFamily": "lucide",
+                          "fill": "#00FF88"
+                        }
+                      ],
+                      "cornerRadius": 26
                     },
                     {
-                      "type": "text",
-                      "id": "FP010",
-                      "name": "heading",
-                      "fill": "#FFFFFF",
-                      "content": "RECUPERA TU CONTRASEÑA",
-                      "textAlign": "center",
-                      "fontFamily": "JetBrains Mono",
-                      "fontSize": 14,
-                      "fontWeight": "700",
-                      "letterSpacing": 0.5
-                    },
-                    {
-                      "type": "text",
-                      "id": "FP011",
-                      "name": "description",
-                      "fill": "#A1A1A1",
-                      "textGrowth": "fixed-width",
+                      "type": "frame",
+                      "id": "FP008_text",
+                      "name": "Text Group",
                       "width": "fill_container",
-                      "content": "Enviaremos un enlace de recuperación a tu correo electrónico",
-                      "lineHeight": 1.5,
-                      "textAlign": "center",
-                      "fontFamily": "JetBrains Mono",
-                      "fontSize": 12,
-                      "fontWeight": "normal"
+                      "layout": "vertical",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "FP010",
+                          "name": "heading",
+                          "fill": "#FFFFFF",
+                          "content": "RECUPERA TU CONTRASEÑA",
+                          "textAlign": "center",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 14,
+                          "fontWeight": "700",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "FP011",
+                          "name": "description",
+                          "fill": "#A1A1A1",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Enviaremos un enlace de recuperación a tu correo electrónico",
+                          "lineHeight": 1.5,
+                          "textAlign": "center",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -2131,7 +2108,7 @@
                           "id": "FP016",
                           "name": "emailPlaceholder",
                           "fill": "#6a6a6a",
-                          "content": "tu@correo.com",
+                          "content": "ejemplo@email.com",
                           "fontFamily": "JetBrains Mono",
                           "fontSize": 13,
                           "fontWeight": "normal"
@@ -2201,7 +2178,7 @@
                       "id": "FP022",
                       "name": "backToLoginLink",
                       "fill": "#00FF88",
-                      "content": "VOLVER A INICIAR SESIÓN",
+                      "content": "VOLVER AL INICIO",
                       "fontFamily": "JetBrains Mono",
                       "fontSize": 11,
                       "fontWeight": "700",
@@ -2214,6 +2191,218 @@
             {
               "type": "text",
               "id": "FP060",
+              "name": "copyright",
+              "fill": "#4a4a4a",
+              "content": "AKINA POS © 2026",
+              "fontFamily": "JetBrains Mono",
+              "fontSize": 10,
+              "fontWeight": "500",
+              "letterSpacing": 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "FC001",
+      "x": 5520,
+      "y": 1000,
+      "name": "Password Reset Sent - Centered Card",
+      "width": 1440,
+      "height": 900,
+      "fill": "#0C0C0C",
+      "layout": "vertical",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "FC050",
+          "name": "Center Wrapper",
+          "width": 420,
+          "layout": "vertical",
+          "gap": 24,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "FCLR",
+              "name": "App Logo",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "FC004",
+                  "name": "Logo Mark",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "#00FF88",
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "FC005",
+                      "name": "logoLetter",
+                      "fill": "#0C0C0C",
+                      "content": "A",
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "FC006",
+                  "name": "logoName",
+                  "fill": "#FFFFFF",
+                  "content": "AKINA",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 22,
+                  "fontWeight": "600",
+                  "letterSpacing": 1
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "FC002",
+              "name": "Confirmation Card",
+              "width": "fill_container",
+              "fill": "#141414",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#2f2f2f"
+              },
+              "layout": "vertical",
+              "gap": 32,
+              "padding": 40,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "FC008",
+                  "name": "Message Section",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "FC009_badge",
+                      "name": "Icon Badge",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "#113725",
+                      "stroke": {
+                        "align": "outside",
+                        "thickness": 4,
+                        "fill": "#122C20"
+                      },
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "FC009",
+                          "name": "mailIcon",
+                          "width": 28,
+                          "height": 28,
+                          "iconFontName": "mail-check",
+                          "iconFontFamily": "lucide",
+                          "fill": "#00FF88"
+                        }
+                      ],
+                      "cornerRadius": 26
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FC008_text",
+                      "name": "Text Group",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "FC010",
+                          "name": "heading",
+                          "fill": "#FFFFFF",
+                          "content": "REVISA TU CORREO",
+                          "textAlign": "center",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 14,
+                          "fontWeight": "700",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "FC011",
+                          "name": "description",
+                          "fill": "#A1A1A1",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Hemos enviado un enlace para restablecer tu contraseña. Revisa tu bandeja de entrada o carpeta de spam y sigue las instrucciones.",
+                          "lineHeight": 1.5,
+                          "textAlign": "center",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "FC017",
+                  "name": "Back to Login Button",
+                  "width": "fill_container",
+                  "fill": "#00FF88",
+                  "gap": 8,
+                  "padding": [
+                    12,
+                    16
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "FC018",
+                      "name": "arrowLeftIcon",
+                      "width": 14,
+                      "height": 14,
+                      "iconFontName": "arrow-left",
+                      "iconFontFamily": "lucide",
+                      "fill": "#0C0C0C"
+                    },
+                    {
+                      "type": "text",
+                      "id": "FC019",
+                      "name": "backText",
+                      "fill": "#0C0C0C",
+                      "content": "VOLVER AL INICIO DE SESIÓN",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 11,
+                      "fontWeight": "700",
+                      "letterSpacing": 0.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "FC060",
               "name": "copyright",
               "fill": "#4a4a4a",
               "content": "AKINA POS © 2026",
@@ -2250,8 +2439,8 @@
           "children": [
             {
               "type": "frame",
-              "id": "RP003",
-              "name": "Logo Section",
+              "id": "RPLR",
+              "name": "App Logo",
               "gap": 12,
               "alignItems": "center",
               "children": [
@@ -2313,44 +2502,74 @@
                   "name": "Message Section",
                   "width": "fill_container",
                   "layout": "vertical",
-                  "gap": 12,
+                  "gap": 20,
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon_font",
-                      "id": "RP009",
-                      "name": "shieldIcon",
-                      "width": 32,
-                      "height": 32,
-                      "iconFontName": "shield-check",
-                      "iconFontFamily": "lucide",
-                      "fill": "#00FF88"
+                      "type": "frame",
+                      "id": "RP009_badge",
+                      "name": "Icon Badge",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "#113725",
+                      "stroke": {
+                        "align": "outside",
+                        "thickness": 4,
+                        "fill": "#122C20"
+                      },
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "RP009",
+                          "name": "shieldIcon",
+                          "width": 28,
+                          "height": 28,
+                          "iconFontName": "shield-check",
+                          "iconFontFamily": "lucide",
+                          "fill": "#00FF88"
+                        }
+                      ],
+                      "cornerRadius": 26
                     },
                     {
-                      "type": "text",
-                      "id": "RP010",
-                      "name": "heading",
-                      "fill": "#FFFFFF",
-                      "content": "CREA TU NUEVA CONTRASEÑA",
-                      "textAlign": "center",
-                      "fontFamily": "JetBrains Mono",
-                      "fontSize": 14,
-                      "fontWeight": "700",
-                      "letterSpacing": 0.5
-                    },
-                    {
-                      "type": "text",
-                      "id": "RP011",
-                      "name": "description",
-                      "fill": "#A1A1A1",
-                      "textGrowth": "fixed-width",
+                      "type": "frame",
+                      "id": "RP008_text",
+                      "name": "Text Group",
                       "width": "fill_container",
-                      "content": "Ingresa y confirma tu nueva contraseña para recuperar el acceso a tu cuenta.",
-                      "lineHeight": 1.5,
-                      "textAlign": "center",
-                      "fontFamily": "JetBrains Mono",
-                      "fontSize": 12,
-                      "fontWeight": "normal"
+                      "layout": "vertical",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RP010",
+                          "name": "heading",
+                          "fill": "#FFFFFF",
+                          "content": "CREA TU NUEVA CONTRASEÑA",
+                          "textAlign": "center",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 14,
+                          "fontWeight": "700",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "RP011",
+                          "name": "description",
+                          "fill": "#A1A1A1",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Ingresa y confirma tu nueva contraseña para recuperar el acceso a tu cuenta",
+                          "lineHeight": 1.5,
+                          "textAlign": "center",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -2604,8 +2823,8 @@
           "children": [
             {
               "type": "frame",
-              "id": "OTP03",
-              "name": "Logo Section",
+              "id": "OTPLR",
+              "name": "App Logo",
               "gap": 12,
               "alignItems": "center",
               "children": [
@@ -2667,53 +2886,83 @@
                   "name": "Message Section",
                   "width": "fill_container",
                   "layout": "vertical",
-                  "gap": 12,
+                  "gap": 20,
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon_font",
-                      "id": "OTP09",
-                      "name": "mailIcon",
-                      "width": 32,
-                      "height": 32,
-                      "iconFontName": "mail-check",
-                      "iconFontFamily": "lucide",
-                      "fill": "#00FF88"
+                      "type": "frame",
+                      "id": "OTP09_badge",
+                      "name": "Icon Badge",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "#113725",
+                      "stroke": {
+                        "align": "outside",
+                        "thickness": 4,
+                        "fill": "#122C20"
+                      },
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "OTP09",
+                          "name": "mailIcon",
+                          "width": 28,
+                          "height": 28,
+                          "iconFontName": "mail-check",
+                          "iconFontFamily": "lucide",
+                          "fill": "#00FF88"
+                        }
+                      ],
+                      "cornerRadius": 26
                     },
                     {
-                      "type": "text",
-                      "id": "OTP10",
-                      "name": "heading",
-                      "fill": "#FFFFFF",
-                      "content": "VERIFICA TU CORREO",
-                      "textAlign": "center",
-                      "fontFamily": "JetBrains Mono",
-                      "fontSize": 14,
-                      "fontWeight": "700",
-                      "letterSpacing": 0.5
-                    },
-                    {
-                      "type": "text",
-                      "id": "OTP11",
-                      "name": "description",
-                      "fill": "#A1A1A1",
-                      "content": "Enviamos un código de 6 dígitos a",
-                      "lineHeight": 1.5,
-                      "textAlign": "center",
-                      "fontFamily": "JetBrains Mono",
-                      "fontSize": 12,
-                      "fontWeight": "normal"
-                    },
-                    {
-                      "type": "text",
-                      "id": "OTP12",
-                      "name": "maskedEmail",
-                      "fill": "#FFFFFF",
-                      "content": "s****o@gmail.com",
-                      "textAlign": "center",
-                      "fontFamily": "JetBrains Mono",
-                      "fontSize": 13,
-                      "fontWeight": "600"
+                      "type": "frame",
+                      "id": "OTP08_text",
+                      "name": "Text Group",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "OTP10",
+                          "name": "heading",
+                          "fill": "#FFFFFF",
+                          "content": "VERIFICA TU CORREO",
+                          "textAlign": "center",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 14,
+                          "fontWeight": "700",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "OTP11",
+                          "name": "description",
+                          "fill": "#A1A1A1",
+                          "content": "Enviamos un código de 6 dígitos a",
+                          "lineHeight": 1.5,
+                          "textAlign": "center",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "OTP12",
+                          "name": "maskedEmail",
+                          "fill": "#FFFFFF",
+                          "content": "s****o@gmail.com",
+                          "textAlign": "center",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -2980,7 +3229,7 @@
                       "id": "OTP47",
                       "name": "backLink",
                       "fill": "#00FF88",
-                      "content": "VOLVER",
+                      "content": "VOLVER AL INICIO",
                       "fontFamily": "JetBrains Mono",
                       "fontSize": 11,
                       "fontWeight": "700",
@@ -2993,6 +3242,1203 @@
             {
               "type": "text",
               "id": "OT060",
+              "name": "copyright",
+              "fill": "#4a4a4a",
+              "content": "AKINA POS © 2026",
+              "fontFamily": "JetBrains Mono",
+              "fontSize": 10,
+              "fontWeight": "500",
+              "letterSpacing": 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "RS001",
+      "x": 3980,
+      "y": 1000,
+      "name": "Register Success - Split Layout",
+      "width": 1440,
+      "height": 900,
+      "fill": "#0C0C0C",
+      "children": [
+        {
+          "type": "frame",
+          "id": "RS002",
+          "name": "Left Panel - Success",
+          "width": 560,
+          "height": "fill_container",
+          "fill": "#080808",
+          "layout": "vertical",
+          "padding": 60,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "RS003",
+              "name": "Success Center Wrapper",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "RS004",
+                  "name": "Success Container",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 32,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "RSLR",
+                      "name": "App Logo",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "RS006",
+                          "name": "Logo Mark",
+                          "width": 40,
+                          "height": 40,
+                          "fill": "#00FF88",
+                          "layout": "vertical",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "RS007",
+                              "name": "logoLetter",
+                              "fill": "#0C0C0C",
+                              "content": "A",
+                              "fontFamily": "Space Grotesk",
+                              "fontSize": 22,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "RS008",
+                          "name": "logoName",
+                          "fill": "#FFFFFF",
+                          "content": "AKINA",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 24,
+                          "fontWeight": "600",
+                          "letterSpacing": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "RS011",
+                      "name": "Success Text",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RS012",
+                          "name": "successHeading",
+                          "fill": "#FFFFFF",
+                          "content": "¡Revisa tu correo!",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 30,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "RS013",
+                          "name": "successMessage",
+                          "fill": "#A1A1A1",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Hemos enviado un enlace de verificación a tu correo electrónico. Revisa tu bandeja de entrada o carpeta de spam para activar tu cuenta.",
+                          "lineHeight": 1.6,
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "RS017",
+                      "name": "Resend Row",
+                      "width": "fill_container",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RS018",
+                          "name": "resendLabel",
+                          "fill": "#A1A1A1",
+                          "content": "¿NO RECIBISTE EL CORREO?",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "RS019",
+                          "name": "resendLink",
+                          "fill": "#00FF88",
+                          "content": "REENVIAR (59S)",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "RS014",
+                      "name": "Back to Login Button",
+                      "width": "fill_container",
+                      "fill": "#00FF88",
+                      "gap": 8,
+                      "padding": [
+                        14,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "RS015",
+                          "name": "arrowLeftIcon",
+                          "width": 14,
+                          "height": 14,
+                          "iconFontName": "arrow-left",
+                          "iconFontFamily": "lucide",
+                          "fill": "#0C0C0C"
+                        },
+                        {
+                          "type": "text",
+                          "id": "RS016",
+                          "name": "loginButtonText",
+                          "fill": "#0C0C0C",
+                          "content": "VOLVER AL INICIO",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 11,
+                          "fontWeight": "700",
+                          "letterSpacing": 0.5
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "RS053",
+          "name": "Right Panel - Branding",
+          "clip": true,
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "#141414",
+          "stroke": {
+            "align": "inside",
+            "thickness": {
+              "left": 1
+            },
+            "fill": "#2f2f2f"
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "RS054",
+              "x": 0,
+              "y": 100,
+              "name": "gridH1",
+              "fill": "#1A1A1A",
+              "width": 880,
+              "height": 1
+            },
+            {
+              "type": "rectangle",
+              "id": "RS055",
+              "x": 0,
+              "y": 200,
+              "name": "gridH2",
+              "fill": "#1A1A1A",
+              "width": 880,
+              "height": 1
+            },
+            {
+              "type": "rectangle",
+              "id": "RS056",
+              "x": 0,
+              "y": 300,
+              "name": "gridH3",
+              "fill": "#1A1A1A",
+              "width": 880,
+              "height": 1
+            },
+            {
+              "type": "rectangle",
+              "id": "RS057",
+              "x": 0,
+              "y": 400,
+              "name": "gridH4",
+              "fill": "#1A1A1A",
+              "width": 880,
+              "height": 1
+            },
+            {
+              "type": "rectangle",
+              "id": "RS058",
+              "x": 0,
+              "y": 500,
+              "name": "gridH5",
+              "fill": "#1A1A1A",
+              "width": 880,
+              "height": 1
+            },
+            {
+              "type": "rectangle",
+              "id": "RS059",
+              "x": 0,
+              "y": 600,
+              "name": "gridH6",
+              "fill": "#1A1A1A",
+              "width": 880,
+              "height": 1
+            },
+            {
+              "type": "rectangle",
+              "id": "RS060",
+              "x": 0,
+              "y": 700,
+              "name": "gridH7",
+              "fill": "#1A1A1A",
+              "width": 880,
+              "height": 1
+            },
+            {
+              "type": "rectangle",
+              "id": "RS061",
+              "x": 0,
+              "y": 800,
+              "name": "gridH8",
+              "fill": "#1A1A1A",
+              "width": 880,
+              "height": 1
+            },
+            {
+              "type": "rectangle",
+              "id": "RS062",
+              "x": 100,
+              "y": 0,
+              "name": "gridV1",
+              "fill": "#1A1A1A",
+              "width": 1,
+              "height": 900
+            },
+            {
+              "type": "rectangle",
+              "id": "RS063",
+              "x": 200,
+              "y": 0,
+              "name": "gridV2",
+              "fill": "#1A1A1A",
+              "width": 1,
+              "height": 900
+            },
+            {
+              "type": "rectangle",
+              "id": "RS064",
+              "x": 300,
+              "y": 0,
+              "name": "gridV3",
+              "fill": "#1A1A1A",
+              "width": 1,
+              "height": 900
+            },
+            {
+              "type": "rectangle",
+              "id": "RS065",
+              "x": 400,
+              "y": 0,
+              "name": "gridV4",
+              "fill": "#1A1A1A",
+              "width": 1,
+              "height": 900
+            },
+            {
+              "type": "rectangle",
+              "id": "RS066",
+              "x": 500,
+              "y": 0,
+              "name": "gridV5",
+              "fill": "#1A1A1A",
+              "width": 1,
+              "height": 900
+            },
+            {
+              "type": "rectangle",
+              "id": "RS067",
+              "x": 600,
+              "y": 0,
+              "name": "gridV6",
+              "fill": "#1A1A1A",
+              "width": 1,
+              "height": 900
+            },
+            {
+              "type": "rectangle",
+              "id": "RS068",
+              "x": 700,
+              "y": 0,
+              "name": "gridV7",
+              "fill": "#1A1A1A",
+              "width": 1,
+              "height": 900
+            },
+            {
+              "type": "rectangle",
+              "id": "RS069",
+              "x": 800,
+              "y": 0,
+              "name": "gridV8",
+              "fill": "#1A1A1A",
+              "width": 1,
+              "height": 900
+            },
+            {
+              "type": "frame",
+              "id": "RS070",
+              "x": 356,
+              "y": 668,
+              "name": "Brand Text Block",
+              "width": 420,
+              "layout": "vertical",
+              "gap": 16,
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "DtAHY",
+                  "name": "App Logo",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "RS072",
+                      "name": "Logo Mark",
+                      "width": 32,
+                      "height": 32,
+                      "fill": "#00FF88",
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RS073",
+                          "name": "logoLetter",
+                          "fill": "#0C0C0C",
+                          "content": "A",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 18,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "RS074",
+                      "name": "logoName",
+                      "fill": "#FFFFFF",
+                      "content": "AKINA",
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": 19,
+                      "fontWeight": "600",
+                      "letterSpacing": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "RS075",
+                  "name": "Brand Headline",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "RS076",
+                      "name": "Brand Line 1",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RS077",
+                          "name": "brandLine1a",
+                          "fill": "#FFFFFF",
+                          "content": "El sistema ",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 36,
+                          "fontWeight": "600",
+                          "letterSpacing": -1
+                        },
+                        {
+                          "type": "text",
+                          "id": "RS078",
+                          "name": "brandLine1b",
+                          "fill": "#00FF88",
+                          "content": "POS",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 36,
+                          "fontWeight": "600",
+                          "letterSpacing": -1
+                        },
+                        {
+                          "type": "text",
+                          "id": "RS079",
+                          "name": "brandLine1c",
+                          "fill": "#FFFFFF",
+                          "content": " ideal",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 36,
+                          "fontWeight": "600",
+                          "letterSpacing": -1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "RS080",
+                      "name": "brandLine2",
+                      "fill": "#FFFFFF",
+                      "content": "para tu negocio",
+                      "textAlign": "right",
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": 36,
+                      "fontWeight": "600",
+                      "letterSpacing": -1
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "RS081",
+                  "name": "brandSubtitle",
+                  "fill": "#6a6a6a",
+                  "content": "AKINA POS © 2026",
+                  "textAlign": "right",
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 11,
+                  "fontWeight": "normal",
+                  "letterSpacing": 0.5
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "VE001",
+      "x": 3980,
+      "y": 2100,
+      "name": "Verification Email Template",
+      "width": 500,
+      "height": 543,
+      "fill": "#0C0C0C",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "VE002",
+          "name": "Email Header",
+          "width": "fill_container",
+          "height": 75,
+          "fill": "#141414",
+          "stroke": {
+            "align": "inside",
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "#2f2f2f"
+          },
+          "layout": "vertical",
+          "padding": [
+            32,
+            40
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "VELR",
+              "name": "App Logo",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "VE004",
+                  "name": "Logo Mark",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "#00FF88",
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "VE005",
+                      "name": "logoLetter",
+                      "fill": "#0C0C0C",
+                      "content": "A",
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "VE006",
+                  "name": "logoName",
+                  "fill": "#FFFFFF",
+                  "content": "AKINA",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 22,
+                  "fontWeight": "600",
+                  "letterSpacing": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "VE010",
+          "name": "Email Body",
+          "width": "fill_container",
+          "fill": "#141414",
+          "layout": "vertical",
+          "gap": 28,
+          "padding": [
+            54,
+            36
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "VE014",
+              "name": "Greeting Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "VE015",
+                  "name": "greeting",
+                  "fill": "#FFFFFF",
+                  "content": "¡Hola, Juan!",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 24,
+                  "fontWeight": "700",
+                  "letterSpacing": -0.5
+                },
+                {
+                  "type": "text",
+                  "id": "VE016",
+                  "name": "bodyText",
+                  "fill": "#A1A1A1",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Gracias por registrarte en Akina. Para activar tu cuenta y comenzar a usar nuestro sistema de punto de venta, por favor verifica tu dirección de correo electrónico haciendo clic en el botón de abajo.",
+                  "lineHeight": 1.7,
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "VE020",
+              "name": "CTA Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "VE021",
+                  "name": "CTA Button",
+                  "width": "fill_container",
+                  "fill": "#00FF88",
+                  "gap": 8,
+                  "padding": [
+                    16,
+                    24
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "VE023",
+                      "name": "ctaText",
+                      "fill": "#0C0C0C",
+                      "content": "VERIFICAR MI CUENTA",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 13,
+                      "fontWeight": "700",
+                      "letterSpacing": 0.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "VE032",
+              "name": "Fallback URL Section",
+              "width": "fill_container",
+              "fill": "#1A1A1A",
+              "layout": "vertical",
+              "padding": [
+                16,
+                20
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "VE033",
+                  "name": "fallbackLabel",
+                  "fill": "#6a6a6a",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Si el botón no funciona, copia y pega este enlace en tu navegador:",
+                  "lineHeight": 1.5,
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "VE034",
+                  "name": "fallbackUrl",
+                  "fill": "#00FF88",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "https://app.akina.pos/verify?token=abc123def456",
+                  "lineHeight": 1.4,
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "VE040",
+          "name": "Email Footer",
+          "width": "fill_container",
+          "height": 45,
+          "fill": "#101010ff",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            24,
+            48
+          ],
+          "justifyContent": "end",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "VE044",
+              "name": "copyright",
+              "fill": "#4a4a4a",
+              "textGrowth": "fixed-width-height",
+              "width": "fill_container",
+              "height": "fill_container",
+              "content": "AKINA POS © 2026",
+              "textAlign": "center",
+              "textAlignVertical": "middle",
+              "fontFamily": "JetBrains Mono",
+              "fontSize": 10,
+              "fontWeight": "500",
+              "letterSpacing": 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "PR001",
+      "x": 5520,
+      "y": 2000,
+      "name": "Password Reset Email Template",
+      "width": 500,
+      "height": 603,
+      "fill": "#0C0C0C",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "PR002",
+          "name": "Email Header",
+          "width": "fill_container",
+          "height": 75,
+          "fill": "#141414",
+          "stroke": {
+            "align": "inside",
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "#2f2f2f"
+          },
+          "layout": "vertical",
+          "padding": [
+            32,
+            40
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "PRLR",
+              "name": "App Logo",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "PR004",
+                  "name": "Logo Mark",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "#00FF88",
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "PR005",
+                      "name": "logoLetter",
+                      "fill": "#0C0C0C",
+                      "content": "A",
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "PR006",
+                  "name": "logoName",
+                  "fill": "#FFFFFF",
+                  "content": "AKINA",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 22,
+                  "fontWeight": "600",
+                  "letterSpacing": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PR010",
+          "name": "Email Body",
+          "width": "fill_container",
+          "fill": "#141414",
+          "layout": "vertical",
+          "gap": 28,
+          "padding": [
+            54,
+            36
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "PR014",
+              "name": "Greeting Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "PR015",
+                  "name": "greeting",
+                  "fill": "#FFFFFF",
+                  "content": "¡Hola, Juan!",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 24,
+                  "fontWeight": "700",
+                  "letterSpacing": -0.5
+                },
+                {
+                  "type": "text",
+                  "id": "PR016",
+                  "name": "bodyText",
+                  "fill": "#A1A1A1",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Recibimos una solicitud para restablecer la contraseña de tu cuenta en Akina. Haz clic en el botón de abajo para crear una nueva contraseña.",
+                  "lineHeight": 1.7,
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "PR020",
+              "name": "CTA Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "PR021",
+                  "name": "CTA Button",
+                  "width": "fill_container",
+                  "fill": "#00FF88",
+                  "gap": 8,
+                  "padding": [
+                    16,
+                    24
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "PR023",
+                      "name": "ctaText",
+                      "fill": "#0C0C0C",
+                      "content": "RESTABLECER MI CONTRASEÑA",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 13,
+                      "fontWeight": "700",
+                      "letterSpacing": 0.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "PR032",
+              "name": "Fallback URL Section",
+              "width": "fill_container",
+              "fill": "#1A1A1A",
+              "layout": "vertical",
+              "padding": [
+                16,
+                20
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "PR033",
+                  "name": "fallbackLabel",
+                  "fill": "#6a6a6a",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Si el botón no funciona, copia y pega este enlace en tu navegador:",
+                  "lineHeight": 1.5,
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "PR034",
+                  "name": "fallbackUrl",
+                  "fill": "#00FF88",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "https://akina.app/reset-password?token=abc123def456",
+                  "lineHeight": 1.4,
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "PR024",
+              "name": "expiryNote",
+              "fill": "#6a6a6a",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "*Si no realizaste esta solicitud puedes ignorar este correo y tu contraseña no será modificada.",
+              "textAlign": "center",
+              "fontFamily": "Space Grotesk",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PR040",
+          "name": "Email Footer",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "#101010",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            16,
+            36
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "PR044",
+              "name": "copyright",
+              "fill": "#4a4a4a",
+              "content": "AKINA POS © 2026",
+              "textAlign": "center",
+              "fontFamily": "JetBrains Mono",
+              "fontSize": 10,
+              "fontWeight": "500",
+              "letterSpacing": 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "IL001",
+      "x": 10140,
+      "y": 0,
+      "name": "Invalid URL - Centered Card",
+      "width": 1440,
+      "height": 900,
+      "fill": "#0C0C0C",
+      "layout": "vertical",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "IL050",
+          "name": "Center Wrapper",
+          "width": 420,
+          "layout": "vertical",
+          "gap": 24,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "ILLR",
+              "name": "App Logo",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "IL004",
+                  "name": "Logo Mark",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "#00FF88",
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "IL005",
+                      "name": "logoLetter",
+                      "fill": "#0C0C0C",
+                      "content": "A",
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "IL006",
+                  "name": "logoName",
+                  "fill": "#FFFFFF",
+                  "content": "AKINA",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 22,
+                  "fontWeight": "600",
+                  "letterSpacing": 1
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "IL002",
+              "name": "Invalid Link Card",
+              "width": "fill_container",
+              "fill": "#141414",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#2f2f2f"
+              },
+              "layout": "vertical",
+              "gap": 32,
+              "padding": 40,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "IL008",
+                  "name": "Message Section",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "IL009_badge",
+                      "name": "Icon Badge",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "#113725",
+                      "stroke": {
+                        "align": "outside",
+                        "thickness": 4,
+                        "fill": "#122C20"
+                      },
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "IL009",
+                          "name": "warningIcon",
+                          "width": 28,
+                          "height": 28,
+                          "iconFontName": "unlink",
+                          "iconFontFamily": "lucide",
+                          "fill": "$green-primary"
+                        }
+                      ],
+                      "cornerRadius": 26
+                    },
+                    {
+                      "type": "frame",
+                      "id": "IL008_text",
+                      "name": "Text Group",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "IL010",
+                          "name": "heading",
+                          "fill": "#FFFFFF",
+                          "content": "EL ENLACE NO ES VÁLIDO",
+                          "textAlign": "center",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 14,
+                          "fontWeight": "700",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "IL011",
+                          "name": "description",
+                          "fill": "#A1A1A1",
+                          "textGrowth": "fixed-width",
+                          "width": 276,
+                          "content": "Oops, parece que este enlace ya expiró o no es válido.",
+                          "lineHeight": 1.5,
+                          "textAlign": "center",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "IL020",
+                  "name": "Back to Login Row",
+                  "width": "fill_container",
+                  "gap": 6,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "IL021",
+                      "name": "arrowLeftIcon",
+                      "width": 12,
+                      "height": 12,
+                      "iconFontName": "arrow-left",
+                      "iconFontFamily": "lucide",
+                      "fill": "#00FF88"
+                    },
+                    {
+                      "type": "text",
+                      "id": "IL022",
+                      "name": "backToLoginLink",
+                      "fill": "#00FF88",
+                      "content": "VOLVER AL INICIO",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 11,
+                      "fontWeight": "700",
+                      "letterSpacing": 0.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "IL060",
               "name": "copyright",
               "fill": "#4a4a4a",
               "content": "AKINA POS © 2026",

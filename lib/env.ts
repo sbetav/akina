@@ -1,12 +1,17 @@
-import { config } from "dotenv";
-import z from "zod";
+import { createEnv } from "@t3-oss/env-nextjs";
+import { z } from "zod";
 
-config({ path: ".env.local" });
-
-const envSchema = z.object({
-  DATABASE_URL: z.string(),
-  BETTER_AUTH_SECRET: z.string(),
-  NEXT_PUBLIC_BASE_URL: z.string(),
+export const env = createEnv({
+  server: {
+    DATABASE_URL: z.string(),
+    BETTER_AUTH_SECRET: z.string(),
+    RESEND_API_KEY: z.string(),
+    RESEND_FROM: z.string(),
+  },
+  client: {
+    NEXT_PUBLIC_BASE_URL: z.string(),
+  },
+  experimental__runtimeEnv: {
+    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
+  },
 });
-
-export const env = envSchema.parse(process.env);

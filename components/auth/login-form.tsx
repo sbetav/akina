@@ -1,8 +1,15 @@
 "use client";
 
+import { useResendVerification } from "@/hooks/use-resend-verification";
+import { authClient } from "@/lib/auth-client";
+import { getAuthErrorMessage } from "@/lib/auth-errors";
 import { LoginFormSchemaType, loginFormSchema } from "@/lib/form-schemas";
+import { useRouter } from "@bprogress/next";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import {
+  AlertCircleIcon,
+  AlertTriangleIcon,
   EyeIcon,
   EyeOffIcon,
   LockIcon,
@@ -12,6 +19,7 @@ import {
 import Link from "next/link";
 import { FC, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { Alert, AlertDescription } from "../ui/alert";
 import { Button, buttonVariants } from "../ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import {
@@ -20,11 +28,13 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from "../ui/input-group";
+import { Spinner } from "../ui/spinner";
 
 const LoginForm: FC = () => {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
-  const { handleSubmit, control } = useForm<LoginFormSchemaType>({
+  const { handleSubmit, control, watch } = useForm<LoginFormSchemaType>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: "",
@@ -32,8 +42,32 @@ const LoginForm: FC = () => {
     },
   });
 
+  const email = watch("email");
+
+  const { mutate, isPending, data } = useMutation({
+    mutationFn: async ({ email, password }: LoginFormSchemaType) => {
+      return await authClient.signIn.email(
+        {
+          email,
+          password,
+        },
+        {
+          onSuccess: () => {
+            router.replace("/dashboard");
+          },
+        },
+      );
+    },
+  });
+  const missingVerification = data?.error?.code === "EMAIL_NOT_VERIFIED";
+  const {
+    resend,
+    isPending: isResending,
+    timeLeft,
+  } = useResendVerification(email, 59, 0);
+
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    mutate(data);
   });
 
   return (
@@ -113,8 +147,33 @@ const LoginForm: FC = () => {
         </div>
       </FieldGroup>
 
-      <Button type="submit" size="lg">
-        <LogInIcon className="size-4" />
+      {data && data.error && (
+        <Alert variant={missingVerification ? "warning" : "destructive"}>
+          {missingVerification ? <AlertTriangleIcon /> : <AlertCircleIcon />}
+          <AlertDescription>
+            {getAuthErrorMessage(data.error.code)}{" "}
+            {missingVerification && (
+              <Button
+                variant="link"
+                size="xs"
+                className="text-foreground/90 normal-case underline disabled:no-underline"
+                onClick={() => resend()}
+                disabled={isResending || timeLeft > 0}
+              >
+                {isResending
+                  ? "Reenviando..."
+                  : timeLeft > 0
+                    ? "Reenviar"
+                    : "Reenviar correo"}
+                {timeLeft > 0 && ` (${timeLeft}s)`}
+              </Button>
+            )}
+          </AlertDescription>
+        </Alert>
+      )}
+
+      <Button type="submit" size="lg" disabled={isPending}>
+        {isPending ? <Spinner /> : <LogInIcon className="size-4" />}
         Iniciar Sesión
       </Button>
     </form>

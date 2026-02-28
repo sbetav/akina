@@ -1,18 +1,19 @@
-import AuthFormCard from "@/components/auth/auth-form-card";
 import ResetPasswordForm from "@/components/auth/reset-password-form";
-import { ShieldCheckIcon } from "lucide-react";
+import { redirect } from "next/navigation";
 import { FC } from "react";
 
-const Page: FC = () => {
-  return (
-    <AuthFormCard
-      icon={<ShieldCheckIcon />}
-      heading="Crea tu nueva contraseña"
-      description="Ingresa y confirma tu nueva contraseña para recuperar el acceso a tu cuenta"
-    >
-      <ResetPasswordForm />
-    </AuthFormCard>
-  );
+interface PageProps {
+  searchParams: Promise<{ token?: string; error?: string }>;
+}
+
+const Page: FC<PageProps> = async ({ searchParams }) => {
+  const { token, error } = await searchParams;
+
+  if (!token || error === "INVALID_TOKEN") {
+    redirect("/invalid-url");
+  }
+
+  return <ResetPasswordForm token={token} />;
 };
 
 export default Page;

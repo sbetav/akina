@@ -18,7 +18,12 @@ export const registerFormSchema = z
       error: (issue) =>
         !issue.input ? "Campo requerido" : "Correo electrónico inválido",
     }),
-    password: z.string("Campo requerido").nonempty("Campo requerido"),
+    password: z.string("Campo requerido").min(8, {
+      error: (issue) =>
+        !issue.input
+          ? "Campo requerido"
+          : "La contraseña debe tener al menos 8 caracteres",
+    }),
     confirmPassword: z.string("Campo requerido").nonempty("Campo requerido"),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -41,7 +46,12 @@ export type ForgotPasswordFormSchemaType = z.infer<
 
 export const resetPasswordFormSchema = z
   .object({
-    password: z.string("Campo requerido").nonempty("Campo requerido"),
+    password: z.string("Campo requerido").min(8, {
+      error: (issue) =>
+        !issue.input
+          ? "Campo requerido"
+          : "La contraseña debe tener al menos 8 caracteres",
+    }),
     confirmPassword: z.string("Campo requerido").nonempty("Campo requerido"),
   })
   .refine((data) => data.password === data.confirmPassword, {
