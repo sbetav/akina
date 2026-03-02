@@ -9,7 +9,6 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import {
-  AlertCircleIcon,
   ArrowRightIcon,
   CheckIcon,
   EyeIcon,
@@ -154,7 +153,6 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
 
         {data?.error && (
           <Alert variant="destructive">
-            <AlertCircleIcon />
             <AlertDescription>
               {getAuthErrorMessage(data.error.code)}
             </AlertDescription>

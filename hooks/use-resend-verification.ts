@@ -1,7 +1,7 @@
+import { toast } from "@/components/ui/toast";
 import { authClient } from "@/lib/auth-client";
 import { getAuthErrorMessage } from "@/lib/auth-errors";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
 import { useCountdown } from "./use-countdown";
 
 export function useResendVerification(

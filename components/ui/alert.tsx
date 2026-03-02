@@ -1,20 +1,27 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import {
+  CircleCheckIcon,
+  CircleXIcon,
+  InfoIcon,
+  TriangleAlertIcon,
+} from "lucide-react";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
 const alertVariants = cva(
-  "group/alert relative grid w-full gap-0.5 rounded-lg border px-4 py-3 text-left text-sm has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2.5 *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg]:text-current *:[svg:not([class*='size-'])]:size-4",
+  "grid w-full grid-cols-[0_1fr] items-start gap-y-0.5 rounded-lg border px-4 py-3 text-sm has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] has-[>svg]:gap-x-2.5 [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
   {
     variants: {
       variant: {
         default: "bg-card text-card-foreground",
         success:
-          "border-emerald-500/20 bg-emerald-500/10 text-emerald-500 *:data-[slot=alert-description]:text-emerald-500 *:[svg]:text-current",
+          "text-success border-success/20 bg-success/10 *:data-[slot=alert-description]:text-success/90 [&>svg]:text-current",
+        info: "text-info border-info/20 bg-info/10 *:data-[slot=alert-description]:text-info/90 [&>svg]:text-current",
         warning:
-          "border-amber-500/20 bg-amber-500/10 text-amber-500 *:data-[slot=alert-description]:text-amber-500 *:[svg]:text-current",
+          "text-warning border-warning/20 bg-warning/10 *:data-[slot=alert-description]:text-warning/90 [&>svg]:text-current",
         destructive:
-          "text-destructive bg-destructive/10 border-destructive/20 *:data-[slot=alert-description]:text-destructive/90 *:[svg]:text-current",
+          "text-destructive border-destructive/20 bg-destructive/10 *:data-[slot=alert-description]:text-destructive/90 [&>svg]:text-current",
       },
     },
     defaultVariants: {
@@ -23,18 +30,30 @@ const alertVariants = cva(
   },
 );
 
+type AlertVariant = NonNullable<VariantProps<typeof alertVariants>["variant"]>;
+
+const variantIcons: Partial<Record<AlertVariant, React.ReactNode>> = {
+  success: <CircleCheckIcon className="size-4 shrink-0" />,
+  destructive: <CircleXIcon className="size-4 shrink-0" />,
+  warning: <TriangleAlertIcon className="size-4 shrink-0" />,
+  info: <InfoIcon className="size-4 shrink-0" />,
+};
+
 function Alert({
   className,
   variant,
+  children,
   ...props
 }: React.ComponentProps<"div"> & VariantProps<typeof alertVariants>) {
+  const defaultIcon = variant ? variantIcons[variant] : null;
+
   return (
-    <div
-      data-slot="alert"
-      role="alert"
-      className={cn(alertVariants({ variant }), className)}
-      {...props}
-    />
+    <div className="bg-background" data-slot="alert" role="alert">
+      <div className={cn(alertVariants({ variant }), className)} {...props}>
+        {defaultIcon}
+        {children}
+      </div>
+    </div>
   );
 }
 
@@ -43,7 +62,7 @@ function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="alert-title"
       className={cn(
-        "[&_a]:hover:text-foreground font-medium group-has-[>svg]/alert:col-start-2 [&_a]:underline [&_a]:underline-offset-3",
+        "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight",
         className,
       )}
       {...props}
@@ -59,7 +78,7 @@ function AlertDescription({
     <div
       data-slot="alert-description"
       className={cn(
-        "text-muted-foreground [&_a]:hover:text-foreground text-xs text-balance md:text-pretty [&_a]:underline [&_a]:underline-offset-3 [&_p:not(:last-child)]:mb-4",
+        "text-muted-foreground col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed",
         className,
       )}
       {...props}
@@ -67,14 +86,4 @@ function AlertDescription({
   );
 }
 
-function AlertAction({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="alert-action"
-      className={cn("absolute top-2.5 right-3", className)}
-      {...props}
-    />
-  );
-}
-
-export { Alert, AlertAction, AlertDescription, AlertTitle };
+export { Alert, AlertDescription, AlertTitle };

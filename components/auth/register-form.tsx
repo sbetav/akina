@@ -7,7 +7,6 @@ import { RegisterFormSchemaType, registerFormSchema } from "@/lib/form-schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import {
-  AlertCircleIcon,
   ArrowLeftIcon,
   EyeIcon,
   EyeOffIcon,
@@ -53,7 +52,7 @@ const RegisterForm: FC = () => {
       email,
       password,
     }: RegisterFormSchemaType) => {
-      return await authClient.signUp.email({
+      const data = await authClient.signUp.email({
         name: `${firstName} ${lastName}`,
         firstName,
         lastName,
@@ -61,6 +60,7 @@ const RegisterForm: FC = () => {
         password,
         callbackURL: "/dashboard", // <- Verification email will redirect here
       });
+      return data;
     },
   });
 
@@ -221,7 +221,6 @@ const RegisterForm: FC = () => {
 
         {data?.error && (
           <Alert variant="destructive">
-            <AlertCircleIcon />
             <AlertDescription>
               {getAuthErrorMessage(data?.error?.code)}
             </AlertDescription>

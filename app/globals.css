@@ -5,35 +5,57 @@
 @theme inline {
   --font-sans: var(--font-space-grotesk);
   --font-mono: var(--font-jetbrains-mono);
+
   --breakpoint-xs: 420px;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
+
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
+
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
+
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
   --radius-sm: 0 /* calc(var(--radius) - 4px)  */;
   --radius-md: 0 /* calc(var(--radius) - 2px) */;
   --radius-lg: 0 /* var(--radius) */;
   --radius-xl: 0 /* calc(var(--radius) + 4px)  */;
+
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -46,38 +68,58 @@
 
 :root {
   --radius: 0;
-  --background: oklch(0.1543 0 0);
+
+  --background: oklch(0.15 0 0);
   --foreground: oklch(1 0 0);
-  --card: oklch(0.1913 0 0);
+
+  --card: oklch(0.19 0 0);
   --card-foreground: oklch(1 0 0);
-  --popover: oklch(0.1913 0 0);
+
+  --popover: oklch(0.19 0 0);
   --popover-foreground: oklch(1 0 0);
-  --primary: oklch(0.8763 0.227789 152.5496);
-  --primary-foreground: oklch(0.1543 0 0);
-  --secondary: oklch(0.2178 0 0);
+
+  --primary: oklch(0.88 0.23 153);
+  --primary-foreground: oklch(0.15 0 0);
+
+  --secondary: oklch(0.22 0 0);
   --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.2178 0 0);
-  --muted-foreground: oklch(70.9% 0.00008 271.152);
-  --accent: oklch(0.2178 0 0);
+
+  --muted: oklch(0.22 0 0);
+  --muted-foreground: oklch(0.71 0 271);
+
+  --accent: oklch(0.22 0 0);
   --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.6636 0.2231 25.73);
-  --destructive-foreground: oklch(0.1543 0 0);
-  --border: oklch(0.3052 0 0);
-  --input: oklch(0.3052 0 0);
-  --ring: oklch(0.5243 0 0);
-  --chart-1: oklch(0.8763 0.227789 152.5496);
-  --chart-2: oklch(0.7442 0.181171 56.4585);
-  --chart-3: oklch(0.6334 0 0);
-  --chart-4: oklch(0.5243 0 0);
-  --chart-5: oklch(0.6636 0.2231 25.73);
-  --sidebar: oklch(0.1344 0 0);
+
+  --success: oklch(0.8 0.19 155);
+  --success-foreground: oklch(0.15 0 0);
+
+  --info: oklch(0.7 0.15 230);
+  --info-foreground: oklch(0.15 0 0);
+
+  --warning: oklch(0.83 0.19 84);
+  --warning-foreground: oklch(0.15 0 0);
+
+  --destructive: oklch(0.66 0.22 26);
+  --destructive-foreground: oklch(0.15 0 0);
+
+  --border: oklch(0.31 0 0);
+  --input: oklch(0.31 0 0);
+  --ring: oklch(0.52 0 0);
+
+  --chart-1: oklch(0.88 0.23 153);
+  --chart-2: oklch(0.74 0.18 56);
+  --chart-3: oklch(0.63 0 0);
+  --chart-4: oklch(0.52 0 0);
+  --chart-5: oklch(0.66 0.22 26);
+
+  --sidebar: oklch(0.13 0 0);
   --sidebar-foreground: oklch(1 0 0);
-  --sidebar-primary: oklch(0.8763 0.227789 152.5496);
+  --sidebar-primary: oklch(0.88 0.23 153);
   --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.2178 0 0);
+  --sidebar-accent: oklch(0.22 0 0);
   --sidebar-accent-foreground: oklch(1 0 0);
-  --sidebar-border: oklch(0.3052 0 0);
-  --sidebar-ring: oklch(0.5243 0 0);
+  --sidebar-border: oklch(0.31 0 0);
+  --sidebar-ring: oklch(0.52 0 0);
 }
 
 @layer base {

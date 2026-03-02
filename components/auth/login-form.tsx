@@ -8,8 +8,6 @@ import { useRouter } from "@bprogress/next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import {
-  AlertCircleIcon,
-  AlertTriangleIcon,
   EyeIcon,
   EyeOffIcon,
   LockIcon,
@@ -149,7 +147,6 @@ const LoginForm: FC = () => {
 
       {data && data.error && (
         <Alert variant={missingVerification ? "warning" : "destructive"}>
-          {missingVerification ? <AlertTriangleIcon /> : <AlertCircleIcon />}
           <AlertDescription>
             {getAuthErrorMessage(data.error.code)}{" "}
             {missingVerification && (

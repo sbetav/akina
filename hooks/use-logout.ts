@@ -1,6 +1,6 @@
+import { toast } from "@/components/ui/toast";
 import { useRouter } from "@bprogress/next/app";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
 import { authClient } from "../lib/auth-client";
 
 export const useLogout = () => {
