@@ -1,5 +1,6 @@
 "use client";
 
+import { useAnimatedEllipsis } from "@/hooks/use-animated-ellipsis";
 import { useResendVerification } from "@/hooks/use-resend-verification";
 import { authClient } from "@/lib/auth-client";
 import { getAuthErrorMessage } from "@/lib/auth-errors";
@@ -246,7 +247,7 @@ const RegisterForm: FC = () => {
 
 const SuccessContent: FC<{ email: string }> = ({ email }) => {
   const { resend, isPending, timeLeft } = useResendVerification(email);
-
+  const ellipsis = useAnimatedEllipsis(isPending);
   return (
     <div className="flex flex-col gap-8">
       <div className="space-y-4">
@@ -266,7 +267,7 @@ const SuccessContent: FC<{ email: string }> = ({ email }) => {
             onClick={() => resend()}
             disabled={isPending || timeLeft > 0}
           >
-            {isPending ? "Reenviando..." : "Reenviar"}
+            {isPending ? `Reenviando${ellipsis}` : "Reenviar"}
             {timeLeft > 0 && ` (${timeLeft}s)`}
           </Button>
         </p>

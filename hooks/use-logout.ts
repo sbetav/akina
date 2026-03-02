@@ -13,8 +13,8 @@ export const useLogout = () => {
   });
   const logout = async () => {
     toast.promise(mutateAsync(), {
-      loading: "Cerrando sesión...",
-      success: "Sesión finalizada exitosamente",
+      loading: "Cerrando sesión",
+      success: "Sesión finalizada",
       error: "Error al cerrar sesión",
     });
   };

@@ -1,5 +1,6 @@
 "use client";
 
+import { useAnimatedEllipsis } from "@/hooks/use-animated-ellipsis";
 import { useResendVerification } from "@/hooks/use-resend-verification";
 import { authClient } from "@/lib/auth-client";
 import { getAuthErrorMessage } from "@/lib/auth-errors";
@@ -63,6 +64,8 @@ const LoginForm: FC = () => {
     isPending: isResending,
     timeLeft,
   } = useResendVerification(email, 59, 0);
+
+  const ellipsis = useAnimatedEllipsis(isResending);
 
   const onSubmit = handleSubmit((data) => {
     mutate(data);
@@ -153,15 +156,11 @@ const LoginForm: FC = () => {
               <Button
                 variant="link"
                 size="xs"
-                className="text-foreground/90 normal-case underline disabled:no-underline"
+                className="text-foreground/90 mt-0.5 normal-case underline disabled:no-underline"
                 onClick={() => resend()}
                 disabled={isResending || timeLeft > 0}
               >
-                {isResending
-                  ? "Reenviando..."
-                  : timeLeft > 0
-                    ? "Reenviar"
-                    : "Reenviar correo"}
+                {isResending ? `REENVIANDO${ellipsis}` : "REENVIAR"}
                 {timeLeft > 0 && ` (${timeLeft}s)`}
               </Button>
             )}
