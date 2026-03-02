@@ -90,13 +90,15 @@ function Toast({
           )}
         </div>
 
-        <button
-          onClick={() => sonnerToast.dismiss(id)}
-          className="mt-px ml-auto shrink-0 cursor-pointer transition-opacity hover:opacity-75"
-          aria-label="Dismiss"
-        >
-          <XIcon className="size-4" />
-        </button>
+        {variant !== "loading" && (
+          <button
+            onClick={() => sonnerToast.dismiss(id)}
+            className="mt-px ml-auto shrink-0 cursor-pointer transition-opacity hover:opacity-75"
+            aria-label="Dismiss"
+          >
+            <XIcon className="size-4" />
+          </button>
+        )}
       </div>
     </div>
   );
