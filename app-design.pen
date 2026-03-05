@@ -960,7 +960,7 @@
                           "id": "brandLine1a",
                           "name": "brandLine1a",
                           "fill": "#FFFFFF",
-                          "content": "El sistema ",
+                          "content": "Facturación ",
                           "fontFamily": "Space Grotesk",
                           "fontSize": 36,
                           "fontWeight": "600",
@@ -971,18 +971,7 @@
                           "id": "brandLine1b",
                           "name": "brandLine1b",
                           "fill": "#00FF88",
-                          "content": "POS",
-                          "fontFamily": "Space Grotesk",
-                          "fontSize": 36,
-                          "fontWeight": "600",
-                          "letterSpacing": -1
-                        },
-                        {
-                          "type": "text",
-                          "id": "brandLine1c",
-                          "name": "brandLine1c",
-                          "fill": "#FFFFFF",
-                          "content": " ideal",
+                          "content": "electrónica",
                           "fontFamily": "Space Grotesk",
                           "fontSize": 36,
                           "fontWeight": "600",
@@ -995,7 +984,7 @@
                       "id": "brandLine2",
                       "name": "brandLine2",
                       "fill": "#FFFFFF",
-                      "content": "para tu negocio",
+                      "content": "sin complicaciones",
                       "textAlign": "right",
                       "fontFamily": "Space Grotesk",
                       "fontSize": 36,
@@ -1009,7 +998,7 @@
                   "id": "brandSubtitle",
                   "name": "brandSubtitle",
                   "fill": "#6a6a6a",
-                  "content": "AKINA POS © 2026",
+                  "content": "AKINA © 2026",
                   "textAlign": "right",
                   "fontFamily": "JetBrains Mono",
                   "fontSize": 11,
@@ -1836,7 +1825,7 @@
                           "id": "Reg77",
                           "name": "brandLine1a",
                           "fill": "#FFFFFF",
-                          "content": "El sistema ",
+                          "content": "Facturación ",
                           "fontFamily": "Space Grotesk",
                           "fontSize": 36,
                           "fontWeight": "600",
@@ -1847,18 +1836,7 @@
                           "id": "Reg78",
                           "name": "brandLine1b",
                           "fill": "#00FF88",
-                          "content": "POS",
-                          "fontFamily": "Space Grotesk",
-                          "fontSize": 36,
-                          "fontWeight": "600",
-                          "letterSpacing": -1
-                        },
-                        {
-                          "type": "text",
-                          "id": "Reg79",
-                          "name": "brandLine1c",
-                          "fill": "#FFFFFF",
-                          "content": " ideal",
+                          "content": "electrónica",
                           "fontFamily": "Space Grotesk",
                           "fontSize": 36,
                           "fontWeight": "600",
@@ -1871,7 +1849,7 @@
                       "id": "Reg80",
                       "name": "brandLine2",
                       "fill": "#FFFFFF",
-                      "content": "para tu negocio",
+                      "content": "sin complicaciones",
                       "textAlign": "right",
                       "fontFamily": "Space Grotesk",
                       "fontSize": 36,
@@ -1885,7 +1863,7 @@
                   "id": "Reg81",
                   "name": "brandSubtitle",
                   "fill": "#6a6a6a",
-                  "content": "AKINA POS © 2026",
+                  "content": "AKINA © 2026",
                   "textAlign": "right",
                   "fontFamily": "JetBrains Mono",
                   "fontSize": 11,
@@ -1995,6 +1973,7 @@
                       "width": 52,
                       "height": 52,
                       "fill": "#113725",
+                      "cornerRadius": 26,
                       "stroke": {
                         "align": "outside",
                         "thickness": 4,
@@ -2014,8 +1993,7 @@
                           "iconFontFamily": "lucide",
                           "fill": "#00FF88"
                         }
-                      ],
-                      "cornerRadius": 26
+                      ]
                     },
                     {
                       "type": "frame",
@@ -2193,7 +2171,7 @@
               "id": "FP060",
               "name": "copyright",
               "fill": "#4a4a4a",
-              "content": "AKINA POS © 2026",
+              "content": "AKINA © 2026",
               "fontFamily": "JetBrains Mono",
               "fontSize": 10,
               "fontWeight": "500",
@@ -2300,6 +2278,7 @@
                       "width": 52,
                       "height": 52,
                       "fill": "#113725",
+                      "cornerRadius": 26,
                       "stroke": {
                         "align": "outside",
                         "thickness": 4,
@@ -2319,8 +2298,7 @@
                           "iconFontFamily": "lucide",
                           "fill": "#00FF88"
                         }
-                      ],
-                      "cornerRadius": 26
+                      ]
                     },
                     {
                       "type": "frame",
@@ -2405,7 +2383,7 @@
               "id": "FC060",
               "name": "copyright",
               "fill": "#4a4a4a",
-              "content": "AKINA POS © 2026",
+              "content": "AKINA © 2026",
               "fontFamily": "JetBrains Mono",
               "fontSize": 10,
               "fontWeight": "500",
@@ -2512,6 +2490,7 @@
                       "width": 52,
                       "height": 52,
                       "fill": "#113725",
+                      "cornerRadius": 26,
                       "stroke": {
                         "align": "outside",
                         "thickness": 4,
@@ -2531,8 +2510,7 @@
                           "iconFontFamily": "lucide",
                           "fill": "#00FF88"
                         }
-                      ],
-                      "cornerRadius": 26
+                      ]
                     },
                     {
                       "type": "frame",
@@ -2789,7 +2767,7 @@
               "id": "RP060",
               "name": "copyright",
               "fill": "#4a4a4a",
-              "content": "AKINA POS © 2026",
+              "content": "AKINA © 2026",
               "fontFamily": "JetBrains Mono",
               "fontSize": 10,
               "fontWeight": "500",
@@ -2896,6 +2874,7 @@
                       "width": 52,
                       "height": 52,
                       "fill": "#113725",
+                      "cornerRadius": 26,
                       "stroke": {
                         "align": "outside",
                         "thickness": 4,
@@ -2915,8 +2894,7 @@
                           "iconFontFamily": "lucide",
                           "fill": "#00FF88"
                         }
-                      ],
-                      "cornerRadius": 26
+                      ]
                     },
                     {
                       "type": "frame",
@@ -3244,7 +3222,7 @@
               "id": "OT060",
               "name": "copyright",
               "fill": "#4a4a4a",
-              "content": "AKINA POS © 2026",
+              "content": "AKINA © 2026",
               "fontFamily": "JetBrains Mono",
               "fontSize": 10,
               "fontWeight": "500",
@@ -3691,7 +3669,7 @@
                           "id": "RS077",
                           "name": "brandLine1a",
                           "fill": "#FFFFFF",
-                          "content": "El sistema ",
+                          "content": "Facturación ",
                           "fontFamily": "Space Grotesk",
                           "fontSize": 36,
                           "fontWeight": "600",
@@ -3702,18 +3680,7 @@
                           "id": "RS078",
                           "name": "brandLine1b",
                           "fill": "#00FF88",
-                          "content": "POS",
-                          "fontFamily": "Space Grotesk",
-                          "fontSize": 36,
-                          "fontWeight": "600",
-                          "letterSpacing": -1
-                        },
-                        {
-                          "type": "text",
-                          "id": "RS079",
-                          "name": "brandLine1c",
-                          "fill": "#FFFFFF",
-                          "content": " ideal",
+                          "content": "electrónica",
                           "fontFamily": "Space Grotesk",
                           "fontSize": 36,
                           "fontWeight": "600",
@@ -3726,7 +3693,7 @@
                       "id": "RS080",
                       "name": "brandLine2",
                       "fill": "#FFFFFF",
-                      "content": "para tu negocio",
+                      "content": "sin complicaciones",
                       "textAlign": "right",
                       "fontFamily": "Space Grotesk",
                       "fontSize": 36,
@@ -3740,7 +3707,7 @@
                   "id": "RS081",
                   "name": "brandSubtitle",
                   "fill": "#6a6a6a",
-                  "content": "AKINA POS © 2026",
+                  "content": "AKINA © 2026",
                   "textAlign": "right",
                   "fontFamily": "JetBrains Mono",
                   "fontSize": 11,
@@ -3948,7 +3915,7 @@
                   "fill": "#00FF88",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "https://app.akina.pos/verify?token=abc123def456",
+                  "content": "https://akina.app/verify?token=abc123def456",
                   "lineHeight": 1.4,
                   "fontFamily": "JetBrains Mono",
                   "fontSize": 11,
@@ -3982,7 +3949,7 @@
               "textGrowth": "fixed-width-height",
               "width": "fill_container",
               "height": "fill_container",
-              "content": "AKINA POS © 2026",
+              "content": "AKINA © 2026",
               "textAlign": "center",
               "textAlignVertical": "middle",
               "fontFamily": "JetBrains Mono",
@@ -4233,7 +4200,7 @@
               "id": "PR044",
               "name": "copyright",
               "fill": "#4a4a4a",
-              "content": "AKINA POS © 2026",
+              "content": "AKINA © 2026",
               "textAlign": "center",
               "fontFamily": "JetBrains Mono",
               "fontSize": 10,
@@ -4341,6 +4308,7 @@
                       "width": 52,
                       "height": 52,
                       "fill": "#113725",
+                      "cornerRadius": 26,
                       "stroke": {
                         "align": "outside",
                         "thickness": 4,
@@ -4360,8 +4328,7 @@
                           "iconFontFamily": "lucide",
                           "fill": "$green-primary"
                         }
-                      ],
-                      "cornerRadius": 26
+                      ]
                     },
                     {
                       "type": "frame",
@@ -4441,7 +4408,7 @@
               "id": "IL060",
               "name": "copyright",
               "fill": "#4a4a4a",
-              "content": "AKINA POS © 2026",
+              "content": "AKINA © 2026",
               "fontFamily": "JetBrains Mono",
               "fontSize": 10,
               "fontWeight": "500",

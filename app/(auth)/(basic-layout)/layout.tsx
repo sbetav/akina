@@ -11,7 +11,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
       <AppLogo />
       {children}
       <span className="text-foreground/60 text-xs">
-        AKINA POS &copy; {new Date().getFullYear()}
+        AKINA &copy; {new Date().getFullYear()}
       </span>
     </div>
   );

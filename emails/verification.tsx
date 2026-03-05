@@ -160,7 +160,7 @@ function VerificationEmail({
                   margin: 0,
                 }}
               >
-                AKINA POS © {new Date().getFullYear()}
+                AKINA © {new Date().getFullYear()}
               </Text>
             </Section>
           </Container>

@@ -16,8 +16,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Akina | Sistema POS",
-  description: "Sistema POS para la gestión de ventas y inventario",
+  title: "Akina | Facturación electrónica",
+  description: "Facturación electrónica sin complicaciones",
 };
 
 export default function RootLayout({

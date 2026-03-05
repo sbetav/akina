@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "akina-pos",
+      "name": "akina",
       "dependencies": {
         "@base-ui/react": "^1.2.0",
         "@bprogress/next": "^3.2.12",

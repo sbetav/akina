@@ -32,11 +32,11 @@ const Layout: FC<LayoutProps> = ({ children }) => {
         <div className="absolute right-26 bottom-26 z-11 flex max-w-[400px] flex-col items-end font-sans text-4xl font-semibold">
           <AppLogo size={32} />
           <p className="mt-5 text-right tracking-tight">
-            El sistema <span className="text-primary underline">POS</span> ideal
-            para tu negocio
+            Facturación <span className="text-primary">electrónica</span> sin
+            complicaciones
           </p>
           <span className="text-foreground/60 mt-6 text-xs">
-            AKINA POS &copy; {new Date().getFullYear()}
+            AKINA &copy; {new Date().getFullYear()}
           </span>
         </div>
       </section>
