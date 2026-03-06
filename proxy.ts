@@ -1,4 +1,4 @@
-import { getCookieCache } from "better-auth/cookies";
+import { getSessionCookie } from "better-auth/cookies";
 import { NextRequest, NextResponse } from "next/server";
 import { AUTH_COOKIE_PREFIX } from "./lib/constants";
 
@@ -12,20 +12,19 @@ const authRoutes = [
 ];
 
 export async function proxy(request: NextRequest) {
-  const sessionCookie = await getCookieCache(request, {
+  const sessionCookie = getSessionCookie(request, {
     cookiePrefix: AUTH_COOKIE_PREFIX,
   });
 
   const { pathname } = request.nextUrl;
-  const hasSession = !!sessionCookie;
   const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
   const isDashboardRoute = pathname.startsWith("/dashboard");
 
-  if (hasSession && isAuthRoute) {
+  if (sessionCookie && isAuthRoute) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  if (!hasSession && isDashboardRoute) {
+  if (!sessionCookie && isDashboardRoute) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
