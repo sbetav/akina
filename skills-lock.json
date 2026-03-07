@@ -1,4 +1,4 @@
-﻿{
+{
   "version": 1,
   "skills": {
     "better-auth-best-practices": {
@@ -20,6 +20,11 @@
       "source": "vercel-labs/next-skills",
       "sourceType": "github",
       "computedHash": "c31ddd68ba5798a79a516c619b1e1fc4408cc4876ad600fefa4f5add4425719d"
+    },
+    "react-doctor": {
+      "source": "millionco/react-doctor",
+      "sourceType": "github",
+      "computedHash": "276053f3861a6f29e2ab1922fc91281934dac5be78f85ec9f21604fd979383ee"
     },
     "vercel-react-best-practices": {
       "source": "vercel-labs/agent-skills",
