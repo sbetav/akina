@@ -19,11 +19,12 @@ import {
 import { Spinner } from "./spinner";
 
 const toastVariants = cva(
-  "relative flex w-full items-start gap-2.5 border px-4 py-3 font-mono text-sm sm:w-[356px]",
+  "relative flex w-full items-start gap-2.5 border px-4 py-3 font-mono text-sm before:absolute before:top-0 before:left-0 before:h-full before:w-[3px] before:bg-current before:content-[''] sm:w-[356px]",
   {
     variants: {
       variant: {
-        default: "text-popover-foreground border-border bg-popover",
+        default:
+          "text-popover-foreground border-border bg-popover before:bg-border",
         success: "text-success border-success/20 bg-success/10",
         error: "text-destructive border-destructive/20 bg-destructive/10",
         warning: "text-warning border-warning/20 bg-warning/10",
@@ -75,7 +76,9 @@ function Toast({
         <div className="flex flex-1 flex-col gap-0.5">
           <p className="leading-snug font-medium">{title}</p>
           {description && (
-            <p className="text-[0.8rem] opacity-90">{description}</p>
+            <p className={cn("text-foreground/60 text-[0.8rem]")}>
+              {description}
+            </p>
           )}
           {action && (
             <button

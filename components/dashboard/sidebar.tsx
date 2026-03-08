@@ -93,7 +93,7 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
       )}
       <aside
         className={cn(
-          "border-border bg-sidebar z-50 flex h-dvh w-full max-w-[320px] flex-col justify-between py-6 transition duration-700 ease-in-out md:border-r md:py-8 md:transition-none",
+          "border-border bg-sidebar z-50 flex h-dvh w-full max-w-[320px] flex-col justify-between py-6 pb-4 transition duration-700 ease-in-out md:border-r md:py-8 md:transition-none",
           {
             "fixed top-0 left-0 max-w-none": isMobile,
             "-translate-x-full": isMobile && !isOpen,
@@ -127,15 +127,13 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
                       }
                     }}
                     className={cn(
-                      "hover:bg-accent hover:text-foreground text-muted-foreground relative flex items-center gap-2.5 px-6 py-2.5 text-sm font-medium transition",
+                      "hover:bg-accent hover:text-foreground text-muted-foreground relative flex items-center gap-2.5 px-6 py-2.5 text-sm font-medium transition before:absolute before:top-0 before:left-0 before:h-full before:w-[3px] before:bg-transparent",
                       {
-                        "bg-primary/10! text-primary!": isActive,
+                        "bg-primary/10! text-primary! before:bg-primary!":
+                          isActive,
                       },
                     )}
                   >
-                    {isActive && (
-                      <div className="bg-primary absolute top-0 left-0 h-full w-[3px]"></div>
-                    )}
                     <Icon className="size-4" />
                     {link.label}
                   </Link>
