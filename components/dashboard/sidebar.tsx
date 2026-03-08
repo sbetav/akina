@@ -1,13 +1,13 @@
 "use client";
 
 import { useLogout } from "@/hooks/use-logout";
-import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 import type { User } from "better-auth";
 import { usePathname } from "next/navigation";
 import type { FC } from "react";
 import { useState } from "react";
 
+import { useRouter } from "@bprogress/next";
 import {
   ChevronDownIcon,
   CreditCardIcon,
@@ -23,7 +23,6 @@ import {
   UsersIcon,
   XIcon,
 } from "lucide-react";
-import Link from "next/link";
 import GitHubIcon from "../icons/github-icon";
 import { AppLogo } from "../ui/app-logo";
 import { Avatar, AvatarFallback } from "../ui/avatar";
@@ -43,7 +42,6 @@ interface SideBarProps {
 }
 
 const SideBar: FC<SideBarProps> = ({ user }) => {
-  const isMobile = useMediaQuery("(max-width: 768px)");
   const [isOpen, setIsOpen] = useState(false);
   const toggleSidebar = () => setIsOpen((prev) => !prev);
 
@@ -59,7 +57,6 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
       label: "Nueva factura",
       icon: FilePlusIcon,
     },
-
     {
       href: "/dashboard/clients",
       label: "Clientes",
@@ -78,36 +75,38 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
   ];
 
   const { logout, isPending } = useLogout();
+  const router = useRouter();
 
   return (
     <>
-      {isMobile && (
-        <Button
-          variant="outline"
-          size="icon-sm"
-          className="bg-bg absolute top-6 right-6 z-40"
-          onClick={toggleSidebar}
-        >
-          <MenuIcon />
-        </Button>
-      )}
+      <Button
+        variant="outline"
+        size="icon-sm"
+        className="bg-bg absolute top-6 right-6 z-40 md:hidden"
+        onClick={toggleSidebar}
+      >
+        <MenuIcon />
+      </Button>
+
       <aside
         className={cn(
-          "border-border bg-sidebar z-50 flex h-dvh w-full max-w-[320px] flex-col justify-between py-6 pb-4 transition duration-700 ease-in-out md:border-r md:py-8 md:transition-none",
+          "border-border bg-sidebar fixed top-0 left-0 z-50 flex h-dvh w-full flex-col justify-between py-6 pb-4 transition duration-700 ease-in-out md:relative md:z-auto md:max-w-[320px] md:translate-x-0 md:border-r md:py-8 md:transition-none",
           {
-            "fixed top-0 left-0 max-w-none": isMobile,
-            "-translate-x-full": isMobile && !isOpen,
+            "-translate-x-full": !isOpen,
           },
         )}
       >
         <div className="space-y-16">
           <div className="flex items-center justify-between px-6">
             <AppLogo />
-            {isMobile && (
-              <Button variant="outline" size="icon-sm" onClick={toggleSidebar}>
-                <XIcon />
-              </Button>
-            )}
+            <Button
+              variant="outline"
+              size="icon-sm"
+              onClick={toggleSidebar}
+              className="md:hidden"
+            >
+              <XIcon />
+            </Button>
           </div>
           <div className="flex flex-col gap-4">
             <span className="text-muted-foreground px-6 text-xs font-medium uppercase">
@@ -118,16 +117,18 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
                 const Icon = link.icon;
                 const isActive = pathname === link.href;
                 return (
-                  <Link
+                  <button
+                    type="button"
+                    aria-label={`Ir a ${link.label}`}
                     key={link.href}
-                    href={link.href}
                     onClick={() => {
-                      if (isMobile) {
-                        setIsOpen(false);
-                      }
+                      setIsOpen(false);
+                      setTimeout(() => {
+                        router.push(link.href);
+                      }, 10);
                     }}
                     className={cn(
-                      "hover:bg-accent hover:text-foreground text-muted-foreground relative flex items-center gap-2.5 px-6 py-2.5 text-sm font-medium transition before:absolute before:top-0 before:left-0 before:h-full before:w-[3px] before:bg-transparent",
+                      "hover:bg-accent hover:text-foreground text-muted-foreground relative flex w-full cursor-pointer items-center gap-2.5 px-6 py-2.5 text-sm font-medium transition-all before:absolute before:top-0 before:left-0 before:h-full before:w-[3px] before:bg-transparent before:transition-all",
                       {
                         "bg-primary/10! text-primary! before:bg-primary!":
                           isActive,
@@ -136,12 +137,13 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
                   >
                     <Icon className="size-4" />
                     {link.label}
-                  </Link>
+                  </button>
                 );
               })}
             </div>
           </div>
         </div>
+
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
