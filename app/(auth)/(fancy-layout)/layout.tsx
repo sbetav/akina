@@ -29,13 +29,13 @@ const Layout: FC<LayoutProps> = ({ children }) => {
         />
 
         {/* TEXT */}
-        <div className="absolute right-26 bottom-26 z-11 flex max-w-[400px] flex-col items-end font-sans text-4xl font-semibold">
+        <div className="absolute right-26 bottom-26 z-11 flex max-w-[400px] flex-col items-end gap-5 font-sans text-4xl font-semibold">
           <AppLogo size={32} />
-          <p className="mt-5 text-right tracking-tight">
+          <p className="text-right tracking-tight">
             Facturación <span className="text-primary">electrónica</span> sin
             complicaciones
           </p>
-          <span className="text-foreground/60 mt-6 text-xs">
+          <span className="text-foreground/60 text-xs">
             AKINA &copy; {new Date().getFullYear()}
           </span>
         </div>
