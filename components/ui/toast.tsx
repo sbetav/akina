@@ -19,7 +19,7 @@ import {
 import { Spinner } from "./spinner";
 
 const toastVariants = cva(
-  "rounded-(var(--radius)) relative flex w-full items-start gap-2.5 border px-4 py-3 font-mono text-sm sm:w-[356px]",
+  "relative flex w-full items-start gap-2.5 border px-4 py-3 font-mono text-sm sm:w-[356px]",
   {
     variants: {
       variant: {

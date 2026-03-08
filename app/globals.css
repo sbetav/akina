@@ -51,11 +51,6 @@
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
 
-  --radius-sm: 0 /* calc(var(--radius) - 4px)  */;
-  --radius-md: 0 /* calc(var(--radius) - 2px) */;
-  --radius-lg: 0 /* var(--radius) */;
-  --radius-xl: 0 /* calc(var(--radius) + 4px)  */;
-
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -67,8 +62,6 @@
 }
 
 :root {
-  --radius: 0;
-
   --background: oklch(0.15 0 0);
   --foreground: oklch(1 0 0);
 

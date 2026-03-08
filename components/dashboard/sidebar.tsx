@@ -127,7 +127,7 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
                       }
                     }}
                     className={cn(
-                      "hover:bg-accent hover:text-foreground text-muted-foreground relative flex items-center gap-2.5 rounded-lg px-6 py-2.5 text-sm font-medium transition",
+                      "hover:bg-accent hover:text-foreground text-muted-foreground relative flex items-center gap-2.5 px-6 py-2.5 text-sm font-medium transition",
                       {
                         "bg-primary/10! text-primary!": isActive,
                       },

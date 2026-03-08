@@ -32,7 +32,7 @@ function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="input-otp-group"
       className={cn(
-        "has-aria-invalid:ring-destructive/20 dark:has-aria-invalid:ring-destructive/40 has-aria-invalid:border-destructive xs:gap-2 flex min-w-0 items-center gap-1.5 rounded-md",
+        "has-aria-invalid:ring-destructive/40 has-aria-invalid:border-destructive xs:gap-2 flex min-w-0 items-center gap-1.5",
         className,
       )}
       {...props}
@@ -58,7 +58,7 @@ function InputOTPSlot({
       data-slot="input-otp-slot"
       data-active={isActive}
       className={cn(
-        "dark:bg-input/30 border-input data-[active=true]:border-ring data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:ring-destructive/20 dark:data-[active=true]:aria-invalid:ring-destructive/40 aria-invalid:border-destructive data-[active=true]:aria-invalid:border-destructive xs:h-13 xs:w-11 xs:text-base relative flex h-11 w-9 min-w-0 shrink items-center justify-center border text-sm shadow-xs transition-all outline-none first:rounded-l-md data-[active=true]:z-10 data-[active=true]:ring-3",
+        "bg-input/30 border-input data-[active=true]:border-ring data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:ring-destructive/40 aria-invalid:border-destructive data-[active=true]:aria-invalid:border-destructive xs:h-13 xs:w-11 xs:text-base relative flex h-11 w-9 min-w-0 shrink items-center justify-center border text-sm shadow-xs transition-all outline-none data-[active=true]:z-10 data-[active=true]:ring-3",
         className,
       )}
       {...props}
