@@ -28,7 +28,7 @@ const AuthFormCard: FC<AuthFormCardProps> = ({
         )}
       >
         <div className="flex w-full flex-col items-center justify-center text-center">
-          <div className="text-primary bg-primary/15 ring-primary/10 mb-5 rounded-full p-3 ring-4 [&_svg]:size-7">
+          <div className="text-primary bg-primary/20 ring-primary/10 mb-5 rounded-full p-3 ring-4 [&_svg]:size-7">
             {icon}
           </div>
           <p className="mb-2 text-sm font-bold uppercase">{heading}</p>
