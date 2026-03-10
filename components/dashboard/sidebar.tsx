@@ -11,13 +11,10 @@ import { useRouter } from "@bprogress/next";
 import {
   ChevronDownIcon,
   CreditCardIcon,
-  FilePlusIcon,
   HeadsetIcon,
-  HistoryIcon,
   LayoutDashboardIcon,
   LogOutIcon,
   MenuIcon,
-  PackageIcon,
   SettingsIcon,
   UserIcon,
   UsersIcon,
@@ -53,24 +50,9 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
       icon: LayoutDashboardIcon,
     },
     {
-      href: "/dashboard/new-invoice",
-      label: "Nueva factura",
-      icon: FilePlusIcon,
-    },
-    {
-      href: "/dashboard/clients",
+      href: "/dashboard/customers",
       label: "Clientes",
       icon: UsersIcon,
-    },
-    {
-      href: "/dashboard/products",
-      label: "Productos",
-      icon: PackageIcon,
-    },
-    {
-      href: "/dashboard/history",
-      label: "Historial",
-      icon: HistoryIcon,
     },
   ];
 
@@ -90,7 +72,7 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
 
       <aside
         className={cn(
-          "border-border bg-sidebar fixed top-0 left-0 z-50 flex h-dvh w-full flex-col justify-between py-6 pb-4 transition duration-700 ease-in-out md:relative md:z-auto md:max-w-[320px] md:translate-x-0 md:border-r md:py-8 md:transition-none",
+          "border-border bg-sidebar fixed top-0 left-0 z-50 flex h-dvh w-full flex-col justify-between py-6 pb-4 transition duration-700 ease-in-out md:relative md:z-auto md:max-w-[320px] md:translate-x-0 md:border-r md:py-8 md:pb-6 md:transition-none",
           {
             "-translate-x-full": !isOpen,
           },
@@ -109,7 +91,7 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <span className="text-muted-foreground px-6 text-xs font-medium uppercase">
+            <span className="text-muted-foreground/70 px-6 text-xs font-medium uppercase">
               // Menú
             </span>
             <div className="space-y-1">
