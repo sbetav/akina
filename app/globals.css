@@ -96,7 +96,7 @@
   --destructive-foreground: oklch(0.15 0 0);
 
   --border: oklch(0.31 0 0);
-  --input: oklch(0.19 0 0);
+  --input: oklch(0.16 0 0);
   --ring: oklch(0.52 0 0);
 
   --chart-1: oklch(0.88 0.23 153);
@@ -146,4 +146,14 @@ input:-webkit-autofill:focus {
 
 .animate-caret-blink {
   animation: caret-blink 1s steps(1, end) infinite;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: color-mix(in srgb, var(--border) 30%, transparent);
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--border) 60%, transparent);
 }

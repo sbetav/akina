@@ -1,6 +1,6 @@
 import { toast } from "@/components/ui/toast";
-import { authClient } from "@/lib/auth-client";
-import { getAuthErrorMessage } from "@/lib/auth-errors";
+import { authClient } from "@/lib/auth/client";
+import { getAuthErrorMessage } from "@/lib/auth/utils";
 import { useMutation } from "@tanstack/react-query";
 import { useCountdown } from "./use-countdown";
 

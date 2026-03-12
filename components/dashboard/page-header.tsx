@@ -17,7 +17,10 @@ function PageHeaderContent({
   return (
     <div
       data-slot="page-header-content"
-      className={cn("space-y-1.5", className)}
+      className={cn(
+        "flex flex-col items-start gap-1.5 **:data-[role='back-button']:mb-2.5",
+        className,
+      )}
       {...props}
     />
   );
@@ -28,7 +31,7 @@ function PageHeaderTitle({ className, ...props }: React.ComponentProps<"h2">) {
     <h2
       data-slot="page-header-title"
       className={cn(
-        "font-sans text-4xl font-semibold tracking-tight",
+        "font-sans text-3xl font-semibold tracking-tight",
         className,
       )}
       {...props}
@@ -43,7 +46,7 @@ function PageHeaderDescription({
   return (
     <p
       data-slot="page-header-description"
-      className={cn("text-muted-foreground text-sm uppercase", className)}
+      className={cn("text-muted-foreground text-xs uppercase", className)}
       {...props}
     />
   );

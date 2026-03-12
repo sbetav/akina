@@ -5,7 +5,7 @@ import {
   PageHeaderDescription,
   PageHeaderTitle,
 } from "@/components/dashboard/page-header";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Empty,
   EmptyContent,
@@ -20,6 +20,7 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { PlusIcon, SearchIcon, UsersIcon } from "lucide-react";
+import Link from "next/link";
 import { FC } from "react";
 
 const Page: FC = () => {
@@ -31,10 +32,13 @@ const Page: FC = () => {
           <PageHeaderDescription>// Gestión de terceros</PageHeaderDescription>
         </PageHeaderContent>
         <PageHeaderActions>
-          <Button size="lg">
+          <Link
+            href="/dashboard/customers/new"
+            className={buttonVariants({ size: "lg" })}
+          >
             <PlusIcon />
             Nuevo cliente
-          </Button>
+          </Link>
         </PageHeaderActions>
       </PageHeader>
       <InputGroup>
@@ -55,10 +59,13 @@ const Page: FC = () => {
           </EmptyDescription>
         </EmptyHeader>
         <EmptyContent>
-          <Button size="lg">
+          <Link
+            href="/dashboard/customers/new"
+            className={buttonVariants({ size: "lg" })}
+          >
             <PlusIcon />
             Nuevo cliente
-          </Button>
+          </Link>
         </EmptyContent>
       </Empty>
     </div>

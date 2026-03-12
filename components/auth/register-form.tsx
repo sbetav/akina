@@ -2,9 +2,9 @@
 
 import { useAnimatedEllipsis } from "@/hooks/use-animated-ellipsis";
 import { useResendVerification } from "@/hooks/use-resend-verification";
-import { authClient } from "@/lib/auth-client";
-import { getAuthErrorMessage } from "@/lib/auth-errors";
-import { RegisterFormSchemaType, registerFormSchema } from "@/lib/form-schemas";
+import { authClient } from "@/lib/auth/client";
+import { getAuthErrorMessage } from "@/lib/auth/utils";
+import { RegisterFormValues, registerFormSchema } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -33,7 +33,7 @@ const RegisterForm: FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const { handleSubmit, control, watch } = useForm<RegisterFormSchemaType>({
+  const { handleSubmit, control, watch } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
       firstName: "",
@@ -52,7 +52,7 @@ const RegisterForm: FC = () => {
       lastName,
       email,
       password,
-    }: RegisterFormSchemaType) => {
+    }: RegisterFormValues) => {
       const data = await authClient.signUp.email({
         name: `${firstName} ${lastName}`,
         firstName,

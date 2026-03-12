@@ -1,11 +1,11 @@
 "use client";
 
-import { authClient } from "@/lib/auth-client";
-import { getAuthErrorMessage } from "@/lib/auth-errors";
+import { authClient } from "@/lib/auth/client";
+import { getAuthErrorMessage } from "@/lib/auth/utils";
 import {
-  ForgotPasswordFormSchemaType,
+  ForgotPasswordFormValues,
   forgotPasswordFormSchema,
-} from "@/lib/form-schemas";
+} from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -31,16 +31,15 @@ import { Spinner } from "../ui/spinner";
 import AuthFormCard from "./auth-form-card";
 
 const ForgotPasswordForm: FC = () => {
-  const { handleSubmit, control, reset } =
-    useForm<ForgotPasswordFormSchemaType>({
-      resolver: zodResolver(forgotPasswordFormSchema),
-      defaultValues: {
-        email: "",
-      },
-    });
+  const { handleSubmit, control, reset } = useForm<ForgotPasswordFormValues>({
+    resolver: zodResolver(forgotPasswordFormSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
 
   const { mutate, isPending, data } = useMutation({
-    mutationFn: async ({ email }: ForgotPasswordFormSchemaType) => {
+    mutationFn: async ({ email }: ForgotPasswordFormValues) => {
       return await authClient.requestPasswordReset({
         email,
         fetchOptions: {

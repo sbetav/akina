@@ -64,7 +64,7 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
       <Button
         variant="outline"
         size="icon-sm"
-        className="bg-bg absolute top-6 right-6 z-40 md:hidden"
+        className="bg-bg absolute top-6 right-6 z-40 lg:hidden"
         onClick={toggleSidebar}
       >
         <MenuIcon />
@@ -72,7 +72,7 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
 
       <aside
         className={cn(
-          "border-border bg-sidebar fixed top-0 left-0 z-50 flex h-dvh w-full flex-col justify-between py-6 pb-4 transition duration-700 ease-in-out md:relative md:z-auto md:max-w-[320px] md:translate-x-0 md:border-r md:py-8 md:pb-6 md:transition-none",
+          "border-border bg-sidebar fixed top-0 left-0 z-50 flex h-dvh w-full flex-col justify-between py-6 pb-4 transition duration-700 ease-in-out lg:relative lg:z-auto lg:max-w-[320px] lg:translate-x-0 lg:border-r lg:py-8 lg:pb-6 lg:transition-none",
           {
             "-translate-x-full": !isOpen,
           },
@@ -85,7 +85,7 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
               variant="outline"
               size="icon-sm"
               onClick={toggleSidebar}
-              className="md:hidden"
+              className="lg:hidden"
             >
               <XIcon />
             </Button>
@@ -97,7 +97,10 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
             <div className="space-y-1">
               {links.map((link) => {
                 const Icon = link.icon;
-                const isActive = pathname === link.href;
+                const isDashboard = link.href === "/dashboard";
+                const isActive = isDashboard
+                  ? pathname === link.href
+                  : pathname.startsWith(link.href);
                 return (
                   <button
                     type="button"

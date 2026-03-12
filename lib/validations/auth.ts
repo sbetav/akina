@@ -8,7 +8,7 @@ export const loginFormSchema = z.object({
   password: z.string("Campo requerido").nonempty("Campo requerido"),
 });
 
-export type LoginFormSchemaType = z.infer<typeof loginFormSchema>;
+export type LoginFormValues = z.infer<typeof loginFormSchema>;
 
 export const registerFormSchema = z
   .object({
@@ -31,7 +31,7 @@ export const registerFormSchema = z
     message: "Las contraseñas no coinciden",
   });
 
-export type RegisterFormSchemaType = z.infer<typeof registerFormSchema>;
+export type RegisterFormValues = z.infer<typeof registerFormSchema>;
 
 export const forgotPasswordFormSchema = z.object({
   email: z.email({
@@ -40,9 +40,7 @@ export const forgotPasswordFormSchema = z.object({
   }),
 });
 
-export type ForgotPasswordFormSchemaType = z.infer<
-  typeof forgotPasswordFormSchema
->;
+export type ForgotPasswordFormValues = z.infer<typeof forgotPasswordFormSchema>;
 
 export const resetPasswordFormSchema = z
   .object({
@@ -59,9 +57,7 @@ export const resetPasswordFormSchema = z
     message: "Las contraseñas no coinciden",
   });
 
-export type ResetPasswordFormSchemaType = z.infer<
-  typeof resetPasswordFormSchema
->;
+export type ResetPasswordFormValues = z.infer<typeof resetPasswordFormSchema>;
 
 export const emailOtpFormSchema = z.object({
   otp: z
@@ -70,4 +66,4 @@ export const emailOtpFormSchema = z.object({
     .length(6, "El código debe tener 6 dígitos"),
 });
 
-export type EmailOtpFormSchemaType = z.infer<typeof emailOtpFormSchema>;
+export type EmailOtpFormValues = z.infer<typeof emailOtpFormSchema>;

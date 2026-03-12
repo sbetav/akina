@@ -6,11 +6,11 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { twoFactor } from "better-auth/plugins";
 import { after } from "next/server";
-import PasswordResetEmail from "../emails/password-reset";
-import VerificationEmail from "../emails/verification";
+import PasswordResetEmail from "../../emails/password-reset";
+import VerificationEmail from "../../emails/verification";
+import { env } from "../env";
+import { sendEmail } from "../resend";
 import { AUTH_COOKIE_PREFIX } from "./constants";
-import { env } from "./env";
-import { sendEmail } from "./resend";
 
 export const auth = betterAuth({
   appName: "Akina",

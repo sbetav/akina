@@ -33,7 +33,12 @@ const BackButton: FC<BackButtonProps> = ({
   };
 
   return (
-    <Button variant="link" onClick={handleClick} className={className}>
+    <Button
+      data-role="back-button"
+      variant="link"
+      onClick={handleClick}
+      className={className}
+    >
       <ArrowLeftIcon />
       {label}
     </Button>

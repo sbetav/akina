@@ -1,6 +1,6 @@
 "use client";
 
-import { EmailOtpFormSchemaType, emailOtpFormSchema } from "@/lib/form-schemas";
+import { EmailOtpFormValues, emailOtpFormSchema } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FC, useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -14,7 +14,7 @@ interface EmailOtpFormProps {
 const EmailOtpForm: FC<EmailOtpFormProps> = ({ onResend }) => {
   const [countdown, setCountdown] = useState(59);
 
-  const { handleSubmit, control, watch } = useForm<EmailOtpFormSchemaType>({
+  const { handleSubmit, control, watch } = useForm<EmailOtpFormValues>({
     resolver: zodResolver(emailOtpFormSchema),
     defaultValues: {
       otp: "",

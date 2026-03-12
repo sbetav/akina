@@ -2,9 +2,9 @@
 
 import { useAnimatedEllipsis } from "@/hooks/use-animated-ellipsis";
 import { useResendVerification } from "@/hooks/use-resend-verification";
-import { authClient } from "@/lib/auth-client";
-import { getAuthErrorMessage } from "@/lib/auth-errors";
-import { LoginFormSchemaType, loginFormSchema } from "@/lib/form-schemas";
+import { authClient } from "@/lib/auth/client";
+import { getAuthErrorMessage } from "@/lib/auth/utils";
+import { LoginFormValues, loginFormSchema } from "@/lib/validations/auth";
 import { useRouter } from "@bprogress/next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -33,7 +33,7 @@ const LoginForm: FC = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
-  const { handleSubmit, control, watch } = useForm<LoginFormSchemaType>({
+  const { handleSubmit, control, watch } = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: "",
@@ -44,7 +44,7 @@ const LoginForm: FC = () => {
   const email = watch("email");
 
   const { mutate, isPending, data } = useMutation({
-    mutationFn: async ({ email, password }: LoginFormSchemaType) => {
+    mutationFn: async ({ email, password }: LoginFormValues) => {
       return await authClient.signIn.email(
         {
           email,

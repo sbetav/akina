@@ -1,11 +1,11 @@
 "use client";
 
-import { authClient } from "@/lib/auth-client";
-import { getAuthErrorMessage } from "@/lib/auth-errors";
+import { authClient } from "@/lib/auth/client";
+import { getAuthErrorMessage } from "@/lib/auth/utils";
 import {
-  ResetPasswordFormSchemaType,
+  ResetPasswordFormValues,
   resetPasswordFormSchema,
-} from "@/lib/form-schemas";
+} from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -39,7 +39,7 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const { handleSubmit, control } = useForm<ResetPasswordFormSchemaType>({
+  const { handleSubmit, control } = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(resetPasswordFormSchema),
     defaultValues: {
       password: "",
@@ -48,7 +48,7 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
   });
 
   const { mutate, isPending, data } = useMutation({
-    mutationFn: async ({ password }: ResetPasswordFormSchemaType) => {
+    mutationFn: async ({ password }: ResetPasswordFormValues) => {
       return await authClient.resetPassword({
         newPassword: password,
         token,

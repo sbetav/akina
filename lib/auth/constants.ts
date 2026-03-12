@@ -1,10 +1,10 @@
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth/client";
 
-type AuthErrorCode = keyof typeof authClient.$ERROR_CODES;
+export const AUTH_COOKIE_PREFIX = "akina";
 
-type AuthErrorMessages = Partial<Record<AuthErrorCode, string>>;
-
-const AUTH_ERROR_MESSAGES = {
+export type AuthErrorCode = keyof typeof authClient.$ERROR_CODES;
+export type AuthErrorMessages = Partial<Record<AuthErrorCode, string>>;
+export const AUTH_ERROR_MESSAGES = {
   // Sign-up
   USER_ALREADY_EXISTS: "Ya existe una cuenta con este correo electrónico.",
   USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL:
@@ -94,16 +94,3 @@ const AUTH_ERROR_MESSAGES = {
   VALIDATION_ERROR: "Los datos ingresados no son válidos.",
   ASYNC_VALIDATION_NOT_SUPPORTED: "Este tipo de validación no es compatible.",
 } satisfies AuthErrorMessages & { EMAIL_IS_ALREADY_VERIFIED: string };
-
-const FALLBACK_MESSAGE =
-  "Ocurrió un error inesperado. Por favor, intenta de nuevo.";
-
-export function getAuthErrorMessage(
-  code?: AuthErrorCode | string | null,
-): string {
-  if (!code) return FALLBACK_MESSAGE;
-  if (code in AUTH_ERROR_MESSAGES) {
-    return AUTH_ERROR_MESSAGES[code as keyof typeof AUTH_ERROR_MESSAGES]!;
-  }
-  return FALLBACK_MESSAGE;
-}
