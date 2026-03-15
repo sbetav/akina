@@ -1,32 +1,33 @@
 "use client";
 
 import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-  FieldLegend,
-  FieldSet,
+    Field,
+    FieldError,
+    FieldGroup,
+    FieldLabel,
+    FieldLegend,
+    FieldSet,
 } from "@/components/ui/field";
 import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
+    InputGroup,
+    InputGroupAddon,
+    InputGroupInput,
 } from "@/components/ui/input-group";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectAddon,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
 import {
-  FACTUS_IDENTITY_DOCUMENT_TYPES,
-  FACTUS_IDENTITY_DOCUMENT_TYPES_BY_ID,
+    FACTUS_IDENTITY_DOCUMENT_TYPES,
+    FACTUS_IDENTITY_DOCUMENT_TYPES_BY_ID,
 } from "@/lib/factus/constants";
 import { CustomerFormValues } from "@/lib/validations/customer";
-import { HashIcon } from "lucide-react";
+import { HashIcon, ScrollTextIcon } from "lucide-react";
 import { Control, Controller } from "react-hook-form";
 
 interface IdentificationFieldSetProps {
@@ -44,7 +45,7 @@ export function IdentificationFieldSet({
     <FieldSet>
       <FieldLegend>Identificación</FieldLegend>
       <FieldGroup>
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
           <Controller
             control={control}
             name="identification_document_id"
@@ -61,6 +62,9 @@ export function IdentificationFieldSet({
                     aria-invalid={fieldState.invalid}
                     className="w-full"
                   >
+                    <SelectAddon>
+                      <ScrollTextIcon />
+                    </SelectAddon>
                     <SelectValue>
                       {(value: string) =>
                         (FACTUS_IDENTITY_DOCUMENT_TYPES_BY_ID[value] ??

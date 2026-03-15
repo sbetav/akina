@@ -26,6 +26,27 @@ function SelectValue({ className, ...props }: SelectPrimitive.Value.Props) {
   );
 }
 
+function SelectAddon({
+  className,
+  align = "inline-start",
+  ...props
+}: React.ComponentProps<"div"> & {
+  align?: "inline-start" | "inline-end";
+}) {
+  return (
+    <div
+      role="presentation"
+      data-slot="select-addon"
+      data-align={align}
+      className={cn(
+        "text-muted-foreground flex h-auto items-center justify-center gap-2 py-1.5 text-sm font-medium select-none data-[align=inline-end]:order-last data-[align=inline-end]:has-[>button]:-mr-1 data-[align=inline-end]:has-[>kbd]:mr-[-0.15rem] data-[align=inline-start]:order-first data-[align=inline-start]:has-[>button]:-ml-1 data-[align=inline-start]:has-[>kbd]:ml-[-0.15rem] [&>svg:not([class*='size-'])]:size-4",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
 function SelectTrigger({
   className,
   size = "default",
@@ -39,12 +60,17 @@ function SelectTrigger({
       data-slot="select-trigger"
       data-size={size}
       className={cn(
-        "focus-visible:border-ring focus-visible:ring-ring/50 data-placeholder:text-muted-foreground bg-input aria-invalid:border-destructive aria-invalid:ring-destructive/40 flex w-fit items-center justify-between gap-1.5 border py-2 pr-2 pl-2.5 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 data-[size=default]:h-10 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "focus-visible:border-ring focus-visible:ring-ring/50 data-placeholder:text-muted-foreground bg-input aria-invalid:border-destructive aria-invalid:ring-destructive/40 flex w-fit min-w-0 items-center gap-1.5 border py-2 pr-2.5 pl-3 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 data-[size=default]:h-10 data-[size=sm]:h-8 **:data-[slot=select-value]:line-clamp-1 **:data-[slot=select-value]:flex **:data-[slot=select-value]:items-center **:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className,
       )}
       {...props}
     >
-      {children}
+      <span
+        data-slot="select-trigger-content"
+        className="flex min-w-0 flex-1 items-center gap-2.5"
+      >
+        {children}
+      </span>
       <SelectPrimitive.Icon
         render={
           <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4" />
@@ -188,6 +214,7 @@ function SelectScrollDownButton({
 
 export {
   Select,
+  SelectAddon,
   SelectContent,
   SelectGroup,
   SelectItem,

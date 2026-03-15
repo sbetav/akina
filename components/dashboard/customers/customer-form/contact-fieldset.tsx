@@ -1,33 +1,33 @@
 "use client";
 
 import {
-    Combobox,
-    ComboboxContent,
-    ComboboxEmpty,
-    ComboboxInput,
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
 } from "@/components/ui/combobox";
 import {
-    Field,
-    FieldError,
-    FieldGroup,
-    FieldLabel,
-    FieldLegend,
-    FieldSet,
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
 } from "@/components/ui/field";
 import {
-    InputGroup,
-    InputGroupAddon,
-    InputGroupInput,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
 } from "@/components/ui/input-group";
 import { type Municipality } from "@/lib/factus";
 import { CustomerFormValues } from "@/lib/validations/customer";
-import { MailIcon, MapPinHouseIcon, PhoneIcon } from "lucide-react";
+import { MailIcon, MapPinHouseIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 import { useRef } from "react";
 import { Control, Controller } from "react-hook-form";
 import PhoneInput from "react-phone-number-input/input";
 import {
-    VirtualizedMunicipalityList,
-    type MunicipalityVirtualizer,
+  VirtualizedMunicipalityList,
+  type MunicipalityVirtualizer,
 } from "./virtualized-municipality-list";
 
 interface ContactFieldSetProps {
@@ -45,7 +45,7 @@ export function ContactFieldSet({
     <FieldSet>
       <FieldLegend>Contacto</FieldLegend>
       <FieldGroup>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <Controller
             control={control}
             name="email"
@@ -142,7 +142,11 @@ export function ContactFieldSet({
                     placeholder="Buscar municipio"
                     aria-invalid={fieldState.invalid}
                     showClear
-                  />
+                  >
+                    <InputGroupAddon>
+                      <MapPinIcon />
+                    </InputGroupAddon>
+                  </ComboboxInput>
                   <ComboboxContent>
                     <ComboboxEmpty>No se encontraron resultados.</ComboboxEmpty>
                     <VirtualizedMunicipalityList

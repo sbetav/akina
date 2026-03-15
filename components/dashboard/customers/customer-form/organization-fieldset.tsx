@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/input-group";
 import {
   Select,
+  SelectAddon,
   SelectContent,
   SelectItem,
   SelectTrigger,
@@ -27,7 +28,13 @@ import {
   FACTUS_ORGANIZATION_TYPES_BY_ID,
 } from "@/lib/factus/constants";
 import { CustomerFormValues } from "@/lib/validations/customer";
-import { Building2Icon, StoreIcon, UserIcon } from "lucide-react";
+import {
+  Building2Icon,
+  LandmarkIcon,
+  ScaleIcon,
+  StoreIcon,
+  UserIcon,
+} from "lucide-react";
 import { Control, Controller } from "react-hook-form";
 
 interface OrganizationFieldSetProps {
@@ -43,7 +50,7 @@ export function OrganizationFieldSet({
     <FieldSet>
       <FieldLegend>Organización</FieldLegend>
       <FieldGroup>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <Controller
             control={control}
             name="legal_organization_id"
@@ -58,6 +65,9 @@ export function OrganizationFieldSet({
                     aria-invalid={fieldState.invalid}
                     className="w-full"
                   >
+                    <SelectAddon>
+                      <LandmarkIcon />
+                    </SelectAddon>
                     <SelectValue placeholder="Selecciona un tipo">
                       {(value: string) =>
                         (FACTUS_ORGANIZATION_TYPES_BY_ID[value] ?? value) ||
@@ -90,6 +100,9 @@ export function OrganizationFieldSet({
                     aria-invalid={fieldState.invalid}
                     className="w-full"
                   >
+                    <SelectAddon>
+                      <ScaleIcon />
+                    </SelectAddon>
                     <SelectValue placeholder="Selecciona un régimen">
                       {(value: string) =>
                         (FACTUS_CUSTOMER_TRIBUTE_IDS_BY_ID[value] ?? value) ||
