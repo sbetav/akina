@@ -7,6 +7,11 @@ export const env = createEnv({
     BETTER_AUTH_SECRET: z.string(),
     RESEND_API_KEY: z.string(),
     RESEND_FROM: z.string(),
+    FACTUS_USERNAME: z.string(),
+    FACTUS_PASSWORD: z.string(),
+    FACTUS_CLIENT_ID: z.string(),
+    FACTUS_CLIENT_SECRET: z.string(),
+    FACTUS_API_URL: z.string(),
   },
   client: {
     NEXT_PUBLIC_BASE_URL: z.string(),

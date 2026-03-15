@@ -1,5 +1,3 @@
-"use client";
-
 import BackButton from "@/components/back-button";
 import CustomerForm from "@/components/dashboard/customers/customer-form";
 import {
@@ -8,9 +6,11 @@ import {
   PageHeaderDescription,
   PageHeaderTitle,
 } from "@/components/dashboard/page-header";
-import { FC } from "react";
+import { getMunicipalitiesAction } from "../actions";
 
-const Page: FC = () => {
+const Page = async () => {
+  const municipalities = await getMunicipalitiesAction();
+
   return (
     <div className="flex min-h-full w-full flex-1 flex-col gap-6">
       <PageHeader>
@@ -22,11 +22,7 @@ const Page: FC = () => {
           </PageHeaderDescription>
         </PageHeaderContent>
       </PageHeader>
-      <CustomerForm
-        onSubmit={(data) => {
-          console.log(data);
-        }}
-      />
+      <CustomerForm municipalities={municipalities} />
     </div>
   );
 };

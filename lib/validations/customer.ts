@@ -9,17 +9,11 @@ import { zodAlwaysRefine } from "../utils";
 
 const identificationDocumentIds = FACTUS_IDENTITY_DOCUMENT_TYPES.map(
   (d) => d.id,
-) as [string, ...string[]];
+);
 
-const legalOrganizationIds = FACTUS_ORGANIZATION_TYPES.map((o) => o.id) as [
-  string,
-  ...string[],
-];
+const legalOrganizationIds = FACTUS_ORGANIZATION_TYPES.map((o) => o.id);
 
-const tributeIds = FACTUS_CUSTOMER_TRIBUTE_IDS.map((t) => t.id) as [
-  string,
-  ...string[],
-];
+const tributeIds = FACTUS_CUSTOMER_TRIBUTE_IDS.map((t) => t.id);
 
 export const customerFormSchema = zodAlwaysRefine(
   z.object({
@@ -42,11 +36,9 @@ export const customerFormSchema = zodAlwaysRefine(
       error: () => "Campo requerido",
     }),
 
-    company: z.string().optional(),
+    name: z.string().nonempty("Campo requerido"),
 
     trade_name: z.string().optional(),
-
-    names: z.string().optional(),
 
     address: z
       .string("Campo requerido")
@@ -63,30 +55,6 @@ export const customerFormSchema = zodAlwaysRefine(
     municipality_id: z.string("Campo requerido").nonempty("Campo requerido"),
   }),
 )
-  .refine(
-    (data) => {
-      if (data.legal_organization_id === "1") {
-        return !!data.company && data.company.trim().length > 0;
-      }
-      return true;
-    },
-    {
-      path: ["company"],
-      message: "Campo requerido",
-    },
-  )
-  .refine(
-    (data) => {
-      if (data.legal_organization_id === "2") {
-        return !!data.names && data.names.trim().length > 0;
-      }
-      return true;
-    },
-    {
-      path: ["names"],
-      message: "Campo requerido",
-    },
-  )
   .refine(
     (data) => {
       if (data.identification_document_id === "6") {
