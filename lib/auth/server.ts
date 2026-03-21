@@ -13,6 +13,7 @@ import { sendEmail } from "../resend";
 import { AUTH_COOKIE_PREFIX } from "./constants";
 
 export const auth = betterAuth({
+  basePath: "/auth",
   appName: "Akina",
   baseURL: env.NEXT_PUBLIC_BASE_URL,
   database: drizzleAdapter(db, {
