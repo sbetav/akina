@@ -6,6 +6,11 @@
       "sourceType": "github",
       "computedHash": "9ab075b5061be2a5f299c10505667345cc1ec76e8de4120901cfd586643e776f"
     },
+    "elysiajs": {
+      "source": "elysiajs/skills",
+      "sourceType": "github",
+      "computedHash": "1f8cdb3c66e6127bd7e31fd5478bf912d976059896629cc58eec031f9bae0c74"
+    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
