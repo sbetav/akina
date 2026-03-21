@@ -199,7 +199,6 @@ const Silk: React.FC<SilkProps> = ({
   const isTabVisible = useTabVisible();
   const [isReady, setIsReady] = useState(false);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const uniforms = useMemo<SilkUniforms>(
     () => ({
       uSpeed: { value: speed },

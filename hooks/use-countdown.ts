@@ -27,11 +27,15 @@ export function useCountdown(initial: number = 0) {
   }, []);
 
   useEffect(() => {
-    start(initial);
+    let cancelled = false;
+    queueMicrotask(() => {
+      if (!cancelled) start(initial);
+    });
     return () => {
+      cancelled = true;
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [initial]);
+  }, [initial, start]);
 
   return { timeLeft, reset: start };
 }

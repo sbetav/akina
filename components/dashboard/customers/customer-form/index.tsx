@@ -4,13 +4,13 @@ import { Button } from "@/components/ui/button";
 import { useAcquirerAutofill } from "@/hooks/use-acquirer-autofill";
 import { type Municipality } from "@/lib/factus";
 import {
-    CustomerFormValues,
-    customerFormSchema,
+  CustomerFormValues,
+  customerFormSchema,
 } from "@/lib/validations/customer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SaveIcon } from "lucide-react";
 import { FC, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import DashboardCard from "../../dashboard-card";
 import { ContactFieldSet } from "./contact-fieldset";
 import { IdentificationFieldSet } from "./identification-fieldset";
@@ -21,7 +21,7 @@ interface CustomerFormProps {
 }
 
 const CustomerForm: FC<CustomerFormProps> = ({ municipalities }) => {
-  const { handleSubmit, control, watch, resetField, setValue } =
+  const { handleSubmit, control, resetField, setValue } =
     useForm<CustomerFormValues>({
       resolver: zodResolver(customerFormSchema),
       defaultValues: {
@@ -39,9 +39,15 @@ const CustomerForm: FC<CustomerFormProps> = ({ municipalities }) => {
       },
     });
 
-  const identificationDocumentId = watch("identification_document_id");
-  const identification = watch("identification");
-  const legalOrganizationId = watch("legal_organization_id");
+  const [identificationDocumentId, identification, legalOrganizationId] =
+    useWatch({
+      control,
+      name: [
+        "identification_document_id",
+        "identification",
+        "legal_organization_id",
+      ],
+    });
 
   const isNIT = identificationDocumentId === "6";
   const isNaturalPerson = legalOrganizationId === "2";

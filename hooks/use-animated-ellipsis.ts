@@ -5,13 +5,18 @@ export function useAnimatedEllipsis(active = true, intervalMs = 400) {
 
   useEffect(() => {
     if (!active) {
-      setFrame(0);
-      return;
+      let cancelled = false;
+      queueMicrotask(() => {
+        if (!cancelled) setFrame(0);
+      });
+      return () => {
+        cancelled = true;
+      };
     }
 
     const id = setInterval(() => setFrame((f) => (f + 1) % 3), intervalMs);
     return () => clearInterval(id);
   }, [active, intervalMs]);
 
-  return ".".repeat(frame + 1);
+  return ".".repeat((active ? frame : 0) + 1);
 }

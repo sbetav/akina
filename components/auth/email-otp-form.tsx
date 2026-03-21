@@ -14,14 +14,12 @@ interface EmailOtpFormProps {
 const EmailOtpForm: FC<EmailOtpFormProps> = ({ onResend }) => {
   const [countdown, setCountdown] = useState(59);
 
-  const { handleSubmit, control, watch } = useForm<EmailOtpFormValues>({
+  const { handleSubmit, control } = useForm<EmailOtpFormValues>({
     resolver: zodResolver(emailOtpFormSchema),
     defaultValues: {
       otp: "",
     },
   });
-
-  const otp = watch("otp");
 
   useEffect(() => {
     if (countdown <= 0) return;

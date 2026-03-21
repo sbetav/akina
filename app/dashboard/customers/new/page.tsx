@@ -18,7 +18,7 @@ const Page = async () => {
           <BackButton mode="redirect" href="/dashboard/customers" />
           <PageHeaderTitle>Nuevo cliente</PageHeaderTitle>
           <PageHeaderDescription>
-            // Ingresa los datos del cliente
+            &#47;&#47; Ingresa los datos del cliente
           </PageHeaderDescription>
         </PageHeaderContent>
       </PageHeader>

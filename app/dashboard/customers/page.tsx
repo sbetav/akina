@@ -29,7 +29,9 @@ const Page: FC = () => {
       <PageHeader>
         <PageHeaderContent>
           <PageHeaderTitle>Clientes</PageHeaderTitle>
-          <PageHeaderDescription>// Gestión de terceros</PageHeaderDescription>
+          <PageHeaderDescription>
+            &#47;&#47; Gestión de terceros
+          </PageHeaderDescription>
         </PageHeaderContent>
         <PageHeaderActions>
           <Link

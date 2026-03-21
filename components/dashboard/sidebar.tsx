@@ -10,16 +10,15 @@ import { useState } from "react";
 import { useRouter } from "@bprogress/next";
 import {
   ChevronDownIcon,
-  CreditCardIcon,
   HeadsetIcon,
   LayoutDashboardIcon,
   LogOutIcon,
   MenuIcon,
   SettingsIcon,
-  UserIcon,
   UsersIcon,
   XIcon,
 } from "lucide-react";
+import Link from "next/link";
 import GitHubIcon from "../icons/github-icon";
 import { AppLogo } from "../ui/app-logo";
 import { Avatar, AvatarFallback } from "../ui/avatar";
@@ -92,7 +91,7 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
           </div>
           <div className="flex flex-col gap-4">
             <span className="text-muted-foreground/70 px-6 text-xs font-medium uppercase">
-              // Menú
+              &#47;&#47; Menú
             </span>
             <div className="space-y-1">
               {links.map((link) => {
@@ -158,23 +157,6 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
 
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <UserIcon />
-                Perfil
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCardIcon />
-                Facturación
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <SettingsIcon />
-                Configuración
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-
-            <DropdownMenuSeparator />
-
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
                 <HeadsetIcon />
                 Soporte
               </DropdownMenuItem>
@@ -182,6 +164,16 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
                 <GitHubIcon />
                 Github
               </DropdownMenuItem>
+              <DropdownMenuGroup>
+                <DropdownMenuItem
+                  render={
+                    <Link href="/dashboard/settings">
+                      <SettingsIcon />
+                      Configuración
+                    </Link>
+                  }
+                />
+              </DropdownMenuGroup>
             </DropdownMenuGroup>
 
             <DropdownMenuSeparator />

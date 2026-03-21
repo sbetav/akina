@@ -1,23 +1,20 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+function subscribe(onStoreChange: () => void) {
+  document.addEventListener("visibilitychange", onStoreChange);
+  return () => document.removeEventListener("visibilitychange", onStoreChange);
+}
+
+function getSnapshot() {
+  return document.visibilityState === "visible";
+}
+
+function getServerSnapshot() {
+  return true;
+}
 
 export default function useTabVisible(): boolean {
-  const [isTabVisible, setIsTabVisible] = useState(true);
-
-  const handleVisibilityChange = useCallback(() => {
-    if (typeof document === "undefined") return;
-    setIsTabVisible(document.visibilityState === "visible");
-  }, []);
-
-  useEffect(() => {
-    if (typeof document === "undefined") return;
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    handleVisibilityChange();
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-  }, [handleVisibilityChange]);
-
-  return isTabVisible;
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }

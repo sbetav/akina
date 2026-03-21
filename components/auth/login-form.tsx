@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { FC, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { Alert, AlertDescription } from "../ui/alert";
 import { Button, buttonVariants } from "../ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
@@ -33,7 +33,7 @@ const LoginForm: FC = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
-  const { handleSubmit, control, watch } = useForm<LoginFormValues>({
+  const { handleSubmit, control } = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: "",
@@ -41,7 +41,7 @@ const LoginForm: FC = () => {
     },
   });
 
-  const email = watch("email");
+  const email = useWatch({ control, name: "email" });
 
   const { mutate, isPending, data } = useMutation({
     mutationFn: async ({ email, password }: LoginFormValues) => {
