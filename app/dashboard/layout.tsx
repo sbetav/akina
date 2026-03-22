@@ -11,7 +11,7 @@ const Layout = async ({ children }: LayoutProps) => {
   return (
     <div className="flex h-svh w-full">
       <SideBar user={user} />
-      <main className="w-full flex-1 overflow-auto">
+      <main className="w-full flex-1 overflow-auto pt-16 lg:pt-0">
         <div className="bg-bg mx-auto flex min-h-full w-full max-w-[1500px] flex-col p-6 lg:px-12 lg:py-10">
           {children}
         </div>

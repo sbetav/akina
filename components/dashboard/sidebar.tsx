@@ -58,34 +58,32 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
 
   return (
     <>
-      <Button
-        variant="outline"
-        size="icon-sm"
-        className="bg-bg absolute top-6 right-6 z-40 lg:hidden"
-        onClick={toggleSidebar}
-      >
-        <MenuIcon />
-      </Button>
+      {/* Mobile header — visible only below lg breakpoint */}
+      <header className="border-border bg-sidebar fixed top-0 right-0 left-0 z-40 flex h-16 items-center justify-between border-b px-6 lg:hidden">
+        <AppLogo size={28} />
+        <Button
+          variant="outline"
+          size="icon-sm"
+          onClick={toggleSidebar}
+          aria-label="Abrir menú"
+        >
+          {isOpen ? <XIcon /> : <MenuIcon />}
+        </Button>
+      </header>
 
+      {/* Sidebar drawer */}
       <aside
         className={cn(
-          "border-border bg-sidebar fixed top-0 left-0 z-50 flex h-dvh w-full flex-col justify-between py-6 pb-4 transition duration-700 ease-in-out lg:relative lg:z-auto lg:max-w-[320px] lg:translate-x-0 lg:border-r lg:py-8 lg:pb-6 lg:transition-none",
+          "border-border bg-sidebar fixed top-16 left-0 z-50 flex h-[calc(100dvh-4rem)] w-full flex-col justify-between py-6 pb-4 transition duration-300 ease-in-out lg:relative lg:top-0 lg:z-auto lg:h-dvh lg:max-w-[320px] lg:translate-x-0 lg:border-r lg:py-8 lg:pb-6 lg:transition-none",
           {
             "-translate-x-full": !isOpen,
           },
         )}
       >
         <div className="space-y-16">
-          <div className="flex items-center justify-between px-6">
+          {/* Desktop-only logo row */}
+          <div className="hidden px-6 lg:flex">
             <AppLogo />
-            <Button
-              variant="outline"
-              size="icon-sm"
-              onClick={toggleSidebar}
-              className="lg:hidden"
-            >
-              <XIcon />
-            </Button>
           </div>
           <div className="flex flex-col gap-4">
             <span className="text-muted-foreground/70 px-6 text-xs font-medium uppercase">
@@ -162,7 +160,10 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
               <DropdownMenuGroup>
                 <DropdownMenuItem
                   render={
-                    <Link href="/dashboard/settings">
+                    <Link
+                      href="/dashboard/settings"
+                      onClick={() => setIsOpen(false)}
+                    >
                       <SettingsIcon />
                       Configuración
                     </Link>
