@@ -1,12 +1,27 @@
-import { cn } from "@/lib/utils";
+"use client";
 
-function PageHeader({ className, ...props }: React.ComponentProps<"div">) {
+import { cn } from "@/lib/utils";
+import { createContext, useContext } from "react";
+
+type PageHeaderSize = "default" | "sm";
+
+const PageHeaderContext = createContext<{ size: PageHeaderSize }>({
+  size: "default",
+});
+
+function PageHeader({
+  className,
+  size = "default",
+  ...props
+}: React.ComponentProps<"div"> & { size?: PageHeaderSize }) {
   return (
-    <div
-      data-slot="page-header"
-      className={cn("flex w-full items-center justify-between", className)}
-      {...props}
-    />
+    <PageHeaderContext.Provider value={{ size }}>
+      <div
+        data-slot="page-header"
+        className={cn("flex w-full items-center justify-between", className)}
+        {...props}
+      />
+    </PageHeaderContext.Provider>
   );
 }
 
@@ -27,11 +42,15 @@ function PageHeaderContent({
 }
 
 function PageHeaderTitle({ className, ...props }: React.ComponentProps<"h2">) {
+  const { size } = useContext(PageHeaderContext);
   return (
     <h2
       data-slot="page-header-title"
       className={cn(
         "font-sans text-3xl font-semibold tracking-tight",
+        {
+          "text-xl": size === "sm",
+        },
         className,
       )}
       {...props}

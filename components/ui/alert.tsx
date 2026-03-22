@@ -10,7 +10,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const alertVariants = cva(
-  "relative grid w-full grid-cols-[0_1fr] items-start gap-y-0.5 border px-4 py-3 text-sm before:absolute before:top-0 before:left-0 before:h-full before:w-[3px] before:bg-current before:content-[''] has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] has-[>svg]:gap-x-2.5 [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
+  "relative grid w-full grid-cols-[0_1fr] items-start gap-y-1 border px-4 py-3 text-sm before:absolute before:top-0 before:left-0 before:h-full before:w-[3px] before:bg-current/70 before:content-[''] has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] has-[>svg]:gap-x-2.5 [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
   {
     variants: {
       variant: {
@@ -78,7 +78,7 @@ function AlertDescription({
     <div
       data-slot="alert-description"
       className={cn(
-        "text-foreground/60! col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed",
+        "text-foreground/60! col-start-2 grid justify-items-start gap-1 text-xs font-extralight [&_p]:leading-relaxed",
         className,
       )}
       {...props}

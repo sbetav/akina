@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 import type { FC } from "react";
 import { useState } from "react";
 
-import { useRouter } from "@bprogress/next";
 import {
   ChevronDownIcon,
   HeadsetIcon,
@@ -56,7 +55,6 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
   ];
 
   const { logout, isPending } = useLogout();
-  const router = useRouter();
 
   return (
     <>
@@ -101,15 +99,12 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
                   ? pathname === link.href
                   : pathname.startsWith(link.href);
                 return (
-                  <button
-                    type="button"
+                  <Link
+                    href={link.href}
                     aria-label={`Ir a ${link.label}`}
                     key={link.href}
                     onClick={() => {
                       setIsOpen(false);
-                      setTimeout(() => {
-                        router.push(link.href);
-                      }, 10);
                     }}
                     className={cn(
                       "hover:bg-accent hover:text-foreground text-muted-foreground relative flex w-full cursor-pointer items-center gap-2.5 px-6 py-2.5 text-sm font-medium transition-all before:absolute before:top-0 before:left-0 before:h-full before:w-[3px] before:bg-transparent before:transition-all",
@@ -121,7 +116,7 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
                   >
                     <Icon className="size-4" />
                     {link.label}
-                  </button>
+                  </Link>
                 );
               })}
             </div>

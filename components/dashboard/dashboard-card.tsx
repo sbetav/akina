@@ -8,7 +8,7 @@ interface DashboardCardProps {
 
 const DashboardCard: FC<DashboardCardProps> = ({ children, className }) => {
   return (
-    <div className={cn("bg-card border px-6 py-5 lg:px-8 lg:py-7", className)}>
+    <div className={cn("bg-card border px-6 py-5 lg:px-8 lg:py-6", className)}>
       {children}
     </div>
   );

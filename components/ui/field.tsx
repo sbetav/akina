@@ -104,8 +104,10 @@ function FieldLabel({
     <Label
       data-slot="field-label"
       className={cn(
-        "has-data-checked:bg-primary/10 has-data-checked:border-primary/20 group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:border *:data-[slot=field]:p-3",
-        "has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col",
+        "group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50",
+        "has-[>[data-slot=field]]:bg-card has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:cursor-pointer has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:border has-[>[data-slot=field]]:normal-case",
+        "has-[>[data-slot=field]]:has-data-checked:bg-primary/6 has-[>[data-slot=field]]:has-data-checked:border-primary/20",
+        "*:data-[slot=field]:px-5 *:data-[slot=field]:py-4",
         className,
       )}
       {...props}
@@ -119,6 +121,7 @@ function FieldTitle({ className, ...props }: React.ComponentProps<"div">) {
       data-slot="field-label"
       className={cn(
         "flex w-fit items-center gap-2 text-sm leading-snug font-medium group-data-[disabled=true]/field:opacity-50",
+        "text-foreground/60 group-has-data-checked/field-label:text-primary",
         className,
       )}
       {...props}
@@ -131,8 +134,9 @@ function FieldDescription({ className, ...props }: React.ComponentProps<"p">) {
     <p
       data-slot="field-description"
       className={cn(
-        "text-muted-foreground text-left text-sm leading-normal font-normal group-has-data-horizontal/field:text-balance [[data-variant=legend]+&]:-mt-1.5",
+        "text-muted-foreground/60 text-left text-xs leading-normal font-normal group-has-data-horizontal/field:text-balance [[data-variant=legend]+&]:-mt-1.5",
         "last:mt-0 nth-last-2:-mt-1",
+        "group-has-data-checked/field-label:text-muted-foreground",
         "[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4",
         className,
       )}
