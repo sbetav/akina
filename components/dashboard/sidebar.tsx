@@ -105,7 +105,7 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
                       setIsOpen(false);
                     }}
                     className={cn(
-                      "hover:bg-accent hover:text-foreground text-muted-foreground relative flex w-full cursor-pointer items-center gap-2.5 px-6 py-2.5 text-sm font-medium transition-all before:absolute before:top-0 before:left-0 before:h-full before:w-[3px] before:bg-transparent before:transition-all",
+                      "hover:bg-accent hover:text-foreground text-muted-foreground focus-effect relative flex w-full cursor-pointer items-center gap-2.5 px-6 py-2.5 text-sm font-medium transition-all outline-none before:absolute before:top-0 before:left-0 before:h-full before:w-[3px] before:bg-transparent before:transition-all",
                       {
                         "bg-primary/10! text-primary! before:bg-primary!":
                           isActive,
@@ -124,7 +124,7 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
-              <button className="group data-popup-open:bg-accent hover:bg-accent relative mx-4 flex cursor-pointer items-center gap-3 px-2.5 py-2 transition">
+              <button className="group data-popup-open:bg-accent hover:bg-accent focus-effect relative mx-4 flex cursor-pointer items-center gap-3 px-2.5 py-2 transition">
                 <Avatar size="lg">
                   <AvatarFallback className="text-lg">
                     {user.name[0]}

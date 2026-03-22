@@ -6,6 +6,7 @@ import {
   PageHeaderDescription,
   PageHeaderTitle,
 } from "@/components/dashboard/page-header";
+import CustomCredentialsForm from "@/components/dashboard/settings/integration/custom-credentials-form";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Field,
@@ -36,7 +37,7 @@ const Page: FC = () => {
     "sandbox",
   );
   return (
-    <div className="flex min-h-full w-full flex-1 flex-col gap-6">
+    <div className="flex min-h-full w-full flex-1 flex-col gap-8">
       <PageHeader size="sm">
         <PageHeaderContent>
           <PageHeaderTitle>Integración</PageHeaderTitle>
@@ -47,14 +48,12 @@ const Page: FC = () => {
         </PageHeaderContent>
       </PageHeader>
 
-      <Separator />
-
       <RadioGroup
         value={integrationMode}
         onValueChange={(value) =>
           setIntegrationMode(value as "sandbox" | "custom")
         }
-        className="grid grid-cols-2 gap-4"
+        className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2"
       >
         {integrationModes.map((mode) => (
           <FieldLabel key={mode.value} htmlFor={`mode-${mode.value}`}>
@@ -69,14 +68,19 @@ const Page: FC = () => {
         ))}
       </RadioGroup>
 
-      {integrationMode === "sandbox" && (
+      {integrationMode === "sandbox" ? (
         <Alert variant="warning">
-          <AlertTitle>Importante</AlertTitle>
+          <AlertTitle>Modo sandbox</AlertTitle>
           <AlertDescription>
-            Recuerda que los documentos emitidos usando esta opción son de
-            prueba y no son válidos ante la DIAN.
+            Los documentos emitidos usando esta opción son únicamente de prueba
+            y no son válidos ante la DIAN.
           </AlertDescription>
         </Alert>
+      ) : (
+        <div className="mt-2 space-y-9">
+          <Separator />
+          <CustomCredentialsForm />
+        </div>
       )}
     </div>
   );

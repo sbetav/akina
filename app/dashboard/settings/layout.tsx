@@ -118,7 +118,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
                       setIsNavOpen(false);
                     }}
                     className={cn(
-                      "hover:bg-accent hover:text-foreground text-muted-foreground flex w-full cursor-pointer items-center gap-2.5 px-3 py-2.5 text-sm font-medium transition-all",
+                      "hover:bg-accent hover:text-foreground text-muted-foreground focus-effect flex w-full cursor-pointer items-center gap-2.5 px-3 py-2.5 text-sm font-medium transition-all outline-none!",
                       {
                         "text-primary!": isActive,
                       },
@@ -162,7 +162,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
                     key={link.href}
                     onClick={() => router.push(link.href)}
                     className={cn(
-                      "hover:bg-accent hover:text-foreground text-muted-foreground relative flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-xs font-medium transition-all",
+                      "hover:bg-accent hover:text-foreground text-muted-foreground focus-effect relative flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-xs font-medium transition-all",
                       {
                         "bg-accent text-primary!": isActive,
                       },

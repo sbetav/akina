@@ -122,6 +122,10 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .focus-effect {
+    @apply focus-visible:border-ring focus-visible:ring-ring/50 outline-none!;
+  }
 }
 
 input:-webkit-autofill,
