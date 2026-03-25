@@ -132,8 +132,7 @@ export class FactusService {
         ? {
             id: "akina-sandbox",
             name: "Akina Sandbox",
-            description:
-              "Credenciales compartidas - ideal para hacer pruebas y explorar la plataforma. ",
+            description: "Ideal para hacer pruebas y explorar la plataforma. ",
             environment: "sandbox",
             isActive: !validated.some((v) => v.isActive),
             isValid: true,

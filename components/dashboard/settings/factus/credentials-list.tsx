@@ -127,6 +127,7 @@ const CredentialsList: FC<CredentialsListProps> = ({ initialActiveId }) => {
               mutate(value as string | "akina-sandbox");
             }}
             disabled={isPending}
+            className="sm:grid-cols-2"
           >
             {data?.items?.map((credential) => (
               <CredentialsItem
@@ -168,15 +169,15 @@ const CredentialsItem: FC<CredentialsItemProps> = ({
   const [showDelete, setShowDelete] = useState(false);
   const router = useRouter();
   return (
-    <div className="relative">
+    <div className="relative h-full">
       <FieldLabel
         htmlFor={credential.id}
-        className={cn({
+        className={cn("h-full", {
           "animate-pulse cursor-not-allowed opacity-75 grayscale-50 transition-all":
             isPending,
         })}
       >
-        <Field orientation="horizontal">
+        <Field orientation="horizontal" className="h-full">
           <FieldContent>
             <div className="mb-0.5 flex items-center gap-2.5">
               <RadioGroupItem
@@ -209,7 +210,7 @@ const CredentialsItem: FC<CredentialsItemProps> = ({
               <Button
                 variant="ghost"
                 size="icon-sm"
-                className="text-foreground/80 active:text-foreground absolute top-1 right-1"
+                className="text-foreground/80 active:text-foreground absolute top-2.5 right-2.5 size-auto!"
               >
                 <EllipsisIcon />
               </Button>
