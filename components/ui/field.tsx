@@ -107,7 +107,7 @@ function FieldLabel({
         "group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50",
         "has-[>[data-slot=field]]:bg-card has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:border has-[>[data-slot=field]]:normal-case",
         "has-[>[data-slot=field]]:has-data-checked:bg-primary/6 has-[>[data-slot=field]]:has-data-checked:border-primary/20",
-        "*:data-[slot=field]:px-5 *:data-[slot=field]:py-4",
+        "*:data-[slot=field]:px-5 *:data-[slot=field]:py-3.5",
         className,
       )}
       {...props}

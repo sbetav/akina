@@ -57,6 +57,7 @@ export const CredentialDetail = t.Object({
   password: t.String(),
   environment: t.Union([t.Literal("sandbox"), t.Literal("production")]),
   isActive: t.Boolean(),
+  isValid: t.Boolean(),
 });
 
 export const CredentialListResponse = t.Object({

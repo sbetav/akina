@@ -19,7 +19,7 @@ function PageHeader({
       <div
         data-slot="page-header"
         className={cn(
-          "flex w-full flex-col items-center justify-between gap-5 sm:flex-row",
+          "flex w-full flex-col justify-between gap-5 sm:flex-row sm:items-center",
           className,
         )}
         {...props}

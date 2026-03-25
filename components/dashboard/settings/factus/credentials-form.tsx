@@ -22,7 +22,7 @@ import { toast } from "@/components/ui/toast";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useGoBack } from "@/hooks/use-go-back";
 import { api } from "@/lib/elysia/eden";
-import { CredentialDetailResult } from "@/lib/elysia/modules/factus/service";
+import { CredentialDetailResult } from "@/lib/elysia/modules/factus";
 import {
   credentialFormSchema,
   CredentialFormValues,

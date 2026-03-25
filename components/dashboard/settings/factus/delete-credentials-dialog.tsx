@@ -34,11 +34,17 @@ const DeleteCredentialsDialog: FC<DeleteCredentialsDialogProps> = ({
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
       if (!credential?.id) throw new Error("Credencial no encontrada");
-      await api.factus
+      const res = await api.factus
         .credentials({
-          id: credential?.id,
+          id: credential.id,
         })
         .delete();
+      if (res.error) {
+        throw new Error(
+          (res.error as { value?: { error?: string } }).value?.error ??
+            "Error al eliminar la credencial",
+        );
+      }
     },
     onSuccess: () => {
       toast.success("Credencial eliminada exitosamente");

@@ -1,9 +1,13 @@
 import { db } from "@/db/drizzle";
 import { factusCredentials } from "@/db/schemas/factus-credentials";
 import { decrypt, encrypt } from "@/lib/crypto";
-import { defaultFactusClient } from "@/lib/factus";
+import { getFactusClientForUser } from "@/lib/factus";
 import { and, asc, eq } from "drizzle-orm";
 import { FactusClient, FactusError, IdentityDocumentTypeId } from "factus-js";
+
+// ─── Shared types ─────────────────────────────────────────────────────────────
+
+export type FactusEnvironment = "sandbox" | "production";
 
 // ─── Input types ──────────────────────────────────────────────────────────────
 
@@ -14,7 +18,7 @@ export interface CredentialInput {
   clientSecret: string;
   username: string;
   password: string;
-  environment: "sandbox" | "production";
+  environment: FactusEnvironment;
 }
 
 // ─── Response types ───────────────────────────────────────────────────────────
@@ -23,7 +27,7 @@ export interface CredentialListItem {
   id: string;
   name: string;
   description: string;
-  environment: "sandbox" | "production";
+  environment: FactusEnvironment;
   isActive: boolean;
   isValid: boolean;
 }
@@ -35,13 +39,14 @@ export interface CredentialDetailResult {
   clientSecret: string;
   username: string;
   password: string;
-  environment: "sandbox" | "production";
+  environment: FactusEnvironment;
   isActive: boolean;
+  isValid: boolean;
 }
 
 export interface GetConnectionResult {
   isValid: boolean;
-  environment: "sandbox" | "production";
+  environment: FactusEnvironment;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -84,13 +89,13 @@ export class FactusService {
       clientSecret: decrypt(active.clientSecret),
       username: active.username,
       password: decrypt(active.password),
-      environment: active.environment as "sandbox" | "production",
+      environment: active.environment as FactusEnvironment,
     });
 
     const isValid = await validateClient(client);
     return {
       isValid,
-      environment: active.environment as "sandbox" | "production",
+      environment: active.environment as FactusEnvironment,
     };
   }
 
@@ -111,14 +116,14 @@ export class FactusService {
           clientSecret: decrypt(row.clientSecret),
           username: row.username,
           password: decrypt(row.password),
-          environment: row.environment as "sandbox" | "production",
+          environment: row.environment as FactusEnvironment,
         });
         const isValid = await validateClient(client);
         return {
           id: row.id,
           name: row.name,
           description: `${row.username} - ${row.clientId}`,
-          environment: row.environment as "sandbox" | "production",
+          environment: row.environment as FactusEnvironment,
           isActive: row.isActive,
           isValid,
         } satisfies CredentialListItem;
@@ -144,7 +149,7 @@ export class FactusService {
 
   /**
    * Get a single credential set with decrypted secrets (for edit prefill).
-   * Throws if the credential doesn't belong to the user.
+   * Includes a live validity check. Throws if the credential doesn't belong to the user.
    */
   static async getCredential(
     userId: string,
@@ -161,15 +166,29 @@ export class FactusService {
       throw new Error("Credencial no encontrada");
     }
 
+    const decryptedSecret = decrypt(row.clientSecret);
+    const decryptedPassword = decrypt(row.password);
+
+    const client = new FactusClient({
+      clientId: row.clientId,
+      clientSecret: decryptedSecret,
+      username: row.username,
+      password: decryptedPassword,
+      environment: row.environment as FactusEnvironment,
+    });
+
+    const isValid = await validateClient(client);
+
     return {
       id: row.id,
       name: row.name,
       clientId: row.clientId,
-      clientSecret: decrypt(row.clientSecret),
+      clientSecret: decryptedSecret,
       username: row.username,
-      password: decrypt(row.password),
-      environment: row.environment as "sandbox" | "production",
+      password: decryptedPassword,
+      environment: row.environment as FactusEnvironment,
       isActive: row.isActive,
+      isValid,
     };
   }
 
@@ -229,7 +248,7 @@ export class FactusService {
       username,
       password: encrypt(password),
       environment,
-      isActive: false, // auto-activate if first credential
+      isActive: false,
     });
   }
 
@@ -353,22 +372,7 @@ export class FactusService {
     userId: string,
     name?: string,
   ): Promise<{ id: number; code: string; name: string; department: string }[]> {
-    const active = await db.query.factusCredentials.findFirst({
-      where: and(
-        eq(factusCredentials.userId, userId),
-        eq(factusCredentials.isActive, true),
-      ),
-    });
-
-    const client = active
-      ? new FactusClient({
-          clientId: active.clientId,
-          clientSecret: decrypt(active.clientSecret),
-          username: active.username,
-          password: decrypt(active.password),
-          environment: active.environment as "sandbox" | "production",
-        })
-      : defaultFactusClient;
+    const client = await getFactusClientForUser(userId);
 
     const res = await client.catalog.listMunicipalities(
       name ? { filter: { name } } : undefined,
@@ -389,22 +393,7 @@ export class FactusService {
     identificationDocumentId: string,
     identificationNumber: string,
   ): Promise<{ name: string; email: string }> {
-    const active = await db.query.factusCredentials.findFirst({
-      where: and(
-        eq(factusCredentials.userId, userId),
-        eq(factusCredentials.isActive, true),
-      ),
-    });
-
-    const client = active
-      ? new FactusClient({
-          clientId: active.clientId,
-          clientSecret: decrypt(active.clientSecret),
-          username: active.username,
-          password: decrypt(active.password),
-          environment: active.environment as "sandbox" | "production",
-        })
-      : defaultFactusClient;
+    const client = await getFactusClientForUser(userId);
 
     const res = await client.catalog.getAcquirer({
       identification_document_id: Number(

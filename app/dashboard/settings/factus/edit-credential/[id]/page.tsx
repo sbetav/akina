@@ -6,6 +6,7 @@ import {
   PageHeaderTitle,
 } from "@/components/dashboard/page-header";
 import CredentialsForm from "@/components/dashboard/settings/factus/credentials-form";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { requireUser } from "@/lib/dal";
 import { FactusService } from "@/lib/elysia/modules/factus/service";
 import { notFound } from "next/navigation";
@@ -39,6 +40,16 @@ const Page: FC<PageProps> = async ({ params }) => {
           </PageHeaderDescription>
         </PageHeaderContent>
       </PageHeader>
+
+      {!credential.isValid && (
+        <Alert variant="destructive">
+          <AlertTitle>Credenciales inválidas</AlertTitle>
+          <AlertDescription>
+            No se pudo conectar con Factus usando estas credenciales. Verifica
+            los datos e intenta nuevamente.
+          </AlertDescription>
+        </Alert>
+      )}
 
       <CredentialsForm selectedCredential={credential} />
     </div>

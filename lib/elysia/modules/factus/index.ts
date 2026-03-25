@@ -54,9 +54,7 @@ export const factusModule = new Elysia({ prefix: "/factus" })
       try {
         const items = await FactusService.listCredentials(user.id);
         return { items };
-      } catch (e) {
-        console.log(e);
-
+      } catch {
         return status(500, { error: "Error al obtener las credenciales" });
       }
     },
@@ -111,7 +109,6 @@ export const factusModule = new Elysia({ prefix: "/factus" })
       try {
         return await FactusService.getCredential(user.id, params.id);
       } catch (e) {
-        console.log(e);
         const message =
           e instanceof Error ? e.message : "Error al obtener la credencial";
         return status(404, { error: message });
@@ -265,4 +262,9 @@ export const factusModule = new Elysia({ prefix: "/factus" })
   );
 
 // Re-export types for client consumption
-export type { CredentialListItem, GetConnectionResult } from "./service";
+export type {
+  CredentialDetailResult,
+  CredentialListItem,
+  FactusEnvironment,
+  GetConnectionResult,
+} from "./service";
