@@ -84,19 +84,27 @@ export class FactusService {
       return { isValid: true, environment: "sandbox" };
     }
 
-    const client = new FactusClient({
-      clientId: active.clientId,
-      clientSecret: decrypt(active.clientSecret),
-      username: active.username,
-      password: decrypt(active.password),
-      environment: active.environment as FactusEnvironment,
-    });
+    try {
+      const client = new FactusClient({
+        clientId: active.clientId,
+        clientSecret: decrypt(active.clientSecret),
+        username: active.username,
+        password: decrypt(active.password),
+        environment: active.environment as FactusEnvironment,
+      });
 
-    const isValid = await validateClient(client);
-    return {
-      isValid,
-      environment: active.environment as FactusEnvironment,
-    };
+      const isValid = await validateClient(client);
+      return {
+        isValid,
+        environment: active.environment as FactusEnvironment,
+      };
+    } catch {
+      // Corrupted encrypted data or validation failure — treat as invalid
+      return {
+        isValid: false,
+        environment: active.environment as FactusEnvironment,
+      };
+    }
   }
 
   /**
@@ -111,22 +119,34 @@ export class FactusService {
 
     const validated = await Promise.all(
       rows.map(async (row) => {
-        const client = new FactusClient({
-          clientId: row.clientId,
-          clientSecret: decrypt(row.clientSecret),
-          username: row.username,
-          password: decrypt(row.password),
-          environment: row.environment as FactusEnvironment,
-        });
-        const isValid = await validateClient(client);
-        return {
-          id: row.id,
-          name: row.name,
-          description: `${row.username} - ${row.clientId}`,
-          environment: row.environment as FactusEnvironment,
-          isActive: row.isActive,
-          isValid,
-        } satisfies CredentialListItem;
+        try {
+          const client = new FactusClient({
+            clientId: row.clientId,
+            clientSecret: decrypt(row.clientSecret),
+            username: row.username,
+            password: decrypt(row.password),
+            environment: row.environment as FactusEnvironment,
+          });
+          const isValid = await validateClient(client);
+          return {
+            id: row.id,
+            name: row.name,
+            description: `${row.username} - ${row.clientId}`,
+            environment: row.environment as FactusEnvironment,
+            isActive: row.isActive,
+            isValid,
+          } satisfies CredentialListItem;
+        } catch {
+          // Corrupted encrypted data — mark as invalid rather than crashing
+          return {
+            id: row.id,
+            name: row.name,
+            description: `${row.username} - ${row.clientId}`,
+            environment: row.environment as FactusEnvironment,
+            isActive: row.isActive,
+            isValid: false,
+          } satisfies CredentialListItem;
+        }
       }),
     );
 
@@ -166,18 +186,29 @@ export class FactusService {
       throw new Error("Credencial no encontrada");
     }
 
-    const decryptedSecret = decrypt(row.clientSecret);
-    const decryptedPassword = decrypt(row.password);
+    let decryptedSecret: string;
+    let decryptedPassword: string;
+    let isValid: boolean;
 
-    const client = new FactusClient({
-      clientId: row.clientId,
-      clientSecret: decryptedSecret,
-      username: row.username,
-      password: decryptedPassword,
-      environment: row.environment as FactusEnvironment,
-    });
+    try {
+      decryptedSecret = decrypt(row.clientSecret);
+      decryptedPassword = decrypt(row.password);
 
-    const isValid = await validateClient(client);
+      const client = new FactusClient({
+        clientId: row.clientId,
+        clientSecret: decryptedSecret,
+        username: row.username,
+        password: decryptedPassword,
+        environment: row.environment as FactusEnvironment,
+      });
+
+      isValid = await validateClient(client);
+    } catch {
+      // Corrupted encrypted data — return what we can, mark as invalid
+      decryptedSecret = "";
+      decryptedPassword = "";
+      isValid = false;
+    }
 
     return {
       id: row.id,
