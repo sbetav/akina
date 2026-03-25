@@ -20,6 +20,7 @@
         "clsx": "^2.1.1",
         "drizzle-orm": "^0.45.1",
         "elysia": "^1.4.28",
+        "factus-js": "^0.1.0",
         "input-otp": "^1.4.2",
         "lucide-react": "^0.575.0",
         "next": "16.1.6",
@@ -892,6 +893,8 @@
     "express-rate-limit": ["express-rate-limit@8.2.1", "", { "dependencies": { "ip-address": "10.0.1" }, "peerDependencies": { "express": ">= 4.11" } }, "sha512-PCZEIEIxqwhzw4KF0n7QF4QqruVTcF73O5kFKUnGOyjbCCgizBBiFaYpd/fnBLUMPw/BWw9OsiN7GgrNYr7j6g=="],
 
     "exsolve": ["exsolve@1.0.8", "", {}, "sha512-LmDxfWXwcTArk8fUEnOfSZpHOJ6zOMUJKOtFLFqJLoKJetuQG874Uc7/Kki7zFLzYybmZhp1M7+98pfMqeX8yA=="],
+
+    "factus-js": ["factus-js@0.1.0", "", {}, "sha512-8GbmSK0NXI3z7GwEml+hNZsUHRdgAWatcX6oTLHNN1AD7ja+c+JsWe2C8wE56Ce6cZrk/y4FOkdk/Y9mJqO5+A=="],
 
     "fast-decode-uri-component": ["fast-decode-uri-component@1.0.1", "", {}, "sha512-WKgKWg5eUxvRZGwW8FvfbaH7AXSh2cL+3j5fMGzUMCxWBJ3dV3a7Wz8y2f/uQ0e3B6WmodD3oS54jTQ9HVTIIg=="],
 

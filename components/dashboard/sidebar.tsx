@@ -1,7 +1,9 @@
 "use client";
 
 import { useLogout } from "@/hooks/use-logout";
+import { api } from "@/lib/elysia/eden";
 import { cn } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
 import type { User } from "better-auth";
 import { usePathname } from "next/navigation";
 import type { FC } from "react";
@@ -21,6 +23,7 @@ import Link from "next/link";
 import GitHubIcon from "../icons/github-icon";
 import { AppLogo } from "../ui/app-logo";
 import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -56,6 +59,20 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
 
   const { logout, isPending } = useLogout();
 
+  const { data: connection } = useQuery({
+    queryKey: ["factus", "connection"],
+    queryFn: async () => {
+      const res = await api.factus.connection.get();
+
+      return res.data;
+    },
+    // Don't block sidebar render — stale data is fine here
+    staleTime: 5 * 60 * 1000,
+  });
+
+  // Show badge when there is no active credential or the active one targets sandbox
+  const showSandboxBadge = connection?.environment === "sandbox";
+
   return (
     <>
       {/* Mobile header — visible only below lg breakpoint */}
@@ -82,8 +99,9 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
       >
         <div className="space-y-16">
           {/* Desktop-only logo row */}
-          <div className="hidden px-6 lg:flex">
+          <div className="hidden items-center gap-2 px-6 lg:flex">
             <AppLogo />
+            {showSandboxBadge && <Badge variant="warning">Sandbox</Badge>}
           </div>
           <div className="flex flex-col gap-4">
             <span className="text-muted-foreground/70 px-6 text-xs font-medium uppercase">

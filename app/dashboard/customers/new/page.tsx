@@ -1,3 +1,5 @@
+"use client";
+
 import BackButton from "@/components/back-button";
 import CustomerForm from "@/components/dashboard/customers/customer-form";
 import {
@@ -6,10 +8,18 @@ import {
   PageHeaderDescription,
   PageHeaderTitle,
 } from "@/components/dashboard/page-header";
-import { getMunicipalitiesAction } from "../actions";
+import { api } from "@/lib/elysia/eden";
+import { useQuery } from "@tanstack/react-query";
 
-const Page = async () => {
-  const municipalities = await getMunicipalitiesAction();
+const Page = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: ["factus", "municipalities"],
+    queryFn: async () => {
+      const res = await api.factus.municipalities.get();
+      if (res.error) throw new Error("Error al cargar municipios");
+      return res.data.data;
+    },
+  });
 
   return (
     <div className="flex min-h-full w-full flex-1 flex-col gap-6">
@@ -22,7 +32,10 @@ const Page = async () => {
           </PageHeaderDescription>
         </PageHeaderContent>
       </PageHeader>
-      <CustomerForm municipalities={municipalities} />
+      <CustomerForm
+        municipalities={data ?? []}
+        isLoadingMunicipalities={isLoading}
+      />
     </div>
   );
 };

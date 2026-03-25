@@ -11,7 +11,7 @@ function Empty({
     <div
       data-slot="empty"
       className={cn(
-        "flex w-full min-w-0 flex-1 flex-col items-center justify-center gap-4 border-dashed p-12 text-center",
+        "xs:p-8 flex w-full min-w-0 flex-1 flex-col items-center justify-center gap-4 border-dashed p-4 text-center sm:p-12",
         {
           "bg-card/20 flex min-h-0 flex-1 items-center justify-center border border-dashed":
             fillSpace,
@@ -39,7 +39,7 @@ const emptyMediaVariants = cva(
     variants: {
       variant: {
         default: "bg-transparent",
-        icon: "bg-muted text-muted-foreground/80 size-16 border [&_svg:not([class*='size-'])]:size-6",
+        icon: "bg-muted text-muted-foreground/80 xs:size-16 xs:[&_svg:not([class*='size-'])]:size-6 size-14 border [&_svg:not([class*='size-'])]:size-5",
       },
     },
     defaultVariants: {
@@ -68,7 +68,7 @@ function EmptyMedia({
     <div
       data-slot="empty-media-wrapper"
       className={cn(
-        "relative mb-2 size-16",
+        "xs:size-16 relative mb-2 size-14",
         // Back-left card
         "before:bg-muted before:border-border before:absolute before:inset-0 before:border before:content-['']",
         "before:origin-bottom-left before:-translate-x-1 before:scale-[0.84] before:-rotate-10",
@@ -95,7 +95,10 @@ function EmptyTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="empty-title"
-      className={cn("font-sans text-xl font-medium tracking-tight", className)}
+      className={cn(
+        "font-sans font-medium tracking-tight sm:text-xl",
+        className,
+      )}
       {...props}
     />
   );

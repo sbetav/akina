@@ -11,7 +11,9 @@ export const env = createEnv({
     FACTUS_PASSWORD: z.string(),
     FACTUS_CLIENT_ID: z.string(),
     FACTUS_CLIENT_SECRET: z.string(),
-    FACTUS_API_URL: z.string(),
+    ENCRYPTION_KEY: z
+      .string()
+      .length(64, "ENCRYPTION_KEY must be a 64-char hex string (32 bytes)"),
   },
   client: {
     NEXT_PUBLIC_BASE_URL: z.string(),

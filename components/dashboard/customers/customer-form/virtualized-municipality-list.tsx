@@ -7,7 +7,7 @@ import {
   ItemDescription,
   ItemTitle,
 } from "@/components/ui/item";
-import { type Municipality } from "@/lib/factus";
+import { type Municipality } from "@/lib/elysia/modules/factus/model";
 import { Combobox as ComboboxPrimitive } from "@base-ui/react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useCallback, useImperativeHandle, useRef } from "react";

@@ -25,6 +25,7 @@
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.1",
     "elysia": "^1.4.28",
+    "factus-js": "^0.1.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.575.0",
     "next": "16.1.6",

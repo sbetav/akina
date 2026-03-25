@@ -11,9 +11,9 @@ import {
 import { cn } from "@/lib/utils";
 import { useRouter } from "@bprogress/next";
 import {
-  BlocksIcon,
   BriefcaseBusinessIcon,
   ChevronDownIcon,
+  KeyIcon,
   LockIcon,
   UserIcon,
 } from "lucide-react";
@@ -32,17 +32,17 @@ const Layout: FC<LayoutProps> = ({ children }) => {
   const links = [
     {
       href: "/dashboard/settings",
-      label: "Cuenta",
+      label: "Tu Cuenta",
       icon: UserIcon,
     },
     {
-      href: "/dashboard/settings/integration",
-      label: "Integración",
-      icon: BlocksIcon,
+      href: "/dashboard/settings/factus",
+      label: "Conexión Factus",
+      icon: KeyIcon,
     },
     {
       href: "/dashboard/settings/company",
-      label: "Empresa",
+      label: "Datos de la Empresa",
       icon: BriefcaseBusinessIcon,
     },
     {
@@ -134,7 +134,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
         </div>
       </div>
 
-      <div className="flex min-h-full w-full flex-1 flex-col gap-8 pt-12 lg:pt-0">
+      <div className="flex min-h-full w-full flex-1 flex-col gap-7 pt-12 lg:pt-0">
         <PageHeader>
           <PageHeaderContent>
             <BackButton mode="redirect" href="/dashboard" />

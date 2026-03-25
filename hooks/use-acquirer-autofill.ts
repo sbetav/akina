@@ -1,8 +1,7 @@
-import { getAcquirerAction } from "@/app/dashboard/customers/actions";
 import { toast } from "@/components/ui/toast";
+import { api } from "@/lib/elysia/eden";
 import { CustomerFormValues } from "@/lib/validations/customer";
-import { useAction } from "next-safe-action/hooks";
-import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { UseFormSetValue } from "react-hook-form";
 
 interface UseAcquirerAutofillProps {
@@ -16,34 +15,33 @@ export function useAcquirerAutofill({
   identification,
   setValue,
 }: UseAcquirerAutofillProps) {
-  const { execute, result, isPending } = useAction(getAcquirerAction, {
-    onSuccess: ({ data }) => {
-      setValue("email", data.email);
-      setValue("name", data.name);
-      toast.success("Correo electrónico y nombre autocompletados");
+  const enabled = !!identificationDocumentId && identification.length >= 5;
+
+  const { isFetching, data } = useQuery({
+    queryKey: ["factus", "acquirer", identificationDocumentId, identification],
+    queryFn: async () => {
+      const res = await api.factus.acquirer.get({
+        query: {
+          identificationDocumentId,
+          identificationNumber: identification,
+        },
+      });
+      if (res.error) throw new Error("Adquiriente no encontrado");
+      return res.data;
     },
-    onError: ({ error }) => {
-      console.log("Something went wrong:", error);
+    enabled,
+    staleTime: 5 * 60 * 1000, // 5 minutes — DIAN registry rarely changes
+    retry: false,
+    // Autofill form fields on successful fetch
+    select: (data) => {
+      if (data) {
+        setValue("email", data.email);
+        setValue("name", data.name);
+        toast.success("Correo electrónico y nombre autocompletados");
+      }
+      return data;
     },
   });
 
-  useEffect(() => {
-    if (
-      !identificationDocumentId ||
-      !identification ||
-      identification.length < 5
-    )
-      return;
-
-    const timer = setTimeout(async () => {
-      execute({
-        identificationDocumentId,
-        identification,
-      });
-    }, 400);
-
-    return () => clearTimeout(timer);
-  }, [identificationDocumentId, identification, setValue]);
-
-  return { isPending, result };
+  return { isPending: isFetching, data };
 }

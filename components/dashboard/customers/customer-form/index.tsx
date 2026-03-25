@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useAcquirerAutofill } from "@/hooks/use-acquirer-autofill";
-import { type Municipality } from "@/lib/factus";
+import { type Municipality } from "@/lib/elysia/modules/factus/model";
 import {
   CustomerFormValues,
   customerFormSchema,
@@ -18,9 +18,13 @@ import { OrganizationFieldSet } from "./organization-fieldset";
 
 interface CustomerFormProps {
   municipalities: Municipality[];
+  isLoadingMunicipalities?: boolean;
 }
 
-const CustomerForm: FC<CustomerFormProps> = ({ municipalities }) => {
+const CustomerForm: FC<CustomerFormProps> = ({
+  municipalities,
+  isLoadingMunicipalities,
+}) => {
   const { handleSubmit, control, resetField, setValue } =
     useForm<CustomerFormValues>({
       resolver: zodResolver(customerFormSchema),
