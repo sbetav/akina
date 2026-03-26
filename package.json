@@ -19,6 +19,7 @@
     "@react-three/fiber": "^9.3.0",
     "@t3-oss/env-nextjs": "^0.13.10",
     "@tanstack/react-query": "^5.90.21",
+    "@tanstack/react-table": "^8.21.3",
     "@tanstack/react-virtual": "^3.13.22",
     "better-auth": "^1.4.19",
     "class-variance-authority": "^0.7.1",
