@@ -37,7 +37,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
     },
     {
       href: "/dashboard/settings/factus",
-      label: "Conexión Factus",
+      label: "Conexión a Factus",
       icon: KeyIcon,
     },
     {

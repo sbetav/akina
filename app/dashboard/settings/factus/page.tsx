@@ -34,7 +34,7 @@ export default async function Page() {
     <div className="flex min-h-full w-full flex-1 flex-col gap-6">
       <PageHeader size="sm">
         <PageHeaderContent>
-          <PageHeaderTitle>Integración</PageHeaderTitle>
+          <PageHeaderTitle>Conexión a Factus</PageHeaderTitle>
           <PageHeaderDescription className="normal-case">
             &#47;&#47; Conecta Akina con Factus y comienza a emitir documentos
             electrónicos

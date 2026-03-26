@@ -235,7 +235,9 @@ const CredentialsItem: FC<CredentialsItemProps> = ({
                 </Badge>
               )}
             </div>
-            <FieldDescription>{credential.description}</FieldDescription>
+            <FieldDescription className="line-clamp-2 text-ellipsis">
+              {credential.description}
+            </FieldDescription>
           </FieldContent>
         </Field>
       </FieldLabel>
