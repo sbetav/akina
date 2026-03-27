@@ -2,13 +2,18 @@ import { t } from "elysia";
 
 // ─── Credential CRUD bodies ───────────────────────────────────────────────────
 
+export const Environment = t.Union([
+  t.Literal("sandbox"),
+  t.Literal("production"),
+]);
+
 export const CredentialBody = t.Object({
   name: t.String({ minLength: 1 }),
   clientId: t.String({ minLength: 1 }),
   clientSecret: t.String({ minLength: 1 }),
   username: t.String({ minLength: 1 }),
   password: t.String({ minLength: 1 }),
-  environment: t.Union([t.Literal("sandbox"), t.Literal("production")]),
+  environment: Environment,
 });
 
 // ─── Catalog query params ─────────────────────────────────────────────────────
@@ -30,7 +35,7 @@ export const MunicipalitiesQuery = t.Object({
  */
 export const ConnectionResponse = t.Object({
   isValid: t.Boolean(),
-  environment: t.Union([t.Literal("sandbox"), t.Literal("production")]),
+  environment: Environment,
 });
 
 /**
@@ -39,8 +44,9 @@ export const ConnectionResponse = t.Object({
 export const CredentialItem = t.Object({
   id: t.String(),
   name: t.String(),
-  description: t.String(),
-  environment: t.Union([t.Literal("sandbox"), t.Literal("production")]),
+  username: t.String(),
+  clientId: t.String(),
+  environment: Environment,
   isActive: t.Boolean(),
   isValid: t.Boolean(),
 });
@@ -49,15 +55,9 @@ export const CredentialItem = t.Object({
  * Full credential detail including decrypted secrets — used for edit prefill.
  */
 export const CredentialDetail = t.Object({
-  id: t.String(),
-  name: t.String(),
-  clientId: t.String(),
+  ...CredentialItem.properties,
   clientSecret: t.String(),
-  username: t.String(),
   password: t.String(),
-  environment: t.Union([t.Literal("sandbox"), t.Literal("production")]),
-  isActive: t.Boolean(),
-  isValid: t.Boolean(),
 });
 
 export const CredentialListResponse = t.Object({
@@ -70,14 +70,6 @@ export const MunicipalityItem = t.Object({
   name: t.String(),
   department: t.String(),
 });
-
-/** TypeScript type for a municipality (mirrors MunicipalityItem schema) */
-export interface Municipality {
-  id: number;
-  code: string;
-  name: string;
-  department: string;
-}
 
 export const AcquirerResponse = t.Object({
   name: t.String(),

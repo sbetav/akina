@@ -1,4 +1,5 @@
 import SideBar from "@/components/dashboard/sidebar";
+import { CredentialActivationProvider } from "@/contexts/credential-activation-context";
 import { requireUser } from "@/lib/dal";
 import { FactusService } from "@/lib/elysia/modules/factus/service";
 import { getQueryClient } from "@/lib/query-client";
@@ -15,20 +16,25 @@ const Layout = async ({ children }: LayoutProps) => {
   const queryClient = getQueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ["factus", "connection"],
-    queryFn: () => FactusService.getConnection(user.id),
+    queryKey: ["factus", "credentials"],
+    queryFn: async () => {
+      const items = await FactusService.listCredentials(user.id);
+      return { items };
+    },
   });
   return (
-    <div className="flex h-svh w-full">
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <SideBar user={user} />
-      </HydrationBoundary>
-      <main className="w-full flex-1 overflow-auto pt-16 lg:pt-0">
-        <div className="bg-bg mx-auto flex min-h-full w-full max-w-[1500px] flex-col p-6 lg:px-12 lg:py-10">
-          {children}
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <CredentialActivationProvider>
+        <div className="flex h-svh w-full">
+          <SideBar user={user} />
+          <main className="w-full flex-1 overflow-auto pt-16 lg:pt-0">
+            <div className="bg-bg mx-auto flex min-h-full w-full max-w-[1500px] flex-col p-6 lg:px-12 lg:py-10">
+              {children}
+            </div>
+          </main>
         </div>
-      </main>
-    </div>
+      </CredentialActivationProvider>
+    </HydrationBoundary>
   );
 };
 

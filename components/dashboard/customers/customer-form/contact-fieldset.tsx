@@ -19,8 +19,8 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { type Municipality } from "@/lib/elysia/modules/factus/model";
 import { CustomerFormValues } from "@/lib/validations/customer";
+import { Municipality } from "factus-js";
 import { MailIcon, MapPinHouseIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 import { useRef } from "react";
 import { Control, Controller } from "react-hook-form";

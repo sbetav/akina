@@ -7,9 +7,9 @@ import {
   ItemDescription,
   ItemTitle,
 } from "@/components/ui/item";
-import { type Municipality } from "@/lib/elysia/modules/factus/model";
 import { Combobox as ComboboxPrimitive } from "@base-ui/react";
 import { useVirtualizer } from "@tanstack/react-virtual";
+import { Municipality } from "factus-js";
 import { useCallback, useImperativeHandle, useRef } from "react";
 
 export type MunicipalityVirtualizer = ReturnType<

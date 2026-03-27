@@ -26,7 +26,8 @@ export interface CredentialInput {
 export interface CredentialListItem {
   id: string;
   name: string;
-  description: string;
+  username: string;
+  clientId: string;
   environment: FactusEnvironment;
   isActive: boolean;
   isValid: boolean;
@@ -131,7 +132,8 @@ export class FactusService {
           return {
             id: row.id,
             name: row.name,
-            description: `${row.username} - ${row.clientId}`,
+            username: row.username,
+            clientId: row.clientId,
             environment: row.environment as FactusEnvironment,
             isActive: row.isActive,
             isValid,
@@ -141,7 +143,8 @@ export class FactusService {
           return {
             id: row.id,
             name: row.name,
-            description: `${row.username} - ${row.clientId}`,
+            username: row.username,
+            clientId: row.clientId,
             environment: row.environment as FactusEnvironment,
             isActive: row.isActive,
             isValid: false,
@@ -156,8 +159,9 @@ export class FactusService {
       validated.length > 0
         ? {
             id: "akina-sandbox",
-            name: "Akina Sandbox",
-            description: "Ideal para hacer pruebas y explorar la plataforma. ",
+            name: "Akina",
+            username: "akina-sandbox",
+            clientId: "akina-sandbox",
             environment: "sandbox",
             isActive: !validated.some((v) => v.isActive),
             isValid: true,

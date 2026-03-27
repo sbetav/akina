@@ -28,12 +28,10 @@ import {
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Skeleton } from "@/components/ui/skeleton";
-import { toast } from "@/components/ui/toast";
-import { api } from "@/lib/elysia/eden";
+import { useCredentialActivation } from "@/hooks/use-credential-activation";
 import { CredentialListItem } from "@/lib/elysia/modules/factus";
 import { cn } from "@/lib/utils";
 import { useRouter } from "@bprogress/next";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   AlertTriangleIcon,
   ArrowRightIcon,
@@ -43,69 +41,19 @@ import {
   Trash2Icon,
 } from "lucide-react";
 import Link from "next/link";
-import { FC, useMemo, useRef, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import DeleteCredentialsDialog from "./delete-credentials-dialog";
 
-interface CredentialsListProps {
-  initialActiveId: string;
-}
-
-const CredentialsList: FC<CredentialsListProps> = ({ initialActiveId }) => {
-  const queryClient = useQueryClient();
-
-  const [selectedCredential, setSelectedCredential] =
-    useState<string>(initialActiveId);
-  const initializedRef = useRef(false);
-
-  const { data, isLoading } = useQuery({
-    queryKey: ["factus", "credentials"],
-    queryFn: async () => {
-      const res = await api.factus.credentials.get();
-      if (res.error)
-        throw new Error(
-          (res.error as { value?: { error?: string } }).value?.error ??
-            "Error al obtener las credenciales",
-        );
-
-      if (!initializedRef.current) {
-        setSelectedCredential(
-          res.data.items.find((c) => c.isActive)?.id ?? "akina-sandbox",
-        );
-        initializedRef.current = true;
-      }
-
-      return res.data;
-    },
-  });
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (id: string) => {
-      await api.factus.credentials({ id }).activate.patch();
-    },
-    onSuccess: () => {
-      toast.success("Credencial seleccionada correctamente");
-      queryClient.invalidateQueries({ queryKey: ["factus", "credentials"] });
-    },
-    onError: (e: Error) => {
-      toast.error(e.message);
-      // revert to the active one from cache
-      const cached = queryClient.getQueryData<{ items: CredentialListItem[] }>([
-        "factus",
-        "credentials",
-      ]);
-      setSelectedCredential(
-        cached?.items.find((c) => c.isActive)?.id ?? "akina-sandbox",
-      );
-    },
-  });
+const CredentialsList: FC = () => {
+  const { isLoading, items, selectedCredential, activate, isPending } =
+    useCredentialActivation();
 
   const { validItems, invalidItems } = useMemo(() => {
-    const items = data?.items ?? [];
     return {
       validItems: items.filter((c) => c.isValid),
       invalidItems: items.filter((c) => !c.isValid),
     };
-  }, [data?.items]);
+  }, [items]);
 
   if (isLoading) {
     return <Skeleton className="w-full flex-1" />;
@@ -113,7 +61,7 @@ const CredentialsList: FC<CredentialsListProps> = ({ initialActiveId }) => {
 
   return (
     <div className="flex flex-1 flex-col gap-5">
-      {!data?.items?.length ? (
+      {!items.length ? (
         <Empty fillSpace className="bg-background/30 flex-1">
           <EmptyHeader>
             <EmptyMedia variant="icon">
@@ -140,8 +88,7 @@ const CredentialsList: FC<CredentialsListProps> = ({ initialActiveId }) => {
           <RadioGroup
             value={selectedCredential}
             onValueChange={(value) => {
-              setSelectedCredential(value as string | "akina-sandbox");
-              mutate(value as string | "akina-sandbox");
+              activate(value as string | "akina-sandbox");
             }}
             disabled={isPending}
             className="sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2"
@@ -222,21 +169,19 @@ const CredentialsItem: FC<CredentialsItemProps> = ({
                 disabled={isPending}
               />
               <FieldTitle className="mt-0.5">{credential.name}</FieldTitle>
-              {credential.id != "akina-sandbox" && (
-                <Badge
-                  size="sm"
-                  variant={
-                    credential.environment == "sandbox" ? "warning" : "info"
-                  }
-                >
-                  {credential.environment == "sandbox"
-                    ? "Sandbox"
-                    : "Producción"}
-                </Badge>
-              )}
+              <Badge
+                size="sm"
+                variant={
+                  credential.environment == "sandbox" ? "warning" : "info"
+                }
+              >
+                {credential.environment == "sandbox" ? "Sandbox" : "Producción"}
+              </Badge>
             </div>
             <FieldDescription className="line-clamp-2 text-ellipsis">
-              {credential.description}
+              {credential.id === "akina-sandbox"
+                ? "Ideal para hacer pruebas y explorar la plataforma. "
+                : `${credential.username} - ${credential.clientId}`}
             </FieldDescription>
           </FieldContent>
         </Field>
@@ -312,7 +257,7 @@ const InvalidCredentialItem: FC<InvalidCredentialItemProps> = ({
           </Badge>
         </div>
         <p className="text-muted-foreground text-xs">
-          {credential.description}
+          {credential.username} - {credential.clientId}
         </p>
       </div>
 
@@ -347,59 +292,3 @@ const InvalidCredentialItem: FC<InvalidCredentialItemProps> = ({
 };
 
 export default CredentialsList;
-
-{
-  /* <div className="relative">
-      <Field orientation="horizontal" className="h-full">
-        <FieldContent>
-          <div className="mb-0.5 flex items-center gap-2.5">
-            <FieldTitle className="mt-0.5">{credential.name}</FieldTitle>
-            <Badge size="sm" variant="destructive">
-              Inválida
-            </Badge>
-            <Badge
-              size="sm"
-              variant={credential.environment == "sandbox" ? "warning" : "info"}
-            >
-              {credential.environment == "sandbox" ? "Sandbox" : "Producción"}
-            </Badge>
-          </div>
-          <FieldDescription>{credential.description}</FieldDescription>
-          <div className="mt-2">
-            <Link
-              href={`/dashboard/settings/factus/edit-credential/${credential.id}`}
-              className={buttonVariants({ variant: "outline", size: "sm" })}
-            >
-              <SquarePenIcon />
-              Corregir credenciales
-            </Link>
-          </div>
-        </FieldContent>
-      </Field>
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          render={
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              className="text-foreground/80 active:text-foreground absolute top-2.5 right-2.5 size-auto!"
-            >
-              <EllipsisIcon />
-            </Button>
-          }
-        />
-        <DropdownMenuContent side="left">
-          <DropdownMenuGroup>
-            <DropdownMenuItem
-              variant="destructive"
-              onClick={() => setShowDelete(true)}
-            >
-              <Trash2Icon className="mt-px" />
-              Eliminar
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
-   
-    </div> */
-}
