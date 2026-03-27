@@ -10,7 +10,7 @@ import { FactusClient } from "factus-js";
  * Used as a fallback when a user has no active credential set or their active
  * credential is invalid.
  */
-export const defaultFactusClient = new FactusClient({
+const defaultFactusClient = new FactusClient({
   clientId: env.FACTUS_CLIENT_ID,
   clientSecret: env.FACTUS_CLIENT_SECRET,
   username: env.FACTUS_USERNAME,

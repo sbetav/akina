@@ -50,6 +50,20 @@
       "when": 1774323212383,
       "tag": "0006_perfect_living_tribunal",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1774625781872,
+      "tag": "0007_goofy_sheva_callister",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1774631084734,
+      "tag": "0008_sloppy_steve_rogers",
+      "breakpoints": true
     }
   ]
 }

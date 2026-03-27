@@ -1,0 +1,1 @@
+ALTER TABLE "customers" ALTER COLUMN "credentials_id" DROP NOT NULL;

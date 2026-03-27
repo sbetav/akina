@@ -3,7 +3,6 @@ import { Elysia, t } from "elysia";
 import {
   AcquirerQuery,
   AcquirerResponse,
-  ConnectionResponse,
   CredentialBody,
   CredentialDetail,
   CredentialListResponse,
@@ -14,32 +13,6 @@ import { FactusService } from "./service";
 
 export const factusModule = new Elysia({ prefix: "/factus" })
   .use(betterAuth)
-
-  // ─── connection summary ────────────────────────────────────────────────────
-
-  /**
-   * GET /api/factus/connection
-   * Returns the connection status with Factus.
-   */
-  .get(
-    "/connection",
-    async ({ user, status }) => {
-      try {
-        return await FactusService.getConnection(user.id);
-      } catch {
-        return status(500, {
-          error: "Error al obtener la conexión con Factus",
-        });
-      }
-    },
-    {
-      auth: true,
-      response: {
-        200: ConnectionResponse,
-        500: t.Object({ error: t.String() }),
-      },
-    },
-  )
 
   // ─── Credential list ────────────────────────────────────────────────────────
 
@@ -266,5 +239,4 @@ export type {
   CredentialDetailResult,
   CredentialListItem,
   FactusEnvironment,
-  GetConnectionResult,
 } from "./service";

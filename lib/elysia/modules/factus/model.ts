@@ -30,15 +30,6 @@ export const MunicipalitiesQuery = t.Object({
 // ─── Response bodies ──────────────────────────────────────────────────────────
 
 /**
- * Simplified connection status — just whether the active credential is valid
- * and what environment it targets. Always reflects sandbox if no active credential.
- */
-export const ConnectionResponse = t.Object({
-  isValid: t.Boolean(),
-  environment: Environment,
-});
-
-/**
  * A credential list item — no secrets returned.
  */
 export const CredentialItem = t.Object({

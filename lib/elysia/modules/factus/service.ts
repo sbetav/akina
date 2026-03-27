@@ -45,11 +45,6 @@ export interface CredentialDetailResult {
   isValid: boolean;
 }
 
-export interface GetConnectionResult {
-  isValid: boolean;
-  environment: FactusEnvironment;
-}
-
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 /**
@@ -69,45 +64,6 @@ async function validateClient(client: FactusClient): Promise<boolean> {
 // ─── Service ─────────────────────────────────────────────────────────────────
 
 export class FactusService {
-  /**
-   * Get the connection status with Factus.
-   */
-  static async getConnection(userId: string): Promise<GetConnectionResult> {
-    const active = await db.query.factusCredentials.findFirst({
-      where: and(
-        eq(factusCredentials.userId, userId),
-        eq(factusCredentials.isActive, true),
-      ),
-    });
-
-    if (!active) {
-      // Akina Sandbox — always valid
-      return { isValid: true, environment: "sandbox" };
-    }
-
-    try {
-      const client = new FactusClient({
-        clientId: active.clientId,
-        clientSecret: decrypt(active.clientSecret),
-        username: active.username,
-        password: decrypt(active.password),
-        environment: active.environment as FactusEnvironment,
-      });
-
-      const isValid = await validateClient(client);
-      return {
-        isValid,
-        environment: active.environment as FactusEnvironment,
-      };
-    } catch {
-      // Corrupted encrypted data or validation failure — treat as invalid
-      return {
-        isValid: false,
-        environment: active.environment as FactusEnvironment,
-      };
-    }
-  }
-
   /**
    * List all credential sets for a user, each with a live validity check
    * (run in parallel). Invalid credentials are sorted to the end.
