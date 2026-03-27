@@ -31,41 +31,6 @@
       "sourceType": "github",
       "computedHash": "276053f3861a6f29e2ab1922fc91281934dac5be78f85ec9f21604fd979383ee"
     },
-    "safe-action-advanced": {
-      "source": "next-safe-action/skills",
-      "sourceType": "github",
-      "computedHash": "b9088debc80404a38925cbf5cef5b82ccc3c72c79c8cf36b7e73936251302f5f"
-    },
-    "safe-action-client": {
-      "source": "next-safe-action/skills",
-      "sourceType": "github",
-      "computedHash": "ccb65ef50601f90996028f59de7b19960fe4900d144c48f483fa6b2927ddbd35"
-    },
-    "safe-action-forms": {
-      "source": "next-safe-action/skills",
-      "sourceType": "github",
-      "computedHash": "52f68e3dc8b621b607f7833439511bc57dd56f85fa8e867be40631f34c8cce81"
-    },
-    "safe-action-hooks": {
-      "source": "next-safe-action/skills",
-      "sourceType": "github",
-      "computedHash": "cab0c04b7109361d47c735ecfc451162d3d4bb000ea51650a3c343b44745a1d7"
-    },
-    "safe-action-middleware": {
-      "source": "next-safe-action/skills",
-      "sourceType": "github",
-      "computedHash": "0f475869098d2782f8c32763c38a9178b57be5988f7279cb2cfb56a12ee5b882"
-    },
-    "safe-action-testing": {
-      "source": "next-safe-action/skills",
-      "sourceType": "github",
-      "computedHash": "74fc9ce9138b705a1dcbf919d0d4a34f2209aaf276d8b6ff3962f4a377c867dc"
-    },
-    "safe-action-validation-errors": {
-      "source": "next-safe-action/skills",
-      "sourceType": "github",
-      "computedHash": "454d3d9961035d851d6b112f96693b11310ebb2d0f09f2cbf7af8173391c3896"
-    },
     "vercel-react-best-practices": {
       "source": "vercel-labs/agent-skills",
       "sourceType": "github",
