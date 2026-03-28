@@ -16,6 +16,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import useDebounce from "@/hooks/use-debounce";
 import { api } from "@/lib/elysia/eden";
@@ -34,7 +35,7 @@ export default function CustomersTable() {
 
   const debouncedSearch = useDebounce(search, 300);
 
-  const { data, isFetching } = useQuery({
+  const { data, isFetching, isLoading } = useQuery({
     queryKey: [
       ...CUSTOMERS_QUERY_KEY,
       { search: debouncedSearch, page, limit },
@@ -78,37 +79,46 @@ export default function CustomersTable() {
     },
   });
 
-  const totalRows = table.getFilteredRowModel().rows.length;
-
   return (
     <div className="flex flex-1 flex-col gap-6">
-      <InputGroup>
-        <InputGroupAddon align="inline-start">
-          <SearchIcon className="text-muted-foreground" />
-        </InputGroupAddon>
-        <InputGroupInput
-          placeholder="Buscar por nombre o número de documento..."
-          value={search}
-          onChange={(e) => handleSearchChange(e.target.value)}
-        />
-        {isFetching && (
-          <InputGroupAddon align="inline-end">
-            <Spinner className="text-muted-foreground" />
-          </InputGroupAddon>
-        )}
-      </InputGroup>
-
-      {!totalRows ? (
-        <EmptyStatus mode={debouncedSearch.trim() ? "not_found" : "empty"} />
+      {isLoading ? (
+        <>
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="w-full flex-1" />
+        </>
       ) : (
-        <DataTable table={table} />
+        <>
+          <InputGroup>
+            <InputGroupAddon align="inline-start">
+              <SearchIcon className="text-muted-foreground" />
+            </InputGroupAddon>
+            <InputGroupInput
+              placeholder="Buscar por nombre o número de documento..."
+              value={search}
+              onChange={(e) => handleSearchChange(e.target.value)}
+            />
+            {isFetching && (
+              <InputGroupAddon align="inline-end">
+                <Spinner className="text-muted-foreground" />
+              </InputGroupAddon>
+            )}
+          </InputGroup>
+
+          {!total ? (
+            <EmptyStatus
+              mode={debouncedSearch.trim() ? "not_found" : "empty"}
+            />
+          ) : (
+            <DataTable table={table} />
+          )}
+        </>
       )}
 
       <DataTablePagination
         page={page}
         pageCount={pageCount}
         limit={limit}
-        totalRows={totalRows}
+        totalRows={total}
         selectedRows={table.getFilteredSelectedRowModel().rows.length}
         onPageChange={setPage}
         onLimitChange={handleLimitChange}

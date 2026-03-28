@@ -1,10 +1,8 @@
 "use client";
 
-import {
-  CREDENTIALS_QUERY_KEY,
-  useCredentialActivationContext,
-} from "@/contexts/credential-activation-context";
+import { useCredentialActivationContext } from "@/contexts/credential-activation-context";
 import { api } from "@/lib/elysia/eden";
+import { CREDENTIALS_QUERY_KEY } from "@/lib/query-keys";
 import { useQuery } from "@tanstack/react-query";
 
 export function useCredentialActivation() {

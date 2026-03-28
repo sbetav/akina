@@ -3,6 +3,7 @@ import { CredentialActivationProvider } from "@/contexts/credential-activation-c
 import { requireUser } from "@/lib/dal";
 import { FactusService } from "@/lib/elysia/modules/factus/service";
 import { getQueryClient } from "@/lib/query-client";
+import { CREDENTIALS_QUERY_KEY } from "@/lib/query-keys";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { ReactNode } from "react";
 
@@ -16,7 +17,7 @@ const Layout = async ({ children }: LayoutProps) => {
   const queryClient = getQueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ["factus", "credentials"],
+    queryKey: [...CREDENTIALS_QUERY_KEY],
     queryFn: async () => {
       const items = await FactusService.listCredentials(user.id);
       return { items };

@@ -1,5 +1,6 @@
 import { toast } from "@/components/ui/toast";
 import { api } from "@/lib/elysia/eden";
+import { ACQUIRER_QUERY_KEY } from "@/lib/query-keys";
 import { CustomerFormValues } from "@/lib/validations/customer";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
@@ -20,7 +21,7 @@ export function useAcquirerAutofill({
   const appliedRef = useRef<string | null>(null);
 
   const { isFetching, data } = useQuery({
-    queryKey: ["factus", "acquirer", identificationDocumentId, identification],
+    queryKey: [...ACQUIRER_QUERY_KEY, identificationDocumentId, identification],
     queryFn: async () => {
       const res = await api.factus.acquirer.get({
         query: {

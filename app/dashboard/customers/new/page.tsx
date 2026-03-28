@@ -9,11 +9,12 @@ import {
   PageHeaderTitle,
 } from "@/components/dashboard/page-header";
 import { api } from "@/lib/elysia/eden";
+import { MUNICIPALITIES_QUERY_KEY } from "@/lib/query-keys";
 import { useQuery } from "@tanstack/react-query";
 
 const Page = () => {
   const { data } = useQuery({
-    queryKey: ["factus", "municipalities"],
+    queryKey: [...MUNICIPALITIES_QUERY_KEY],
     queryFn: async () => {
       const res = await api.factus.municipalities.get();
       if (res.error) throw new Error("Error al cargar municipios");

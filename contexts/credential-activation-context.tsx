@@ -3,10 +3,12 @@
 import { toast } from "@/components/ui/toast";
 import { api } from "@/lib/elysia/eden";
 import { CredentialListItem } from "@/lib/elysia/modules/factus";
+import {
+  CREDENTIAL_DEPENDENT_KEYS,
+  CREDENTIALS_QUERY_KEY,
+} from "@/lib/query-keys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createContext, ReactNode, useContext } from "react";
-
-export const CREDENTIALS_QUERY_KEY = ["factus", "credentials"] as const;
 
 interface CredentialActivationContextValue {
   activate: (id: string) => void;
@@ -58,6 +60,13 @@ export function CredentialActivationProvider({
     onSuccess: () => {
       toast.success("Credencial seleccionada correctamente");
       queryClient.invalidateQueries({ queryKey: CREDENTIALS_QUERY_KEY });
+
+      // Reset all credential-dependent queries: clears cached data
+      // (so components enter isLoading for skeleton UI) and triggers
+      // an immediate refetch for mounted observers.
+      for (const key of CREDENTIAL_DEPENDENT_KEYS) {
+        queryClient.resetQueries({ queryKey: [...key] });
+      }
     },
     onError: (e: Error, _id, context) => {
       toast.error(e.message);

@@ -23,6 +23,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useGoBack } from "@/hooks/use-go-back";
 import { api } from "@/lib/elysia/eden";
 import { CredentialDetailResult } from "@/lib/elysia/modules/factus";
+import { CREDENTIALS_QUERY_KEY } from "@/lib/query-keys";
 import {
   credentialFormSchema,
   CredentialFormValues,
@@ -90,7 +91,7 @@ const CredentialsForm: FC<CredentialsFormProps> = ({ selectedCredential }) => {
       toast.success(
         `Credenciales ${selectedCredential ? "actualizadas" : "agregadas"} exitosamente`,
       );
-      queryClient.invalidateQueries({ queryKey: ["factus", "credentials"] });
+      queryClient.invalidateQueries({ queryKey: CREDENTIALS_QUERY_KEY });
       router.replace("/dashboard/settings/factus");
     },
     onError: (e: Error) => toast.error(e.message),
