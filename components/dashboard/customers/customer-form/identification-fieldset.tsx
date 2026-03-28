@@ -1,34 +1,33 @@
 "use client";
 
 import {
-    Field,
-    FieldError,
-    FieldGroup,
-    FieldLabel,
-    FieldLegend,
-    FieldSet,
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
 } from "@/components/ui/field";
 import {
-    InputGroup,
-    InputGroupAddon,
-    InputGroupInput,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
 } from "@/components/ui/input-group";
 import {
-    Select,
-    SelectAddon,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectAddon,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
-import {
-    FACTUS_IDENTITY_DOCUMENT_TYPES,
-    FACTUS_IDENTITY_DOCUMENT_TYPES_BY_ID,
-} from "@/lib/factus/constants";
 import { CustomerFormValues } from "@/lib/validations/customer";
+import { IdentityDocumentTypeId } from "factus-js";
 import { HashIcon, ScrollTextIcon } from "lucide-react";
 import { Control, Controller } from "react-hook-form";
+
+const identityDocumentTypes = Object.values(IdentityDocumentTypeId);
 
 interface IdentificationFieldSetProps {
   control: Control<CustomerFormValues>;
@@ -48,7 +47,7 @@ export function IdentificationFieldSet({
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
           <Controller
             control={control}
-            name="identification_document_id"
+            name="identificationDocumentId"
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel htmlFor={field.name}>Tipo de documento</FieldLabel>
@@ -66,17 +65,21 @@ export function IdentificationFieldSet({
                       <ScrollTextIcon />
                     </SelectAddon>
                     <SelectValue>
-                      {(value: string) =>
-                        (FACTUS_IDENTITY_DOCUMENT_TYPES_BY_ID[value] ??
-                          value) ||
-                        "Selecciona una opción"
-                      }
+                      {(value: string) => {
+                        const match = identityDocumentTypes.find(
+                          (d) => String(d.value) === value,
+                        );
+                        return (
+                          (match?.description ?? value) ||
+                          "Selecciona una opción"
+                        );
+                      }}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
-                    {FACTUS_IDENTITY_DOCUMENT_TYPES.map((doc) => (
-                      <SelectItem key={doc.id} value={doc.id}>
-                        {doc.name}
+                    {identityDocumentTypes.map((doc) => (
+                      <SelectItem key={doc.value} value={String(doc.value)}>
+                        {doc.description}
                       </SelectItem>
                     ))}
                   </SelectContent>

@@ -22,3 +22,9 @@ export function zodAlwaysRefine<T extends z.ZodTypeAny>(zodType: T) {
       }
   }) as unknown as T;
 }
+
+export function formatDocumentNumber(value: string | number) {
+  if (!value) return "";
+  const number = Number(value.toString().replace(/\D/g, ""));
+  return number.toLocaleString("es-CO");
+}

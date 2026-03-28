@@ -1,19 +1,21 @@
 import {
-  FACTUS_CUSTOMER_TRIBUTE_IDS,
-  FACTUS_IDENTITY_DOCUMENT_TYPES,
-  FACTUS_ORGANIZATION_TYPES,
-} from "@/lib/factus/constants";
+  CustomerTributeId,
+  IdentityDocumentTypeId,
+  OrganizationTypeId,
+} from "factus-js";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import z from "zod";
 import { zodAlwaysRefine } from "../utils";
 
-const identificationDocumentIds = FACTUS_IDENTITY_DOCUMENT_TYPES.map(
-  (d) => d.id,
+const identificationDocumentIds = Object.values(IdentityDocumentTypeId).map(
+  (d) => String(d.value),
 );
 
-const legalOrganizationIds = FACTUS_ORGANIZATION_TYPES.map((o) => o.id);
+const legalOrganizationIds = Object.values(OrganizationTypeId).map((o) =>
+  String(o.value),
+);
 
-const tributeIds = FACTUS_CUSTOMER_TRIBUTE_IDS.map((t) => t.id);
+const tributeIds = Object.values(CustomerTributeId).map((t) => String(t.value));
 
 export const customerFormSchema = zodAlwaysRefine(
   z.object({
@@ -24,21 +26,21 @@ export const customerFormSchema = zodAlwaysRefine(
 
     dv: z.string().max(1, "Máximo 1 dígito").optional(),
 
-    identification_document_id: z.enum(identificationDocumentIds, {
+    identificationDocumentId: z.enum(identificationDocumentIds, {
       error: () => "Campo requerido",
     }),
 
-    legal_organization_id: z.enum(legalOrganizationIds, {
+    legalOrganizationId: z.enum(legalOrganizationIds, {
       error: () => "Campo requerido",
     }),
 
-    tribute_id: z.enum(tributeIds, {
+    tributeId: z.enum(tributeIds, {
       error: () => "Campo requerido",
     }),
 
     name: z.string().nonempty("Campo requerido"),
 
-    trade_name: z.string().optional(),
+    tradeName: z.string().optional(),
 
     address: z
       .string("Campo requerido")
@@ -52,12 +54,12 @@ export const customerFormSchema = zodAlwaysRefine(
 
     phone: z.string("Campo requerido").nonempty("Campo requerido"),
 
-    municipality_id: z.string("Campo requerido").nonempty("Campo requerido"),
+    municipalityId: z.string("Campo requerido").nonempty("Campo requerido"),
   }),
 )
   .refine(
     (data) => {
-      if (data.identification_document_id === "6") {
+      if (data.identificationDocumentId === "6") {
         return !!data.dv && data.dv.trim().length > 0;
       }
       return true;

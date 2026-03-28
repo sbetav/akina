@@ -95,7 +95,7 @@ export function ContactFieldSet({
 
           <Controller
             control={control}
-            name="municipality_id"
+            name="municipalityId"
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel htmlFor={field.name}>Municipio</FieldLabel>

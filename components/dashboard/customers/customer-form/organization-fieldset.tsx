@@ -21,13 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  FACTUS_CUSTOMER_TRIBUTE_IDS,
-  FACTUS_CUSTOMER_TRIBUTE_IDS_BY_ID,
-  FACTUS_ORGANIZATION_TYPES,
-  FACTUS_ORGANIZATION_TYPES_BY_ID,
-} from "@/lib/factus/constants";
 import { CustomerFormValues } from "@/lib/validations/customer";
+import { CustomerTributeId, OrganizationTypeId } from "factus-js";
 import {
   Building2Icon,
   LandmarkIcon,
@@ -36,6 +31,9 @@ import {
   UserIcon,
 } from "lucide-react";
 import { Control, Controller } from "react-hook-form";
+
+const organizationTypes = Object.values(OrganizationTypeId);
+const customerTributes = Object.values(CustomerTributeId);
 
 interface OrganizationFieldSetProps {
   control: Control<CustomerFormValues>;
@@ -53,7 +51,7 @@ export function OrganizationFieldSet({
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <Controller
             control={control}
-            name="legal_organization_id"
+            name="legalOrganizationId"
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel htmlFor={field.name}>
@@ -69,16 +67,21 @@ export function OrganizationFieldSet({
                       <LandmarkIcon />
                     </SelectAddon>
                     <SelectValue placeholder="Selecciona un tipo">
-                      {(value: string) =>
-                        (FACTUS_ORGANIZATION_TYPES_BY_ID[value] ?? value) ||
-                        "Selecciona una opción"
-                      }
+                      {(value: string) => {
+                        const match = organizationTypes.find(
+                          (o) => String(o.value) === value,
+                        );
+                        return (
+                          (match?.description ?? value) ||
+                          "Selecciona una opción"
+                        );
+                      }}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
-                    {FACTUS_ORGANIZATION_TYPES.map((org) => (
-                      <SelectItem key={org.id} value={org.id}>
-                        {org.name}
+                    {organizationTypes.map((org) => (
+                      <SelectItem key={org.value} value={String(org.value)}>
+                        {org.description}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -90,7 +93,7 @@ export function OrganizationFieldSet({
 
           <Controller
             control={control}
-            name="tribute_id"
+            name="tributeId"
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel htmlFor={field.name}>Régimen tributario</FieldLabel>
@@ -104,16 +107,24 @@ export function OrganizationFieldSet({
                       <ScaleIcon />
                     </SelectAddon>
                     <SelectValue placeholder="Selecciona un régimen">
-                      {(value: string) =>
-                        (FACTUS_CUSTOMER_TRIBUTE_IDS_BY_ID[value] ?? value) ||
-                        "Selecciona una opción"
-                      }
+                      {(value: string) => {
+                        const match = customerTributes.find(
+                          (t) => String(t.value) === value,
+                        );
+                        return (
+                          (match?.description ?? value) ||
+                          "Selecciona una opción"
+                        );
+                      }}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
-                    {FACTUS_CUSTOMER_TRIBUTE_IDS.map((tribute) => (
-                      <SelectItem key={tribute.id} value={tribute.id}>
-                        {tribute.name}
+                    {customerTributes.map((tribute) => (
+                      <SelectItem
+                        key={tribute.value}
+                        value={String(tribute.value)}
+                      >
+                        {tribute.description}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -151,7 +162,7 @@ export function OrganizationFieldSet({
 
           <Controller
             control={control}
-            name="trade_name"
+            name="tradeName"
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel htmlFor={field.name}>

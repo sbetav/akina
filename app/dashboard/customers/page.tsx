@@ -1,3 +1,4 @@
+import CustomersTable from "@/components/dashboard/customers/customers-table";
 import {
   PageHeader,
   PageHeaderActions,
@@ -6,24 +7,31 @@ import {
   PageHeaderTitle,
 } from "@/components/dashboard/page-header";
 import { buttonVariants } from "@/components/ui/button";
-import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@/components/ui/empty";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/components/ui/input-group";
-import { PlusIcon, SearchIcon, UsersIcon } from "lucide-react";
+import { requireUser } from "@/lib/dal";
+import { CustomerService } from "@/lib/elysia/modules/customers/service";
+import { getQueryClient } from "@/lib/query-client";
+import { CUSTOMERS_QUERY_KEY, DEFAULT_CUSTOMERS_LIMIT } from "@/lib/query-keys";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { FC } from "react";
 
-const Page: FC = () => {
+const Page: FC = async () => {
+  const user = await requireUser();
+  const queryClient = getQueryClient();
+
+  await queryClient.fetchQuery({
+    queryKey: [
+      ...CUSTOMERS_QUERY_KEY,
+      { search: "", page: 1, limit: DEFAULT_CUSTOMERS_LIMIT },
+    ],
+    queryFn: () =>
+      CustomerService.list(user.id, {
+        page: 1,
+        limit: DEFAULT_CUSTOMERS_LIMIT,
+      }),
+  });
+
   return (
     <div className="flex min-h-full w-full flex-1 flex-col gap-6">
       <PageHeader>
@@ -43,33 +51,10 @@ const Page: FC = () => {
           </Link>
         </PageHeaderActions>
       </PageHeader>
-      <InputGroup>
-        <InputGroupInput placeholder="Buscar por nombre o número de documento..." />
-        <InputGroupAddon align="inline-start">
-          <SearchIcon className="text-muted-foreground" />
-        </InputGroupAddon>
-      </InputGroup>
 
-      <Empty fillSpace>
-        <EmptyHeader>
-          <EmptyMedia variant="icon">
-            <UsersIcon />
-          </EmptyMedia>
-          <EmptyTitle>Sin clientes aún</EmptyTitle>
-          <EmptyDescription className="max-w-[300px]">
-            Crea tu primer cliente para empezar a emitir documentos.
-          </EmptyDescription>
-        </EmptyHeader>
-        <EmptyContent>
-          <Link
-            href="/dashboard/customers/new"
-            className={buttonVariants({ size: "lg" })}
-          >
-            <PlusIcon />
-            Nuevo cliente
-          </Link>
-        </EmptyContent>
-      </Empty>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <CustomersTable />
+      </HydrationBoundary>
     </div>
   );
 };

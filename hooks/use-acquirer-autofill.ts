@@ -2,6 +2,7 @@ import { toast } from "@/components/ui/toast";
 import { api } from "@/lib/elysia/eden";
 import { CustomerFormValues } from "@/lib/validations/customer";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useRef } from "react";
 import { UseFormSetValue } from "react-hook-form";
 
 interface UseAcquirerAutofillProps {
@@ -16,6 +17,7 @@ export function useAcquirerAutofill({
   setValue,
 }: UseAcquirerAutofillProps) {
   const enabled = !!identificationDocumentId && identification.length >= 5;
+  const appliedRef = useRef<string | null>(null);
 
   const { isFetching, data } = useQuery({
     queryKey: ["factus", "acquirer", identificationDocumentId, identification],
@@ -32,16 +34,20 @@ export function useAcquirerAutofill({
     enabled,
     staleTime: 5 * 60 * 1000, // 5 minutes — DIAN registry rarely changes
     retry: false,
-    // Autofill form fields on successful fetch
-    select: (data) => {
-      if (data) {
-        setValue("email", data.email);
-        setValue("name", data.name);
-        toast.success("Correo electrónico y nombre autocompletados");
-      }
-      return data;
-    },
   });
+
+  // Autofill form fields when new data arrives — runs once per unique result
+  useEffect(() => {
+    if (!data) return;
+
+    const key = `${data.email}:${data.name}`;
+    if (appliedRef.current === key) return;
+
+    appliedRef.current = key;
+    setValue("email", data.email);
+    setValue("name", data.name);
+    toast.success("Correo electrónico y nombre autocompletados");
+  }, [data, setValue]);
 
   return { isPending: isFetching, data };
 }

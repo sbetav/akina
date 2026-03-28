@@ -12,7 +12,7 @@ import { api } from "@/lib/elysia/eden";
 import { useQuery } from "@tanstack/react-query";
 
 const Page = () => {
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ["factus", "municipalities"],
     queryFn: async () => {
       const res = await api.factus.municipalities.get();
@@ -32,10 +32,7 @@ const Page = () => {
           </PageHeaderDescription>
         </PageHeaderContent>
       </PageHeader>
-      <CustomerForm
-        municipalities={data ?? []}
-        isLoadingMunicipalities={isLoading}
-      />
+      <CustomerForm municipalities={data ?? []} />
     </div>
   );
 };

@@ -1,12 +1,19 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import { toast } from "@/components/ui/toast";
 import { useAcquirerAutofill } from "@/hooks/use-acquirer-autofill";
+import { useGoBack } from "@/hooks/use-go-back";
+import { api } from "@/lib/elysia/eden";
+import { CUSTOMERS_QUERY_KEY } from "@/lib/query-keys";
 import {
   CustomerFormValues,
   customerFormSchema,
 } from "@/lib/validations/customer";
+import { useRouter } from "@bprogress/next";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Municipality } from "factus-js";
 import { SaveIcon } from "lucide-react";
 import { FC, useEffect } from "react";
@@ -21,20 +28,24 @@ interface CustomerFormProps {
 }
 
 const CustomerForm: FC<CustomerFormProps> = ({ municipalities }) => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const { goBack } = useGoBack({ fallbackHref: "/dashboard/customers" });
+
   const { handleSubmit, control, resetField, setValue } =
     useForm<CustomerFormValues>({
       resolver: zodResolver(customerFormSchema),
       defaultValues: {
-        identification_document_id: "",
+        identificationDocumentId: "",
         identification: "",
         dv: "",
-        legal_organization_id: "2",
-        tribute_id: "",
+        legalOrganizationId: "2",
+        tributeId: "",
         name: "",
-        trade_name: "",
+        tradeName: "",
         email: "",
         phone: "",
-        municipality_id: "",
+        municipalityId: "",
         address: "",
       },
     });
@@ -43,19 +54,37 @@ const CustomerForm: FC<CustomerFormProps> = ({ municipalities }) => {
     useWatch({
       control,
       name: [
-        "identification_document_id",
+        "identificationDocumentId",
         "identification",
-        "legal_organization_id",
+        "legalOrganizationId",
       ],
     });
 
   const isNIT = identificationDocumentId === "6";
   const isNaturalPerson = legalOrganizationId === "2";
 
-  const { isPending } = useAcquirerAutofill({
+  const { isPending: isSearchingAcquirer } = useAcquirerAutofill({
     identificationDocumentId,
     identification,
     setValue,
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (values: CustomerFormValues) => {
+      const res = await api.customers.post(values);
+      if (res.error)
+        throw new Error(
+          (res.error as { value?: { error?: string } }).value?.error ??
+            "Error al crear el cliente",
+        );
+      return res.data;
+    },
+    onSuccess: () => {
+      toast.success("Cliente creado exitosamente");
+      queryClient.invalidateQueries({ queryKey: CUSTOMERS_QUERY_KEY });
+      router.replace("/dashboard/customers");
+    },
+    onError: (e: Error) => toast.error(e.message),
   });
 
   useEffect(() => {
@@ -65,16 +94,14 @@ const CustomerForm: FC<CustomerFormProps> = ({ municipalities }) => {
   return (
     <DashboardCard className="flex flex-1">
       <form
-        onSubmit={handleSubmit((data) => {
-          console.log(data);
-        })}
+        onSubmit={handleSubmit((data) => mutate(data))}
         className="flex w-full flex-col gap-8"
       >
         <div className="flex flex-1 flex-col gap-8">
           <IdentificationFieldSet
             control={control}
             isNIT={isNIT}
-            isSearchingAcquirer={isPending}
+            isSearchingAcquirer={isSearchingAcquirer}
           />
 
           <OrganizationFieldSet
@@ -91,11 +118,18 @@ const CustomerForm: FC<CustomerFormProps> = ({ municipalities }) => {
             type="button"
             variant="outline"
             className="w-full md:w-auto"
+            onClick={goBack}
+            disabled={isPending}
           >
             Cancelar
           </Button>
-          <Button size="lg" type="submit" className="w-full md:w-auto">
-            <SaveIcon />
+          <Button
+            size="lg"
+            type="submit"
+            className="w-full md:w-auto"
+            disabled={isPending}
+          >
+            {isPending ? <Spinner /> : <SaveIcon />}
             Guardar
           </Button>
         </div>

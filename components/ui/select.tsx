@@ -60,7 +60,7 @@ function SelectTrigger({
       data-slot="select-trigger"
       data-size={size}
       className={cn(
-        "focus-visible:border-ring focus-visible:ring-ring/50 data-placeholder:text-muted-foreground bg-input aria-invalid:border-destructive aria-invalid:ring-destructive/40 flex w-fit min-w-0 items-center gap-1.5 border py-2 pr-2.5 pl-3 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 data-[size=default]:h-10 data-[size=sm]:h-8 **:data-[slot=select-value]:line-clamp-1 **:data-[slot=select-value]:flex **:data-[slot=select-value]:items-center **:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "group focus-visible:border-ring focus-visible:ring-ring/50 data-placeholder:text-muted-foreground bg-input aria-invalid:border-destructive aria-invalid:ring-destructive/40 flex w-fit min-w-0 items-center gap-1.5 border py-2 pr-2 pl-3 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 data-[size=default]:h-10 data-[size=sm]:h-8 **:data-[slot=select-value]:line-clamp-1 **:data-[slot=select-value]:flex **:data-[slot=select-value]:items-center **:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className,
       )}
       {...props}
@@ -73,7 +73,7 @@ function SelectTrigger({
       </span>
       <SelectPrimitive.Icon
         render={
-          <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4" />
+          <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 transition-transform group-data-popup-open:rotate-180" />
         }
       />
     </SelectPrimitive.Trigger>
