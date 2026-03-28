@@ -1,4 +1,5 @@
 import EllipsisIcon from "@/components/icons/ellipsis-icon";
+import { Badge, badgeVariants } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -11,11 +12,36 @@ import {
 import { CustomerListItem } from "@/lib/elysia/modules/customers";
 import { formatDocumentNumber } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
+import { type VariantProps } from "class-variance-authority";
 import { IdentityDocumentTypeId } from "factus-js";
 import { SquarePenIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
 
 const identityDocumentTypes = Object.values(IdentityDocumentTypeId);
+
+/** Cycles for every `IdentityDocumentTypeId` value (and future numeric codes). */
+const identityDocumentBadgePalette = [
+  "teal",
+  "cyan",
+  "indigo",
+  "violet",
+  "purple",
+  "fuchsia",
+] as const satisfies readonly NonNullable<
+  VariantProps<typeof badgeVariants>["variant"]
+>[];
+
+function identityDocumentBadgeVariant(
+  id: string,
+): NonNullable<VariantProps<typeof badgeVariants>["variant"]> {
+  const n = Number(id);
+  if (!Number.isFinite(n) || n < 1) {
+    return "info";
+  }
+  return identityDocumentBadgePalette[
+    (Math.trunc(n) - 1) % identityDocumentBadgePalette.length
+  ];
+}
 
 const columns: ColumnDef<CustomerListItem>[] = [
   {
@@ -46,8 +72,10 @@ const columns: ColumnDef<CustomerListItem>[] = [
     cell: ({ getValue }) => {
       const id = getValue<string>();
       return (
-        identityDocumentTypes.find((d) => String(d.value) === id)
-          ?.description ?? id
+        <Badge variant={identityDocumentBadgeVariant(id)}>
+          {identityDocumentTypes.find((d) => String(d.value) === id)
+            ?.abbreviation ?? id}
+        </Badge>
       );
     },
   },
@@ -56,7 +84,11 @@ const columns: ColumnDef<CustomerListItem>[] = [
     header: "Nº Documento",
     cell: ({ getValue }) => {
       const value = getValue<string>();
-      return formatDocumentNumber(value);
+      return (
+        <span className="text-muted-foreground">
+          {formatDocumentNumber(value)}
+        </span>
+      );
     },
   },
   {
@@ -66,6 +98,10 @@ const columns: ColumnDef<CustomerListItem>[] = [
   {
     accessorKey: "email",
     header: "Correo electrónico",
+    cell: ({ getValue }) => {
+      const value = getValue<string>();
+      return <span className="text-muted-foreground">{value}</span>;
+    },
   },
   {
     id: "actions",

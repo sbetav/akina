@@ -21,7 +21,7 @@
         "clsx": "^2.1.1",
         "drizzle-orm": "^0.45.2",
         "elysia": "^1.4.28",
-        "factus-js": "^0.1.3",
+        "factus-js": "^0.2.0",
         "input-otp": "^1.4.2",
         "lucide-react": "^1.7.0",
         "next": "16.2.1",
@@ -902,7 +902,7 @@
 
     "exsolve": ["exsolve@1.0.8", "", {}, "sha512-LmDxfWXwcTArk8fUEnOfSZpHOJ6zOMUJKOtFLFqJLoKJetuQG874Uc7/Kki7zFLzYybmZhp1M7+98pfMqeX8yA=="],
 
-    "factus-js": ["factus-js@0.1.3", "", {}, "sha512-eqisj7OLXLuAhamh4ogBRB4j1k8l17Ml4RxjxPbwos+NefjcFcyn8b9rSCEnSbBjPYgWGJikFXasbq3uwpSD7g=="],
+    "factus-js": ["factus-js@0.2.0", "", {}, "sha512-0Ppn+/cjZS2bD32Z06ubKcg9c/fUfW/C9/TTaeUaBszJKDRDJmAfL8/SVdnEJww5ynVvAMtlBVR65LWiAxjqrQ=="],
 
     "fast-decode-uri-component": ["fast-decode-uri-component@1.0.1", "", {}, "sha512-WKgKWg5eUxvRZGwW8FvfbaH7AXSh2cL+3j5fMGzUMCxWBJ3dV3a7Wz8y2f/uQ0e3B6WmodD3oS54jTQ9HVTIIg=="],
 

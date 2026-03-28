@@ -2,19 +2,19 @@
 
 import { buttonVariants } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
-import { DataTablePagination } from "@/components/ui/data-table-pagination";
+import { DataTableControls } from "@/components/ui/data-table-controls";
 import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
+    Empty,
+    EmptyContent,
+    EmptyDescription,
+    EmptyHeader,
+    EmptyMedia,
+    EmptyTitle,
 } from "@/components/ui/empty";
 import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
+    InputGroup,
+    InputGroupAddon,
+    InputGroupInput,
 } from "@/components/ui/input-group";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
@@ -114,7 +114,7 @@ export default function CustomersTable() {
         </>
       )}
 
-      <DataTablePagination
+      <DataTableControls
         page={page}
         pageCount={pageCount}
         limit={limit}
