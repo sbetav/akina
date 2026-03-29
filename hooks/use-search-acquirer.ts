@@ -30,7 +30,8 @@ export function useSearchAcquirer({
       return res.data;
     },
     retry: false,
-    enabled,
+    staleTime: 0,
+    enabled: enabled && !!identificationDocumentId && !!identification,
   });
 
   return { isPending: isFetching };
