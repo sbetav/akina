@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
+import useDebounce from "@/hooks/use-debounce";
 import { useGoBack } from "@/hooks/use-go-back";
 import { useSearchAcquirer } from "@/hooks/use-search-acquirer";
 import { api } from "@/lib/elysia/eden";
@@ -107,9 +108,10 @@ const CustomerForm: FC<CustomerFormProps> = ({
   }, [isNIT, resetField]);
 
   /* Autofill acquirer when identification changes */
+  const debouncedIdentification = useDebounce(identification, 500);
   const { isPending: isSearchingAcquirer } = useSearchAcquirer({
     identificationDocumentId,
-    identification,
+    identification: debouncedIdentification,
     onSuccess: (data) => {
       setValue("email", data.email);
       setValue("name", data.name);

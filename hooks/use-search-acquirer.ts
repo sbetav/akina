@@ -18,11 +18,14 @@ export function useSearchAcquirer({
 }: UseAcquirerAutofillProps) {
   const { isFetching } = useQuery({
     queryKey: [...ACQUIRER_QUERY_KEY, identificationDocumentId, identification],
-    queryFn: async () => {
+    queryFn: async ({ signal }) => {
       const res = await api.factus.acquirer.get({
         query: {
           identificationDocumentId,
           identificationNumber: identification,
+        },
+        fetch: {
+          signal,
         },
       });
       if (res.error) throw new Error("Adquiriente no encontrado");
@@ -32,6 +35,7 @@ export function useSearchAcquirer({
     retry: false,
     staleTime: 0,
     enabled: enabled && !!identificationDocumentId && !!identification,
+    refetchOnWindowFocus: false,
   });
 
   return { isPending: isFetching };

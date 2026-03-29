@@ -51,11 +51,7 @@ export function IdentificationFieldSet({
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel htmlFor={field.name}>Tipo de documento</FieldLabel>
-                <Select
-                  value={field.value}
-                  onValueChange={field.onChange}
-                  disabled={isSearchingAcquirer}
-                >
+                <Select value={field.value} onValueChange={field.onChange}>
                   <SelectTrigger
                     id={field.name}
                     aria-invalid={fieldState.invalid}
@@ -106,7 +102,6 @@ export function IdentificationFieldSet({
                       id={field.name}
                       placeholder="1234567890"
                       aria-invalid={fieldState.invalid}
-                      disabled={isSearchingAcquirer}
                       {...field}
                     />
                     {isSearchingAcquirer && (
