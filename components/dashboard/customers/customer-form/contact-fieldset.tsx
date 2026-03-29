@@ -86,6 +86,9 @@ export function ContactFieldSet({
                     aria-invalid={fieldState.invalid}
                     inputComponent={InputGroupInput}
                     {...field}
+                    onChange={(value) =>
+                      setTimeout(() => field.onChange(value ?? ""), 1)
+                    }
                   />
                 </InputGroup>
                 <FieldError errors={[fieldState.error]} />

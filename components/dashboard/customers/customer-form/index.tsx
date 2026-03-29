@@ -3,9 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
-import { useAcquirerAutofill } from "@/hooks/use-acquirer-autofill";
 import { useGoBack } from "@/hooks/use-go-back";
+import { useSearchAcquirer } from "@/hooks/use-search-acquirer";
 import { api } from "@/lib/elysia/eden";
+import { CustomerDetailResult } from "@/lib/elysia/modules/customers";
 import { CUSTOMERS_QUERY_KEY } from "@/lib/query-keys";
 import {
   CustomerFormValues,
@@ -25,9 +26,13 @@ import { OrganizationFieldSet } from "./organization-fieldset";
 
 interface CustomerFormProps {
   municipalities: Municipality[];
+  selectedCustomer?: CustomerDetailResult;
 }
 
-const CustomerForm: FC<CustomerFormProps> = ({ municipalities }) => {
+const CustomerForm: FC<CustomerFormProps> = ({
+  municipalities,
+  selectedCustomer,
+}) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { goBack } = useGoBack({ fallbackHref: "/dashboard/customers" });
@@ -36,17 +41,18 @@ const CustomerForm: FC<CustomerFormProps> = ({ municipalities }) => {
     useForm<CustomerFormValues>({
       resolver: zodResolver(customerFormSchema),
       defaultValues: {
-        identificationDocumentId: "",
-        identification: "",
-        dv: "",
-        legalOrganizationId: "2",
-        tributeId: "",
-        name: "",
-        tradeName: "",
-        email: "",
-        phone: "",
-        municipalityId: "",
-        address: "",
+        identificationDocumentId:
+          selectedCustomer?.identificationDocumentId ?? "",
+        identification: selectedCustomer?.identification ?? "",
+        dv: selectedCustomer?.dv ?? "",
+        legalOrganizationId: selectedCustomer?.legalOrganizationId ?? "2",
+        tributeId: selectedCustomer?.tributeId ?? "18",
+        name: selectedCustomer?.name ?? "",
+        tradeName: selectedCustomer?.tradeName ?? "",
+        email: selectedCustomer?.email ?? "",
+        phone: selectedCustomer?.phone ?? "",
+        municipalityId: selectedCustomer?.municipalityId ?? "",
+        address: selectedCustomer?.address ?? "",
       },
     });
 
@@ -63,14 +69,21 @@ const CustomerForm: FC<CustomerFormProps> = ({ municipalities }) => {
   const isNIT = identificationDocumentId === "6";
   const isNaturalPerson = legalOrganizationId === "2";
 
-  const { isPending: isSearchingAcquirer } = useAcquirerAutofill({
-    identificationDocumentId,
-    identification,
-    setValue,
-  });
-
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: CustomerFormValues) => {
+      // Update
+      if (selectedCustomer) {
+        const res = await api
+          .customers({ id: selectedCustomer.id })
+          .put(values);
+        if (res.error)
+          throw new Error(
+            (res.error as { value?: { error?: string } }).value?.error ??
+              "Error al actualizar el cliente",
+          );
+        return res.data;
+      }
+      // Create
       const res = await api.customers.post(values);
       if (res.error)
         throw new Error(
@@ -80,7 +93,9 @@ const CustomerForm: FC<CustomerFormProps> = ({ municipalities }) => {
       return res.data;
     },
     onSuccess: () => {
-      toast.success("Cliente creado exitosamente");
+      toast.success(
+        `Cliente ${selectedCustomer ? "actualizado" : "creado"} exitosamente`,
+      );
       queryClient.invalidateQueries({ queryKey: CUSTOMERS_QUERY_KEY });
       router.replace("/dashboard/customers");
     },
@@ -90,6 +105,20 @@ const CustomerForm: FC<CustomerFormProps> = ({ municipalities }) => {
   useEffect(() => {
     if (!isNIT) resetField("dv", { defaultValue: "" });
   }, [isNIT, resetField]);
+
+  /* Autofill acquirer when identification changes */
+  const { isPending: isSearchingAcquirer } = useSearchAcquirer({
+    identificationDocumentId,
+    identification,
+    onSuccess: (data) => {
+      setValue("email", data.email);
+      setValue("name", data.name);
+      toast.success("Nombre y correo electrónico autocompletados");
+    },
+    enabled:
+      identificationDocumentId !== selectedCustomer?.identificationDocumentId ||
+      identification !== selectedCustomer?.identification,
+  });
 
   return (
     <DashboardCard className="flex flex-1">

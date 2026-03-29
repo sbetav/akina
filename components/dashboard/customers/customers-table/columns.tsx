@@ -1,3 +1,5 @@
+"use client";
+
 import EllipsisIcon from "@/components/icons/ellipsis-icon";
 import { Badge, badgeVariants } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,6 +18,8 @@ import { type VariantProps } from "class-variance-authority";
 import { IdentityDocumentTypeId } from "factus-js";
 import { SquarePenIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
+import { FC, useState } from "react";
+import DeleteCustomerDialog from "../delete-customer-dialog";
 
 const identityDocumentTypes = Object.values(IdentityDocumentTypeId);
 
@@ -42,6 +46,61 @@ function identityDocumentBadgeVariant(
     (Math.trunc(n) - 1) % identityDocumentBadgePalette.length
   ];
 }
+
+// ─── Row actions cell ─────────────────────────────────────────────────────────
+
+interface RowActionsCellProps {
+  customer: CustomerListItem;
+}
+
+const RowActionsCell: FC<RowActionsCellProps> = ({ customer }) => {
+  const [showDelete, setShowDelete] = useState(false);
+
+  return (
+    <div className="grid place-items-end!">
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          render={
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              className="text-muted-foreground active:text-foreground"
+            >
+              <EllipsisIcon />
+            </Button>
+          }
+        />
+        <DropdownMenuContent side="left">
+          <DropdownMenuGroup>
+            <DropdownMenuItem
+              render={
+                <Link href={`/dashboard/customers/edit/${customer.id}`}>
+                  <SquarePenIcon className="mt-px" />
+                  Editar
+                </Link>
+              }
+            />
+            <DropdownMenuItem
+              variant="destructive"
+              onClick={() => setShowDelete(true)}
+            >
+              <Trash2Icon className="mt-px" />
+              Eliminar
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <DeleteCustomerDialog
+        open={showDelete}
+        onOpenChange={setShowDelete}
+        customers={[customer]}
+      />
+    </div>
+  );
+};
+
+// ─── Columns ──────────────────────────────────────────────────────────────────
 
 const columns: ColumnDef<CustomerListItem>[] = [
   {
@@ -81,7 +140,7 @@ const columns: ColumnDef<CustomerListItem>[] = [
   },
   {
     accessorKey: "identification",
-    header: "Nº Documento",
+    header: "N\u00BA Documento",
     cell: ({ getValue }) => {
       const value = getValue<string>();
       return (
@@ -108,42 +167,7 @@ const columns: ColumnDef<CustomerListItem>[] = [
     maxSize: 100,
     cell: ({ row }) => {
       const customer = row.original;
-      return (
-        <div className="grid place-items-end!">
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              render={
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  className="text-muted-foreground active:text-foreground"
-                >
-                  <EllipsisIcon />
-                </Button>
-              }
-            />
-            <DropdownMenuContent side="left">
-              <DropdownMenuGroup>
-                <DropdownMenuItem
-                  render={
-                    <Link href={`/dashboard/customers/edit/${customer.id}`}>
-                      <SquarePenIcon className="mt-px" />
-                      Editar
-                    </Link>
-                  }
-                />
-                <DropdownMenuItem
-                  variant="destructive"
-                  // onClick={() => setShowDelete(true)}
-                >
-                  <Trash2Icon className="mt-px" />
-                  Eliminar
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      );
+      return <RowActionsCell customer={customer} />;
     },
   },
 ];

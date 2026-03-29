@@ -71,6 +71,34 @@ export const customersModule = new Elysia({ prefix: "/customers" })
     },
   )
 
+  // ─── Delete ───────────────────────────────────────────────────────────────
+
+  /**
+   * DELETE /api/customers/bulk
+   * Deletes multiple customers at once. Only deletes rows owned by the user.
+   */
+  .delete(
+    "/",
+    async ({ user, body, status }) => {
+      try {
+        const deleted = await CustomerService.delete(user.id, body.ids);
+        return { success: true as const, deleted };
+      } catch (e) {
+        const message =
+          e instanceof Error ? e.message : "Error al eliminar los clientes";
+        return status(422, { error: message });
+      }
+    },
+    {
+      auth: true,
+      body: t.Object({ ids: t.Array(t.String(), { minItems: 1 }) }),
+      response: {
+        200: t.Object({ success: t.Literal(true), deleted: t.Number() }),
+        422: t.Object({ error: t.String() }),
+      },
+    },
+  )
+
   // ─── Single customer ──────────────────────────────────────────────────────
 
   /**
@@ -118,32 +146,6 @@ export const customersModule = new Elysia({ prefix: "/customers" })
       auth: true,
       params: t.Object({ id: t.String() }),
       body: CustomerBody,
-      response: {
-        200: t.Object({ success: t.Literal(true) }),
-        422: t.Object({ error: t.String() }),
-      },
-    },
-  )
-
-  /**
-   * DELETE /api/customers/:id
-   * Deletes a customer. Only the owning user can delete it.
-   */
-  .delete(
-    "/:id",
-    async ({ user, params, status }) => {
-      try {
-        await CustomerService.delete(user.id, params.id);
-        return { success: true as const };
-      } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Error al eliminar el cliente";
-        return status(422, { error: message });
-      }
-    },
-    {
-      auth: true,
-      params: t.Object({ id: t.String() }),
       response: {
         200: t.Object({ success: t.Literal(true) }),
         422: t.Object({ error: t.String() }),

@@ -1,20 +1,20 @@
 "use client";
 
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { DataTableControls } from "@/components/ui/data-table-controls";
 import {
-    Empty,
-    EmptyContent,
-    EmptyDescription,
-    EmptyHeader,
-    EmptyMedia,
-    EmptyTitle,
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
 } from "@/components/ui/empty";
 import {
-    InputGroup,
-    InputGroupAddon,
-    InputGroupInput,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
 } from "@/components/ui/input-group";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
@@ -22,16 +22,23 @@ import useDebounce from "@/hooks/use-debounce";
 import { api } from "@/lib/elysia/eden";
 import { CUSTOMERS_QUERY_KEY, DEFAULT_CUSTOMERS_LIMIT } from "@/lib/query-keys";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { PlusIcon, SearchIcon, UsersIcon } from "lucide-react";
+import {
+  getCoreRowModel,
+  type RowSelectionState,
+  useReactTable,
+} from "@tanstack/react-table";
+import { PlusIcon, SearchIcon, Trash2Icon, UsersIcon } from "lucide-react";
 import Link from "next/link";
 import { FC, useState } from "react";
+import DeleteCustomerDialog from "../delete-customer-dialog";
 import { columns } from "./columns";
 
 export default function CustomersTable() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(DEFAULT_CUSTOMERS_LIMIT);
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [showBulkDelete, setShowBulkDelete] = useState(false);
 
   const debouncedSearch = useDebounce(search, 300);
 
@@ -74,10 +81,20 @@ export default function CustomersTable() {
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     pageCount,
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
     state: {
       pagination: { pageIndex: page - 1, pageSize: limit },
+      rowSelection,
     },
   });
+
+  const selectedRows = table.getFilteredSelectedRowModel().rows;
+  const selectedCustomers = selectedRows.map((row) => row.original);
+
+  const handleBulkDeleteSuccess = () => {
+    setRowSelection({});
+  };
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -88,21 +105,34 @@ export default function CustomersTable() {
         </>
       ) : (
         <>
-          <InputGroup>
-            <InputGroupAddon align="inline-start">
-              <SearchIcon className="text-muted-foreground" />
-            </InputGroupAddon>
-            <InputGroupInput
-              placeholder="Buscar por nombre o número de documento..."
-              value={search}
-              onChange={(e) => handleSearchChange(e.target.value)}
-            />
-            {isFetching && (
-              <InputGroupAddon align="inline-end">
-                <Spinner className="text-muted-foreground" />
+          <div className="flex items-center gap-3">
+            <InputGroup className="flex-1">
+              <InputGroupAddon align="inline-start">
+                <SearchIcon className="text-muted-foreground" />
               </InputGroupAddon>
+              <InputGroupInput
+                placeholder="Buscar por nombre o número de documento..."
+                value={search}
+                onChange={(e) => handleSearchChange(e.target.value)}
+              />
+              {isFetching && (
+                <InputGroupAddon align="inline-end">
+                  <Spinner className="text-muted-foreground" />
+                </InputGroupAddon>
+              )}
+            </InputGroup>
+
+            {selectedCustomers.length > 0 && (
+              <Button
+                variant="destructive"
+                onClick={() => setShowBulkDelete(true)}
+                size="lg"
+              >
+                <Trash2Icon />
+                Eliminar ({selectedCustomers.length})
+              </Button>
             )}
-          </InputGroup>
+          </div>
 
           {!total ? (
             <EmptyStatus
@@ -119,9 +149,18 @@ export default function CustomersTable() {
         pageCount={pageCount}
         limit={limit}
         totalRows={total}
-        selectedRows={table.getFilteredSelectedRowModel().rows.length}
+        selectedRows={selectedCustomers.length}
         onPageChange={setPage}
         onLimitChange={handleLimitChange}
+      />
+
+      <DeleteCustomerDialog
+        open={showBulkDelete}
+        onOpenChange={(open) => {
+          setShowBulkDelete(open);
+          if (!open) handleBulkDeleteSuccess();
+        }}
+        customers={selectedCustomers}
       />
     </div>
   );

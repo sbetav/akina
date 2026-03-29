@@ -4,7 +4,7 @@ import {
   createWorkspaceFilter,
   getActiveCredentialsIdForUser,
 } from "@/lib/elysia/workspace";
-import { and, count, desc, ilike, or } from "drizzle-orm";
+import { and, count, desc, ilike, inArray, or } from "drizzle-orm";
 
 // ─── Shared types ─────────────────────────────────────────────────────────────
 
@@ -222,22 +222,20 @@ export class CustomerService {
   }
 
   /**
-   * Deletes a customer.
-   * Scoped to userId + active credentialsId — throws 404 if not found or not owned.
+   * Deletes multiple or a single customer.
+   * Scoped to userId + active credentialsId — only deletes rows the user owns.
+   * Returns the number of rows actually deleted.
    */
-  static async delete(userId: string, id: string): Promise<void> {
+  static async delete(userId: string, ids: string[]): Promise<number> {
+    if (ids.length === 0) return 0;
+
     const credentialsId = await getActiveCredentialsIdForUser(userId);
-    const filter = buildFilter(userId, credentialsId, id);
+    const baseFilter = buildFilter(userId, credentialsId);
 
-    const row = await db.query.customers.findFirst({
-      where: filter,
-      columns: { id: true },
-    });
+    const result = await db
+      .delete(customers)
+      .where(and(baseFilter, inArray(customers.id, ids)));
 
-    if (!row) {
-      throw new Error("Cliente no encontrado");
-    }
-
-    await db.delete(customers).where(filter);
+    return result.rowCount ?? 0;
   }
 }
