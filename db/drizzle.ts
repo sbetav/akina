@@ -4,6 +4,7 @@ import {
   factusCredentials,
   factusCredentialsRelations,
 } from "@/db/schemas/factus-credentials";
+import { products, productsRelations } from "@/db/schemas/products";
 import { env } from "@/lib/env";
 import { drizzle } from "drizzle-orm/neon-http";
 
@@ -13,6 +14,8 @@ const schema = {
   factusCredentialsRelations,
   customers,
   customersRelations,
+  products,
+  productsRelations,
 };
 
 export const db = drizzle(env.DATABASE_URL, { schema });

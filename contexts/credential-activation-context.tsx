@@ -2,7 +2,7 @@
 
 import { toast } from "@/components/ui/toast";
 import { api } from "@/lib/elysia/eden";
-import { CredentialListItem } from "@/lib/elysia/modules/factus";
+import { CredentialListItem } from "@/lib/elysia/modules/factus/service";
 import {
   CREDENTIAL_DEPENDENT_KEYS,
   CREDENTIALS_QUERY_KEY,

@@ -1,13 +1,10 @@
 import { db } from "@/db/drizzle";
 import { factusCredentials } from "@/db/schemas/factus-credentials";
+import { type FactusEnvironment } from "@/lib/constants";
 import { decrypt, encrypt } from "@/lib/crypto";
 import { getFactusClientForUser } from "@/lib/factus";
 import { and, asc, eq } from "drizzle-orm";
 import { FactusClient, FactusError, IdentityDocumentTypeId } from "factus-js";
-
-// ─── Shared types ─────────────────────────────────────────────────────────────
-
-export type FactusEnvironment = "sandbox" | "production";
 
 // ─── Input types ──────────────────────────────────────────────────────────────
 
@@ -82,7 +79,7 @@ export class FactusService {
             clientSecret: decrypt(row.clientSecret),
             username: row.username,
             password: decrypt(row.password),
-            environment: row.environment as FactusEnvironment,
+            environment: row.environment,
           });
           const isValid = await validateClient(client);
           return {
@@ -90,7 +87,7 @@ export class FactusService {
             name: row.name,
             username: row.username,
             clientId: row.clientId,
-            environment: row.environment as FactusEnvironment,
+            environment: row.environment,
             isActive: row.isActive,
             isValid,
           } satisfies CredentialListItem;
@@ -101,7 +98,7 @@ export class FactusService {
             name: row.name,
             username: row.username,
             clientId: row.clientId,
-            environment: row.environment as FactusEnvironment,
+            environment: row.environment,
             isActive: row.isActive,
             isValid: false,
           } satisfies CredentialListItem;
@@ -159,7 +156,7 @@ export class FactusService {
         clientSecret: decryptedSecret,
         username: row.username,
         password: decryptedPassword,
-        environment: row.environment as FactusEnvironment,
+        environment: row.environment,
       });
 
       isValid = await validateClient(client);
@@ -177,7 +174,7 @@ export class FactusService {
       clientSecret: decryptedSecret,
       username: row.username,
       password: decryptedPassword,
-      environment: row.environment as FactusEnvironment,
+      environment: row.environment,
       isActive: row.isActive,
       isValid,
     };
@@ -381,15 +378,14 @@ export class FactusService {
   /** Get an acquirer by document type + number. */
   static async getAcquirer(
     userId: string,
-    identificationDocumentId: string,
+    identificationDocumentId: IdentityDocumentTypeId,
     identificationNumber: string,
   ): Promise<{ name: string; email: string }> {
     const client = await getFactusClientForUser(userId);
 
     const res = await client.catalog.getAcquirer({
-      identification_document_id: Number(
-        identificationDocumentId,
-      ) as IdentityDocumentTypeId,
+      identification_document_id: identificationDocumentId,
+
       identification_number: identificationNumber,
     });
     return { name: res.data.name, email: res.data.email };

@@ -42,6 +42,6 @@ export async function getFactusClientForUser(
     clientSecret: decrypt(row.clientSecret),
     username: row.username,
     password: decrypt(row.password),
-    environment: row.environment as "sandbox" | "production",
+    environment: row.environment,
   });
 }

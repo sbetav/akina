@@ -13,10 +13,9 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
 import { api } from "@/lib/elysia/eden";
-import { CredentialListItem } from "@/lib/elysia/modules/factus";
+import { CredentialListItem } from "@/lib/elysia/modules/factus/service";
 import { CREDENTIALS_QUERY_KEY } from "@/lib/query-keys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 import { FC } from "react";
 
 interface DeleteCredentialsDialogProps {

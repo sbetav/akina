@@ -1,3 +1,4 @@
+import { FACTUS_ENVIRONMENTS } from "@/lib/constants";
 import { relations } from "drizzle-orm";
 import {
   boolean,
@@ -28,7 +29,7 @@ export const factusCredentials = pgTable(
     clientSecret: text("client_secret").notNull(),
 
     environment: text("environment", {
-      enum: ["sandbox", "production"],
+      enum: FACTUS_ENVIRONMENTS,
     })
       .notNull()
       .default("sandbox"),

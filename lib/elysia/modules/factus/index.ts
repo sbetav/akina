@@ -233,10 +233,3 @@ export const factusModule = new Elysia({ prefix: "/factus" })
       },
     },
   );
-
-// Re-export types for client consumption
-export type {
-  CredentialDetailResult,
-  CredentialListItem,
-  FactusEnvironment,
-} from "./service";

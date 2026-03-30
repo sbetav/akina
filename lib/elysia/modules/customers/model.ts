@@ -1,13 +1,19 @@
+import { toElysiaEnum } from "@/lib/utils";
 import { t } from "elysia";
+import {
+  CustomerTributeId,
+  IdentityDocumentTypeId,
+  OrganizationTypeId,
+} from "factus-js";
 
 // ─── Request bodies ───────────────────────────────────────────────────────────
 
 export const CustomerBody = t.Object({
   identification: t.String({ minLength: 1, maxLength: 20 }),
   dv: t.Optional(t.String({ maxLength: 1 })),
-  identificationDocumentId: t.String({ minLength: 1 }),
-  legalOrganizationId: t.String({ minLength: 1 }),
-  tributeId: t.String({ minLength: 1 }),
+  identificationDocumentId: toElysiaEnum(IdentityDocumentTypeId),
+  legalOrganizationId: toElysiaEnum(OrganizationTypeId),
+  tributeId: toElysiaEnum(CustomerTributeId),
   name: t.String({ minLength: 1 }),
   tradeName: t.Optional(t.String()),
   address: t.String({ minLength: 1, maxLength: 150 }),
@@ -33,7 +39,7 @@ export const CustomerListQuery = t.Object({
 export const CustomerItem = t.Object({
   id: t.String(),
   identification: t.String(),
-  identificationDocumentId: t.String(),
+  identificationDocumentId: toElysiaEnum(IdentityDocumentTypeId),
   name: t.String(),
   email: t.String(),
   phone: t.String(),

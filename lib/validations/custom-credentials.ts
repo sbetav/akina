@@ -1,3 +1,4 @@
+import { FACTUS_ENVIRONMENTS } from "@/lib/constants";
 import z from "zod";
 
 export const credentialFormSchema = z.object({
@@ -6,7 +7,7 @@ export const credentialFormSchema = z.object({
   clientSecret: z.string().min(1, "El Client secret es requerido"),
   username: z.string().min(1, "El usuario es requerido"),
   password: z.string().min(1, "La contraseña es requerida"),
-  environment: z.enum(["sandbox", "production"]),
+  environment: z.enum(FACTUS_ENVIRONMENTS),
 });
 
 export type CredentialFormValues = z.infer<typeof credentialFormSchema>;

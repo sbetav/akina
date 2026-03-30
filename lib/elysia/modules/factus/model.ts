@@ -1,11 +1,11 @@
+import { FACTUS_ENVIRONMENTS } from "@/lib/constants";
+import { toElysiaEnum, toElysiaLiterals } from "@/lib/utils";
 import { t } from "elysia";
+import { IdentityDocumentTypeId } from "factus-js";
 
 // ─── Credential CRUD bodies ───────────────────────────────────────────────────
 
-export const Environment = t.Union([
-  t.Literal("sandbox"),
-  t.Literal("production"),
-]);
+export const Environment = toElysiaLiterals(FACTUS_ENVIRONMENTS);
 
 export const CredentialBody = t.Object({
   name: t.String({ minLength: 1 }),
@@ -19,7 +19,7 @@ export const CredentialBody = t.Object({
 // ─── Catalog query params ─────────────────────────────────────────────────────
 
 export const AcquirerQuery = t.Object({
-  identificationDocumentId: t.String({ minLength: 1 }),
+  identificationDocumentId: toElysiaEnum(IdentityDocumentTypeId),
   identificationNumber: t.String({ minLength: 1 }),
 });
 

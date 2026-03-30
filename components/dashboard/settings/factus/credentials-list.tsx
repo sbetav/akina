@@ -29,7 +29,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCredentialActivation } from "@/hooks/use-credential-activation";
-import { CredentialListItem } from "@/lib/elysia/modules/factus";
+import { CredentialListItem } from "@/lib/elysia/modules/factus/service";
 import { cn } from "@/lib/utils";
 import { useRouter } from "@bprogress/next";
 import {
