@@ -28,3 +28,9 @@ export function formatDocumentNumber(value: string | number) {
   const number = Number(value.toString().replace(/\D/g, ""));
   return number.toLocaleString("es-CO");
 }
+
+export function toEnumValues<T extends Record<string, { value: string }>>(
+  obj: T,
+): [T[keyof T]["value"], ...T[keyof T]["value"][]] {
+  return Object.values(obj).map((d) => d.value) as never;
+}

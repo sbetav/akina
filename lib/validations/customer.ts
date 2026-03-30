@@ -5,17 +5,11 @@ import {
 } from "factus-js";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import z from "zod";
-import { zodAlwaysRefine } from "../utils";
+import { toEnumValues, zodAlwaysRefine } from "../utils";
 
-const identificationDocumentIds = Object.values(IdentityDocumentTypeId).map(
-  (d) => String(d.value),
-);
-
-const legalOrganizationIds = Object.values(OrganizationTypeId).map((o) =>
-  String(o.value),
-);
-
-const tributeIds = Object.values(CustomerTributeId).map((t) => String(t.value));
+const identificationDocumentIds = toEnumValues(IdentityDocumentTypeId);
+const legalOrganizationIds = toEnumValues(OrganizationTypeId);
+const tributeIds = toEnumValues(CustomerTributeId);
 
 export const customerFormSchema = zodAlwaysRefine(
   z.object({
@@ -29,7 +23,6 @@ export const customerFormSchema = zodAlwaysRefine(
     identificationDocumentId: z.enum(identificationDocumentIds, {
       error: () => "Campo requerido",
     }),
-
     legalOrganizationId: z.enum(legalOrganizationIds, {
       error: () => "Campo requerido",
     }),

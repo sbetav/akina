@@ -54,7 +54,7 @@ const CustomerForm: FC<CustomerFormProps> = ({
         phone: selectedCustomer?.phone ?? "",
         municipalityId: selectedCustomer?.municipalityId ?? "",
         address: selectedCustomer?.address ?? "",
-      },
+      } as CustomerFormValues,
     });
 
   const [identificationDocumentId, identification, legalOrganizationId] =

@@ -1,5 +1,10 @@
 import { relations } from "drizzle-orm";
 import { index, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import {
+  CustomerTributeId,
+  IdentityDocumentTypeId,
+  OrganizationTypeId,
+} from "factus-js";
 import { user } from "./auth-schema";
 import { factusCredentials } from "./factus-credentials";
 
@@ -35,15 +40,19 @@ export const customers = pgTable(
     dv: text("dv"),
 
     /** Foreign key to the Factus catalog — e.g. "6" = NIT, "3" = CC */
-    identificationDocumentId: text("identification_document_id").notNull(),
+    identificationDocumentId: text("identification_document_id")
+      .notNull()
+      .$type<IdentityDocumentTypeId>(),
 
     // ─── Organization ────────────────────────────────────────────────────────
 
     /** "1" = legal entity, "2" = natural person */
-    legalOrganizationId: text("legal_organization_id").notNull(),
+    legalOrganizationId: text("legal_organization_id")
+      .notNull()
+      .$type<OrganizationTypeId>(),
 
     /** Tax regime / tribute — e.g. "21" = IVA responsable */
-    tributeId: text("tribute_id").notNull(),
+    tributeId: text("tribute_id").notNull().$type<CustomerTributeId>(),
 
     /** Full legal name or full name (natural person) */
     name: text("name").notNull(),

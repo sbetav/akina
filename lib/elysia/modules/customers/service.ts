@@ -5,15 +5,20 @@ import {
   getActiveCredentialsIdForUser,
 } from "@/lib/elysia/workspace";
 import { and, count, desc, ilike, inArray, or } from "drizzle-orm";
+import type {
+  CustomerTributeId,
+  IdentityDocumentTypeId,
+  OrganizationTypeId,
+} from "factus-js";
 
 // ─── Shared types ─────────────────────────────────────────────────────────────
 
 export interface CustomerInput {
   identification: string;
   dv?: string;
-  identificationDocumentId: string;
-  legalOrganizationId: string;
-  tributeId: string;
+  identificationDocumentId: IdentityDocumentTypeId;
+  legalOrganizationId: OrganizationTypeId;
+  tributeId: CustomerTributeId;
   name: string;
   tradeName?: string;
   address: string;
@@ -25,7 +30,7 @@ export interface CustomerInput {
 export interface CustomerListItem {
   id: string;
   identification: string;
-  identificationDocumentId: string;
+  identificationDocumentId: IdentityDocumentTypeId;
   name: string;
   email: string;
   phone: string;
@@ -37,9 +42,9 @@ export interface CustomerDetailResult {
   id: string;
   identification: string;
   dv: string | null;
-  identificationDocumentId: string;
-  legalOrganizationId: string;
-  tributeId: string;
+  identificationDocumentId: IdentityDocumentTypeId;
+  legalOrganizationId: OrganizationTypeId;
+  tributeId: CustomerTributeId;
   name: string;
   tradeName: string | null;
   address: string;

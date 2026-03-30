@@ -1,10 +1,10 @@
 import { api } from "@/lib/elysia/eden";
 import { ACQUIRER_QUERY_KEY } from "@/lib/query-keys";
 import { useQuery } from "@tanstack/react-query";
-import { Acquirer } from "factus-js";
+import { Acquirer, type IdentityDocumentTypeId } from "factus-js";
 
 interface UseAcquirerAutofillProps {
-  identificationDocumentId: string;
+  identificationDocumentId: IdentityDocumentTypeId | undefined;
   identification: string;
   onSuccess?: (data: Acquirer) => void;
   enabled?: boolean;
@@ -19,6 +19,7 @@ export function useSearchAcquirer({
   const { isFetching } = useQuery({
     queryKey: [...ACQUIRER_QUERY_KEY, identificationDocumentId, identification],
     queryFn: async ({ signal }) => {
+      if (!identificationDocumentId) return;
       const res = await api.factus.acquirer.get({
         query: {
           identificationDocumentId,
