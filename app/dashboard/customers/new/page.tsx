@@ -1,5 +1,3 @@
-"use client";
-
 import BackButton from "@/components/back-button";
 import CustomerForm from "@/components/dashboard/customers/customer-form";
 import {
@@ -8,19 +6,20 @@ import {
   PageHeaderDescription,
   PageHeaderTitle,
 } from "@/components/dashboard/page-header";
-import { api } from "@/lib/elysia/eden";
-import { MUNICIPALITIES_QUERY_KEY } from "@/lib/query-keys";
-import { useQuery } from "@tanstack/react-query";
+import { requireUser } from "@/lib/dal";
+import { FactusService } from "@/lib/elysia/modules/factus/service";
 
-const Page = () => {
-  const { data } = useQuery({
-    queryKey: [...MUNICIPALITIES_QUERY_KEY],
-    queryFn: async () => {
-      const res = await api.factus.municipalities.get();
-      if (res.error) throw new Error("Error al cargar municipios");
-      return res.data.data;
-    },
-  });
+const Page = async () => {
+  const user = await requireUser();
+
+  let municipalities: Awaited<
+    ReturnType<typeof FactusService.getMunicipalities>
+  > = [];
+  try {
+    municipalities = await FactusService.getMunicipalities(user.id);
+  } catch {
+    // Fallback to empty — the form still works, user just can't pick a municipality
+  }
 
   return (
     <div className="flex min-h-full w-full flex-1 flex-col gap-6">
@@ -33,7 +32,7 @@ const Page = () => {
           </PageHeaderDescription>
         </PageHeaderContent>
       </PageHeader>
-      <CustomerForm municipalities={data ?? []} />
+      <CustomerForm municipalities={municipalities} />
     </div>
   );
 };

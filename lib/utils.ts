@@ -117,3 +117,17 @@ export function formatRef(
 ): string {
   return `${prefix}-${sequence.toString().padStart(padLength, "0")}`;
 }
+
+/**
+ * Formats a number as a currency string in Colombian Peso.
+ * Used to format numbers as currency in the UI.
+ *
+ * @example
+ * COP.format(1000000) // "$ 1.000.000"
+ */
+
+export const COP = new Intl.NumberFormat("es-CO", {
+  style: "currency",
+  currency: "COP",
+  maximumFractionDigits: 0,
+});

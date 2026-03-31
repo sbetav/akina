@@ -72,8 +72,8 @@ export const products = pgTable(
      */
     tributeId: text("tribute_id").notNull(),
 
-    /** Tax rate percentage, e.g. 19.00 for 19% IVA */
-    taxRate: numeric("tax_rate", { precision: 5, scale: 2 }).notNull(),
+    /** Tax rate as decimal, e.g. 0.19 for 19% IVA */
+    taxRate: numeric("tax_rate", { precision: 5, scale: 4 }).notNull(),
 
     /** Whether the product/service is excluded from the tax regime */
     isExcluded: boolean("is_excluded").notNull().default(false),

@@ -2,6 +2,9 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* -------------------------------------------------------------------------- */
+/* Theme bridge                                                             */
+/* -------------------------------------------------------------------------- */
 @theme inline {
   --font-sans: var(--font-space-grotesk);
   --font-mono: var(--font-jetbrains-mono);
@@ -61,6 +64,9 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* -------------------------------------------------------------------------- */
+/* Design tokens                                                            */
+/* -------------------------------------------------------------------------- */
 :root {
   --background: oklch(0.15 0 0);
   --foreground: oklch(1 0 0);
@@ -115,6 +121,9 @@
   --sidebar-ring: oklch(0.52 0 0);
 }
 
+/* -------------------------------------------------------------------------- */
+/* Tailwind base layer overrides                                            */
+/* -------------------------------------------------------------------------- */
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -128,6 +137,9 @@
   }
 }
 
+/* -------------------------------------------------------------------------- */
+/* Browser quirks & form controls                                           */
+/* -------------------------------------------------------------------------- */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
@@ -137,6 +149,9 @@ input:-webkit-autofill:focus {
   caret-color: var(--foreground) !important;
 }
 
+/* -------------------------------------------------------------------------- */
+/* Animations                                                               */
+/* -------------------------------------------------------------------------- */
 @keyframes caret-blink {
   0%,
   50% {
@@ -152,6 +167,10 @@ input:-webkit-autofill:focus {
   animation: caret-blink 1s steps(1, end) infinite;
 }
 
+/* -------------------------------------------------------------------------- */
+/* UI enhancements                                                       */
+/* -------------------------------------------------------------------------- */
+/* Scrollbar (WebKit only) */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -160,4 +179,24 @@ input:-webkit-autofill:focus {
 }
 ::-webkit-scrollbar-thumb {
   background: color-mix(in srgb, var(--border) 60%, transparent);
+}
+
+/* Hide number input spinners */
+/* WebKit (Chrome, Safari, Edge) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Gecko (Firefox) */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Text selection */
+::selection {
+  background-color: color-mix(in srgb, var(--primary) 10%, transparent);
+  color: color-mix(in srgb, var(--primary) 90%, transparent);
 }

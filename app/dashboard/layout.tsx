@@ -23,6 +23,7 @@ const Layout = async ({ children }: LayoutProps) => {
       return { items };
     },
   });
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <CredentialActivationProvider>

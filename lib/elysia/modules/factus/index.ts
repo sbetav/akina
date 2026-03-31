@@ -6,8 +6,10 @@ import {
   CredentialBody,
   CredentialDetail,
   CredentialListResponse,
+  MeasurementUnitItem,
   MunicipalitiesQuery,
   MunicipalityItem,
+  TributeItem,
 } from "./model";
 import { FactusService } from "./service";
 
@@ -230,6 +232,54 @@ export const factusModule = new Elysia({ prefix: "/factus" })
       response: {
         200: AcquirerResponse,
         404: t.Object({ error: t.String() }),
+      },
+    },
+  )
+
+  /**
+   * GET /api/factus/measurement-units
+   * Returns all measurement units from the active Factus client.
+   */
+  .get(
+    "/measurement-units",
+    async ({ user, status }) => {
+      try {
+        const data = await FactusService.getMeasurementUnits(user.id);
+        return { data };
+      } catch {
+        return status(500, {
+          error: "Error al obtener las unidades de medida",
+        });
+      }
+    },
+    {
+      auth: true,
+      response: {
+        200: t.Object({ data: t.Array(MeasurementUnitItem) }),
+        500: t.Object({ error: t.String() }),
+      },
+    },
+  )
+
+  /**
+   * GET /api/factus/tributes
+   * Returns all product tributes from the active Factus client.
+   */
+  .get(
+    "/tributes",
+    async ({ user, status }) => {
+      try {
+        const data = await FactusService.getTributes(user.id);
+        return { data };
+      } catch {
+        return status(500, { error: "Error al obtener los tributos" });
+      }
+    },
+    {
+      auth: true,
+      response: {
+        200: t.Object({ data: t.Array(TributeItem) }),
+        500: t.Object({ error: t.String() }),
       },
     },
   );

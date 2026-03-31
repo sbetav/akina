@@ -1,0 +1,64 @@
+import BackButton from "@/components/back-button";
+import {
+  PageHeader,
+  PageHeaderContent,
+  PageHeaderDescription,
+  PageHeaderTitle,
+} from "@/components/dashboard/page-header";
+import ProductForm from "@/components/dashboard/products/product-form";
+import { requireUser } from "@/lib/dal";
+import { FactusService } from "@/lib/elysia/modules/factus/service";
+import { ProductService } from "@/lib/elysia/modules/products/service";
+import { notFound } from "next/navigation";
+import { FC } from "react";
+
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+const Page: FC<PageProps> = async ({ params }) => {
+  const { id } = await params;
+  const user = await requireUser();
+
+  let product;
+  try {
+    product = await ProductService.get(user.id, id);
+  } catch {
+    notFound();
+  }
+
+  let measurementUnits: Awaited<
+    ReturnType<typeof FactusService.getMeasurementUnits>
+  > = [];
+  let tributes: Awaited<ReturnType<typeof FactusService.getTributes>> = [];
+
+  try {
+    [measurementUnits, tributes] = await Promise.all([
+      FactusService.getMeasurementUnits(user.id),
+      FactusService.getTributes(user.id),
+    ]);
+  } catch {
+    // Fallback to empty — selects will be empty but form still works
+  }
+
+  return (
+    <div className="flex min-h-full w-full flex-1 flex-col gap-6">
+      <PageHeader>
+        <PageHeaderContent>
+          <BackButton href="/dashboard/products" />
+          <PageHeaderTitle>Editar producto</PageHeaderTitle>
+          <PageHeaderDescription>
+            &#47;&#47; Actualiza los datos del producto o servicio
+          </PageHeaderDescription>
+        </PageHeaderContent>
+      </PageHeader>
+      <ProductForm
+        measurementUnits={measurementUnits}
+        tributes={tributes}
+        selectedProduct={product}
+      />
+    </div>
+  );
+};
+
+export default Page;

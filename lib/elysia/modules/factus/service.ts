@@ -390,4 +390,35 @@ export class FactusService {
     });
     return { name: res.data.name, email: res.data.email };
   }
+
+  /** Get measurement units from the current user's active Factus client. */
+  static async getMeasurementUnits(
+    userId: string,
+  ): Promise<{ id: number; code: string; name: string }[]> {
+    const client = await getFactusClientForUser(userId);
+    const res = await client.catalog.listMeasurementUnits();
+    return res.data.map((u: { id: number; code: string; name: string }) => ({
+      id: u.id,
+      code: u.code,
+      name: u.name,
+    }));
+  }
+
+  /** Get product tributes from the current user's active Factus client. */
+  static async getTributes(
+    userId: string,
+  ): Promise<
+    { id: number; code: string; name: string; description: string }[]
+  > {
+    const client = await getFactusClientForUser(userId);
+    const res = await client.catalog.listTributes();
+    return res.data.map(
+      (t: { id: number; code: string; name: string; description: string }) => ({
+        id: t.id,
+        code: t.code,
+        name: t.name,
+        description: t.description,
+      }),
+    );
+  }
 }

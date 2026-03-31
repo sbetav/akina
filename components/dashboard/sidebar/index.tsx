@@ -4,7 +4,13 @@ import { AppLogo } from "@/components/ui/app-logo";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { User } from "better-auth";
-import { LayoutDashboardIcon, MenuIcon, UsersIcon, XIcon } from "lucide-react";
+import {
+  LayoutDashboardIcon,
+  MenuIcon,
+  PackageIcon,
+  UsersIcon,
+  XIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { FC } from "react";
@@ -31,6 +37,11 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
       href: "/dashboard/customers",
       label: "Clientes",
       icon: UsersIcon,
+    },
+    {
+      href: "/dashboard/products",
+      label: "Productos",
+      icon: PackageIcon,
     },
   ];
 

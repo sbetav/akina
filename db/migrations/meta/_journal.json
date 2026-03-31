@@ -71,6 +71,20 @@
       "when": 1774886088962,
       "tag": "0009_broad_cyclops",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1774935088368,
+      "tag": "0010_needy_blindfold",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1774937227210,
+      "tag": "0011_opposite_clint_barton",
+      "breakpoints": true
     }
   ]
 }

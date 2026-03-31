@@ -66,3 +66,16 @@ export const AcquirerResponse = t.Object({
   name: t.String(),
   email: t.String(),
 });
+
+export const MeasurementUnitItem = t.Object({
+  id: t.Number(),
+  code: t.String(),
+  name: t.String(),
+});
+
+export const TributeItem = t.Object({
+  id: t.Number(),
+  code: t.String(),
+  name: t.String(),
+  description: t.String(),
+});

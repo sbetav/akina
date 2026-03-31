@@ -2,6 +2,7 @@ import { betterAuth } from "@/lib/elysia/better-auth";
 import { Elysia, t } from "elysia";
 import {
   ProductBody,
+  ProductCodeAvailabilityQuery,
   ProductDetail,
   ProductListQuery,
   ProductListResponse,
@@ -38,6 +39,32 @@ export const productsModule = new Elysia({ prefix: "/products" })
       response: {
         200: t.Object({ code: t.String() }),
         422: t.Object({ error: t.String() }),
+      },
+    },
+  )
+  .get(
+    "/code-available",
+    async ({ user, query, status }) => {
+      try {
+        const available = await ProductService.isCodeAvailable(
+          user.id,
+          query.code,
+        );
+        return { available };
+      } catch (e) {
+        const message =
+          e instanceof Error
+            ? e.message
+            : "Error al validar disponibilidad del código";
+        return status(500, { error: message });
+      }
+    },
+    {
+      auth: true,
+      query: ProductCodeAvailabilityQuery,
+      response: {
+        200: t.Object({ available: t.Boolean() }),
+        500: t.Object({ error: t.String() }),
       },
     },
   )

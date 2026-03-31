@@ -26,6 +26,10 @@ export const ProductListQuery = t.Object({
   limit: t.Optional(t.Numeric({ minimum: 1, maximum: 100, default: 20 })),
 });
 
+export const ProductCodeAvailabilityQuery = t.Object({
+  code: t.String({ minLength: 1, maxLength: 50 }),
+});
+
 // ─── Response shapes ──────────────────────────────────────────────────────────
 
 /**
@@ -36,10 +40,10 @@ export const ProductItem = t.Object({
   id: t.String(),
   code: t.String(),
   name: t.String(),
-  price: t.String(),
+  price: t.Numeric(),
   unitMeasureId: t.String(),
   tributeId: t.String(),
-  taxRate: t.String(),
+  taxRate: t.Numeric(),
   isExcluded: t.Boolean(),
   type: toElysiaLiterals(PRODUCT_TYPES),
   createdAt: t.String(),
@@ -53,11 +57,11 @@ export const ProductDetail = t.Object({
   code: t.String(),
   name: t.String(),
   description: t.Union([t.String(), t.Null()]),
-  price: t.String(),
+  price: t.Numeric(),
   unitMeasureId: t.String(),
   standardCodeId: toElysiaEnum(ProductStandardId),
   tributeId: t.String(),
-  taxRate: t.String(),
+  taxRate: t.Numeric(),
   isExcluded: t.Boolean(),
   type: toElysiaLiterals(PRODUCT_TYPES),
   createdAt: t.String(),

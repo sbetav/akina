@@ -1,0 +1,27 @@
+import {
+  NumberField,
+  type NumberFieldRootProps,
+} from "@base-ui/react/number-field";
+
+import { cn } from "@/lib/utils";
+
+interface NumberInputProps extends NumberFieldRootProps {
+  placeholder?: string;
+}
+
+function NumberInput({ className, placeholder, ...props }: NumberInputProps) {
+  return (
+    <NumberField.Root data-slot="input" {...props}>
+      <NumberField.Input
+        aria-invalid={props["aria-invalid"]}
+        placeholder={placeholder}
+        className={cn(
+          "bg-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/40 aria-invalid:border-destructive file:text-foreground placeholder:text-muted-foreground h-10 w-full min-w-0 border px-3.5 py-1.5 text-sm shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 md:text-sm",
+          className,
+        )}
+      />
+    </NumberField.Root>
+  );
+}
+
+export { NumberInput };

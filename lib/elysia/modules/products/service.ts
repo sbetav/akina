@@ -6,7 +6,7 @@ import {
   getActiveCredentialsIdForUser,
 } from "@/lib/elysia/workspace";
 import { formatRef } from "@/lib/utils";
-import { and, count, desc, ilike, inArray, or } from "drizzle-orm";
+import { and, count, desc, eq, ilike, inArray, or } from "drizzle-orm";
 import { type ProductStandardId } from "factus-js";
 
 // ─── Shared types ─────────────────────────────────────────────────────────────
@@ -29,10 +29,10 @@ export interface ProductListItem {
   code: string;
   name: string;
   /** Stored as numeric string from the DB */
-  price: string;
+  price: number;
   unitMeasureId: string;
   tributeId: string;
-  taxRate: string;
+  taxRate: number;
   isExcluded: boolean;
   type: ProductType;
   createdAt: string;
@@ -43,11 +43,11 @@ export interface ProductDetailResult {
   code: string;
   name: string;
   description: string | null;
-  price: string;
+  price: number;
   unitMeasureId: string;
   standardCodeId: ProductStandardId;
   tributeId: string;
-  taxRate: string;
+  taxRate: number;
   isExcluded: boolean;
   type: ProductType;
   createdAt: string;
@@ -122,8 +122,8 @@ export class ProductService {
     return {
       items: rows.map((r) => ({
         ...r,
-        price: r.price ?? "0",
-        taxRate: r.taxRate ?? "0",
+        price: Number(r.price ?? 0),
+        taxRate: Number(r.taxRate ?? 0),
         type: r.type,
         createdAt: r.createdAt.toISOString(),
       })),
@@ -193,11 +193,11 @@ export class ProductService {
       code: row.code,
       name: row.name,
       description: row.description,
-      price: row.price ?? "0",
+      price: Number(row.price ?? 0),
       unitMeasureId: row.unitMeasureId,
       standardCodeId: row.standardCodeId,
       tributeId: row.tributeId,
-      taxRate: row.taxRate ?? "0",
+      taxRate: Number(row.taxRate ?? 0),
       isExcluded: row.isExcluded,
       type: row.type as ProductType,
       createdAt: row.createdAt.toISOString(),
@@ -294,5 +294,22 @@ export class ProductService {
       .where(baseFilter);
 
     return formatRef("P", Number(total) + 1);
+  }
+
+  /**
+   * Checks whether a product code is available in the active workspace.
+   * Availability is scoped by userId + active credentialsId.
+   */
+  static async isCodeAvailable(userId: string, code: string): Promise<boolean> {
+    const credentialsId = await getActiveCredentialsIdForUser(userId);
+    const baseFilter = buildFilter(userId, credentialsId);
+    const normalizedCode = code.trim();
+
+    const existing = await db.query.products.findFirst({
+      where: and(baseFilter, eq(products.code, normalizedCode)),
+      columns: { id: true },
+    });
+
+    return !existing;
   }
 }
