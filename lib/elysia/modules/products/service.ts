@@ -143,34 +143,27 @@ export class ProductService {
   static async create(userId: string, data: ProductInput): Promise<void> {
     const credentialsId = await getActiveCredentialsIdForUser(userId);
 
-    try {
-      await db.insert(products).values({
-        credentialsId,
-        userId,
-        code: data.code,
-        name: data.name,
-        description: data.description ?? null,
-        price: data.price.toString(),
-        unitMeasureId: data.unitMeasureId,
-        standardCodeId: data.standardCodeId,
-        tributeId: data.tributeId,
-        taxRate: data.taxRate.toString(),
-        isExcluded: data.isExcluded,
-        type: data.type,
-      });
-    } catch (e) {
-      // Unique constraint violation on (userId, credentialsId, code)
-      if (
-        e instanceof Error &&
-        e.message.toLowerCase().includes("unique") &&
-        e.message.toLowerCase().includes("code")
-      ) {
-        throw new Error(
-          `El código "${data.code}" ya existe en este espacio de trabajo`,
-        );
-      }
-      throw e;
+    const available = await ProductService.isCodeAvailable(userId, data.code);
+    if (!available) {
+      throw new Error(
+        `El código "${data.code}" ya existe en este espacio de trabajo`,
+      );
     }
+
+    await db.insert(products).values({
+      credentialsId,
+      userId,
+      code: data.code,
+      name: data.name,
+      description: data.description ?? null,
+      price: data.price.toString(),
+      unitMeasureId: data.unitMeasureId,
+      standardCodeId: data.standardCodeId,
+      tributeId: data.tributeId,
+      taxRate: data.taxRate.toString(),
+      isExcluded: data.isExcluded,
+      type: data.type,
+    });
   }
 
   /**
