@@ -227,35 +227,21 @@ export class ProductService {
       throw new Error("Producto no encontrado");
     }
 
-    try {
-      await db
-        .update(products)
-        .set({
-          code: data.code,
-          name: data.name,
-          description: data.description ?? null,
-          price: data.price.toString(),
-          unitMeasureId: data.unitMeasureId,
-          standardCodeId: data.standardCodeId,
-          tributeId: data.tributeId,
-          taxRate: data.taxRate.toString(),
-          isExcluded: data.isExcluded,
-          type: data.type,
-          updatedAt: new Date(),
-        })
-        .where(filter);
-    } catch (e) {
-      if (
-        e instanceof Error &&
-        e.message.toLowerCase().includes("unique") &&
-        e.message.toLowerCase().includes("code")
-      ) {
-        throw new Error(
-          `El código "${data.code}" ya existe en este espacio de trabajo`,
-        );
-      }
-      throw e;
-    }
+    await db
+      .update(products)
+      .set({
+        name: data.name,
+        description: data.description ?? null,
+        price: data.price.toString(),
+        unitMeasureId: data.unitMeasureId,
+        standardCodeId: data.standardCodeId,
+        tributeId: data.tributeId,
+        taxRate: data.taxRate.toString(),
+        isExcluded: data.isExcluded,
+        type: data.type,
+        updatedAt: new Date(),
+      })
+      .where(filter);
   }
 
   /**

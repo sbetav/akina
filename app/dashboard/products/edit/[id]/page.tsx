@@ -32,14 +32,14 @@ const Page: FC<PageProps> = async ({ params }) => {
   > = [];
   let tributes: Awaited<ReturnType<typeof FactusService.getTributes>> = [];
 
-  try {
-    [measurementUnits, tributes] = await Promise.all([
-      FactusService.getMeasurementUnits(user.id),
-      FactusService.getTributes(user.id),
-    ]);
-  } catch {
-    // Fallback to empty — selects will be empty but form still works
-  }
+  const [measurementUnitsResult, tributesResult] = await Promise.allSettled([
+    FactusService.getMeasurementUnits(user.id),
+    FactusService.getTributes(user.id),
+  ]);
+
+  if (measurementUnitsResult.status === "fulfilled")
+    measurementUnits = measurementUnitsResult.value;
+  if (tributesResult.status === "fulfilled") tributes = tributesResult.value;
 
   return (
     <div className="flex min-h-full w-full flex-1 flex-col gap-6">
