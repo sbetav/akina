@@ -11,7 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 
-export default async function Page() {
+export default function Page() {
   return (
     <div className="flex min-h-full w-full flex-1 flex-col gap-6">
       <PageHeader size="sm">
@@ -35,6 +35,20 @@ export default async function Page() {
       <Separator />
 
       <CredentialsList />
+
+      <div className="flex justify-center">
+        <p className="text-muted-foreground text-center text-xs">
+          ¿Donde obtener mis credenciales?{" "}
+          <span className="text-foreground">Visita la</span>{" "}
+          <Link
+            href="https://www.factus.com.co/"
+            target="_blank"
+            className="text-primary/90 hover:text-primary transition-all hover:underline"
+          >
+            Página oficial de Factus
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

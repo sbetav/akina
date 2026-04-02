@@ -9,14 +9,15 @@ import {
   PageHeaderTitle,
 } from "@/components/dashboard/page-header";
 import { cn } from "@/lib/utils";
-import { useRouter } from "@bprogress/next";
 import {
-  BriefcaseBusinessIcon,
+  Building2Icon,
   ChevronDownIcon,
   KeyIcon,
+  ListOrderedIcon,
   LockIcon,
   UserIcon,
 } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FC, ReactNode, useState } from "react";
 
@@ -26,7 +27,6 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   const pathname = usePathname();
-  const router = useRouter();
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   const links = [
@@ -42,8 +42,13 @@ const Layout: FC<LayoutProps> = ({ children }) => {
     },
     {
       href: "/dashboard/settings/company",
-      label: "Datos de la Empresa",
-      icon: BriefcaseBusinessIcon,
+      label: "Datos de la empresa",
+      icon: Building2Icon,
+    },
+    {
+      href: "/dashboard/settings/numbering-ranges",
+      label: "Rangos de numeración",
+      icon: ListOrderedIcon,
     },
     {
       href: "/dashboard/settings/security",
@@ -103,20 +108,18 @@ const Layout: FC<LayoutProps> = ({ children }) => {
         >
           <div className="overflow-hidden">
             <div className="border-b px-3 py-2">
-              {links.map((link) => {
+              {links.map((link, index) => {
                 const Icon = link.icon;
                 const isSettings = link.href === "/dashboard/settings";
                 const isActive = isSettings
                   ? pathname === link.href
                   : pathname.startsWith(link.href);
                 return (
-                  <button
+                  <Link
                     type="button"
-                    key={link.href}
-                    onClick={() => {
-                      router.push(link.href);
-                      setIsNavOpen(false);
-                    }}
+                    key={index}
+                    href={link.href}
+                    onClick={() => setIsNavOpen(false)}
                     className={cn(
                       "hover:bg-accent hover:text-foreground text-muted-foreground focus-effect flex w-full cursor-pointer items-center gap-2.5 px-3 py-2.5 text-sm font-medium transition-all outline-none!",
                       {
@@ -126,7 +129,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
                   >
                     <Icon className="size-4" />
                     {link.label}
-                  </button>
+                  </Link>
                 );
               })}
             </div>
@@ -149,18 +152,17 @@ const Layout: FC<LayoutProps> = ({ children }) => {
           {/* Desktop sidebar */}
           <aside className="bg-popover/50 hidden h-fit w-full max-w-64 border p-1 lg:block">
             <div className="space-y-1">
-              {links.map((link) => {
+              {links.map((link, index) => {
                 const Icon = link.icon;
                 const isSettings = link.href === "/dashboard/settings";
                 const isActive = isSettings
                   ? pathname === link.href
                   : pathname.startsWith(link.href);
                 return (
-                  <button
-                    type="button"
-                    aria-label={`Ir a ${link.label}`}
-                    key={link.href}
-                    onClick={() => router.push(link.href)}
+                  <Link
+                    key={index}
+                    href={link.href}
+                    onClick={() => setIsNavOpen(false)}
                     className={cn(
                       "hover:bg-accent hover:text-foreground text-muted-foreground focus-effect relative flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-xs font-medium transition-all",
                       {
@@ -170,7 +172,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
                   >
                     <Icon className="size-4" />
                     {link.label}
-                  </button>
+                  </Link>
                 );
               })}
             </div>

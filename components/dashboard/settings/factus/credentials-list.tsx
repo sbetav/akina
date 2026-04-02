@@ -120,20 +120,6 @@ const CredentialsList: FC = () => {
           )}
         </div>
       )}
-
-      <div className="flex justify-center">
-        <p className="text-muted-foreground text-center text-xs">
-          ¿Donde obtener mis credenciales?{" "}
-          <span className="text-foreground">Visita la</span>{" "}
-          <Link
-            href="https://www.factus.com.co/"
-            target="_blank"
-            className="text-primary/90 hover:text-primary transition-all hover:underline"
-          >
-            Página oficial de Factus
-          </Link>
-        </p>
-      </div>
     </div>
   );
 };
