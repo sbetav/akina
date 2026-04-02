@@ -107,21 +107,18 @@ export class FactusService {
     );
 
     // Sort: valid items first (preserving insertion order within each group),
-    // invalid items last. Include Akina Sandbox only when user has own credentials.
-    const sandbox: CredentialListItem | null =
-      validated.length > 0
-        ? {
-            id: "akina-sandbox",
-            name: "Akina",
-            username: "akina-sandbox",
-            clientId: "akina-sandbox",
-            environment: "sandbox",
-            isActive: !validated.some((v) => v.isActive),
-            isValid: true,
-          }
-        : null;
+    // invalid items last.
+    const sandbox: CredentialListItem = {
+      id: "akina-sandbox",
+      name: "Akina",
+      username: "akina-sandbox",
+      clientId: "akina-sandbox",
+      environment: "sandbox",
+      isActive: !validated.some((v) => v.isActive),
+      isValid: true,
+    };
 
-    return sandbox ? [sandbox, ...validated] : validated;
+    return [sandbox, ...validated];
   }
 
   /**
