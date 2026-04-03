@@ -11,14 +11,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@/components/ui/empty";
-import {
   Field,
   FieldContent,
   FieldDescription,
@@ -28,7 +20,16 @@ import {
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useCredentialActivation } from "@/hooks/use-credential-activation";
+
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
+import { useActiveCredentials } from "@/hooks/use-active-credentials";
 import { CredentialListItem } from "@/lib/elysia/modules/factus/service";
 import { cn } from "@/lib/utils";
 import { useRouter } from "@bprogress/next";
@@ -45,81 +46,81 @@ import { FC, useMemo, useState } from "react";
 import DeleteCredentialsDialog from "./delete-credentials-dialog";
 
 const CredentialsList: FC = () => {
-  const { isLoading, items, selectedCredential, activate, isPending } =
-    useCredentialActivation();
+  const { credentials, isLoading, activate, isActivating, active } =
+    useActiveCredentials();
 
   const { validItems, invalidItems } = useMemo(() => {
     return {
-      validItems: items.filter((c) => c.isValid),
-      invalidItems: items.filter((c) => !c.isValid),
+      validItems: credentials.filter((c) => c.isValid),
+      invalidItems: credentials.filter((c) => !c.isValid),
     };
-  }, [items]);
+  }, [credentials]);
 
   if (isLoading) {
     return <Skeleton className="w-full flex-1" />;
   }
 
+  if (!credentials.length) {
+    <Empty fillSpace className="bg-background/30 flex-1">
+      <EmptyHeader>
+        <EmptyMedia variant="icon">
+          <KeyIcon />
+        </EmptyMedia>
+        <EmptyTitle>Sin credenciales propias</EmptyTitle>
+        <EmptyDescription className="max-w-[300px]">
+          Configura tus propias credenciales y emite documentos con ellas.
+        </EmptyDescription>
+      </EmptyHeader>
+      <EmptyContent>
+        <Link
+          href="/dashboard/settings/factus/new-credential"
+          className={buttonVariants({ size: "lg" })}
+        >
+          <PlusIcon />
+          Nueva credencial
+        </Link>
+      </EmptyContent>
+    </Empty>;
+  }
+
   return (
     <div className="flex flex-1 flex-col gap-5">
-      {!items.length ? (
-        <Empty fillSpace className="bg-background/30 flex-1">
-          <EmptyHeader>
-            <EmptyMedia variant="icon">
-              <KeyIcon />
-            </EmptyMedia>
-            <EmptyTitle>Sin credenciales propias</EmptyTitle>
-            <EmptyDescription className="max-w-[300px]">
-              Configura tus propias credenciales y emite documentos con ellas.
-            </EmptyDescription>
-          </EmptyHeader>
-          <EmptyContent>
-            <Link
-              href="/dashboard/settings/factus/new-credential"
-              className={buttonVariants({ size: "lg" })}
-            >
-              <PlusIcon />
-              Nueva credencial
-            </Link>
-          </EmptyContent>
-        </Empty>
-      ) : (
-        <div className="flex flex-1 flex-col gap-5">
-          <Label>Seleccionar credenciales</Label>
-          <RadioGroup
-            value={selectedCredential}
-            onValueChange={(value) => {
-              activate(value as string | "akina-sandbox");
-            }}
-            disabled={isPending}
-            className="sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2"
-          >
-            {validItems.map((credential) => (
-              <CredentialsItem
-                key={credential.id}
-                credential={credential}
-                isPending={isPending}
-              />
-            ))}
-          </RadioGroup>
+      <div className="flex flex-1 flex-col gap-5">
+        <Label>Seleccionar credenciales</Label>
+        <RadioGroup
+          value={active?.id}
+          onValueChange={(value) => {
+            activate(value as string | "akina-sandbox");
+          }}
+          disabled={isActivating}
+          className="sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2"
+        >
+          {validItems.map((credential) => (
+            <CredentialsItem
+              key={credential.id}
+              credential={credential}
+              isPending={isActivating}
+            />
+          ))}
+        </RadioGroup>
 
-          {invalidItems.length > 0 && (
-            <div className="mt-5 flex flex-col gap-3">
-              <Label className="text-destructive flex items-center gap-2">
-                <AlertTriangleIcon className="size-4" />
-                Las siguientes credenciales necesitan atención
-              </Label>
-              <div className="grid gap-3">
-                {invalidItems.map((credential) => (
-                  <InvalidCredentialItem
-                    key={credential.id}
-                    credential={credential}
-                  />
-                ))}
-              </div>
+        {invalidItems.length > 0 && (
+          <div className="mt-5 flex flex-col gap-3">
+            <Label className="text-destructive flex items-center gap-2">
+              <AlertTriangleIcon className="size-4" />
+              Las siguientes credenciales necesitan atención
+            </Label>
+            <div className="grid gap-3">
+              {invalidItems.map((credential) => (
+                <InvalidCredentialItem
+                  key={credential.id}
+                  credential={credential}
+                />
+              ))}
             </div>
-          )}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useCredentialActivation } from "@/hooks/use-credential-activation";
+import { useActiveCredentials } from "@/hooks/use-active-credentials";
 import { ArrowRightIcon, ChevronsUpDown } from "lucide-react";
 import Link from "next/link";
 import { FC, useState } from "react";
@@ -42,19 +42,13 @@ function getCredentialBadgeMeta({
 const CredentialsDropdownMenu: FC<CredentialsDropdownMenuProps> = ({
   onNavigate,
 }) => {
-  const {
-    items,
-    activeItem,
-    selectedCredential,
-    activate,
-    isPending,
-    isLoading,
-  } = useCredentialActivation();
+  const { active, isLoading, isActivating, activate, credentials } =
+    useActiveCredentials();
 
   const [open, onOpenChange] = useState(false);
   const activeBadge = getCredentialBadgeMeta({
-    isValid: activeItem?.isValid ?? true,
-    environment: activeItem?.environment,
+    isValid: active?.isValid ?? true,
+    environment: active?.environment,
   });
 
   if (isLoading) return <Skeleton className="h-[58px] w-full" />;
@@ -64,21 +58,21 @@ const CredentialsDropdownMenu: FC<CredentialsDropdownMenuProps> = ({
       <DropdownMenuTrigger
         render={
           <button
-            disabled={isPending}
+            disabled={isActivating}
             className="group data-popup-open:bg-accent hover:bg-accent focus-effect relative flex cursor-pointer items-center justify-between gap-3 border px-3 py-2.5 pl-4 transition disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
           >
             <div className="space-y-0.5 text-left text-xs">
               <div className="flex items-center gap-2">
-                <p>{activeItem?.name}</p>
+                <p>{active?.name}</p>
 
                 <Badge size="sm" variant={activeBadge.variant}>
                   {activeBadge.label}
                 </Badge>
               </div>
               <p className="text-muted-foreground">
-                {activeItem?.id === "akina-sandbox"
+                {active?.id === "akina-sandbox"
                   ? "Entorno por defecto"
-                  : activeItem?.username}
+                  : active?.username}
               </p>
             </div>
             <ChevronsUpDown className="text-muted-foreground size-3.5" />
@@ -88,31 +82,31 @@ const CredentialsDropdownMenu: FC<CredentialsDropdownMenuProps> = ({
       <DropdownMenuContent>
         <DropdownMenuGroup>
           <DropdownMenuRadioGroup
-            value={selectedCredential}
+            value={active?.id}
             onValueChange={(value) => {
               activate(value);
               onOpenChange(false);
             }}
           >
-            {items.map((item) => {
-              const badge = getCredentialBadgeMeta(item);
+            {credentials.map((c) => {
+              const badge = getCredentialBadgeMeta(c);
               return (
                 <DropdownMenuRadioItem
-                  key={item.id}
-                  value={item.id}
-                  disabled={isPending || !item.isValid}
+                  key={c.id}
+                  value={c.id}
+                  disabled={isActivating || !c.isValid}
                 >
                   <div className="space-y-0.5 text-xs">
                     <div className="flex items-center gap-2">
-                      <span>{item.name}</span>
+                      <span>{c.name}</span>
                       <Badge size="sm" variant={badge.variant}>
                         {badge.label}
                       </Badge>
                     </div>
                     <p className="text-muted-foreground line-clamp-1 text-xs">
-                      {item.id === "akina-sandbox"
+                      {c.id === "akina-sandbox"
                         ? "Entorno por defecto"
-                        : item.username}
+                        : c.username}
                     </p>
                   </div>
                 </DropdownMenuRadioItem>

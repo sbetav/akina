@@ -10,10 +10,10 @@ import {
 } from "@/components/dashboard/page-header";
 import { cn } from "@/lib/utils";
 import {
-  Building2Icon,
+  BriefcaseBusinessIcon,
   ChevronDownIcon,
+  FileDigitIcon,
   KeyIcon,
-  ListOrderedIcon,
   LockIcon,
   UserIcon,
 } from "lucide-react";
@@ -43,12 +43,12 @@ const Layout: FC<LayoutProps> = ({ children }) => {
     {
       href: "/dashboard/settings/company",
       label: "Datos de la empresa",
-      icon: Building2Icon,
+      icon: BriefcaseBusinessIcon,
     },
     {
       href: "/dashboard/settings/numbering-ranges",
       label: "Rangos de numeración",
-      icon: ListOrderedIcon,
+      icon: FileDigitIcon,
     },
     {
       href: "/dashboard/settings/security",
@@ -123,7 +123,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
                     className={cn(
                       "hover:bg-accent hover:text-foreground text-muted-foreground focus-effect flex w-full cursor-pointer items-center gap-2.5 px-3 py-2.5 text-sm font-medium transition-all outline-none!",
                       {
-                        "text-primary!": isActive,
+                        "text-primary! bg-accent": isActive,
                       },
                     )}
                   >

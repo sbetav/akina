@@ -1,12 +1,12 @@
 "use client";
 
-import { useCredentialActivationContext } from "@/contexts/credential-activation-context";
+import { useActiveCredentialsContext } from "@/contexts/active-credentials-context";
 import { api } from "@/lib/elysia/eden";
 import { CREDENTIALS_QUERY_KEY } from "@/lib/query-keys";
 import { useQuery } from "@tanstack/react-query";
 
-export function useCredentialActivation() {
-  const { activate, isPending } = useCredentialActivationContext();
+export function useActiveCredentials() {
+  const { activate, isActivating } = useActiveCredentialsContext();
 
   const { data, isLoading } = useQuery({
     queryKey: CREDENTIALS_QUERY_KEY,
@@ -21,15 +21,14 @@ export function useCredentialActivation() {
     },
   });
 
-  const items = data?.items ?? [];
-  const activeItem = items.find((c) => c.isActive);
+  const credentials = data?.items ?? [];
+  const active = credentials.find((c) => c.isActive);
 
   return {
+    credentials,
+    active,
     isLoading,
-    isPending,
-    items,
-    activeItem,
-    selectedCredential: activeItem?.id ?? "akina-sandbox",
     activate,
+    isActivating,
   };
 }

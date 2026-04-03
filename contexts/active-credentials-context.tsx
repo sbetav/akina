@@ -10,22 +10,22 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createContext, ReactNode, useContext } from "react";
 
-interface CredentialActivationContextValue {
+interface ActiveCredentialsContextValue {
   activate: (id: string) => void;
-  isPending: boolean;
+  isActivating: boolean;
 }
 
-const CredentialActivationContext =
-  createContext<CredentialActivationContextValue | null>(null);
+const ActiveCredentialsContext =
+  createContext<ActiveCredentialsContextValue | null>(null);
 
-export function CredentialActivationProvider({
+export function ActiveCredentialsProvider({
   children,
 }: {
   children: ReactNode;
 }) {
   const queryClient = useQueryClient();
 
-  const { mutate, isPending } = useMutation({
+  const { mutate: activate, isPending: isActivating } = useMutation({
     mutationFn: async (id: string) => {
       const res = await api.factus.credentials({ id }).activate.patch();
       if (res.error)
@@ -77,19 +77,22 @@ export function CredentialActivationProvider({
   });
 
   return (
-    <CredentialActivationContext
-      value={{ activate: (id) => mutate(id), isPending }}
+    <ActiveCredentialsContext
+      value={{
+        activate,
+        isActivating,
+      }}
     >
       {children}
-    </CredentialActivationContext>
+    </ActiveCredentialsContext>
   );
 }
 
-export function useCredentialActivationContext() {
-  const ctx = useContext(CredentialActivationContext);
+export function useActiveCredentialsContext() {
+  const ctx = useContext(ActiveCredentialsContext);
   if (!ctx)
     throw new Error(
-      "useCredentialActivationContext must be used within CredentialActivationProvider",
+      "useActiveCredentialsContext must be used within ActiveCredentialsProvider",
     );
   return ctx;
 }
