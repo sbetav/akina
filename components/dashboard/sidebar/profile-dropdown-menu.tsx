@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Spinner } from "@/components/ui/spinner";
-import { useLogout } from "@/hooks/use-logout";
+import { useLogout } from "@/hooks/auth/use-logout";
 import { User } from "better-auth";
 import {
   ChevronDownIcon,

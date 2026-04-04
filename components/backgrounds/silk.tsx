@@ -1,6 +1,6 @@
 "use client";
 
-import useTabVisible from "@/hooks/use-tab-visible";
+import useTabVisible from "@/hooks/ui/use-tab-visible";
 import { Canvas, RootState, useFrame, useThree } from "@react-three/fiber";
 import React, {
   forwardRef,

@@ -29,7 +29,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { useActiveCredentials } from "@/hooks/use-active-credentials";
+import { useActiveCredentials } from "@/hooks/factus/use-active-credentials";
 import { AKINA_SANDBOX_ID } from "@/lib/constants";
 import { CredentialListItem } from "@/lib/elysia/modules/factus/service";
 import { cn } from "@/lib/utils";

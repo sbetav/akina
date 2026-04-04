@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/input-group";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
-import useDebounce from "@/hooks/use-debounce";
+import useDebounce from "@/hooks/ui/use-debounce";
 import { api } from "@/lib/elysia/eden";
 import { CUSTOMERS_QUERY_KEY, DEFAULT_CUSTOMERS_LIMIT } from "@/lib/query-keys";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";

@@ -1,7 +1,7 @@
 "use client";
 
-import { useAnimatedEllipsis } from "@/hooks/use-animated-ellipsis";
-import { useResendVerification } from "@/hooks/use-resend-verification";
+import { useResendVerification } from "@/hooks/auth/use-resend-verification";
+import { useAnimatedEllipsis } from "@/hooks/ui/use-animated-ellipsis";
 import { authClient } from "@/lib/auth/client";
 import { getAuthErrorMessage } from "@/lib/auth/utils";
 import { LoginFormValues, loginFormSchema } from "@/lib/validations/auth";

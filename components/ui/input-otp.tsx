@@ -1,4 +1,4 @@
-import useDelayedFalse from "@/hooks/use-delayed-false";
+import useDelayedFalse from "@/hooks/ui/use-delayed-false";
 import { cn } from "@/lib/utils";
 import { OTPInput, OTPInputContext, REGEXP_ONLY_DIGITS } from "input-otp";
 import { MinusIcon } from "lucide-react";

@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useActiveCredentials } from "@/hooks/use-active-credentials";
+import { useActiveCredentials } from "@/hooks/factus/use-active-credentials";
 import { AKINA_SANDBOX_ID } from "@/lib/constants";
 import { ArrowRightIcon, ChevronsUpDown } from "lucide-react";
 import Link from "next/link";

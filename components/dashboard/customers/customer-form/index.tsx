@@ -3,9 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
-import useDebounce from "@/hooks/use-debounce";
-import { useGoBack } from "@/hooks/use-go-back";
-import { useSearchAcquirer } from "@/hooks/use-search-acquirer";
+import { useSearchAcquirer } from "@/hooks/factus/use-search-acquirer";
+import useDebounce from "@/hooks/ui/use-debounce";
+import { useGoBack } from "@/hooks/ui/use-go-back";
 import { api } from "@/lib/elysia/eden";
 import { CustomerDetailResult } from "@/lib/elysia/modules/customers";
 import { CUSTOMERS_QUERY_KEY } from "@/lib/query-keys";

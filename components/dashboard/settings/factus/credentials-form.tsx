@@ -20,7 +20,7 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { useGoBack } from "@/hooks/use-go-back";
+import { useGoBack } from "@/hooks/ui/use-go-back";
 import { api } from "@/lib/elysia/eden";
 import { CredentialDetailResult } from "@/lib/elysia/modules/factus/service";
 import { CREDENTIALS_QUERY_KEY } from "@/lib/query-keys";

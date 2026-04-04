@@ -1,6 +1,6 @@
 "use client";
 
-import { useGoBack } from "@/hooks/use-go-back";
+import { useGoBack } from "@/hooks/ui/use-go-back";
 import { useRouter } from "@bprogress/next";
 import { ArrowLeftIcon } from "lucide-react";
 import type { FC } from "react";

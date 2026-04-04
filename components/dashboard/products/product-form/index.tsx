@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
-import { useGoBack } from "@/hooks/use-go-back";
+import { useGoBack } from "@/hooks/ui/use-go-back";
 import { api } from "@/lib/elysia/eden";
 import { ProductDetailResult } from "@/lib/elysia/modules/products/service";
 import { PRODUCTS_QUERY_KEY } from "@/lib/query-keys";

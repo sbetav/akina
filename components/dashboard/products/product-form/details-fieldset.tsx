@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/input-group";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
-import useDebounce from "@/hooks/use-debounce";
+import useDebounce from "@/hooks/ui/use-debounce";
 import { api } from "@/lib/elysia/eden";
 import { PRODUCTS_QUERY_KEY } from "@/lib/query-keys";
 import { ProductFormValues } from "@/lib/validations/product";
