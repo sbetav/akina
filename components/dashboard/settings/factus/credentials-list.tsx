@@ -30,6 +30,7 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { useActiveCredentials } from "@/hooks/use-active-credentials";
+import { AKINA_SANDBOX_ID } from "@/lib/constants";
 import { CredentialListItem } from "@/lib/elysia/modules/factus/service";
 import { cn } from "@/lib/utils";
 import { useRouter } from "@bprogress/next";
@@ -90,7 +91,7 @@ const CredentialsList: FC = () => {
         <RadioGroup
           value={active?.id}
           onValueChange={(value) => {
-            activate(value as string | "akina-sandbox");
+            activate(value as string | typeof AKINA_SANDBOX_ID);
           }}
           disabled={isActivating}
           className="sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2"
@@ -166,14 +167,14 @@ const CredentialsItem: FC<CredentialsItemProps> = ({
               </Badge>
             </div>
             <FieldDescription className="line-clamp-2 text-ellipsis">
-              {credential.id === "akina-sandbox"
+              {credential.id === AKINA_SANDBOX_ID
                 ? "Ideal para hacer pruebas y explorar la plataforma. "
                 : `${credential.username} - ${credential.clientId}`}
             </FieldDescription>
           </FieldContent>
         </Field>
       </FieldLabel>
-      {credential.id != "akina-sandbox" && (
+      {credential.id != AKINA_SANDBOX_ID && (
         <DropdownMenu>
           <DropdownMenuTrigger
             render={

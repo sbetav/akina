@@ -17,5 +17,6 @@ export type ProductType = (typeof PRODUCT_TYPES)[number];
 
 // ─── Factus credentials ───────────────────────────────────────────────────────
 
+export const AKINA_SANDBOX_ID = "akina-sandbox";
 export const FACTUS_ENVIRONMENTS = ["sandbox", "production"] as const;
 export type FactusEnvironment = (typeof FACTUS_ENVIRONMENTS)[number];

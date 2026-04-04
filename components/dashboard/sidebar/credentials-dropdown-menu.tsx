@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useActiveCredentials } from "@/hooks/use-active-credentials";
+import { AKINA_SANDBOX_ID } from "@/lib/constants";
 import { ArrowRightIcon, ChevronsUpDown } from "lucide-react";
 import Link from "next/link";
 import { FC, useState } from "react";
@@ -70,7 +71,7 @@ const CredentialsDropdownMenu: FC<CredentialsDropdownMenuProps> = ({
                 </Badge>
               </div>
               <p className="text-muted-foreground">
-                {active?.id === "akina-sandbox"
+                {active?.id === AKINA_SANDBOX_ID
                   ? "Entorno por defecto"
                   : active?.username}
               </p>
@@ -104,7 +105,7 @@ const CredentialsDropdownMenu: FC<CredentialsDropdownMenuProps> = ({
                       </Badge>
                     </div>
                     <p className="text-muted-foreground line-clamp-1 text-xs">
-                      {c.id === "akina-sandbox"
+                      {c.id === AKINA_SANDBOX_ID
                         ? "Entorno por defecto"
                         : c.username}
                     </p>

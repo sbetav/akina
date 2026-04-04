@@ -37,9 +37,15 @@ export function ActiveCredentialsProvider({
     onMutate: async (id: string) => {
       await queryClient.cancelQueries({ queryKey: CREDENTIALS_QUERY_KEY });
 
-      const previous = queryClient.getQueryData<{
+      const previousCredentials = queryClient.getQueryData<{
         items: CredentialListItem[];
       }>(CREDENTIALS_QUERY_KEY);
+
+      // Snapshot dependent queries before resetting them
+      const previousDependents = CREDENTIAL_DEPENDENT_KEYS.map((key) => ({
+        key,
+        data: queryClient.getQueryData([...key]),
+      }));
 
       queryClient.setQueryData<{ items: CredentialListItem[] }>(
         CREDENTIALS_QUERY_KEY,
@@ -55,10 +61,11 @@ export function ActiveCredentialsProvider({
         },
       );
 
-      return { previous };
+      return { previousCredentials, previousDependents };
     },
     onSuccess: () => {
       toast.success("Credencial seleccionada correctamente");
+      // Safety net: sync any server-side side effects
       queryClient.invalidateQueries({ queryKey: CREDENTIALS_QUERY_KEY });
 
       // Reset all credential-dependent queries: clears cached data
@@ -70,8 +77,26 @@ export function ActiveCredentialsProvider({
     },
     onError: (e: Error, _id, context) => {
       toast.error(e.message);
-      if (context?.previous) {
-        queryClient.setQueryData(CREDENTIALS_QUERY_KEY, context.previous);
+
+      // Rollback credentials optimistic update
+      if (context?.previousCredentials) {
+        queryClient.setQueryData(
+          CREDENTIALS_QUERY_KEY,
+          context.previousCredentials,
+        );
+      }
+
+      // Rollback dependent queries to their pre-mutation snapshots
+      if (context?.previousDependents) {
+        for (const { key, data } of context.previousDependents) {
+          if (data !== undefined) {
+            queryClient.setQueryData([...key], data);
+          } else {
+            // No snapshot means the query wasn't cached — just invalidate
+            // so it refetches fresh rather than sitting in a reset state
+            queryClient.invalidateQueries({ queryKey: [...key] });
+          }
+        }
       }
     },
   });
