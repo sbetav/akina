@@ -1,8 +1,8 @@
 import { toast } from "@/components/ui/toast";
+import { useCountdown } from "@/hooks/ui/use-countdown";
 import { authClient } from "@/lib/auth/client";
 import { getAuthErrorMessage } from "@/lib/auth/utils";
 import { useMutation } from "@tanstack/react-query";
-import { useCountdown } from "./use-countdown";
 
 export function useResendVerification(
   email: string,
