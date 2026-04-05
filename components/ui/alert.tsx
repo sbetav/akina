@@ -10,7 +10,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const alertVariants = cva(
-  "relative grid w-full grid-cols-[0_1fr] items-start gap-y-1 border px-4 py-3 text-sm before:absolute before:top-0 before:left-0 before:h-full before:w-[3px] before:bg-current/80 before:content-[''] has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] has-[>svg]:gap-x-2.5 [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
+  "relative grid w-full grid-cols-[0_1fr] items-start gap-y-1 border text-sm before:absolute before:top-0 before:left-0 before:h-full before:w-[3px] before:bg-current/80 before:content-[''] has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] has-[>svg]:gap-x-2.5 [&>svg]:size-4 [&>svg]:text-current",
   {
     variants: {
       variant: {
@@ -23,9 +23,14 @@ const alertVariants = cva(
         destructive:
           "text-destructive border-destructive/20 bg-destructive/10 *:data-[slot=alert-description]:text-destructive/90 [&>svg]:text-current",
       },
+      size: {
+        default: "px-4 py-3 [&>svg]:translate-y-0.5",
+        sm: "px-3 py-2",
+      },
     },
     defaultVariants: {
       variant: "default",
+      size: "default",
     },
   },
 );
@@ -39,30 +44,45 @@ const variantIcons: Partial<Record<AlertVariant, React.ReactNode>> = {
   info: <InfoIcon className="size-4 shrink-0" />,
 };
 
+const AlertSizeContext = React.createContext<"default" | "sm">("default");
+
 function Alert({
   className,
   variant,
+  size = "default",
   children,
+  showIcon = true,
   ...props
-}: React.ComponentProps<"div"> & VariantProps<typeof alertVariants>) {
+}: React.ComponentProps<"div"> &
+  VariantProps<typeof alertVariants> & {
+    showIcon?: boolean;
+  }) {
   const defaultIcon = variant ? variantIcons[variant] : null;
 
   return (
-    <div className="bg-background" data-slot="alert" role="alert">
-      <div className={cn(alertVariants({ variant }), className)} {...props}>
-        {defaultIcon}
-        {children}
+    <AlertSizeContext.Provider value={size ?? "default"}>
+      <div className="bg-background" data-slot="alert" role="alert">
+        <div
+          className={cn(alertVariants({ variant, size }), className)}
+          {...props}
+        >
+          {showIcon && defaultIcon}
+          {children}
+        </div>
       </div>
-    </div>
+    </AlertSizeContext.Provider>
   );
 }
 
 function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
+  const size = React.useContext(AlertSizeContext);
+
   return (
     <div
       data-slot="alert-title"
       className={cn(
-        "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight",
+        "col-start-2 min-h-4 font-medium tracking-tight",
+        size === "sm" && "text-xs font-normal",
         className,
       )}
       {...props}
