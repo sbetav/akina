@@ -37,7 +37,10 @@ import {
 } from "@/lib/validations/numbering-ranges";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { NumberingRangeDocumentTypeCode } from "factus-js";
+import {
+  NumberingRangeDocumentTypeCode,
+  NumberingRangeDocumentTypeCodeInfo,
+} from "factus-js";
 import { PlusIcon, SaveIcon } from "lucide-react";
 import { FC, useEffect, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
@@ -59,7 +62,7 @@ const CreateNumberingRangeDialog: FC<CreateNumberingRangeDialogProps> = ({
     useForm<NumberingRangeFormValues>({
       resolver: zodResolver(numberingRangeSchema),
       defaultValues: {
-        document: DOCUMENT_OPTIONS[0].value,
+        document: DOCUMENT_OPTIONS[0],
         prefix: "",
         current: 1,
         resolutionNumber: "",
@@ -145,19 +148,24 @@ const CreateNumberingRangeDialog: FC<CreateNumberingRangeDialogProps> = ({
                       <SelectValue>
                         {(value: string) => {
                           const match = DOCUMENT_OPTIONS.find(
-                            (d) => String(d.value) === value,
+                            (document) => document === value,
                           );
                           return (
-                            (match?.description ?? value) ||
-                            "Selecciona una opción"
+                            (match
+                              ? NumberingRangeDocumentTypeCodeInfo[match]
+                                  ?.description
+                              : value) || "Selecciona una opción"
                           );
                         }}
                       </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       {DOCUMENT_OPTIONS.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.description}
+                        <SelectItem key={option} value={option}>
+                          {
+                            NumberingRangeDocumentTypeCodeInfo[option]
+                              .description
+                          }
                         </SelectItem>
                       ))}
                     </SelectContent>

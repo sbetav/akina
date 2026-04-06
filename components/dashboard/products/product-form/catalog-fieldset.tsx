@@ -17,7 +17,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ProductFormValues } from "@/lib/validations/product";
-import { MeasurementUnit, ProductStandardId, Tribute } from "factus-js";
+import {
+  MeasurementUnit,
+  ProductStandardId,
+  ProductStandardIdInfo,
+  Tribute,
+} from "factus-js";
 import { BarChart2Icon, BookOpenIcon, RulerIcon } from "lucide-react";
 import { Control, Controller } from "react-hook-form";
 
@@ -100,19 +105,20 @@ export function CatalogFieldSet({
                     <SelectValue placeholder="Selecciona un estándar">
                       {(value: string) => {
                         const match = productStandards.find(
-                          (s) => s.value === value,
+                          (standard) => standard === value,
                         );
                         return (
-                          (match?.description ?? value) ||
-                          "Selecciona un estándar"
+                          (match
+                            ? ProductStandardIdInfo[match]?.description
+                            : value) || "Selecciona un estándar"
                         );
                       }}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
                     {productStandards.map((standard) => (
-                      <SelectItem key={standard.value} value={standard.value}>
-                        {standard.description}
+                      <SelectItem key={standard} value={standard}>
+                        {ProductStandardIdInfo[standard].description}
                       </SelectItem>
                     ))}
                   </SelectContent>

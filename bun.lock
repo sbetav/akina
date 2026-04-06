@@ -22,7 +22,7 @@
         "date-fns": "^4.1.0",
         "drizzle-orm": "^0.45.2",
         "elysia": "^1.4.28",
-        "factus-js": "0.3.0",
+        "factus-js": "1.0.0",
         "input-otp": "^1.4.2",
         "lucide-react": "^1.7.0",
         "next": "16.2.1",
@@ -905,7 +905,7 @@
 
     "exsolve": ["exsolve@1.0.8", "", {}, "sha512-LmDxfWXwcTArk8fUEnOfSZpHOJ6zOMUJKOtFLFqJLoKJetuQG874Uc7/Kki7zFLzYybmZhp1M7+98pfMqeX8yA=="],
 
-    "factus-js": ["factus-js@0.3.0", "", {}, "sha512-fq8aYKjSOYZoa4XHlIFjPN03bmrnEYcFFMtf3ct8tnyMaw4Nyc2t1rmo0QaLWY+zVUwdTaL+lMrblS6hqsYabQ=="],
+    "factus-js": ["factus-js@1.0.0", "", {}, "sha512-oVzDePYkqGEVId99zx+aavsjSnMuOCE6YcjIkhJn5iMIKFDJWvut8HjNGVYrpjRf0rKGJmNu6+5nrAPYrGGTEA=="],
 
     "fast-decode-uri-component": ["fast-decode-uri-component@1.0.1", "", {}, "sha512-WKgKWg5eUxvRZGwW8FvfbaH7AXSh2cL+3j5fMGzUMCxWBJ3dV3a7Wz8y2f/uQ0e3B6WmodD3oS54jTQ9HVTIIg=="],
 

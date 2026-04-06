@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
 import { CustomerFormValues } from "@/lib/validations/customer";
-import { IdentityDocumentTypeId } from "factus-js";
+import { IdentityDocumentTypeId, IdentityDocumentTypeIdInfo } from "factus-js";
 import { HashIcon, ScrollTextIcon } from "lucide-react";
 import { Control, Controller } from "react-hook-form";
 
@@ -63,19 +63,20 @@ export function IdentificationFieldSet({
                     <SelectValue>
                       {(value: string) => {
                         const match = identityDocumentTypes.find(
-                          (d) => String(d.value) === value,
+                          (document) => document === value,
                         );
                         return (
-                          (match?.description ?? value) ||
-                          "Selecciona una opción"
+                          (match
+                            ? IdentityDocumentTypeIdInfo[match]?.description
+                            : value) || "Selecciona una opción"
                         );
                       }}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
                     {identityDocumentTypes.map((doc) => (
-                      <SelectItem key={doc.value} value={String(doc.value)}>
-                        {doc.description}
+                      <SelectItem key={doc} value={doc}>
+                        {IdentityDocumentTypeIdInfo[doc].description}
                       </SelectItem>
                     ))}
                   </SelectContent>

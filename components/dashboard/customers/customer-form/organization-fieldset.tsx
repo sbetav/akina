@@ -22,7 +22,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CustomerFormValues } from "@/lib/validations/customer";
-import { CustomerTributeId, OrganizationTypeId } from "factus-js";
+import {
+  CustomerTributeId,
+  CustomerTributeIdInfo,
+  OrganizationTypeId,
+  OrganizationTypeIdInfo,
+} from "factus-js";
 import {
   Building2Icon,
   LandmarkIcon,
@@ -69,19 +74,20 @@ export function OrganizationFieldSet({
                     <SelectValue placeholder="Selecciona un tipo">
                       {(value: string) => {
                         const match = organizationTypes.find(
-                          (o) => String(o.value) === value,
+                          (organizationType) => organizationType === value,
                         );
                         return (
-                          (match?.description ?? value) ||
-                          "Selecciona una opción"
+                          (match
+                            ? OrganizationTypeIdInfo[match]?.description
+                            : value) || "Selecciona una opción"
                         );
                       }}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
                     {organizationTypes.map((org) => (
-                      <SelectItem key={org.value} value={String(org.value)}>
-                        {org.description}
+                      <SelectItem key={org} value={org}>
+                        {OrganizationTypeIdInfo[org].description}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -109,22 +115,20 @@ export function OrganizationFieldSet({
                     <SelectValue placeholder="Selecciona un régimen">
                       {(value: string) => {
                         const match = customerTributes.find(
-                          (t) => String(t.value) === value,
+                          (tribute) => tribute === value,
                         );
                         return (
-                          (match?.description ?? value) ||
-                          "Selecciona una opción"
+                          (match
+                            ? CustomerTributeIdInfo[match]?.description
+                            : value) || "Selecciona una opción"
                         );
                       }}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
                     {customerTributes.map((tribute) => (
-                      <SelectItem
-                        key={tribute.value}
-                        value={String(tribute.value)}
-                      >
-                        {tribute.description}
+                      <SelectItem key={tribute} value={tribute}>
+                        {CustomerTributeIdInfo[tribute].description}
                       </SelectItem>
                     ))}
                   </SelectContent>

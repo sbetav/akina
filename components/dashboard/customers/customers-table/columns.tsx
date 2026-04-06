@@ -15,7 +15,7 @@ import { CustomerListItem } from "@/lib/elysia/modules/customers";
 import { formatDocumentNumber } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { type VariantProps } from "class-variance-authority";
-import { IdentityDocumentTypeId } from "factus-js";
+import { IdentityDocumentTypeId, IdentityDocumentTypeIdInfo } from "factus-js";
 import { SquarePenIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import { FC, useState } from "react";
@@ -128,10 +128,11 @@ const columns: ColumnDef<CustomerListItem>[] = [
     header: "Tipo DOC.",
     cell: ({ getValue }) => {
       const id = getValue<string>();
+      const match = identityDocumentTypes.find((document) => document === id);
+
       return (
         <Badge variant={identityDocumentBadgeVariant(id)}>
-          {identityDocumentTypes.find((d) => String(d.value) === id)
-            ?.abbreviation ?? id}
+          {match ? IdentityDocumentTypeIdInfo[match]?.abbreviation : id}
         </Badge>
       );
     },

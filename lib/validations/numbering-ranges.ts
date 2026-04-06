@@ -11,7 +11,7 @@ const RESOLUTION_REQUIRED_TYPES = [
 ];
 
 export function requiresResolution(documentValue: string) {
-  return RESOLUTION_REQUIRED_TYPES.some((opt) => opt.value === documentValue);
+  return RESOLUTION_REQUIRED_TYPES.some((opt) => opt === documentValue);
 }
 
 export const numberingRangeSchema = zodAlwaysRefine(
@@ -27,7 +27,7 @@ export const numberingRangeSchema = zodAlwaysRefine(
       NumberingRangeDocumentTypeCode.SalesInvoice,
       NumberingRangeDocumentTypeCode.SupportDocument,
       NumberingRangeDocumentTypeCode.PaperOrStubInvoice,
-    ].some((opt) => opt.value === data.document);
+    ].some((opt) => opt === data.document);
 
     return !requiresResolution || !!data.resolutionNumber?.length;
   },

@@ -47,18 +47,18 @@ export function formatDocumentNumber(value: string | number) {
 }
 
 /**
- * Extracts `.value` fields from a catalog object as a non-empty tuple.
+ * Extracts string values from a constant object as a non-empty tuple.
  *
  * Designed for Zod enum-like use cases where tuple inference is required.
  */
-export function toEnumValues<T extends Record<string, { value: string }>>(
+export function toEnumValues<T extends Record<string, string>>(
   obj: T,
-): [T[keyof T]["value"], ...T[keyof T]["value"][]] {
-  return Object.values(obj).map((d) => d.value) as never;
+): [T[keyof T], ...T[keyof T][]] {
+  return Object.values(obj) as never;
 }
 
 /**
- * Converts a factus-js catalog object into a TypeBox Union of Literals,
+ * Converts a factus-js constant object into a TypeBox Union of Literals,
  * for use in Elysia model schemas.
  *
  * Mirrors `toEnumValues` (which targets Zod) but produces a `t.Union`
@@ -67,14 +67,10 @@ export function toEnumValues<T extends Record<string, { value: string }>>(
  * @example
  * standardCodeId: toElysiaEnum(ProductStandardId)
  */
-export function toElysiaEnum<T extends Record<string, { value: string }>>(
-  obj: T,
-) {
-  const literals = Object.values(obj).map((entry) =>
-    t.Literal(entry.value),
-  ) as [
-    ReturnType<typeof t.Literal<T[keyof T]["value"]>>,
-    ...ReturnType<typeof t.Literal<T[keyof T]["value"]>>[],
+export function toElysiaEnum<T extends Record<string, string>>(obj: T) {
+  const literals = Object.values(obj).map((entry) => t.Literal(entry)) as [
+    ReturnType<typeof t.Literal<T[keyof T]>>,
+    ...ReturnType<typeof t.Literal<T[keyof T]>>[],
   ];
   return t.Union(literals);
 }
