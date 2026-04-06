@@ -8,9 +8,14 @@ export const MEASUREMENT_UNITS_QUERY_KEY = [
 ] as const;
 export const TRIBUTES_QUERY_KEY = ["factus", "tributes"] as const;
 export const ACQUIRER_QUERY_KEY = ["factus", "acquirer"] as const;
+export const NUMBERING_RANGES_QUERY_KEY = [
+  "factus",
+  "numbering-ranges",
+] as const;
 
 export const DEFAULT_CUSTOMERS_LIMIT = 20;
 export const DEFAULT_PRODUCTS_LIMIT = 20;
+export const DEFAULT_NUMBERING_RANGES_LIMIT = 10;
 
 /**
  * Query key prefixes that depend on the active credential.
@@ -21,4 +26,5 @@ export const CREDENTIAL_DEPENDENT_KEYS = [
   CUSTOMERS_QUERY_KEY,
   PRODUCTS_QUERY_KEY,
   ACQUIRER_QUERY_KEY,
+  NUMBERING_RANGES_QUERY_KEY,
 ] as const;

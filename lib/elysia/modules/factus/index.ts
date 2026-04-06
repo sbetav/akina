@@ -1,4 +1,6 @@
+import { AKINA_SANDBOX_ID } from "@/lib/constants";
 import { betterAuth } from "@/lib/elysia/better-auth";
+import { isUsingSharedAkinaSandbox } from "@/lib/factus";
 import { Elysia, t } from "elysia";
 import {
   AcquirerQuery,
@@ -9,9 +11,17 @@ import {
   MeasurementUnitItem,
   MunicipalitiesQuery,
   MunicipalityItem,
+  NumberingRangeCreateBody,
+  NumberingRangeItem,
+  NumberingRangeListQuery,
+  NumberingRangeListResponse,
+  NumberingRangeUpdateCurrentBody,
   TributeItem,
 } from "./model";
 import { FactusService } from "./service";
+
+const SANDBOX_NUMBERING_MUTATION_FORBIDDEN =
+  "No puedes crear, actualizar ni eliminar rangos de numeración con las credenciales de Akina Sandbox.";
 
 export const factusModule = new Elysia({ prefix: "/factus" })
   .use(betterAuth)
@@ -163,7 +173,7 @@ export const factusModule = new Elysia({ prefix: "/factus" })
     "/credentials/:id/activate",
     async ({ user, params, status }) => {
       try {
-        const id = params.id === "akina-sandbox" ? null : params.id;
+        const id = params.id === AKINA_SANDBOX_ID ? null : params.id;
         await FactusService.setActiveCredential(user.id, id);
         return { success: true as const };
       } catch (e) {
@@ -280,6 +290,130 @@ export const factusModule = new Elysia({ prefix: "/factus" })
       response: {
         200: t.Object({ data: t.Array(TributeItem) }),
         500: t.Object({ error: t.String() }),
+      },
+    },
+  )
+
+  // ─── Numbering ranges ───────────────────────────────────────────────────────
+
+  /**
+   * GET /api/factus/numbering-ranges
+   * Lists numbering ranges with optional filters and pagination.
+   */
+  .get(
+    "/numbering-ranges",
+    async ({ user, query, status }) => {
+      try {
+        return await FactusService.listNumberingRanges(user.id, query);
+      } catch (e) {
+        const message =
+          e instanceof Error
+            ? e.message
+            : "Error al obtener los rangos de numeración";
+        return status(422, { error: message });
+      }
+    },
+    {
+      auth: true,
+      query: NumberingRangeListQuery,
+      response: {
+        200: NumberingRangeListResponse,
+        422: t.Object({ error: t.String() }),
+      },
+    },
+  )
+
+  /**
+   * POST /api/factus/numbering-ranges
+   * Creates a new numbering range.
+   */
+  .post(
+    "/numbering-ranges",
+    async ({ user, body, status }) => {
+      try {
+        if (await isUsingSharedAkinaSandbox(user.id)) {
+          return status(403, { error: SANDBOX_NUMBERING_MUTATION_FORBIDDEN });
+        }
+        const data = await FactusService.createNumberingRange(user.id, body);
+        return { data };
+      } catch (e) {
+        const message =
+          e instanceof Error ? e.message : "Error al crear el rango";
+        return status(422, { error: message });
+      }
+    },
+    {
+      auth: true,
+      body: NumberingRangeCreateBody,
+      response: {
+        200: t.Object({ data: NumberingRangeItem }),
+        403: t.Object({ error: t.String() }),
+        422: t.Object({ error: t.String() }),
+      },
+    },
+  )
+
+  /**
+   * DELETE /api/factus/numbering-ranges/:id
+   * Deletes a numbering range by id.
+   */
+  .delete(
+    "/numbering-ranges/:id",
+    async ({ user, params, status }) => {
+      try {
+        if (await isUsingSharedAkinaSandbox(user.id)) {
+          return status(403, { error: SANDBOX_NUMBERING_MUTATION_FORBIDDEN });
+        }
+        await FactusService.deleteNumberingRange(user.id, params.id);
+        return { success: true as const };
+      } catch (e) {
+        const message =
+          e instanceof Error ? e.message : "Error al eliminar el rango";
+        return status(422, { error: message });
+      }
+    },
+    {
+      auth: true,
+      params: t.Object({ id: t.Numeric({ minimum: 1 }) }),
+      response: {
+        200: t.Object({ success: t.Literal(true) }),
+        403: t.Object({ error: t.String() }),
+        422: t.Object({ error: t.String() }),
+      },
+    },
+  )
+
+  /**
+   * PATCH /api/factus/numbering-ranges/:id/current
+   * Updates the current consecutive number for a numbering range.
+   */
+  .patch(
+    "/numbering-ranges/:id/current",
+    async ({ user, params, body, status }) => {
+      try {
+        if (await isUsingSharedAkinaSandbox(user.id)) {
+          return status(403, { error: SANDBOX_NUMBERING_MUTATION_FORBIDDEN });
+        }
+        const data = await FactusService.updateNumberingRangeCurrent(
+          user.id,
+          params.id,
+          body.current,
+        );
+        return { data };
+      } catch (e) {
+        const message =
+          e instanceof Error ? e.message : "Error al actualizar el consecutivo";
+        return status(422, { error: message });
+      }
+    },
+    {
+      auth: true,
+      params: t.Object({ id: t.Numeric({ minimum: 1 }) }),
+      body: NumberingRangeUpdateCurrentBody,
+      response: {
+        200: t.Object({ data: NumberingRangeItem }),
+        403: t.Object({ error: t.String() }),
+        422: t.Object({ error: t.String() }),
       },
     },
   );

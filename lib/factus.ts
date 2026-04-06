@@ -19,6 +19,22 @@ const defaultFactusClient = new FactusClient({
 });
 
 /**
+ * True when the user has no active credential row and API calls use the shared
+ * Akina Sandbox client (synthetic id `akina-sandbox` on the client).
+ */
+export async function isUsingSharedAkinaSandbox(
+  userId: string,
+): Promise<boolean> {
+  const row = await db.query.factusCredentials.findFirst({
+    where: and(
+      eq(factusCredentials.userId, userId),
+      eq(factusCredentials.isActive, true),
+    ),
+  });
+  return !row;
+}
+
+/**
  * Returns the active FactusClient for the given user.
  * If the user has an active credential set, it is decrypted and returned.
  * Otherwise, falls back to the shared Akina Sandbox client.

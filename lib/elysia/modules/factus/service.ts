@@ -1,10 +1,15 @@
 import { db } from "@/db/drizzle";
 import { factusCredentials } from "@/db/schemas/factus-credentials";
-import { type FactusEnvironment } from "@/lib/constants";
+import { AKINA_SANDBOX_ID, type FactusEnvironment } from "@/lib/constants";
 import { decrypt, encrypt } from "@/lib/crypto";
 import { getFactusClientForUser } from "@/lib/factus";
 import { and, asc, eq } from "drizzle-orm";
-import { FactusClient, FactusError, IdentityDocumentTypeId } from "factus-js";
+import {
+  FactusClient,
+  FactusError,
+  IdentityDocumentTypeId,
+  type NumberingRangeDocumentTypeCode,
+} from "factus-js";
 
 // ─── Input types ──────────────────────────────────────────────────────────────
 
@@ -42,6 +47,49 @@ export interface CredentialDetailResult {
   isValid: boolean;
 }
 
+export interface NumberingRangeListQueryInput {
+  id?: string;
+  document?: NumberingRangeDocumentTypeCode;
+  resolutionNumber?: string;
+  technicalKey?: string;
+  isActive?: "0" | "1";
+  page?: number;
+  limit?: number;
+}
+
+export interface NumberingRangeCreateInput {
+  document: NumberingRangeDocumentTypeCode;
+  prefix: string;
+  current: number;
+  resolutionNumber?: string;
+}
+
+export interface NumberingRangeItemResult {
+  id: number;
+  document: string;
+  documentName?: string;
+  prefix: string;
+  from: number | null;
+  to: number | null;
+  current: number;
+  resolutionNumber: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  technicalKey: string | null;
+  isExpired: boolean;
+  isActive: boolean;
+  deletedAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface NumberingRangeListResult {
+  items: NumberingRangeItemResult[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 /**
@@ -56,6 +104,44 @@ async function validateClient(client: FactusClient): Promise<boolean> {
     if (e instanceof FactusError) return false;
     throw e;
   }
+}
+
+function normalizeNumberingRange(range: {
+  id: number;
+  document: string;
+  document_name?: string;
+  prefix: string;
+  from: number;
+  to: number;
+  current: number;
+  resolution_number: string | null;
+  start_date: string;
+  end_date: string;
+  technical_key: string | null;
+  is_expired: boolean | 0 | 1;
+  is_active: boolean | 0 | 1;
+  deleted_at?: string | null;
+  created_at: string;
+  updated_at: string;
+}): NumberingRangeItemResult {
+  return {
+    id: range.id,
+    document: range.document,
+    documentName: range.document_name,
+    prefix: range.prefix,
+    from: range.from,
+    to: range.to,
+    current: range.current,
+    resolutionNumber: range.resolution_number,
+    startDate: range.start_date,
+    endDate: range.end_date,
+    technicalKey: range.technical_key,
+    isExpired: Boolean(range.is_expired),
+    isActive: Boolean(range.is_active),
+    deletedAt: range.deleted_at,
+    createdAt: range.created_at,
+    updatedAt: range.updated_at,
+  };
 }
 
 // ─── Service ─────────────────────────────────────────────────────────────────
@@ -109,10 +195,10 @@ export class FactusService {
     // Sort: valid items first (preserving insertion order within each group),
     // invalid items last.
     const sandbox: CredentialListItem = {
-      id: "akina-sandbox",
+      id: AKINA_SANDBOX_ID,
       name: "Akina",
-      username: "akina-sandbox",
-      clientId: "akina-sandbox",
+      username: AKINA_SANDBOX_ID,
+      clientId: AKINA_SANDBOX_ID,
       environment: "sandbox",
       isActive: !validated.some((v) => v.isActive),
       isValid: true,
@@ -417,5 +503,69 @@ export class FactusService {
         description: t.description,
       }),
     );
+  }
+
+  /** List numbering ranges from the current user's active Factus client. */
+  static async listNumberingRanges(
+    userId: string,
+    query: NumberingRangeListQueryInput,
+  ): Promise<NumberingRangeListResult> {
+    const client = await getFactusClientForUser(userId);
+
+    const page = query.page ?? 1;
+    const limit = query.limit ?? 20;
+
+    const res = await client.numberingRanges.list({
+      filter: {
+        id: query.id,
+        document: query.document,
+        resolution_number: query.resolutionNumber,
+        technical_key: query.technicalKey,
+        is_active: query.isActive,
+      },
+      page,
+      per_page: limit,
+    });
+
+    return {
+      items: res.data.data.map(normalizeNumberingRange),
+      total: res.data.pagination.total,
+      page,
+      limit,
+    };
+  }
+
+  /** Create a numbering range in the current user's active Factus client. */
+  static async createNumberingRange(
+    userId: string,
+    input: NumberingRangeCreateInput,
+  ): Promise<NumberingRangeItemResult> {
+    const client = await getFactusClientForUser(userId);
+
+    const res = await client.numberingRanges.create({
+      document: input.document,
+      prefix: input.prefix,
+      current: input.current,
+      resolution_number: input.resolutionNumber,
+    });
+
+    return normalizeNumberingRange(res.data);
+  }
+
+  /** Delete a numbering range by id in the current user's active Factus client. */
+  static async deleteNumberingRange(userId: string, id: number): Promise<void> {
+    const client = await getFactusClientForUser(userId);
+    await client.numberingRanges.delete(id);
+  }
+
+  /** Update numbering range current consecutive number by id. */
+  static async updateNumberingRangeCurrent(
+    userId: string,
+    id: number,
+    current: number,
+  ): Promise<NumberingRangeItemResult> {
+    const client = await getFactusClientForUser(userId);
+    const res = await client.numberingRanges.updateCurrent(id, { current });
+    return normalizeNumberingRange(res.data);
   }
 }
