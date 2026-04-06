@@ -1,6 +1,7 @@
 "use client";
 
 import { useActiveCredentialsContext } from "@/contexts/active-credentials-context";
+import { AKINA_SANDBOX_ID } from "@/lib/constants";
 import { api } from "@/lib/elysia/eden";
 import { CREDENTIALS_QUERY_KEY } from "@/lib/query-keys";
 import { useQuery } from "@tanstack/react-query";
@@ -23,6 +24,7 @@ export function useActiveCredentials() {
 
   const credentials = data?.items ?? [];
   const active = credentials.find((c) => c.isActive);
+  const isAkinaSandbox = active?.id === AKINA_SANDBOX_ID;
 
   return {
     credentials,
@@ -30,5 +32,6 @@ export function useActiveCredentials() {
     isLoading,
     activate,
     isActivating,
+    isAkinaSandbox,
   };
 }
