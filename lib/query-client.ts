@@ -1,5 +1,4 @@
-import { QueryClient } from "@tanstack/react-query";
-import { cache } from "react";
+import { environmentManager, QueryClient } from "@tanstack/react-query";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -11,11 +10,16 @@ function makeQueryClient() {
   });
 }
 
-/**
- * Returns a per-request QueryClient on the server (deduped via React cache),
- * or the singleton browser client when called from a client component.
- *
- * Import this from server components for SSR prefetching.
- * Client components should use `useQueryClient()` instead.
- */
-export const getQueryClient = cache(makeQueryClient);
+let browserQueryClient: QueryClient | undefined;
+
+export function getQueryClient() {
+  if (environmentManager.isServer()) {
+    return makeQueryClient();
+  }
+
+  if (!browserQueryClient) {
+    browserQueryClient = makeQueryClient();
+  }
+
+  return browserQueryClient;
+}

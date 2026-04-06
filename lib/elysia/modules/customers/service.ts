@@ -1,5 +1,6 @@
 import { db } from "@/db/drizzle";
 import { customers } from "@/db/schemas/customers";
+import { NotFoundError } from "@/lib/elysia/errors";
 import {
   createWorkspaceFilter,
   getActiveCredentialsIdForUser,
@@ -165,7 +166,7 @@ export class CustomerService {
     });
 
     if (!row) {
-      throw new Error("Cliente no encontrado");
+      throw new NotFoundError("Cliente no encontrado");
     }
 
     return {
@@ -204,7 +205,7 @@ export class CustomerService {
     });
 
     if (!row) {
-      throw new Error("Cliente no encontrado");
+      throw new NotFoundError("Cliente no encontrado");
     }
 
     await db

@@ -1,4 +1,5 @@
 import { api } from "@/lib/elysia/eden";
+import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
 import { NUMBERING_RANGES_QUERY_KEY } from "@/lib/query-keys";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
@@ -19,8 +20,10 @@ export function useNumberingRangesQuery({
       });
       if (res.error)
         throw new Error(
-          (res.error as { value?: { error?: string } }).value?.error ??
+          getApiErrorMessage(
+            res.error,
             "Error al obtener los rangos de numeración",
+          ),
         );
       return res.data;
     },

@@ -1,6 +1,7 @@
 import { db } from "@/db/drizzle";
 import { products } from "@/db/schemas/products";
 import { type ProductType } from "@/lib/constants";
+import { NotFoundError, UnprocessableEntityError } from "@/lib/elysia/errors";
 import {
   createWorkspaceFilter,
   getActiveCredentialsIdForUser,
@@ -145,7 +146,7 @@ export class ProductService {
 
     const available = await ProductService.isCodeAvailable(userId, data.code);
     if (!available) {
-      throw new Error(
+      throw new UnprocessableEntityError(
         `El código "${data.code}" ya existe en este espacio de trabajo`,
       );
     }
@@ -178,7 +179,7 @@ export class ProductService {
     });
 
     if (!row) {
-      throw new Error("Producto no encontrado");
+      throw new NotFoundError("Producto no encontrado");
     }
 
     return {
@@ -217,7 +218,7 @@ export class ProductService {
     });
 
     if (!row) {
-      throw new Error("Producto no encontrado");
+      throw new NotFoundError("Producto no encontrado");
     }
 
     await db

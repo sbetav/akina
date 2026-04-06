@@ -1,5 +1,6 @@
 import { AKINA_SANDBOX_ID } from "@/lib/constants";
 import { betterAuth } from "@/lib/elysia/better-auth";
+import { ForbiddenError } from "@/lib/elysia/errors";
 import { isUsingSharedAkinaSandbox } from "@/lib/factus";
 import { Elysia, t } from "elysia";
 import {
@@ -59,18 +60,12 @@ export const factusModule = new Elysia({ prefix: "/factus" })
    */
   .post(
     "/credentials",
-    async ({ user, body, status }) => {
-      try {
-        await FactusService.createCredential({
-          userId: user.id,
-          ...body,
-        });
-        return { success: true as const };
-      } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Error al guardar las credenciales";
-        return status(422, { error: message });
-      }
+    async ({ user, body }) => {
+      await FactusService.createCredential({
+        userId: user.id,
+        ...body,
+      });
+      return { success: true as const };
     },
     {
       auth: true,
@@ -90,14 +85,8 @@ export const factusModule = new Elysia({ prefix: "/factus" })
    */
   .get(
     "/credentials/:id",
-    async ({ user, params, status }) => {
-      try {
-        return await FactusService.getCredential(user.id, params.id);
-      } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Error al obtener la credencial";
-        return status(404, { error: message });
-      }
+    async ({ user, params }) => {
+      return await FactusService.getCredential(user.id, params.id);
     },
     {
       auth: true,
@@ -115,17 +104,9 @@ export const factusModule = new Elysia({ prefix: "/factus" })
    */
   .put(
     "/credentials/:id",
-    async ({ user, params, body, status }) => {
-      try {
-        await FactusService.updateCredential(user.id, params.id, body);
-        return { success: true as const };
-      } catch (e) {
-        const message =
-          e instanceof Error
-            ? e.message
-            : "Error al actualizar las credenciales";
-        return status(422, { error: message });
-      }
+    async ({ user, params, body }) => {
+      await FactusService.updateCredential(user.id, params.id, body);
+      return { success: true as const };
     },
     {
       auth: true,
@@ -133,6 +114,7 @@ export const factusModule = new Elysia({ prefix: "/factus" })
       body: CredentialBody,
       response: {
         200: t.Object({ success: t.Literal(true) }),
+        404: t.Object({ error: t.String() }),
         422: t.Object({ error: t.String() }),
       },
     },
@@ -144,21 +126,16 @@ export const factusModule = new Elysia({ prefix: "/factus" })
    */
   .delete(
     "/credentials/:id",
-    async ({ user, params, status }) => {
-      try {
-        await FactusService.deleteCredential(user.id, params.id);
-        return { success: true as const };
-      } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Error al eliminar la credencial";
-        return status(422, { error: message });
-      }
+    async ({ user, params }) => {
+      await FactusService.deleteCredential(user.id, params.id);
+      return { success: true as const };
     },
     {
       auth: true,
       params: t.Object({ id: t.String() }),
       response: {
         200: t.Object({ success: t.Literal(true) }),
+        404: t.Object({ error: t.String() }),
         422: t.Object({ error: t.String() }),
       },
     },
@@ -172,23 +149,18 @@ export const factusModule = new Elysia({ prefix: "/factus" })
    */
   .patch(
     "/credentials/:id/activate",
-    async ({ user, params, status }) => {
-      try {
-        const id = params.id === AKINA_SANDBOX_ID ? null : params.id;
-        await FactusService.setActiveCredential(user.id, id);
-        const items = await FactusService.listCredentials(user.id);
-        return { items };
-      } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Error al activar la credencial";
-        return status(422, { error: message });
-      }
+    async ({ user, params }) => {
+      const id = params.id === AKINA_SANDBOX_ID ? null : params.id;
+      await FactusService.setActiveCredential(user.id, id);
+      const items = await FactusService.listCredentials(user.id);
+      return { items };
     },
     {
       auth: true,
       params: t.Object({ id: t.String() }),
       response: {
         200: CredentialListResponse,
+        404: t.Object({ error: t.String() }),
         422: t.Object({ error: t.String() }),
       },
     },
@@ -202,20 +174,15 @@ export const factusModule = new Elysia({ prefix: "/factus" })
    */
   .get(
     "/municipalities",
-    async ({ user, query, status }) => {
-      try {
-        const data = await FactusService.getMunicipalities(user.id, query.name);
-        return { data };
-      } catch {
-        return status(500, { error: "Error al obtener municipios" });
-      }
+    async ({ user, query }) => {
+      const data = await FactusService.getMunicipalities(user.id, query.name);
+      return { data };
     },
     {
       auth: true,
       query: MunicipalitiesQuery,
       response: {
         200: t.Object({ data: t.Array(MunicipalityItem) }),
-        500: t.Object({ error: t.String() }),
       },
     },
   )
@@ -226,17 +193,13 @@ export const factusModule = new Elysia({ prefix: "/factus" })
    */
   .get(
     "/acquirer",
-    async ({ user, query, status }) => {
-      try {
-        const data = await FactusService.getAcquirer(
-          user.id,
-          query.identificationDocumentId,
-          query.identificationNumber,
-        );
-        return data;
-      } catch {
-        return status(404, { error: "Adquiriente no encontrado" });
-      }
+    async ({ user, query }) => {
+      const data = await FactusService.getAcquirer(
+        user.id,
+        query.identificationDocumentId,
+        query.identificationNumber,
+      );
+      return data;
     },
     {
       auth: true,
@@ -254,21 +217,14 @@ export const factusModule = new Elysia({ prefix: "/factus" })
    */
   .get(
     "/measurement-units",
-    async ({ user, status }) => {
-      try {
-        const data = await FactusService.getMeasurementUnits(user.id);
-        return { data };
-      } catch {
-        return status(500, {
-          error: "Error al obtener las unidades de medida",
-        });
-      }
+    async ({ user }) => {
+      const data = await FactusService.getMeasurementUnits(user.id);
+      return { data };
     },
     {
       auth: true,
       response: {
         200: t.Object({ data: t.Array(MeasurementUnitItem) }),
-        500: t.Object({ error: t.String() }),
       },
     },
   )
@@ -279,19 +235,14 @@ export const factusModule = new Elysia({ prefix: "/factus" })
    */
   .get(
     "/tributes",
-    async ({ user, status }) => {
-      try {
-        const data = await FactusService.getTributes(user.id);
-        return { data };
-      } catch {
-        return status(500, { error: "Error al obtener los tributos" });
-      }
+    async ({ user }) => {
+      const data = await FactusService.getTributes(user.id);
+      return { data };
     },
     {
       auth: true,
       response: {
         200: t.Object({ data: t.Array(TributeItem) }),
-        500: t.Object({ error: t.String() }),
       },
     },
   )
@@ -304,23 +255,14 @@ export const factusModule = new Elysia({ prefix: "/factus" })
    */
   .get(
     "/numbering-ranges",
-    async ({ user, query, status }) => {
-      try {
-        return await FactusService.listNumberingRanges(user.id, query);
-      } catch (e) {
-        const message =
-          e instanceof Error
-            ? e.message
-            : "Error al obtener los rangos de numeración";
-        return status(422, { error: message });
-      }
+    async ({ user, query }) => {
+      return await FactusService.listNumberingRanges(user.id, query);
     },
     {
       auth: true,
       query: NumberingRangeListQuery,
       response: {
         200: NumberingRangeListResponse,
-        422: t.Object({ error: t.String() }),
       },
     },
   )
@@ -331,18 +273,13 @@ export const factusModule = new Elysia({ prefix: "/factus" })
    */
   .post(
     "/numbering-ranges",
-    async ({ user, body, status }) => {
-      try {
-        if (await isUsingSharedAkinaSandbox(user.id)) {
-          return status(403, { error: SANDBOX_NUMBERING_MUTATION_FORBIDDEN });
-        }
-        const data = await FactusService.createNumberingRange(user.id, body);
-        return { data };
-      } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Error al crear el rango";
-        return status(422, { error: message });
+    async ({ user, body }) => {
+      if (await isUsingSharedAkinaSandbox(user.id)) {
+        throw new ForbiddenError(SANDBOX_NUMBERING_MUTATION_FORBIDDEN);
       }
+
+      const data = await FactusService.createNumberingRange(user.id, body);
+      return { data };
     },
     {
       auth: true,
@@ -350,7 +287,6 @@ export const factusModule = new Elysia({ prefix: "/factus" })
       response: {
         200: t.Object({ data: NumberingRangeItem }),
         403: t.Object({ error: t.String() }),
-        422: t.Object({ error: t.String() }),
       },
     },
   )
@@ -361,18 +297,13 @@ export const factusModule = new Elysia({ prefix: "/factus" })
    */
   .delete(
     "/numbering-ranges/:id",
-    async ({ user, params, status }) => {
-      try {
-        if (await isUsingSharedAkinaSandbox(user.id)) {
-          return status(403, { error: SANDBOX_NUMBERING_MUTATION_FORBIDDEN });
-        }
-        await FactusService.deleteNumberingRange(user.id, params.id);
-        return { success: true as const };
-      } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Error al eliminar el rango";
-        return status(422, { error: message });
+    async ({ user, params }) => {
+      if (await isUsingSharedAkinaSandbox(user.id)) {
+        throw new ForbiddenError(SANDBOX_NUMBERING_MUTATION_FORBIDDEN);
       }
+
+      await FactusService.deleteNumberingRange(user.id, params.id);
+      return { success: true as const };
     },
     {
       auth: true,
@@ -380,7 +311,6 @@ export const factusModule = new Elysia({ prefix: "/factus" })
       response: {
         200: t.Object({ success: t.Literal(true) }),
         403: t.Object({ error: t.String() }),
-        422: t.Object({ error: t.String() }),
       },
     },
   )
@@ -391,22 +321,17 @@ export const factusModule = new Elysia({ prefix: "/factus" })
    */
   .patch(
     "/numbering-ranges/:id/current",
-    async ({ user, params, body, status }) => {
-      try {
-        if (await isUsingSharedAkinaSandbox(user.id)) {
-          return status(403, { error: SANDBOX_NUMBERING_MUTATION_FORBIDDEN });
-        }
-        const data = await FactusService.updateNumberingRangeCurrent(
-          user.id,
-          params.id,
-          body.current,
-        );
-        return { data };
-      } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Error al actualizar el consecutivo";
-        return status(422, { error: message });
+    async ({ user, params, body }) => {
+      if (await isUsingSharedAkinaSandbox(user.id)) {
+        throw new ForbiddenError(SANDBOX_NUMBERING_MUTATION_FORBIDDEN);
       }
+
+      const data = await FactusService.updateNumberingRangeCurrent(
+        user.id,
+        params.id,
+        body.current,
+      );
+      return { data };
     },
     {
       auth: true,
@@ -415,7 +340,6 @@ export const factusModule = new Elysia({ prefix: "/factus" })
       response: {
         200: t.Object({ data: NumberingRangeItem }),
         403: t.Object({ error: t.String() }),
-        422: t.Object({ error: t.String() }),
       },
     },
   );

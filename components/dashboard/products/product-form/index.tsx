@@ -5,6 +5,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
 import { useGoBack } from "@/hooks/ui/use-go-back";
 import { api } from "@/lib/elysia/eden";
+import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
 import { ProductDetailResult } from "@/lib/elysia/modules/products/service";
 import { PRODUCTS_QUERY_KEY } from "@/lib/query-keys";
 import {
@@ -67,16 +68,14 @@ const ProductForm: FC<ProductFormProps> = ({
         const res = await api.products({ id: selectedProduct.id }).put(values);
         if (res.error)
           throw new Error(
-            (res.error as { value?: { error?: string } }).value?.error ??
-              "Error al actualizar el producto",
+            getApiErrorMessage(res.error, "Error al actualizar el producto"),
           );
         return res.data;
       }
       const res = await api.products.post(values);
       if (res.error)
         throw new Error(
-          (res.error as { value?: { error?: string } }).value?.error ??
-            "Error al crear el producto",
+          getApiErrorMessage(res.error, "Error al crear el producto"),
         );
       return res.data;
     },
@@ -87,10 +86,7 @@ const ProductForm: FC<ProductFormProps> = ({
       queryClient.invalidateQueries({ queryKey: PRODUCTS_QUERY_KEY });
       router.replace("/dashboard/products");
     },
-    onError: () =>
-      toast.error(
-        `Error al ${selectedProduct ? "actualizar" : "crear"} el producto`,
-      ),
+    onError: (e: Error) => toast.error(e.message),
   });
 
   return (

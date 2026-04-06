@@ -1,5 +1,6 @@
 "use client";
 
+import ErrorFallback from "@/components/error-fallback";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { DataTableControls } from "@/components/ui/data-table-controls";
@@ -20,6 +21,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import useDebounce from "@/hooks/ui/use-debounce";
 import { api } from "@/lib/elysia/eden";
+import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
 import { DEFAULT_PRODUCTS_LIMIT, PRODUCTS_QUERY_KEY } from "@/lib/query-keys";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
@@ -42,7 +44,7 @@ export default function ProductsTable() {
 
   const debouncedSearch = useDebounce(search, 300);
 
-  const { data, isFetching, isPending } = useQuery({
+  const { data, error, isError, isFetching, isPending, refetch } = useQuery({
     queryKey: [...PRODUCTS_QUERY_KEY, { search: debouncedSearch, page, limit }],
     queryFn: async () => {
       const res = await api.products.get({
@@ -50,8 +52,7 @@ export default function ProductsTable() {
       });
       if (res.error)
         throw new Error(
-          (res.error as { value?: { error?: string } }).value?.error ??
-            "Error al obtener los productos",
+          getApiErrorMessage(res.error, "Error al obtener los productos"),
         );
       return res.data;
     },
@@ -131,7 +132,14 @@ export default function ProductsTable() {
             )}
           </div>
 
-          {!total ? (
+          {isError ? (
+            <ErrorFallback
+              title="Error al obtener los productos"
+              message={error?.message}
+              onRetry={() => void refetch()}
+              isRetrying={isFetching}
+            />
+          ) : !total ? (
             <EmptyStatus
               mode={debouncedSearch.trim() ? "not_found" : "empty"}
             />
@@ -166,6 +174,7 @@ export default function ProductsTable() {
 interface EmptyStatusProps {
   mode?: "empty" | "not_found";
 }
+
 const EmptyStatus: FC<EmptyStatusProps> = ({ mode = "empty" }) => (
   <Empty fillSpace>
     <EmptyHeader>

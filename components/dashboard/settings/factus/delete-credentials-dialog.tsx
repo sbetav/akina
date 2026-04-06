@@ -13,6 +13,7 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
 import { api } from "@/lib/elysia/eden";
+import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
 import { CredentialListItem } from "@/lib/elysia/modules/factus/service";
 import { CREDENTIALS_QUERY_KEY } from "@/lib/query-keys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -41,8 +42,7 @@ const DeleteCredentialsDialog: FC<DeleteCredentialsDialogProps> = ({
         .delete();
       if (res.error) {
         throw new Error(
-          (res.error as { value?: { error?: string } }).value?.error ??
-            "Error al eliminar la credencial",
+          getApiErrorMessage(res.error, "Error al eliminar la credencial"),
         );
       }
     },

@@ -1,14 +1,34 @@
 import { betterAuth } from "@/lib/elysia/better-auth";
+import { ApiError } from "@/lib/elysia/errors";
 import { Elysia } from "elysia";
 import { customersModule } from "./modules/customers";
 import { factusModule } from "./modules/factus";
 import { productsModule } from "./modules/products";
 
 export const app = new Elysia({ prefix: "/api" })
+  .error({ ApiError })
   .use(betterAuth)
   .use(factusModule)
   .use(customersModule)
   .use(productsModule)
+  .onError(({ error, code, status }) => {
+    if (error instanceof ApiError) {
+      return status(error.status, { error: error.message });
+    }
+
+    if (code === "NOT_FOUND") {
+      return status(404, { error: "Recurso no encontrado" });
+    }
+
+    if (code === "VALIDATION") {
+      return status(422, {
+        error: "Error de validación, revisa los datos y intenta de nuevo.",
+      });
+    }
+
+    // catch-all
+    return status(500, { error: "Error interno del servidor" });
+  })
   .get("/health", () => ({
     ok: true as const,
   }));

@@ -20,7 +20,7 @@ const Page: FC = async () => {
   const user = await requireUser();
   const queryClient = getQueryClient();
 
-  await queryClient.fetchQuery({
+  await queryClient.prefetchQuery({
     queryKey: [
       ...PRODUCTS_QUERY_KEY,
       { search: "", page: 1, limit: DEFAULT_PRODUCTS_LIMIT },

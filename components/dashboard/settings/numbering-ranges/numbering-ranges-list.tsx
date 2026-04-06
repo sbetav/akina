@@ -37,7 +37,7 @@ import Link from "next/link";
 import { FC, useMemo, useState } from "react";
 import CreateNumberingRangeDialog from "./create-numbering-range-dialog";
 import DeleteNumberingRangeDialog from "./delete-numbering-range-dialog";
-import UpdateNumberingRangeDialog from "./update-numbering-current-dialog";
+import UpdateNumberingRangeDialog from "./update-numbering-range-dialog";
 
 const NumberingRangesList: FC = () => {
   const { isAkinaSandbox } = useActiveCredentials();

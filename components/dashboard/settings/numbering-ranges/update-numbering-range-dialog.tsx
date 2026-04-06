@@ -15,6 +15,7 @@ import { NumberInput } from "@/components/ui/number-input";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
 import { api } from "@/lib/elysia/eden";
+import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
 import { NumberingRangeItemResult } from "@/lib/elysia/modules/factus/service";
 import { NUMBERING_RANGES_QUERY_KEY } from "@/lib/query-keys";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -68,8 +69,7 @@ const UpdateNumberingRangeDialog: FC<UpdateNumberingRangeDialogProps> = ({
 
       if (res.error) {
         throw new Error(
-          (res.error as { value?: { error?: string } }).value?.error ??
-            "Error al actualizar el consecutivo",
+          getApiErrorMessage(res.error, "Error al actualizar el consecutivo"),
         );
       }
 
@@ -79,9 +79,6 @@ const UpdateNumberingRangeDialog: FC<UpdateNumberingRangeDialogProps> = ({
       toast.success("Consecutivo actualizado exitosamente");
       queryClient.invalidateQueries({ queryKey: NUMBERING_RANGES_QUERY_KEY });
       onOpenChange(false);
-    },
-    onError: (e: Error) => {
-      toast.error(e.message);
     },
   });
 

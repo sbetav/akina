@@ -2,6 +2,7 @@ import { db } from "@/db/drizzle";
 import { factusCredentials } from "@/db/schemas/factus-credentials";
 import { AKINA_SANDBOX_ID, type FactusEnvironment } from "@/lib/constants";
 import { decrypt, encrypt } from "@/lib/crypto";
+import { NotFoundError, UnprocessableEntityError } from "@/lib/elysia/errors";
 import { getFactusClientForUser } from "@/lib/factus";
 import { and, asc, eq } from "drizzle-orm";
 import {
@@ -104,6 +105,31 @@ async function validateClient(client: FactusClient): Promise<boolean> {
     if (e instanceof FactusError) return false;
     throw e;
   }
+}
+
+function isFactusNotFoundError(error: unknown): boolean {
+  if (!(error instanceof FactusError)) return false;
+
+  const candidate = error as FactusError & {
+    status?: number;
+    statusCode?: number;
+    response?: { status?: number };
+    cause?: {
+      status?: number;
+      statusCode?: number;
+      response?: { status?: number };
+    };
+  };
+
+  return (
+    candidate.status === 404 ||
+    candidate.statusCode === 404 ||
+    candidate.response?.status === 404 ||
+    candidate.cause?.status === 404 ||
+    candidate.cause?.statusCode === 404 ||
+    candidate.cause?.response?.status === 404 ||
+    candidate.message.toLowerCase().includes("not found")
+  );
 }
 
 function normalizeNumberingRange(range: {
@@ -223,7 +249,7 @@ export class FactusService {
     });
 
     if (!row) {
-      throw new Error("Credencial no encontrada");
+      throw new NotFoundError("Credencial no encontrada");
     }
 
     let decryptedSecret: string;
@@ -295,7 +321,9 @@ export class FactusService {
     );
 
     if (hasExactDuplicate) {
-      throw new Error("Ya existe una credencial con los mismos datos.");
+      throw new UnprocessableEntityError(
+        "Ya existe una credencial con los mismos datos.",
+      );
     }
 
     const testClient = new FactusClient({
@@ -308,7 +336,9 @@ export class FactusService {
 
     const isValid = await validateClient(testClient);
     if (!isValid) {
-      throw new Error("Las credenciales no son válidas. Verifica tus datos.");
+      throw new UnprocessableEntityError(
+        "Las credenciales no son válidas. Verifica tus datos.",
+      );
     }
 
     await db.insert(factusCredentials).values({
@@ -344,7 +374,7 @@ export class FactusService {
     });
 
     if (!row) {
-      throw new Error("Credencial no encontrada");
+      throw new NotFoundError("Credencial no encontrada");
     }
 
     const testClient = new FactusClient({
@@ -357,7 +387,9 @@ export class FactusService {
 
     const isValid = await validateClient(testClient);
     if (!isValid) {
-      throw new Error("Las credenciales no son válidas. Verifica tus datos.");
+      throw new UnprocessableEntityError(
+        "Las credenciales no son válidas. Verifica tus datos.",
+      );
     }
 
     await db
@@ -390,7 +422,7 @@ export class FactusService {
     });
 
     if (!row) {
-      throw new Error("Credencial no encontrada");
+      throw new NotFoundError("Credencial no encontrada");
     }
 
     await db
@@ -423,7 +455,7 @@ export class FactusService {
       });
 
       if (!row) {
-        throw new Error("Credencial no encontrada");
+        throw new NotFoundError("Credencial no encontrada");
       }
 
       await db
@@ -466,12 +498,20 @@ export class FactusService {
   ): Promise<{ name: string; email: string }> {
     const client = await getFactusClientForUser(userId);
 
-    const res = await client.catalog.getAcquirer({
-      identification_document_id: identificationDocumentId,
+    try {
+      const res = await client.catalog.getAcquirer({
+        identification_document_id: identificationDocumentId,
+        identification_number: identificationNumber,
+      });
 
-      identification_number: identificationNumber,
-    });
-    return { name: res.data.name, email: res.data.email };
+      return { name: res.data.name, email: res.data.email };
+    } catch (error) {
+      if (isFactusNotFoundError(error)) {
+        throw new NotFoundError("Adquiriente no encontrado");
+      }
+
+      throw error;
+    }
   }
 
   /** Get measurement units from the current user's active Factus client. */

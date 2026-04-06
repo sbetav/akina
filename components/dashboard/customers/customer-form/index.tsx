@@ -7,6 +7,7 @@ import { useSearchAcquirer } from "@/hooks/factus/use-search-acquirer";
 import useDebounce from "@/hooks/ui/use-debounce";
 import { useGoBack } from "@/hooks/ui/use-go-back";
 import { api } from "@/lib/elysia/eden";
+import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
 import { CustomerDetailResult } from "@/lib/elysia/modules/customers";
 import { CUSTOMERS_QUERY_KEY } from "@/lib/query-keys";
 import {
@@ -79,8 +80,7 @@ const CustomerForm: FC<CustomerFormProps> = ({
           .put(values);
         if (res.error)
           throw new Error(
-            (res.error as { value?: { error?: string } }).value?.error ??
-              "Error al actualizar el cliente",
+            getApiErrorMessage(res.error, "Error al actualizar el cliente"),
           );
         return res.data;
       }
@@ -88,8 +88,7 @@ const CustomerForm: FC<CustomerFormProps> = ({
       const res = await api.customers.post(values);
       if (res.error)
         throw new Error(
-          (res.error as { value?: { error?: string } }).value?.error ??
-            "Error al crear el cliente",
+          getApiErrorMessage(res.error, "Error al crear el cliente"),
         );
       return res.data;
     },

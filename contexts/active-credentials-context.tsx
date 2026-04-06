@@ -3,6 +3,7 @@
 import { toast } from "@/components/ui/toast";
 import { credentialsListQueryOptions } from "@/hooks/factus/credentials-query-options";
 import { api } from "@/lib/elysia/eden";
+import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
 import { CredentialListItem } from "@/lib/elysia/modules/factus/service";
 import {
   CREDENTIAL_DEPENDENT_KEYS,
@@ -85,8 +86,7 @@ export function ActiveCredentialsProvider({
       const res = await api.factus.credentials({ id }).activate.patch();
       if (res.error)
         throw new Error(
-          (res.error as { value?: { error?: string } }).value?.error ??
-            "Error al activar la credencial",
+          getApiErrorMessage(res.error, "Error al activar la credencial"),
         );
       return res.data;
     },

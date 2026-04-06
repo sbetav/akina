@@ -1,5 +1,6 @@
 "use client";
 
+import ErrorFallback from "@/components/error-fallback";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { DataTableControls } from "@/components/ui/data-table-controls";
@@ -20,6 +21,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import useDebounce from "@/hooks/ui/use-debounce";
 import { api } from "@/lib/elysia/eden";
+import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
 import { CUSTOMERS_QUERY_KEY, DEFAULT_CUSTOMERS_LIMIT } from "@/lib/query-keys";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
@@ -42,7 +44,7 @@ export default function CustomersTable() {
 
   const debouncedSearch = useDebounce(search, 300);
 
-  const { data, isFetching, isPending } = useQuery({
+  const { data, error, isError, isFetching, isPending, refetch } = useQuery({
     queryKey: [
       ...CUSTOMERS_QUERY_KEY,
       { search: debouncedSearch, page, limit },
@@ -53,8 +55,7 @@ export default function CustomersTable() {
       });
       if (res.error)
         throw new Error(
-          (res.error as { value?: { error?: string } }).value?.error ??
-            "Error al obtener los clientes",
+          getApiErrorMessage(res.error, "Error al obtener los clientes"),
         );
       return res.data;
     },
@@ -134,7 +135,14 @@ export default function CustomersTable() {
             )}
           </div>
 
-          {!total ? (
+          {isError ? (
+            <ErrorFallback
+              title="Error al obtener los clientes"
+              message={error?.message}
+              onRetry={() => void refetch()}
+              isRetrying={isFetching}
+            />
+          ) : !total ? (
             <EmptyStatus
               mode={debouncedSearch.trim() ? "not_found" : "empty"}
             />
@@ -169,6 +177,7 @@ export default function CustomersTable() {
 interface EmptyStatusProps {
   mode?: "empty" | "not_found";
 }
+
 const EmptyStatus: FC<EmptyStatusProps> = ({ mode = "empty" }) => (
   <Empty fillSpace>
     <EmptyHeader>

@@ -22,6 +22,7 @@ import { toast } from "@/components/ui/toast";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useGoBack } from "@/hooks/ui/use-go-back";
 import { api } from "@/lib/elysia/eden";
+import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
 import { CredentialDetailResult } from "@/lib/elysia/modules/factus/service";
 import { CREDENTIALS_QUERY_KEY } from "@/lib/query-keys";
 import {
@@ -69,8 +70,7 @@ const CredentialsForm: FC<CredentialsFormProps> = ({ selectedCredential }) => {
         const res = await api.factus.credentials.post(values);
         if (res.error)
           throw new Error(
-            (res.error as { value?: { error?: string } }).value?.error ??
-              "Error al guardar las credenciales",
+            getApiErrorMessage(res.error, "Error al guardar las credenciales"),
           );
         return res.data;
       }
@@ -81,8 +81,10 @@ const CredentialsForm: FC<CredentialsFormProps> = ({ selectedCredential }) => {
           .put(values);
         if (res.error)
           throw new Error(
-            (res.error as { value?: { error?: string } }).value?.error ??
+            getApiErrorMessage(
+              res.error,
               "Error al actualizar las credenciales",
+            ),
           );
         return res.data;
       }

@@ -13,6 +13,7 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
 import { api } from "@/lib/elysia/eden";
+import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
 import { ProductListItem } from "@/lib/elysia/modules/products/service";
 import { PRODUCTS_QUERY_KEY } from "@/lib/query-keys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -39,8 +40,7 @@ const DeleteProductDialog: FC<DeleteProductDialogProps> = ({
       const res = await api.products.delete({ ids });
       if (res.error) {
         throw new Error(
-          (res.error as { value?: { error?: string } }).value?.error ??
-            "Error al eliminar los productos",
+          getApiErrorMessage(res.error, "Error al eliminar los productos"),
         );
       }
       return res.data;

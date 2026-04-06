@@ -20,25 +20,18 @@ export const customersModule = new Elysia({ prefix: "/customers" })
    */
   .get(
     "/",
-    async ({ user, query, status }) => {
-      try {
-        return await CustomerService.list(user.id, {
-          search: query.search,
-          page: query.page,
-          limit: query.limit,
-        });
-      } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Error al obtener los clientes";
-        return status(422, { error: message });
-      }
+    async ({ user, query }) => {
+      return await CustomerService.list(user.id, {
+        search: query.search,
+        page: query.page,
+        limit: query.limit,
+      });
     },
     {
       auth: true,
       query: CustomerListQuery,
       response: {
         200: CustomerListResponse,
-        422: t.Object({ error: t.String() }),
       },
     },
   )
@@ -51,22 +44,15 @@ export const customersModule = new Elysia({ prefix: "/customers" })
    */
   .post(
     "/",
-    async ({ user, body, status }) => {
-      try {
-        await CustomerService.create(user.id, body);
-        return { success: true as const };
-      } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Error al crear el cliente";
-        return status(422, { error: message });
-      }
+    async ({ user, body }) => {
+      await CustomerService.create(user.id, body);
+      return { success: true as const };
     },
     {
       auth: true,
       body: CustomerBody,
       response: {
         200: t.Object({ success: t.Literal(true) }),
-        422: t.Object({ error: t.String() }),
       },
     },
   )
@@ -79,22 +65,15 @@ export const customersModule = new Elysia({ prefix: "/customers" })
    */
   .delete(
     "/",
-    async ({ user, body, status }) => {
-      try {
-        const deleted = await CustomerService.delete(user.id, body.ids);
-        return { success: true as const, deleted };
-      } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Error al eliminar los clientes";
-        return status(422, { error: message });
-      }
+    async ({ user, body }) => {
+      const deleted = await CustomerService.delete(user.id, body.ids);
+      return { success: true as const, deleted };
     },
     {
       auth: true,
       body: t.Object({ ids: t.Array(t.String(), { minItems: 1 }) }),
       response: {
         200: t.Object({ success: t.Literal(true), deleted: t.Number() }),
-        422: t.Object({ error: t.String() }),
       },
     },
   )
@@ -107,14 +86,8 @@ export const customersModule = new Elysia({ prefix: "/customers" })
    */
   .get(
     "/:id",
-    async ({ user, params, status }) => {
-      try {
-        return await CustomerService.get(user.id, params.id);
-      } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Error al obtener el cliente";
-        return status(404, { error: message });
-      }
+    async ({ user, params }) => {
+      return await CustomerService.get(user.id, params.id);
     },
     {
       auth: true,
@@ -132,15 +105,9 @@ export const customersModule = new Elysia({ prefix: "/customers" })
    */
   .put(
     "/:id",
-    async ({ user, params, body, status }) => {
-      try {
-        await CustomerService.update(user.id, params.id, body);
-        return { success: true as const };
-      } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Error al actualizar el cliente";
-        return status(422, { error: message });
-      }
+    async ({ user, params, body }) => {
+      await CustomerService.update(user.id, params.id, body);
+      return { success: true as const };
     },
     {
       auth: true,
@@ -148,6 +115,7 @@ export const customersModule = new Elysia({ prefix: "/customers" })
       body: CustomerBody,
       response: {
         200: t.Object({ success: t.Literal(true) }),
+        404: t.Object({ error: t.String() }),
         422: t.Object({ error: t.String() }),
       },
     },

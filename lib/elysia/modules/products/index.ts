@@ -22,49 +22,31 @@ export const productsModule = new Elysia({ prefix: "/products" })
    */
   .get(
     "/next-code",
-    async ({ user, status }) => {
-      try {
-        const code = await ProductService.nextCode(user.id);
-        return { code };
-      } catch (e) {
-        const message =
-          e instanceof Error
-            ? e.message
-            : "Error al generar el código de producto";
-        return status(422, { error: message });
-      }
+    async ({ user }) => {
+      const code = await ProductService.nextCode(user.id);
+      return { code };
     },
     {
       auth: true,
       response: {
         200: t.Object({ code: t.String() }),
-        422: t.Object({ error: t.String() }),
       },
     },
   )
   .get(
     "/code-available",
-    async ({ user, query, status }) => {
-      try {
-        const available = await ProductService.isCodeAvailable(
-          user.id,
-          query.code,
-        );
-        return { available };
-      } catch (e) {
-        const message =
-          e instanceof Error
-            ? e.message
-            : "Error al validar disponibilidad del código";
-        return status(500, { error: message });
-      }
+    async ({ user, query }) => {
+      const available = await ProductService.isCodeAvailable(
+        user.id,
+        query.code,
+      );
+      return { available };
     },
     {
       auth: true,
       query: ProductCodeAvailabilityQuery,
       response: {
         200: t.Object({ available: t.Boolean() }),
-        500: t.Object({ error: t.String() }),
       },
     },
   )
@@ -78,25 +60,18 @@ export const productsModule = new Elysia({ prefix: "/products" })
    */
   .get(
     "/",
-    async ({ user, query, status }) => {
-      try {
-        return await ProductService.list(user.id, {
-          search: query.search,
-          page: query.page,
-          limit: query.limit,
-        });
-      } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Error al obtener los productos";
-        return status(422, { error: message });
-      }
+    async ({ user, query }) => {
+      return await ProductService.list(user.id, {
+        search: query.search,
+        page: query.page,
+        limit: query.limit,
+      });
     },
     {
       auth: true,
       query: ProductListQuery,
       response: {
         200: ProductListResponse,
-        422: t.Object({ error: t.String() }),
       },
     },
   )
@@ -109,15 +84,9 @@ export const productsModule = new Elysia({ prefix: "/products" })
    */
   .post(
     "/",
-    async ({ user, body, status }) => {
-      try {
-        await ProductService.create(user.id, body);
-        return { success: true as const };
-      } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Error al crear el producto";
-        return status(422, { error: message });
-      }
+    async ({ user, body }) => {
+      await ProductService.create(user.id, body);
+      return { success: true as const };
     },
     {
       auth: true,
@@ -137,22 +106,15 @@ export const productsModule = new Elysia({ prefix: "/products" })
    */
   .delete(
     "/",
-    async ({ user, body, status }) => {
-      try {
-        const deleted = await ProductService.delete(user.id, body.ids);
-        return { success: true as const, deleted };
-      } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Error al eliminar los productos";
-        return status(422, { error: message });
-      }
+    async ({ user, body }) => {
+      const deleted = await ProductService.delete(user.id, body.ids);
+      return { success: true as const, deleted };
     },
     {
       auth: true,
       body: t.Object({ ids: t.Array(t.String(), { minItems: 1 }) }),
       response: {
         200: t.Object({ success: t.Literal(true), deleted: t.Number() }),
-        422: t.Object({ error: t.String() }),
       },
     },
   )
@@ -165,14 +127,8 @@ export const productsModule = new Elysia({ prefix: "/products" })
    */
   .get(
     "/:id",
-    async ({ user, params, status }) => {
-      try {
-        return await ProductService.get(user.id, params.id);
-      } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Error al obtener el producto";
-        return status(404, { error: message });
-      }
+    async ({ user, params }) => {
+      return await ProductService.get(user.id, params.id);
     },
     {
       auth: true,
@@ -190,15 +146,9 @@ export const productsModule = new Elysia({ prefix: "/products" })
    */
   .put(
     "/:id",
-    async ({ user, params, body, status }) => {
-      try {
-        await ProductService.update(user.id, params.id, body);
-        return { success: true as const };
-      } catch (e) {
-        const message =
-          e instanceof Error ? e.message : "Error al actualizar el producto";
-        return status(422, { error: message });
-      }
+    async ({ user, params, body }) => {
+      await ProductService.update(user.id, params.id, body);
+      return { success: true as const };
     },
     {
       auth: true,
@@ -206,6 +156,7 @@ export const productsModule = new Elysia({ prefix: "/products" })
       body: ProductBody,
       response: {
         200: t.Object({ success: t.Literal(true) }),
+        404: t.Object({ error: t.String() }),
         422: t.Object({ error: t.String() }),
       },
     },
