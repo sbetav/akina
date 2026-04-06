@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useActiveCredentials } from "@/hooks/factus/use-active-credentials";
+import { NUMBERING_RANGES_QUERY_KEY } from "@/lib/query-keys";
+import { useIsFetching } from "@tanstack/react-query";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 import { FC } from "react";
@@ -34,7 +36,12 @@ const CredentialsLink: FC = () => (
 );
 
 const Page: FC = () => {
-  const { isAkinaSandbox, isLoading } = useActiveCredentials();
+  const { isAkinaSandbox } = useActiveCredentials();
+
+  const isFetchingRanges = useIsFetching({
+    queryKey: NUMBERING_RANGES_QUERY_KEY,
+    predicate: (query) => query.state.data === undefined,
+  });
 
   return (
     <div className="flex min-h-full w-full flex-1 flex-col gap-6">
@@ -47,11 +54,11 @@ const Page: FC = () => {
           </PageHeaderDescription>
         </PageHeaderContent>
         <PageHeaderActions>
-          <CreateNumberingRangeDialog />
+          <CreateNumberingRangeDialog isDisabled={!!isFetchingRanges} />
         </PageHeaderActions>
       </PageHeader>
 
-      {isLoading ? (
+      {isFetchingRanges ? (
         <Skeleton className="h-[94px] w-full" />
       ) : isAkinaSandbox ? (
         <Alert variant="warning">

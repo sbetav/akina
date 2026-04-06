@@ -2,7 +2,7 @@
 
 import EllipsisIcon from "@/components/icons/ellipsis-icon";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,18 +26,22 @@ import { DEFAULT_NUMBERING_RANGES_LIMIT } from "@/lib/query-keys";
 import { formatDate } from "date-fns";
 import { es } from "date-fns/locale";
 import {
+  ArrowRightIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   FileDigitIcon,
   SquarePenIcon,
   Trash2Icon,
 } from "lucide-react";
+import Link from "next/link";
 import { FC, useMemo, useState } from "react";
 import CreateNumberingRangeDialog from "./create-numbering-range-dialog";
 import DeleteNumberingRangeDialog from "./delete-numbering-range-dialog";
 import UpdateNumberingRangeDialog from "./update-numbering-current-dialog";
 
 const NumberingRangesList: FC = () => {
+  const { isAkinaSandbox } = useActiveCredentials();
+
   const [page, setPage] = useState(1);
   const limit = DEFAULT_NUMBERING_RANGES_LIMIT;
 
@@ -73,18 +77,30 @@ const NumberingRangesList: FC = () => {
 
   if (!total) {
     return (
-      <Empty fillSpace>
+      <Empty fillSpace className="bg-background/30">
         <EmptyHeader>
           <EmptyMedia variant="icon">
             <FileDigitIcon />
           </EmptyMedia>
           <EmptyTitle>Sin rangos de numeración</EmptyTitle>
           <EmptyDescription className="max-w-[320px]">
-            Crea tu primer rango para gestionar consecutivos desde Akina.
+            {isAkinaSandbox
+              ? "Configura tus credenciales de Factus para crear rangos de numeración."
+              : "Crea tu primer rango de numeración y empieza a emitir documentos electrónicos."}
           </EmptyDescription>
         </EmptyHeader>
         <EmptyContent>
-          <CreateNumberingRangeDialog />
+          {!isAkinaSandbox ? (
+            <CreateNumberingRangeDialog />
+          ) : (
+            <Link
+              href="/dashboard/settings/factus"
+              className={buttonVariants({ size: "lg" })}
+            >
+              Gestionar credenciales
+              <ArrowRightIcon />
+            </Link>
+          )}
         </EmptyContent>
       </Empty>
     );

@@ -36,11 +36,7 @@ import {
   requiresResolution,
 } from "@/lib/validations/numbering-ranges";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  useIsFetching,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { NumberingRangeDocumentTypeCode } from "factus-js";
 import { PlusIcon, SaveIcon } from "lucide-react";
 import { FC, useEffect, useState } from "react";
@@ -48,15 +44,16 @@ import { Controller, useForm, useWatch } from "react-hook-form";
 
 const DOCUMENT_OPTIONS = Object.values(NumberingRangeDocumentTypeCode);
 
-const CreateNumberingRangeDialog: FC = () => {
+interface CreateNumberingRangeDialogProps {
+  isDisabled?: boolean;
+}
+
+const CreateNumberingRangeDialog: FC<CreateNumberingRangeDialogProps> = ({
+  isDisabled,
+}) => {
   const { isAkinaSandbox } = useActiveCredentials();
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
-
-  const isFetchingRanges = useIsFetching({
-    queryKey: NUMBERING_RANGES_QUERY_KEY,
-    predicate: (query) => query.state.data === undefined,
-  });
 
   const { control, handleSubmit, reset, setValue, trigger } =
     useForm<NumberingRangeFormValues>({
@@ -116,7 +113,7 @@ const CreateNumberingRangeDialog: FC = () => {
     >
       <DialogTrigger
         render={
-          <Button disabled={!!isFetchingRanges}>
+          <Button disabled={isDisabled}>
             <PlusIcon />
             Crear rango
           </Button>
