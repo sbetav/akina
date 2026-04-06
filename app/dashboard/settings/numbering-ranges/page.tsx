@@ -36,12 +36,14 @@ const CredentialsLink: FC = () => (
 );
 
 const Page: FC = () => {
-  const { isAkinaSandbox } = useActiveCredentials();
+  const { isAkinaSandbox, isActivating } = useActiveCredentials();
 
   const isFetchingRanges = useIsFetching({
     queryKey: NUMBERING_RANGES_QUERY_KEY,
     predicate: (query) => query.state.data === undefined,
   });
+
+  const rangesBusy = isActivating || isFetchingRanges > 0;
 
   return (
     <div className="flex min-h-full w-full flex-1 flex-col gap-6">
@@ -54,11 +56,11 @@ const Page: FC = () => {
           </PageHeaderDescription>
         </PageHeaderContent>
         <PageHeaderActions>
-          <CreateNumberingRangeDialog isDisabled={!!isFetchingRanges} />
+          <CreateNumberingRangeDialog isDisabled={rangesBusy} />
         </PageHeaderActions>
       </PageHeader>
 
-      {isFetchingRanges ? (
+      {rangesBusy ? (
         <Skeleton className="h-[94px] w-full" />
       ) : isAkinaSandbox ? (
         <Alert variant="warning">

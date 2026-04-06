@@ -1,22 +1,60 @@
 "use client";
 
 import { toast } from "@/components/ui/toast";
+import { credentialsListQueryOptions } from "@/hooks/factus/credentials-query-options";
 import { api } from "@/lib/elysia/eden";
 import { CredentialListItem } from "@/lib/elysia/modules/factus/service";
 import {
   CREDENTIAL_DEPENDENT_KEYS,
   CREDENTIALS_QUERY_KEY,
 } from "@/lib/query-keys";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createContext, ReactNode, useContext } from "react";
+import {
+  type MutateOptions,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { createContext, ReactNode, useContext, useState } from "react";
+
+type CredentialsQueryData = { items: CredentialListItem[] };
+
+export type ActivateCredentialOptions = MutateOptions<
+  CredentialsQueryData,
+  Error,
+  string,
+  unknown
+>;
 
 interface ActiveCredentialsContextValue {
-  activate: (id: string) => void;
+  activate: (id: string, options?: ActivateCredentialOptions) => void;
   isActivating: boolean;
+  /** Picker UI only — synced from server `active` when it changes; not used as app-wide “active”. */
+  uiSelectedCredentialId: string | undefined;
+  setUiSelectedCredentialId: (id: string | undefined) => void;
 }
 
 const ActiveCredentialsContext =
   createContext<ActiveCredentialsContextValue | null>(null);
+
+/**
+ * Clears credential-dependent cache without refetching (until `onSuccess` invalidates).
+ * - `resetQueries` is unsuitable: it always refetches active observers afterward.
+ * - `setQueryData(..., () => undefined)` does nothing: QueryClient bails out when the
+ *   updater result is `undefined`, so it cannot wipe cached data.
+ * `query.reset()` restores each query’s initial state (no data, pending, idle) — same
+ * outcome you’d want from “set data to undefined”, without relying on internal setState.
+ */
+function resetCredentialDependentQueriesWithoutRefetch(
+  client: ReturnType<typeof useQueryClient>,
+) {
+  for (const key of CREDENTIAL_DEPENDENT_KEYS) {
+    for (const query of client
+      .getQueryCache()
+      .findAll({ queryKey: [...key] })) {
+      query.reset();
+    }
+  }
+}
 
 export function ActiveCredentialsProvider({
   children,
@@ -25,7 +63,24 @@ export function ActiveCredentialsProvider({
 }) {
   const queryClient = useQueryClient();
 
-  const { mutate: activate, isPending: isActivating } = useMutation({
+  const { data: credentialsData } = useQuery(credentialsListQueryOptions);
+  const serverActiveId = credentialsData?.items.find((c) => c.isActive)?.id;
+
+  const [uiSelectedCredentialId, setUiSelectedCredentialId] = useState<
+    string | undefined
+  >(() => serverActiveId);
+  const [prevServerActiveId, setPrevServerActiveId] = useState<
+    string | undefined
+  >(() => serverActiveId);
+
+  if (serverActiveId !== prevServerActiveId) {
+    setPrevServerActiveId(serverActiveId);
+    if (serverActiveId !== undefined) {
+      setUiSelectedCredentialId(serverActiveId);
+    }
+  }
+
+  const { mutate: mutateActivate, isPending: isActivating } = useMutation({
     mutationFn: async (id: string) => {
       const res = await api.factus.credentials({ id }).activate.patch();
       if (res.error)
@@ -33,79 +88,46 @@ export function ActiveCredentialsProvider({
           (res.error as { value?: { error?: string } }).value?.error ??
             "Error al activar la credencial",
         );
+      return res.data;
     },
-    onMutate: async (id: string) => {
+    onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: CREDENTIALS_QUERY_KEY });
-
-      const previousCredentials = queryClient.getQueryData<{
-        items: CredentialListItem[];
-      }>(CREDENTIALS_QUERY_KEY);
-
-      // Snapshot dependent queries before resetting them
-      const previousDependents = CREDENTIAL_DEPENDENT_KEYS.map((key) => ({
-        key,
-        data: queryClient.getQueryData([...key]),
-      }));
-
-      queryClient.setQueryData<{ items: CredentialListItem[] }>(
+      await Promise.all(
+        CREDENTIAL_DEPENDENT_KEYS.map((key) =>
+          queryClient.cancelQueries({ queryKey: [...key] }),
+        ),
+      );
+      resetCredentialDependentQueriesWithoutRefetch(queryClient);
+    },
+    onSuccess: (data) => {
+      toast.success("Credencial seleccionada correctamente");
+      queryClient.setQueryData<CredentialsQueryData>(
         CREDENTIALS_QUERY_KEY,
-        (old) => {
-          if (!old) return old;
-          return {
-            ...old,
-            items: old.items.map((item) => ({
-              ...item,
-              isActive: item.id === id,
-            })),
-          };
-        },
+        data,
       );
 
-      return { previousCredentials, previousDependents };
-    },
-    onSuccess: () => {
-      toast.success("Credencial seleccionada correctamente");
-      // Safety net: sync any server-side side effects
-      queryClient.invalidateQueries({ queryKey: CREDENTIALS_QUERY_KEY });
-
-      // Reset all credential-dependent queries: clears cached data
-      // (so components enter isLoading for skeleton UI) and triggers
-      // an immediate refetch for mounted observers.
       for (const key of CREDENTIAL_DEPENDENT_KEYS) {
-        queryClient.resetQueries({ queryKey: [...key] });
+        void queryClient.invalidateQueries({ queryKey: [...key] });
       }
     },
-    onError: (e: Error, _id, context) => {
+    onError: (e: Error) => {
       toast.error(e.message);
-
-      // Rollback credentials optimistic update
-      if (context?.previousCredentials) {
-        queryClient.setQueryData(
-          CREDENTIALS_QUERY_KEY,
-          context.previousCredentials,
-        );
-      }
-
-      // Rollback dependent queries to their pre-mutation snapshots
-      if (context?.previousDependents) {
-        for (const { key, data } of context.previousDependents) {
-          if (data !== undefined) {
-            queryClient.setQueryData([...key], data);
-          } else {
-            // No snapshot means the query wasn't cached — just invalidate
-            // so it refetches fresh rather than sitting in a reset state
-            queryClient.invalidateQueries({ queryKey: [...key] });
-          }
-        }
+      for (const key of CREDENTIAL_DEPENDENT_KEYS) {
+        void queryClient.invalidateQueries({ queryKey: [...key] });
       }
     },
   });
+
+  const activate = (id: string, options?: ActivateCredentialOptions) =>
+    mutateActivate(id, options);
 
   return (
     <ActiveCredentialsContext
       value={{
         activate,
         isActivating,
+        uiSelectedCredentialId,
+        setUiSelectedCredentialId,
       }}
     >
       {children}

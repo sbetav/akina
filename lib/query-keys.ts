@@ -19,8 +19,9 @@ export const DEFAULT_NUMBERING_RANGES_LIMIT = 10;
 
 /**
  * Query key prefixes that depend on the active credential.
- * When the user switches credentials, all queries matching these
- * prefixes are removed so the UI refetches fresh data.
+ * When the user switches credentials, these caches are cleared (no refetch)
+ * until activation succeeds; then they are invalidated to load data for the
+ * new active credential.
  */
 export const CREDENTIAL_DEPENDENT_KEYS = [
   CUSTOMERS_QUERY_KEY,

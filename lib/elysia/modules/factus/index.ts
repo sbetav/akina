@@ -168,6 +168,7 @@ export const factusModule = new Elysia({ prefix: "/factus" })
    * PATCH /api/factus/credentials/:id/activate
    * Sets a credential as active (deactivates all others).
    * Use id "sandbox" to deactivate all and revert to Akina Sandbox.
+   * Returns the same credential list shape as GET /credentials.
    */
   .patch(
     "/credentials/:id/activate",
@@ -175,7 +176,8 @@ export const factusModule = new Elysia({ prefix: "/factus" })
       try {
         const id = params.id === AKINA_SANDBOX_ID ? null : params.id;
         await FactusService.setActiveCredential(user.id, id);
-        return { success: true as const };
+        const items = await FactusService.listCredentials(user.id);
+        return { items };
       } catch (e) {
         const message =
           e instanceof Error ? e.message : "Error al activar la credencial";
@@ -186,7 +188,7 @@ export const factusModule = new Elysia({ prefix: "/factus" })
       auth: true,
       params: t.Object({ id: t.String() }),
       response: {
-        200: t.Object({ success: t.Literal(true) }),
+        200: CredentialListResponse,
         422: t.Object({ error: t.String() }),
       },
     },

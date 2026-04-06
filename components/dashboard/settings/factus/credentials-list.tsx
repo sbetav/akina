@@ -47,8 +47,15 @@ import { FC, useMemo, useState } from "react";
 import DeleteCredentialsDialog from "./delete-credentials-dialog";
 
 const CredentialsList: FC = () => {
-  const { credentials, isLoading, activate, isActivating, active } =
-    useActiveCredentials();
+  const {
+    credentials,
+    isLoading,
+    activate,
+    isActivating,
+    active,
+    uiSelectedCredentialId,
+    setUiSelectedCredentialId,
+  } = useActiveCredentials();
 
   const { validItems, invalidItems } = useMemo(() => {
     return {
@@ -62,26 +69,28 @@ const CredentialsList: FC = () => {
   }
 
   if (!credentials.length) {
-    <Empty fillSpace className="bg-background/30 flex-1">
-      <EmptyHeader>
-        <EmptyMedia variant="icon">
-          <KeyIcon />
-        </EmptyMedia>
-        <EmptyTitle>Sin credenciales propias</EmptyTitle>
-        <EmptyDescription className="max-w-[300px]">
-          Configura tus propias credenciales y emite documentos con ellas.
-        </EmptyDescription>
-      </EmptyHeader>
-      <EmptyContent>
-        <Link
-          href="/dashboard/settings/factus/new-credential"
-          className={buttonVariants({ size: "lg" })}
-        >
-          <PlusIcon />
-          Nueva credencial
-        </Link>
-      </EmptyContent>
-    </Empty>;
+    return (
+      <Empty fillSpace className="bg-background/30 flex-1">
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <KeyIcon />
+          </EmptyMedia>
+          <EmptyTitle>Sin credenciales propias</EmptyTitle>
+          <EmptyDescription className="max-w-[300px]">
+            Configura tus propias credenciales y emite documentos con ellas.
+          </EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent>
+          <Link
+            href="/dashboard/settings/factus/new-credential"
+            className={buttonVariants({ size: "lg" })}
+          >
+            <PlusIcon />
+            Nueva credencial
+          </Link>
+        </EmptyContent>
+      </Empty>
+    );
   }
 
   return (
@@ -89,9 +98,13 @@ const CredentialsList: FC = () => {
       <div className="flex flex-1 flex-col gap-5">
         <Label>Seleccionar credenciales</Label>
         <RadioGroup
-          value={active?.id}
+          value={uiSelectedCredentialId ?? active?.id}
           onValueChange={(value) => {
-            activate(value as string | typeof AKINA_SANDBOX_ID);
+            const previousId = uiSelectedCredentialId ?? active?.id;
+            setUiSelectedCredentialId(value);
+            activate(value as string | typeof AKINA_SANDBOX_ID, {
+              onError: () => setUiSelectedCredentialId(previousId),
+            });
           }}
           disabled={isActivating}
           className="sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2"

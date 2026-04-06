@@ -50,7 +50,7 @@ const NumberingRangesList: FC = () => {
   const [showDeleteRange, setShowDeleteRange] = useState(false);
   const [showUpdateRange, setShowUpdateRange] = useState(false);
 
-  const { data, isLoading } = useNumberingRangesQuery({ page, limit });
+  const { data, isPending } = useNumberingRangesQuery({ page, limit });
 
   const items = data?.items ?? [];
   const total = data?.total ?? 0;
@@ -63,7 +63,7 @@ const NumberingRangesList: FC = () => {
     [page, pageCount],
   );
 
-  if (isLoading) {
+  if (isPending) {
     return (
       <div className="@container/numbering-ranges w-full min-w-0">
         <div className="grid grid-cols-1 gap-4 @2xl/numbering-ranges:grid-cols-2">

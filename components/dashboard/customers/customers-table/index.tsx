@@ -42,7 +42,7 @@ export default function CustomersTable() {
 
   const debouncedSearch = useDebounce(search, 300);
 
-  const { data, isFetching, isLoading } = useQuery({
+  const { data, isFetching, isPending } = useQuery({
     queryKey: [
       ...CUSTOMERS_QUERY_KEY,
       { search: debouncedSearch, page, limit },
@@ -98,7 +98,7 @@ export default function CustomersTable() {
 
   return (
     <div className="flex flex-1 flex-col gap-6">
-      {isLoading ? (
+      {isPending ? (
         <>
           <Skeleton className="h-10 w-full" />
           <Skeleton className="w-full flex-1" />

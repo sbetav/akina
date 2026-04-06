@@ -12,11 +12,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Spinner } from "@/components/ui/spinner";
 import { useActiveCredentials } from "@/hooks/factus/use-active-credentials";
 import { AKINA_SANDBOX_ID } from "@/lib/constants";
 import { ArrowRightIcon, ChevronsUpDown } from "lucide-react";
 import Link from "next/link";
-import { FC, useState } from "react";
+import { FC, useMemo, useState } from "react";
 
 interface CredentialsDropdownMenuProps {
   onNavigate: () => void;
@@ -43,13 +44,26 @@ function getCredentialBadgeMeta({
 const CredentialsDropdownMenu: FC<CredentialsDropdownMenuProps> = ({
   onNavigate,
 }) => {
-  const { active, isLoading, isActivating, activate, credentials } =
-    useActiveCredentials();
+  const {
+    active,
+    isLoading,
+    isActivating,
+    activate,
+    credentials,
+    uiSelectedCredentialId,
+    setUiSelectedCredentialId,
+  } = useActiveCredentials();
 
   const [open, onOpenChange] = useState(false);
+
+  const displayCredential = useMemo(
+    () => credentials.find((c) => c.id === uiSelectedCredentialId) ?? active,
+    [credentials, uiSelectedCredentialId, active],
+  );
+
   const activeBadge = getCredentialBadgeMeta({
-    isValid: active?.isValid ?? true,
-    environment: active?.environment,
+    isValid: displayCredential?.isValid ?? true,
+    environment: displayCredential?.environment,
   });
 
   if (isLoading) return <Skeleton className="h-[58px] w-full" />;
@@ -64,28 +78,36 @@ const CredentialsDropdownMenu: FC<CredentialsDropdownMenuProps> = ({
           >
             <div className="space-y-0.5 text-left text-xs">
               <div className="flex items-center gap-2">
-                <p>{active?.name}</p>
+                <p>{displayCredential?.name}</p>
 
                 <Badge size="sm" variant={activeBadge.variant}>
                   {activeBadge.label}
                 </Badge>
               </div>
               <p className="text-muted-foreground">
-                {active?.id === AKINA_SANDBOX_ID
+                {displayCredential?.id === AKINA_SANDBOX_ID
                   ? "Entorno por defecto"
-                  : active?.username}
+                  : displayCredential?.username}
               </p>
             </div>
-            <ChevronsUpDown className="text-muted-foreground size-3.5" />
+            {isActivating ? (
+              <Spinner className="text-muted-foreground size-3.5" />
+            ) : (
+              <ChevronsUpDown className="text-muted-foreground size-3.5" />
+            )}
           </button>
         }
       />
       <DropdownMenuContent>
         <DropdownMenuGroup>
           <DropdownMenuRadioGroup
-            value={active?.id}
+            value={uiSelectedCredentialId ?? active?.id}
             onValueChange={(value) => {
-              activate(value);
+              const previousId = uiSelectedCredentialId ?? active?.id;
+              setUiSelectedCredentialId(value);
+              activate(value, {
+                onError: () => setUiSelectedCredentialId(previousId),
+              });
               onOpenChange(false);
             }}
           >

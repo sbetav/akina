@@ -42,7 +42,7 @@ export default function ProductsTable() {
 
   const debouncedSearch = useDebounce(search, 300);
 
-  const { data, isFetching, isLoading } = useQuery({
+  const { data, isFetching, isPending } = useQuery({
     queryKey: [...PRODUCTS_QUERY_KEY, { search: debouncedSearch, page, limit }],
     queryFn: async () => {
       const res = await api.products.get({
@@ -95,7 +95,7 @@ export default function ProductsTable() {
 
   return (
     <div className="flex flex-1 flex-col gap-6">
-      {isLoading ? (
+      {isPending ? (
         <>
           <Skeleton className="h-10 w-full" />
           <Skeleton className="w-full flex-1" />
