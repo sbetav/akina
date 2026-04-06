@@ -167,6 +167,19 @@ input:-webkit-autofill:focus {
   animation: caret-blink 1s steps(1, end) infinite;
 }
 
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 300% 0;
+  }
+  100% {
+    background-position: -300% 0;
+  }
+}
+
+.animate-skeleton-shimmer {
+  animation: skeleton-shimmer 5s linear infinite;
+}
+
 /* -------------------------------------------------------------------------- */
 /* UI enhancements                                                       */
 /* -------------------------------------------------------------------------- */
