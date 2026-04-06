@@ -17,13 +17,17 @@ function PageHeader({
   return (
     <PageHeaderContext.Provider value={{ size }}>
       <div
+        className="@container/page-header w-full min-w-0"
         data-slot="page-header"
-        className={cn(
-          "flex w-full flex-col justify-between gap-5 sm:flex-row sm:items-center",
-          className,
-        )}
-        {...props}
-      />
+      >
+        <div
+          className={cn(
+            "flex w-full min-w-0 flex-col justify-between gap-5 @md/page-header:flex-row @md/page-header:items-center",
+            className,
+          )}
+          {...props}
+        />
+      </div>
     </PageHeaderContext.Provider>
   );
 }
@@ -82,7 +86,7 @@ function PageHeaderActions({
     <div
       data-slot="page-header-actions"
       className={cn(
-        "flex w-full flex-col items-stretch gap-2 sm:w-auto sm:flex-row sm:items-center [&>button]:w-full sm:[&>button]:w-auto",
+        "flex w-full flex-col items-stretch gap-2 @md/page-header:w-auto @md/page-header:flex-row @md/page-header:items-center [&>button]:w-full @md/page-header:[&>button]:w-auto",
         className,
       )}
       {...props}
