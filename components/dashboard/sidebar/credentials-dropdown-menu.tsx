@@ -105,9 +105,11 @@ const CredentialsDropdownMenu: FC<CredentialsDropdownMenuProps> = ({
             onValueChange={(value) => {
               const previousId = uiSelectedCredentialId ?? active?.id;
               setUiSelectedCredentialId(value);
-              activate(value, {
-                onError: () => setUiSelectedCredentialId(previousId),
-              });
+              if (value !== previousId) {
+                activate(value, {
+                  onError: () => setUiSelectedCredentialId(previousId),
+                });
+              }
               onOpenChange(false);
             }}
           >
