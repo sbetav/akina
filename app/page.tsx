@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { useRouter } from "@bprogress/next";
-import { FC } from "react";
+import type { FC } from "react";
+import { Button } from "@/components/ui/button";
 
 const Page: FC = () => {
   const router = useRouter();

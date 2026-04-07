@@ -1,3 +1,5 @@
+import { notFound } from "next/navigation";
+import type { FC } from "react";
 import BackButton from "@/components/back-button";
 import CustomerForm from "@/components/dashboard/customers/customer-form";
 import {
@@ -7,10 +9,11 @@ import {
   PageHeaderTitle,
 } from "@/components/dashboard/page-header";
 import { requireUser } from "@/lib/dal";
-import { CustomerService } from "@/lib/elysia/modules/customers/service";
+import {
+  type CustomerDetailResult,
+  CustomerService,
+} from "@/lib/elysia/modules/customers/service";
 import { FactusService } from "@/lib/elysia/modules/factus/service";
-import { notFound } from "next/navigation";
-import { FC } from "react";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -20,7 +23,7 @@ const Page: FC<PageProps> = async ({ params }) => {
   const { id } = await params;
   const user = await requireUser();
 
-  let customer;
+  let customer: CustomerDetailResult;
   try {
     customer = await CustomerService.get(user.id, id);
   } catch {

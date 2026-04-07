@@ -1,6 +1,6 @@
+import type { FC, ReactNode } from "react";
 import Container from "@/components/ui/container";
 import { cn } from "@/lib/utils";
-import type { FC, ReactNode } from "react";
 
 interface AuthFormCardProps {
   icon: ReactNode;

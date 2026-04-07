@@ -1,7 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+import type { Acquirer, IdentityDocumentTypeId } from "factus-js";
 import { api } from "@/lib/elysia/eden";
 import { ACQUIRER_QUERY_KEY } from "@/lib/query-keys";
-import { useQuery } from "@tanstack/react-query";
-import { Acquirer, type IdentityDocumentTypeId } from "factus-js";
 
 interface UseAcquirerAutofillProps {
   identificationDocumentId: IdentityDocumentTypeId | undefined;

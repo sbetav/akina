@@ -1,7 +1,7 @@
-import { PRODUCT_TYPES } from "@/lib/constants";
-import { toEnumValues, zodAlwaysRefine } from "@/lib/utils";
 import { ProductStandardId } from "factus-js";
 import z from "zod";
+import { PRODUCT_TYPES } from "@/lib/constants";
+import { toEnumValues, zodAlwaysRefine } from "@/lib/utils";
 
 const productStandardIds = toEnumValues(ProductStandardId);
 

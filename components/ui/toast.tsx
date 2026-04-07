@@ -1,6 +1,5 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import {
   CircleCheckIcon,
@@ -10,12 +9,13 @@ import {
   XIcon,
 } from "lucide-react";
 import {
-  Action,
+  type Action,
+  type ExternalToast,
   Toaster as Sonner,
   toast as sonnerToast,
-  type ExternalToast,
   type ToasterProps,
 } from "sonner";
+import { cn } from "@/lib/utils";
 import { Spinner } from "./spinner";
 
 const toastVariants = cva(
@@ -82,6 +82,7 @@ function Toast({
           )}
           {action && (
             <button
+              type="button"
               onClick={(e) => {
                 action.onClick(e);
                 sonnerToast.dismiss(id);
@@ -95,6 +96,7 @@ function Toast({
 
         {variant !== "loading" && (
           <button
+            type="button"
             onClick={() => sonnerToast.dismiss(id)}
             className="mt-px ml-auto shrink-0 cursor-pointer transition-opacity hover:opacity-75"
             aria-label="Dismiss"
@@ -215,5 +217,5 @@ const Toaster = ({ ...props }: ToasterProps) => {
   );
 };
 
-export { toast, Toaster };
 export type { ToastOptions, ToastVariant };
+export { Toaster, toast };

@@ -1,5 +1,8 @@
 "use client";
 
+import { ArrowRightIcon, ChevronsUpDown } from "lucide-react";
+import Link from "next/link";
+import { type FC, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -15,9 +18,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { useCredentialsContext } from "@/contexts/credentials-context";
 import { AKINA_SANDBOX_ID } from "@/lib/constants";
-import { ArrowRightIcon, ChevronsUpDown } from "lucide-react";
-import Link from "next/link";
-import { FC, useState } from "react";
 
 interface CredentialsDropdownMenuProps {
   onNavigate: () => void;
@@ -71,6 +71,7 @@ const CredentialsDropdownMenu: FC<CredentialsDropdownMenuProps> = ({
       <DropdownMenuTrigger
         render={
           <button
+            type="button"
             disabled={isActivating}
             className="group data-popup-open:bg-accent hover:bg-accent focus-effect relative flex cursor-pointer items-center justify-between gap-3 border px-3 py-2.5 pl-4 transition disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
           >

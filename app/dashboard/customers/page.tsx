@@ -1,3 +1,7 @@
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { PlusIcon } from "lucide-react";
+import Link from "next/link";
+import type { FC } from "react";
 import CustomersTable from "@/components/dashboard/customers/customers-table";
 import {
   PageHeader,
@@ -11,10 +15,6 @@ import { requireUser } from "@/lib/dal";
 import { CustomerService } from "@/lib/elysia/modules/customers/service";
 import { getQueryClient } from "@/lib/query-client";
 import { CUSTOMERS_QUERY_KEY, DEFAULT_CUSTOMERS_LIMIT } from "@/lib/query-keys";
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { PlusIcon } from "lucide-react";
-import Link from "next/link";
-import { FC } from "react";
 
 const Page: FC = async () => {
   const user = await requireUser();

@@ -1,9 +1,9 @@
 "use client";
 
+import type { FC } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/toast";
-import { FC } from "react";
 
 const Page: FC = () => {
   return (

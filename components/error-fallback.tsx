@@ -1,6 +1,6 @@
-import { useGoBack } from "@/hooks/ui/use-go-back";
 import { AlertTriangleIcon, ArrowLeftIcon, RefreshCcwIcon } from "lucide-react";
-import { FC } from "react";
+import type { FC } from "react";
+import { useGoBack } from "@/hooks/ui/use-go-back";
 import { Button } from "./ui/button";
 import { Spinner } from "./ui/spinner";
 

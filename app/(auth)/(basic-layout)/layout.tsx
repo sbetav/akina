@@ -1,5 +1,5 @@
+import type { FC, ReactNode } from "react";
 import { AppLogo } from "@/components/ui/app-logo";
-import { FC, ReactNode } from "react";
 
 interface LayoutProps {
   children: ReactNode;

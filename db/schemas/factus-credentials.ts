@@ -1,4 +1,3 @@
-import { FACTUS_ENVIRONMENTS } from "@/lib/constants";
 import { relations } from "drizzle-orm";
 import {
   boolean,
@@ -8,6 +7,7 @@ import {
   timestamp,
   uuid,
 } from "drizzle-orm/pg-core";
+import { FACTUS_ENVIRONMENTS } from "@/lib/constants";
 import { user } from "./auth-schema";
 
 export const factusCredentials = pgTable(

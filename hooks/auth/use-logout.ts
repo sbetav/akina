@@ -1,8 +1,8 @@
+import { useRouter } from "@bprogress/next/app";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/components/ui/toast";
 import { authClient } from "@/lib/auth/client";
 import { publishCrossTabSyncEvent } from "@/lib/cross-tab-sync";
-import { useRouter } from "@bprogress/next/app";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useLogout = () => {
   const router = useRouter();

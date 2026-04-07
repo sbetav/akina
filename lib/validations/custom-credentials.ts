@@ -1,5 +1,5 @@
-import { FACTUS_ENVIRONMENTS } from "@/lib/constants";
 import z from "zod";
+import { FACTUS_ENVIRONMENTS } from "@/lib/constants";
 
 export const credentialFormSchema = z.object({
   name: z.string().min(1, "El nombre es requerido"),

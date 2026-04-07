@@ -1,10 +1,10 @@
-import { FACTUS_ENVIRONMENTS } from "@/lib/constants";
-import { toElysiaEnum, toElysiaLiterals } from "@/lib/utils";
 import { t } from "elysia";
 import {
   IdentityDocumentTypeId,
   NumberingRangeDocumentTypeCode,
 } from "factus-js";
+import { FACTUS_ENVIRONMENTS } from "@/lib/constants";
+import { toElysiaEnum, toElysiaLiterals } from "@/lib/utils";
 
 // ─── Credential CRUD bodies ───────────────────────────────────────────────────
 

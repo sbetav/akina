@@ -1,5 +1,17 @@
 "use client";
 
+import { formatDate } from "date-fns";
+import { es } from "date-fns/locale";
+import {
+  ArrowRightIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  FileDigitIcon,
+  SquarePenIcon,
+  Trash2Icon,
+} from "lucide-react";
+import Link from "next/link";
+import { type FC, useMemo, useState } from "react";
 import EllipsisIcon from "@/components/icons/ellipsis-icon";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -21,20 +33,8 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCredentialsContext } from "@/contexts/credentials-context";
 import { useNumberingRangesQuery } from "@/hooks/factus/use-numbering-ranges-query";
-import { NumberingRangeItemResult } from "@/lib/elysia/modules/factus/service";
+import type { NumberingRangeItemResult } from "@/lib/elysia/modules/factus/service";
 import { DEFAULT_NUMBERING_RANGES_LIMIT } from "@/lib/query-keys";
-import { formatDate } from "date-fns";
-import { es } from "date-fns/locale";
-import {
-  ArrowRightIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  FileDigitIcon,
-  SquarePenIcon,
-  Trash2Icon,
-} from "lucide-react";
-import Link from "next/link";
-import { FC, useMemo, useState } from "react";
 import CreateNumberingRangeDialog from "./create-numbering-range-dialog";
 import DeleteNumberingRangeDialog from "./delete-numbering-range-dialog";
 import UpdateNumberingRangeDialog from "./update-numbering-range-dialog";
@@ -83,7 +83,7 @@ const NumberingRangesListContent: FC<NumberingRangesListContentProps> = ({
       <div className="@container/numbering-ranges w-full min-w-0">
         <div className="grid grid-cols-1 gap-4 @2xl/numbering-ranges:grid-cols-2">
           {Array.from({ length: 6 }).map((_, index) => (
-            <Skeleton key={index} className="h-46 w-full" />
+            <Skeleton key={index.toString()} className="h-46 w-full" />
           ))}
         </div>
       </div>

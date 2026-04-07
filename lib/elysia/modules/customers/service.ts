@@ -1,3 +1,9 @@
+import { and, count, desc, ilike, inArray, or } from "drizzle-orm";
+import type {
+  CustomerTributeId,
+  IdentityDocumentTypeId,
+  OrganizationTypeId,
+} from "factus-js";
 import { db } from "@/db/drizzle";
 import { customers } from "@/db/schemas/customers";
 import { NotFoundError } from "@/lib/elysia/errors";
@@ -5,12 +11,6 @@ import {
   createWorkspaceFilter,
   getActiveCredentialsIdForUser,
 } from "@/lib/elysia/workspace";
-import { and, count, desc, ilike, inArray, or } from "drizzle-orm";
-import type {
-  CustomerTributeId,
-  IdentityDocumentTypeId,
-  OrganizationTypeId,
-} from "factus-js";
 
 // ─── Shared types ─────────────────────────────────────────────────────────────
 
@@ -69,13 +69,13 @@ const buildFilter = createWorkspaceFilter(customers);
 
 // ─── Service ─────────────────────────────────────────────────────────────────
 
-export class CustomerService {
+export const CustomerService = {
   /**
    * Returns a paginated + searchable list of customers scoped to the active
    * workspace (userId + credentialsId). NULL credentialsId = Akina Sandbox.
    * Search matches against name OR identification (case-insensitive).
    */
-  static async list(
+  async list(
     userId: string,
     options: { search?: string; page?: number; limit?: number },
   ): Promise<CustomerListResult> {
@@ -128,13 +128,13 @@ export class CustomerService {
       page,
       limit,
     };
-  }
+  },
 
   /**
    * Creates a new customer under the active workspace.
    * credentialsId = null when on the Akina Sandbox.
    */
-  static async create(userId: string, data: CustomerInput): Promise<void> {
+  async create(userId: string, data: CustomerInput): Promise<void> {
     const credentialsId = await getActiveCredentialsIdForUser(userId);
 
     await db.insert(customers).values({
@@ -152,13 +152,13 @@ export class CustomerService {
       phone: data.phone,
       municipalityId: data.municipalityId,
     });
-  }
+  },
 
   /**
    * Returns the full detail of a single customer.
    * Scoped to userId + active credentialsId — throws 404 if not found or not owned.
    */
-  static async get(userId: string, id: string): Promise<CustomerDetailResult> {
+  async get(userId: string, id: string): Promise<CustomerDetailResult> {
     const credentialsId = await getActiveCredentialsIdForUser(userId);
 
     const row = await db.query.customers.findFirst({
@@ -185,17 +185,13 @@ export class CustomerService {
       createdAt: row.createdAt.toISOString(),
       updatedAt: row.updatedAt.toISOString(),
     };
-  }
+  },
 
   /**
    * Updates an existing customer.
    * Scoped to userId + active credentialsId — throws 404 if not found or not owned.
    */
-  static async update(
-    userId: string,
-    id: string,
-    data: CustomerInput,
-  ): Promise<void> {
+  async update(userId: string, id: string, data: CustomerInput): Promise<void> {
     const credentialsId = await getActiveCredentialsIdForUser(userId);
     const filter = buildFilter(userId, credentialsId, id);
 
@@ -225,14 +221,14 @@ export class CustomerService {
         updatedAt: new Date(),
       })
       .where(filter);
-  }
+  },
 
   /**
    * Deletes multiple or a single customer.
    * Scoped to userId + active credentialsId — only deletes rows the user owns.
    * Returns the number of rows actually deleted.
    */
-  static async delete(userId: string, ids: string[]): Promise<number> {
+  async delete(userId: string, ids: string[]): Promise<number> {
     if (ids.length === 0) return 0;
 
     const credentialsId = await getActiveCredentialsIdForUser(userId);
@@ -243,5 +239,5 @@ export class CustomerService {
       .where(and(baseFilter, inArray(customers.id, ids)));
 
     return result.rowCount ?? 0;
-  }
-}
+  },
+};

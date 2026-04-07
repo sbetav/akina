@@ -1,5 +1,8 @@
 "use client";
 
+import { ArrowRightIcon } from "lucide-react";
+import Link from "next/link";
+import type { FC } from "react";
 import {
   PageHeader,
   PageHeaderActions,
@@ -19,9 +22,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useCredentialsContext } from "@/contexts/credentials-context";
 import useHasPendingQueries from "@/hooks/ui/use-pending-queries";
 import { NUMBERING_RANGES_QUERY_KEY } from "@/lib/query-keys";
-import { ArrowRightIcon } from "lucide-react";
-import Link from "next/link";
-import { FC } from "react";
 
 const CREDENTIALS_HREF = "/dashboard/settings/factus";
 

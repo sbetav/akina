@@ -1,6 +1,20 @@
 "use client";
 
 import {
+  CustomerTributeId,
+  CustomerTributeIdInfo,
+  OrganizationTypeId,
+  OrganizationTypeIdInfo,
+} from "factus-js";
+import {
+  Building2Icon,
+  LandmarkIcon,
+  ScaleIcon,
+  StoreIcon,
+  UserIcon,
+} from "lucide-react";
+import { type Control, Controller } from "react-hook-form";
+import {
   Field,
   FieldError,
   FieldGroup,
@@ -21,21 +35,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CustomerFormValues } from "@/lib/validations/customer";
-import {
-  CustomerTributeId,
-  CustomerTributeIdInfo,
-  OrganizationTypeId,
-  OrganizationTypeIdInfo,
-} from "factus-js";
-import {
-  Building2Icon,
-  LandmarkIcon,
-  ScaleIcon,
-  StoreIcon,
-  UserIcon,
-} from "lucide-react";
-import { Control, Controller } from "react-hook-form";
+import type { CustomerFormValues } from "@/lib/validations/customer";
 
 const organizationTypes = Object.values(OrganizationTypeId);
 const customerTributes = Object.values(CustomerTributeId);

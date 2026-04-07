@@ -1,5 +1,18 @@
 "use client";
 
+import {
+  type MutateOptions,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import {
+  createContext,
+  type ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { toast } from "@/components/ui/toast";
 import { credentialsListQueryOptions } from "@/hooks/factus/credentials-query-options";
 import { AKINA_SANDBOX_ID } from "@/lib/constants";
@@ -9,24 +22,11 @@ import {
 } from "@/lib/cross-tab-sync";
 import { api } from "@/lib/elysia/eden";
 import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
-import { CredentialListItem } from "@/lib/elysia/modules/factus/service";
+import type { CredentialListItem } from "@/lib/elysia/modules/factus/service";
 import {
   CREDENTIAL_DEPENDENT_KEYS,
   CREDENTIALS_QUERY_KEY,
 } from "@/lib/query-keys";
-import {
-  type MutateOptions,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 

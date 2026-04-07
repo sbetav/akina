@@ -1,5 +1,10 @@
 "use client";
 
+import type { Municipality } from "factus-js";
+import { MailIcon, MapPinHouseIcon, MapPinIcon, PhoneIcon } from "lucide-react";
+import { useRef } from "react";
+import { type Control, Controller } from "react-hook-form";
+import PhoneInput from "react-phone-number-input/input";
 import {
   Combobox,
   ComboboxContent,
@@ -19,15 +24,10 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { CustomerFormValues } from "@/lib/validations/customer";
-import { Municipality } from "factus-js";
-import { MailIcon, MapPinHouseIcon, MapPinIcon, PhoneIcon } from "lucide-react";
-import { useRef } from "react";
-import { Control, Controller } from "react-hook-form";
-import PhoneInput from "react-phone-number-input/input";
+import type { CustomerFormValues } from "@/lib/validations/customer";
 import {
-  VirtualizedMunicipalityList,
   type MunicipalityVirtualizer,
+  VirtualizedMunicipalityList,
 } from "./virtualized-municipality-list";
 
 interface ContactFieldSetProps {

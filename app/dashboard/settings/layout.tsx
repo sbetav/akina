@@ -1,14 +1,5 @@
 "use client";
 
-import BackButton from "@/components/back-button";
-import DashboardCard from "@/components/dashboard/dashboard-card";
-import {
-  PageHeader,
-  PageHeaderContent,
-  PageHeaderDescription,
-  PageHeaderTitle,
-} from "@/components/dashboard/page-header";
-import { cn } from "@/lib/utils";
 import {
   BriefcaseBusinessIcon,
   ChevronDownIcon,
@@ -19,7 +10,16 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FC, ReactNode, useState } from "react";
+import { type FC, type ReactNode, useState } from "react";
+import BackButton from "@/components/back-button";
+import DashboardCard from "@/components/dashboard/dashboard-card";
+import {
+  PageHeader,
+  PageHeaderContent,
+  PageHeaderDescription,
+  PageHeaderTitle,
+} from "@/components/dashboard/page-header";
+import { cn } from "@/lib/utils";
 
 interface LayoutProps {
   children: ReactNode;
@@ -68,6 +68,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
     <>
       {/* Backdrop — closes nav when clicking outside, fades in/out */}
       <div
+        role="button"
         onClick={() => setIsNavOpen(false)}
         className={cn(
           "fixed inset-0 z-20 brightness-50 backdrop-blur-sm transition-opacity duration-300 lg:hidden",
@@ -108,7 +109,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
         >
           <div className="overflow-hidden">
             <div className="border-b px-3 py-2">
-              {links.map((link, index) => {
+              {links.map((link) => {
                 const Icon = link.icon;
                 const isSettings = link.href === "/dashboard/settings";
                 const isActive = isSettings
@@ -117,7 +118,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
                 return (
                   <Link
                     type="button"
-                    key={index}
+                    key={link.href}
                     href={link.href}
                     onClick={() => setIsNavOpen(false)}
                     className={cn(
@@ -152,7 +153,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
           {/* Desktop sidebar */}
           <aside className="bg-popover/50 hidden h-fit w-full max-w-64 border p-1 lg:block">
             <div className="space-y-1">
-              {links.map((link, index) => {
+              {links.map((link) => {
                 const Icon = link.icon;
                 const isSettings = link.href === "/dashboard/settings";
                 const isActive = isSettings
@@ -160,7 +161,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
                   : pathname.startsWith(link.href);
                 return (
                   <Link
-                    key={index}
+                    key={link.href}
                     href={link.href}
                     onClick={() => setIsNavOpen(false)}
                     className={cn(

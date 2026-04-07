@@ -1,4 +1,4 @@
-import { authClient } from "@/lib/auth/client";
+import type { authClient } from "@/lib/auth/client";
 
 export const AUTH_COOKIE_PREFIX = "akina";
 

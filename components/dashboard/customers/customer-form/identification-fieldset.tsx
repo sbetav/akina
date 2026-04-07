@@ -1,5 +1,8 @@
 "use client";
 
+import { IdentityDocumentTypeId, IdentityDocumentTypeIdInfo } from "factus-js";
+import { HashIcon, ScrollTextIcon } from "lucide-react";
+import { type Control, Controller } from "react-hook-form";
 import {
   Field,
   FieldError,
@@ -22,10 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
-import { CustomerFormValues } from "@/lib/validations/customer";
-import { IdentityDocumentTypeId, IdentityDocumentTypeIdInfo } from "factus-js";
-import { HashIcon, ScrollTextIcon } from "lucide-react";
-import { Control, Controller } from "react-hook-form";
+import type { CustomerFormValues } from "@/lib/validations/customer";
 
 const identityDocumentTypes = Object.values(IdentityDocumentTypeId);
 

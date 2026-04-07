@@ -1,11 +1,11 @@
-import { db } from "@/db/drizzle";
-import { authSchema } from "@/db/schemas/auth-schema";
 import { render } from "@react-email/components";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { twoFactor } from "better-auth/plugins";
 import { after } from "next/server";
+import { db } from "@/db/drizzle";
+import { authSchema } from "@/db/schemas/auth-schema";
 import PasswordResetEmail from "../../emails/password-reset";
 import VerificationEmail from "../../emails/verification";
 import { env } from "../env";

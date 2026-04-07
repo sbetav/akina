@@ -1,5 +1,6 @@
 "use client";
 
+import type { FC } from "react";
 import BackButton from "@/components/back-button";
 import {
   PageHeader,
@@ -8,7 +9,6 @@ import {
   PageHeaderTitle,
 } from "@/components/dashboard/page-header";
 import CredentialsForm from "@/components/dashboard/settings/factus/credentials-form";
-import { FC } from "react";
 
 const Page: FC = () => {
   return (

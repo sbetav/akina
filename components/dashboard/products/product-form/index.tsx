@@ -1,24 +1,24 @@
 "use client";
 
+import { useRouter } from "@bprogress/next";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { MeasurementUnit, Tribute } from "factus-js";
+import { SaveIcon } from "lucide-react";
+import type { FC } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
 import { useGoBack } from "@/hooks/ui/use-go-back";
 import { api } from "@/lib/elysia/eden";
 import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
-import { ProductDetailResult } from "@/lib/elysia/modules/products/service";
+import type { ProductDetailResult } from "@/lib/elysia/modules/products/service";
 import { PRODUCTS_QUERY_KEY } from "@/lib/query-keys";
 import {
-  ProductFormValues,
+  type ProductFormValues,
   productFormSchema,
 } from "@/lib/validations/product";
-import { useRouter } from "@bprogress/next";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { MeasurementUnit, Tribute } from "factus-js";
-import { SaveIcon } from "lucide-react";
-import { FC } from "react";
-import { FormProvider, useForm } from "react-hook-form";
 import DashboardCard from "../../dashboard-card";
 import { CatalogFieldSet } from "./catalog-fieldset";
 import { DetailsFieldSet } from "./details-fieldset";

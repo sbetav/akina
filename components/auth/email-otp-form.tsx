@@ -1,9 +1,12 @@
 "use client";
 
-import { EmailOtpFormValues, emailOtpFormSchema } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FC, useCallback, useEffect, useState } from "react";
+import { type FC, useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import {
+  type EmailOtpFormValues,
+  emailOtpFormSchema,
+} from "@/lib/validations/auth";
 import { Button } from "../ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 
@@ -50,7 +53,7 @@ const EmailOtpForm: FC<EmailOtpFormProps> = ({ onResend }) => {
               <InputOTPGroup>
                 {Array.from({ length: 6 }).map((_, i) => (
                   <InputOTPSlot
-                    key={i}
+                    key={field.name}
                     index={i}
                     aria-invalid={fieldState.invalid}
                   />

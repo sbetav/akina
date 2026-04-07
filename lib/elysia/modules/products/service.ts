@@ -1,14 +1,14 @@
+import { and, count, desc, eq, ilike, inArray, or } from "drizzle-orm";
+import type { ProductStandardId } from "factus-js";
 import { db } from "@/db/drizzle";
 import { products } from "@/db/schemas/products";
-import { type ProductType } from "@/lib/constants";
+import type { ProductType } from "@/lib/constants";
 import { NotFoundError, UnprocessableEntityError } from "@/lib/elysia/errors";
 import {
   createWorkspaceFilter,
   getActiveCredentialsIdForUser,
 } from "@/lib/elysia/workspace";
 import { formatRef } from "@/lib/utils";
-import { and, count, desc, eq, ilike, inArray, or } from "drizzle-orm";
-import { type ProductStandardId } from "factus-js";
 
 // ─── Shared types ─────────────────────────────────────────────────────────────
 
@@ -68,13 +68,13 @@ const buildFilter = createWorkspaceFilter(products);
 
 // ─── Service ─────────────────────────────────────────────────────────────────
 
-export class ProductService {
+export const ProductService = {
   /**
    * Returns a paginated + searchable list of products scoped to the active
    * workspace (userId + credentialsId). NULL credentialsId = Akina Sandbox.
    * Search matches against name OR code (case-insensitive).
    */
-  static async list(
+  async list(
     userId: string,
     options: { search?: string; page?: number; limit?: number },
   ): Promise<ProductListResult> {
@@ -132,7 +132,7 @@ export class ProductService {
       page,
       limit,
     };
-  }
+  },
 
   /**
    * Creates a new product under the active workspace.
@@ -141,7 +141,7 @@ export class ProductService {
    * When no explicit code is passed, callers can pre-generate one via
    * `ProductService.nextCode(userId)`.
    */
-  static async create(userId: string, data: ProductInput): Promise<void> {
+  async create(userId: string, data: ProductInput): Promise<void> {
     const credentialsId = await getActiveCredentialsIdForUser(userId);
 
     const available = await ProductService.isCodeAvailable(userId, data.code);
@@ -165,13 +165,13 @@ export class ProductService {
       isExcluded: data.isExcluded,
       type: data.type,
     });
-  }
+  },
 
   /**
    * Returns the full detail of a single product.
    * Scoped to userId + active credentialsId — throws 404 if not found or not owned.
    */
-  static async get(userId: string, id: string): Promise<ProductDetailResult> {
+  async get(userId: string, id: string): Promise<ProductDetailResult> {
     const credentialsId = await getActiveCredentialsIdForUser(userId);
 
     const row = await db.query.products.findFirst({
@@ -197,18 +197,14 @@ export class ProductService {
       createdAt: row.createdAt.toISOString(),
       updatedAt: row.updatedAt.toISOString(),
     };
-  }
+  },
 
   /**
    * Updates an existing product.
    * Scoped to userId + active credentialsId — throws 404 if not found or not owned.
    * Throws on duplicate code collision with another product in the workspace.
    */
-  static async update(
-    userId: string,
-    id: string,
-    data: ProductInput,
-  ): Promise<void> {
+  async update(userId: string, id: string, data: ProductInput): Promise<void> {
     const credentialsId = await getActiveCredentialsIdForUser(userId);
     const filter = buildFilter(userId, credentialsId, id);
 
@@ -236,14 +232,14 @@ export class ProductService {
         updatedAt: new Date(),
       })
       .where(filter);
-  }
+  },
 
   /**
    * Deletes multiple or a single product.
    * Scoped to userId + active credentialsId — only deletes rows the user owns.
    * Returns the number of rows actually deleted.
    */
-  static async delete(userId: string, ids: string[]): Promise<number> {
+  async delete(userId: string, ids: string[]): Promise<number> {
     if (ids.length === 0) return 0;
 
     const credentialsId = await getActiveCredentialsIdForUser(userId);
@@ -254,7 +250,7 @@ export class ProductService {
       .where(and(baseFilter, inArray(products.id, ids)));
 
     return result.rowCount ?? 0;
-  }
+  },
 
   /**
    * Returns the next auto-generated product code for the active workspace.
@@ -264,7 +260,7 @@ export class ProductService {
    *
    * Exposed separately so the UI can pre-fill the code field before submission.
    */
-  static async nextCode(userId: string): Promise<string> {
+  async nextCode(userId: string): Promise<string> {
     const credentialsId = await getActiveCredentialsIdForUser(userId);
     const baseFilter = buildFilter(userId, credentialsId);
 
@@ -274,13 +270,13 @@ export class ProductService {
       .where(baseFilter);
 
     return formatRef("P", Number(total) + 1);
-  }
+  },
 
   /**
    * Checks whether a product code is available in the active workspace.
    * Availability is scoped by userId + active credentialsId.
    */
-  static async isCodeAvailable(userId: string, code: string): Promise<boolean> {
+  async isCodeAvailable(userId: string, code: string): Promise<boolean> {
     const credentialsId = await getActiveCredentialsIdForUser(userId);
     const baseFilter = buildFilter(userId, credentialsId);
     const normalizedCode = code.trim();
@@ -291,5 +287,5 @@ export class ProductService {
     });
 
     return !existing;
-  }
-}
+  },
+};

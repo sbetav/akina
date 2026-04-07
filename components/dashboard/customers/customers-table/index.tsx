@@ -1,5 +1,14 @@
 "use client";
 
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import {
+  getCoreRowModel,
+  type RowSelectionState,
+  useReactTable,
+} from "@tanstack/react-table";
+import { PlusIcon, SearchIcon, Trash2Icon, UsersIcon } from "lucide-react";
+import Link from "next/link";
+import { type FC, useState } from "react";
 import ErrorFallback from "@/components/error-fallback";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
@@ -24,15 +33,6 @@ import useDebounce from "@/hooks/ui/use-debounce";
 import { api } from "@/lib/elysia/eden";
 import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
 import { CUSTOMERS_QUERY_KEY, DEFAULT_CUSTOMERS_LIMIT } from "@/lib/query-keys";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import {
-  getCoreRowModel,
-  type RowSelectionState,
-  useReactTable,
-} from "@tanstack/react-table";
-import { PlusIcon, SearchIcon, Trash2Icon, UsersIcon } from "lucide-react";
-import Link from "next/link";
-import { FC, useState } from "react";
 import DeleteCustomerDialog from "../delete-customer-dialog";
 import { columns } from "./columns";
 

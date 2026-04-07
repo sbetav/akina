@@ -1,5 +1,11 @@
 "use client";
 
+import { useRouter } from "@bprogress/next";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { EyeIcon, EyeOffIcon, SaveIcon } from "lucide-react";
+import { type FC, useState } from "react";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,18 +29,12 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useGoBack } from "@/hooks/ui/use-go-back";
 import { api } from "@/lib/elysia/eden";
 import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
-import { CredentialDetailResult } from "@/lib/elysia/modules/factus/service";
+import type { CredentialDetailResult } from "@/lib/elysia/modules/factus/service";
 import { CREDENTIALS_QUERY_KEY } from "@/lib/query-keys";
 import {
+  type CredentialFormValues,
   credentialFormSchema,
-  CredentialFormValues,
 } from "@/lib/validations/custom-credentials";
-import { useRouter } from "@bprogress/next";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { EyeIcon, EyeOffIcon, SaveIcon } from "lucide-react";
-import { FC, useState } from "react";
-import { Controller, useForm, useWatch } from "react-hook-form";
 
 interface CredentialsFormProps {
   selectedCredential?: CredentialDetailResult;

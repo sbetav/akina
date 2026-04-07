@@ -1,5 +1,14 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  NumberingRangeDocumentTypeCode,
+  NumberingRangeDocumentTypeCodeInfo,
+} from "factus-js";
+import { PlusIcon, SaveIcon } from "lucide-react";
+import { type FC, useEffect, useState } from "react";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -32,19 +41,10 @@ import { api } from "@/lib/elysia/eden";
 import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
 import { NUMBERING_RANGES_QUERY_KEY } from "@/lib/query-keys";
 import {
-  NumberingRangeFormValues,
+  type NumberingRangeFormValues,
   numberingRangeSchema,
   requiresResolution,
 } from "@/lib/validations/numbering-ranges";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  NumberingRangeDocumentTypeCode,
-  NumberingRangeDocumentTypeCodeInfo,
-} from "factus-js";
-import { PlusIcon, SaveIcon } from "lucide-react";
-import { FC, useEffect, useState } from "react";
-import { Controller, useForm, useWatch } from "react-hook-form";
 
 const DOCUMENT_OPTIONS = Object.values(NumberingRangeDocumentTypeCode);
 

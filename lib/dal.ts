@@ -1,8 +1,8 @@
-import { auth } from "@/lib/auth/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 import { cache } from "react";
+import { auth } from "@/lib/auth/server";
 
 export type Session = typeof auth.$Infer.Session;
 export type SessionUser = typeof auth.$Infer.Session.user;

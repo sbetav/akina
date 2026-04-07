@@ -1,9 +1,9 @@
 "use client";
 
-import { useGoBack } from "@/hooks/ui/use-go-back";
 import { useRouter } from "@bprogress/next";
 import { ArrowLeftIcon } from "lucide-react";
 import type { FC } from "react";
+import { useGoBack } from "@/hooks/ui/use-go-back";
 import { Button } from "./ui/button";
 
 interface BackButtonProps {

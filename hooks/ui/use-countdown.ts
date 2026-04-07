@@ -16,9 +16,11 @@ export function useCountdown(initial: number = 0) {
     setTimeLeft(seconds);
 
     intervalRef.current = setInterval(() => {
-      const remaining = Math.round((deadlineRef.current! - Date.now()) / 1000);
+      const remaining = Math.round(
+        (deadlineRef.current ?? 0 - Date.now()) / 1000,
+      );
       if (remaining <= 0) {
-        clearInterval(intervalRef.current!);
+        clearInterval(intervalRef.current ?? 0);
         setTimeLeft(0);
       } else {
         setTimeLeft(remaining);

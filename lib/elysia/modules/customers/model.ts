@@ -1,10 +1,10 @@
-import { toElysiaEnum } from "@/lib/utils";
 import { t } from "elysia";
 import {
   CustomerTributeId,
   IdentityDocumentTypeId,
   OrganizationTypeId,
 } from "factus-js";
+import { toElysiaEnum } from "@/lib/utils";
 
 // ─── Request bodies ───────────────────────────────────────────────────────────
 

@@ -1,7 +1,7 @@
+import Link from "next/link";
+import type { FC } from "react";
 import LoginForm from "@/components/auth/login-form";
 import { buttonVariants } from "@/components/ui/button";
-import Link from "next/link";
-import { FC } from "react";
 
 const Page: FC = () => {
   return (

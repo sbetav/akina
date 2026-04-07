@@ -1,7 +1,7 @@
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/elysia/eden";
 import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
 import { NUMBERING_RANGES_QUERY_KEY } from "@/lib/query-keys";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 interface UseNumberingRangesQueryParams {
   page: number;

@@ -1,11 +1,5 @@
 "use client";
 
-import { useResendVerification } from "@/hooks/auth/use-resend-verification";
-import { useAnimatedEllipsis } from "@/hooks/ui/use-animated-ellipsis";
-import { authClient } from "@/lib/auth/client";
-import { getAuthErrorMessage } from "@/lib/auth/utils";
-import { publishCrossTabSyncEvent } from "@/lib/cross-tab-sync";
-import { LoginFormValues, loginFormSchema } from "@/lib/validations/auth";
 import { useRouter } from "@bprogress/next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -17,8 +11,14 @@ import {
   MailIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { FC, useState } from "react";
+import { type FC, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
+import { useResendVerification } from "@/hooks/auth/use-resend-verification";
+import { useAnimatedEllipsis } from "@/hooks/ui/use-animated-ellipsis";
+import { authClient } from "@/lib/auth/client";
+import { getAuthErrorMessage } from "@/lib/auth/utils";
+import { publishCrossTabSyncEvent } from "@/lib/cross-tab-sync";
+import { type LoginFormValues, loginFormSchema } from "@/lib/validations/auth";
 import { Alert, AlertDescription } from "../ui/alert";
 import { Button, buttonVariants } from "../ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
@@ -150,7 +150,7 @@ const LoginForm: FC = () => {
         </div>
       </FieldGroup>
 
-      {data && data.error && (
+      {data?.error && (
         <Alert variant={missingVerification ? "warning" : "destructive"}>
           <AlertDescription>
             {getAuthErrorMessage(data.error.code)}{" "}

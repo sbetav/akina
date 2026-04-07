@@ -1,5 +1,9 @@
 "use client";
 
+import { Combobox as ComboboxPrimitive } from "@base-ui/react";
+import { useVirtualizer } from "@tanstack/react-virtual";
+import type { Municipality } from "factus-js";
+import { useCallback, useImperativeHandle, useRef } from "react";
 import { ComboboxItem, ComboboxList } from "@/components/ui/combobox";
 import {
   Item,
@@ -7,10 +11,6 @@ import {
   ItemDescription,
   ItemTitle,
 } from "@/components/ui/item";
-import { Combobox as ComboboxPrimitive } from "@base-ui/react";
-import { useVirtualizer } from "@tanstack/react-virtual";
-import { Municipality } from "factus-js";
-import { useCallback, useImperativeHandle, useRef } from "react";
 
 export type MunicipalityVirtualizer = ReturnType<
   typeof useVirtualizer<HTMLDivElement, Element>

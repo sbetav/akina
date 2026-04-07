@@ -1,5 +1,11 @@
 "use client";
 
+import {
+  ChevronFirstIcon,
+  ChevronLastIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -9,12 +15,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  ChevronFirstIcon,
-  ChevronLastIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "lucide-react";
 
 const ITEMS_PER_PAGE_OPTIONS = [10, 20, 30];
 
@@ -81,7 +81,7 @@ export function DataTableControls({
   const pageRange = getPageRange(page, pageCount);
 
   const handleLimitChange = (value: number | null) => {
-    if (value == null) return;
+    if (value === null) return;
     onLimitChange(value);
   };
 
@@ -114,10 +114,10 @@ export function DataTableControls({
           <ChevronLeftIcon />
         </Button>
 
-        {pageRange.map((p, i) =>
+        {pageRange.map((p) =>
           p === "..." ? (
             <span
-              key={`ellipsis-${i}`}
+              key={`ellipsis-${p.toString()}`}
               className="text-muted-foreground px-1 text-sm"
             >
               ...

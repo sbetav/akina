@@ -1,6 +1,7 @@
 export function Spinner(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
+      aria-label="Loading"
       xmlns="http://www.w3.org/2000/svg"
       width="16"
       height="16"

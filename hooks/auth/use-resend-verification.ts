@@ -1,8 +1,8 @@
+import { useMutation } from "@tanstack/react-query";
 import { toast } from "@/components/ui/toast";
 import { useCountdown } from "@/hooks/ui/use-countdown";
 import { authClient } from "@/lib/auth/client";
 import { getAuthErrorMessage } from "@/lib/auth/utils";
-import { useMutation } from "@tanstack/react-query";
 
 export function useResendVerification(
   email: string,

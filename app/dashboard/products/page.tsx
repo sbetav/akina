@@ -1,3 +1,7 @@
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { PlusIcon } from "lucide-react";
+import Link from "next/link";
+import type { FC } from "react";
 import {
   PageHeader,
   PageHeaderActions,
@@ -11,10 +15,6 @@ import { requireUser } from "@/lib/dal";
 import { ProductService } from "@/lib/elysia/modules/products/service";
 import { getQueryClient } from "@/lib/query-client";
 import { DEFAULT_PRODUCTS_LIMIT, PRODUCTS_QUERY_KEY } from "@/lib/query-keys";
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { PlusIcon } from "lucide-react";
-import Link from "next/link";
-import { FC } from "react";
 
 const Page: FC = async () => {
   const user = await requireUser();

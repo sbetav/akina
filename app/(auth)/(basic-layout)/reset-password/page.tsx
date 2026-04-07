@@ -1,6 +1,6 @@
-import ResetPasswordForm from "@/components/auth/reset-password-form";
 import { redirect } from "next/navigation";
-import { FC } from "react";
+import type { FC } from "react";
+import ResetPasswordForm from "@/components/auth/reset-password-form";
 
 interface PageProps {
   searchParams: Promise<{ token?: string; error?: string }>;

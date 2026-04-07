@@ -1,11 +1,5 @@
 "use client";
 
-import { authClient } from "@/lib/auth/client";
-import { getAuthErrorMessage } from "@/lib/auth/utils";
-import {
-  ResetPasswordFormValues,
-  resetPasswordFormSchema,
-} from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -17,8 +11,14 @@ import {
   ShieldCheckIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { FC, useState } from "react";
+import { type FC, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { authClient } from "@/lib/auth/client";
+import { getAuthErrorMessage } from "@/lib/auth/utils";
+import {
+  type ResetPasswordFormValues,
+  resetPasswordFormSchema,
+} from "@/lib/validations/auth";
 import { Alert, AlertDescription } from "../ui/alert";
 import { Button, buttonVariants } from "../ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";

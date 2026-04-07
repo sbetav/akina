@@ -1,8 +1,8 @@
+import type { Metadata } from "next";
+import { JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import Providers from "@/components/providers/providers";
 import { Toaster } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
-import type { Metadata } from "next";
-import { JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 const jetBrainsMono = JetBrains_Mono({

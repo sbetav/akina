@@ -1,8 +1,8 @@
+import { MailCheckIcon } from "lucide-react";
+import type { FC } from "react";
 import AuthFormCard from "@/components/auth/auth-form-card";
 import EmailOtpForm from "@/components/auth/email-otp-form";
 import BackButton from "@/components/back-button";
-import { MailCheckIcon } from "lucide-react";
-import { FC } from "react";
 
 const Page: FC = () => {
   return (

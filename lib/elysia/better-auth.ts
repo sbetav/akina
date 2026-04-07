@@ -1,5 +1,5 @@
-import { auth } from "@/lib/auth/server";
 import { Elysia } from "elysia";
+import { auth } from "@/lib/auth/server";
 
 /**
  * Shared Better Auth plugin with the `auth` macro.

@@ -1,5 +1,8 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+import { CheckIcon, LockIcon, ScanBarcode, TagIcon, XIcon } from "lucide-react";
+import { Controller, useFormContext, useWatch } from "react-hook-form";
 import {
   Field,
   FieldDescription,
@@ -19,10 +22,7 @@ import { Textarea } from "@/components/ui/textarea";
 import useDebounce from "@/hooks/ui/use-debounce";
 import { api } from "@/lib/elysia/eden";
 import { PRODUCTS_QUERY_KEY } from "@/lib/query-keys";
-import { ProductFormValues } from "@/lib/validations/product";
-import { useQuery } from "@tanstack/react-query";
-import { CheckIcon, LockIcon, ScanBarcode, TagIcon, XIcon } from "lucide-react";
-import { Controller, useFormContext, useWatch } from "react-hook-form";
+import type { ProductFormValues } from "@/lib/validations/product";
 
 interface DetailsFieldSetProps {
   editMode: boolean;

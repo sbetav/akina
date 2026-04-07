@@ -1,5 +1,12 @@
 "use client";
 
+import { useRouter } from "@bprogress/next";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { Municipality } from "factus-js";
+import { SaveIcon } from "lucide-react";
+import { type FC, useEffect } from "react";
+import { useForm, useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
@@ -8,19 +15,12 @@ import useDebounce from "@/hooks/ui/use-debounce";
 import { useGoBack } from "@/hooks/ui/use-go-back";
 import { api } from "@/lib/elysia/eden";
 import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
-import { CustomerDetailResult } from "@/lib/elysia/modules/customers";
+import type { CustomerDetailResult } from "@/lib/elysia/modules/customers";
 import { CUSTOMERS_QUERY_KEY } from "@/lib/query-keys";
 import {
-  CustomerFormValues,
+  type CustomerFormValues,
   customerFormSchema,
 } from "@/lib/validations/customer";
-import { useRouter } from "@bprogress/next";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Municipality } from "factus-js";
-import { SaveIcon } from "lucide-react";
-import { FC, useEffect } from "react";
-import { useForm, useWatch } from "react-hook-form";
 import DashboardCard from "../../dashboard-card";
 import { ContactFieldSet } from "./contact-fieldset";
 import { IdentificationFieldSet } from "./identification-fieldset";

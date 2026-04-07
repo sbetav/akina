@@ -1,7 +1,13 @@
 "use client";
 
+import type { ColumnDef } from "@tanstack/react-table";
+import type { VariantProps } from "class-variance-authority";
+import { IdentityDocumentTypeId, IdentityDocumentTypeIdInfo } from "factus-js";
+import { SquarePenIcon, Trash2Icon } from "lucide-react";
+import Link from "next/link";
+import { type FC, useState } from "react";
 import EllipsisIcon from "@/components/icons/ellipsis-icon";
-import { Badge, badgeVariants } from "@/components/ui/badge";
+import { Badge, type badgeVariants } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -11,14 +17,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { CustomerListItem } from "@/lib/elysia/modules/customers";
+import type { CustomerListItem } from "@/lib/elysia/modules/customers";
 import { formatDocumentNumber } from "@/lib/utils";
-import { ColumnDef } from "@tanstack/react-table";
-import { type VariantProps } from "class-variance-authority";
-import { IdentityDocumentTypeId, IdentityDocumentTypeIdInfo } from "factus-js";
-import { SquarePenIcon, Trash2Icon } from "lucide-react";
-import Link from "next/link";
-import { FC, useState } from "react";
 import DeleteCustomerDialog from "../delete-customer-dialog";
 
 const identityDocumentTypes = Object.values(IdentityDocumentTypeId);

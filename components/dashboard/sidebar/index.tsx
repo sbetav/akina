@@ -1,8 +1,5 @@
 "use client";
 
-import { AppLogo } from "@/components/ui/app-logo";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import type { User } from "better-auth";
 import {
   LayoutDashboardIcon,
@@ -15,6 +12,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { FC } from "react";
 import { useState } from "react";
+import { AppLogo } from "@/components/ui/app-logo";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import CredentialsDropdownMenu from "./credentials-dropdown-menu";
 import ProfileDropdownMenu from "./profile-dropdown-menu";
 

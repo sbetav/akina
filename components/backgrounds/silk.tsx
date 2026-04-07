@@ -1,8 +1,8 @@
 "use client";
 
-import useTabVisible from "@/hooks/ui/use-tab-visible";
-import { Canvas, RootState, useFrame, useThree } from "@react-three/fiber";
-import React, {
+import { Canvas, type RootState, useFrame, useThree } from "@react-three/fiber";
+import type React from "react";
+import {
   forwardRef,
   useEffect,
   useLayoutEffect,
@@ -10,7 +10,8 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Color, IUniform, Mesh, ShaderMaterial } from "three";
+import { Color, type IUniform, type Mesh, type ShaderMaterial } from "three";
+import useTabVisible from "@/hooks/ui/use-tab-visible";
 
 type NormalizedRGB = [number, number, number];
 

@@ -1,7 +1,12 @@
 "use client";
 
+import type { ColumnDef } from "@tanstack/react-table";
+import type { VariantProps } from "class-variance-authority";
+import { SquarePenIcon, Trash2Icon } from "lucide-react";
+import Link from "next/link";
+import { type FC, useState } from "react";
 import EllipsisIcon from "@/components/icons/ellipsis-icon";
-import { Badge, badgeVariants } from "@/components/ui/badge";
+import { Badge, type badgeVariants } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -11,13 +16,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ProductListItem } from "@/lib/elysia/modules/products/service";
+import type { ProductListItem } from "@/lib/elysia/modules/products/service";
 import { COP } from "@/lib/utils";
-import { ColumnDef } from "@tanstack/react-table";
-import { type VariantProps } from "class-variance-authority";
-import { SquarePenIcon, Trash2Icon } from "lucide-react";
-import Link from "next/link";
-import { FC, useState } from "react";
 import DeleteProductDialog from "../delete-product-dialog";
 
 const productTypePalette: Record<

@@ -1,6 +1,14 @@
 "use client";
 
 import {
+  type MeasurementUnit,
+  ProductStandardId,
+  ProductStandardIdInfo,
+  type Tribute,
+} from "factus-js";
+import { BarChart2Icon, BookOpenIcon, RulerIcon } from "lucide-react";
+import { type Control, Controller } from "react-hook-form";
+import {
   Field,
   FieldError,
   FieldGroup,
@@ -16,15 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ProductFormValues } from "@/lib/validations/product";
-import {
-  MeasurementUnit,
-  ProductStandardId,
-  ProductStandardIdInfo,
-  Tribute,
-} from "factus-js";
-import { BarChart2Icon, BookOpenIcon, RulerIcon } from "lucide-react";
-import { Control, Controller } from "react-hook-form";
+import type { ProductFormValues } from "@/lib/validations/product";
 
 const productStandards = Object.values(ProductStandardId);
 

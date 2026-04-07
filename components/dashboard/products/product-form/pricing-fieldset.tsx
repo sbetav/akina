@@ -1,5 +1,8 @@
 "use client";
 
+import { LayersIcon } from "lucide-react";
+import { useEffect } from "react";
+import { Controller, useFormContext, useWatch } from "react-hook-form";
 import {
   Field,
   FieldError,
@@ -18,10 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PRODUCT_TYPES } from "@/lib/constants";
-import { ProductFormValues } from "@/lib/validations/product";
-import { LayersIcon } from "lucide-react";
-import { useEffect } from "react";
-import { Controller, useFormContext, useWatch } from "react-hook-form";
+import type { ProductFormValues } from "@/lib/validations/product";
 
 const productTypeLabels: Record<string, string> = {
   product: "Producto",

@@ -1,9 +1,9 @@
 "use client";
 
-import { subscribeCrossTabSyncEvents } from "@/lib/cross-tab-sync";
 import { useRouter } from "@bprogress/next";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { subscribeCrossTabSyncEvents } from "@/lib/cross-tab-sync";
 
 export default function AuthSyncListener() {
   const router = useRouter();

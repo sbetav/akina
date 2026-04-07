@@ -1,3 +1,5 @@
+import { PlusIcon } from "lucide-react";
+import Link from "next/link";
 import {
   PageHeader,
   PageHeaderActions,
@@ -8,8 +10,6 @@ import {
 import CredentialsList from "@/components/dashboard/settings/factus/credentials-list";
 import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { PlusIcon } from "lucide-react";
-import Link from "next/link";
 
 export default function Page() {
   return (

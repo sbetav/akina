@@ -1,8 +1,8 @@
+import type { FC, ReactNode } from "react";
 import BackButton from "@/components/back-button";
 import Silk from "@/components/backgrounds/silk";
 import { AppLogo } from "@/components/ui/app-logo";
 import Container from "@/components/ui/container";
-import { FC, ReactNode } from "react";
 
 interface LayoutProps {
   children: ReactNode;

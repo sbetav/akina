@@ -1,5 +1,7 @@
 "use client";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { FC } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,10 +16,8 @@ import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
 import { api } from "@/lib/elysia/eden";
 import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
-import { ProductListItem } from "@/lib/elysia/modules/products/service";
+import type { ProductListItem } from "@/lib/elysia/modules/products/service";
 import { PRODUCTS_QUERY_KEY } from "@/lib/query-keys";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { FC } from "react";
 
 interface DeleteProductDialogProps {
   open: boolean;

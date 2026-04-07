@@ -1,4 +1,3 @@
-import { PRODUCT_TYPES } from "@/lib/constants";
 import { relations } from "drizzle-orm";
 import {
   boolean,
@@ -11,6 +10,7 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 import type { ProductStandardId } from "factus-js";
+import { PRODUCT_TYPES } from "@/lib/constants";
 import { user } from "./auth-schema";
 import { factusCredentials } from "./factus-credentials";
 

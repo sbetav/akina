@@ -1,8 +1,8 @@
+import { Elysia, t } from "elysia";
 import { AKINA_SANDBOX_ID } from "@/lib/constants";
 import { betterAuth } from "@/lib/elysia/better-auth";
 import { ForbiddenError } from "@/lib/elysia/errors";
 import { isUsingSharedAkinaSandbox } from "@/lib/factus";
-import { Elysia, t } from "elysia";
 import {
   AcquirerQuery,
   AcquirerResponse,

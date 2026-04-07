@@ -1,11 +1,5 @@
 "use client";
 
-import { authClient } from "@/lib/auth/client";
-import { getAuthErrorMessage } from "@/lib/auth/utils";
-import {
-  ForgotPasswordFormValues,
-  forgotPasswordFormSchema,
-} from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -16,8 +10,14 @@ import {
   SendIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { FC } from "react";
+import type { FC } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { authClient } from "@/lib/auth/client";
+import { getAuthErrorMessage } from "@/lib/auth/utils";
+import {
+  type ForgotPasswordFormValues,
+  forgotPasswordFormSchema,
+} from "@/lib/validations/auth";
 import BackButton from "../back-button";
 import { Alert, AlertDescription } from "../ui/alert";
 import { Button, buttonVariants } from "../ui/button";

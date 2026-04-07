@@ -1,5 +1,5 @@
+import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
 import { env } from "@/lib/env";
-import { createCipheriv, createDecipheriv, randomBytes } from "crypto";
 
 function getKey(): Buffer {
   return Buffer.from(env.ENCRYPTION_KEY, "hex");

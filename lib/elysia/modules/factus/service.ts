@@ -1,16 +1,16 @@
+import { and, asc, eq } from "drizzle-orm";
+import {
+  FactusClient,
+  FactusError,
+  type IdentityDocumentTypeId,
+  type NumberingRangeDocumentTypeCode,
+} from "factus-js";
 import { db } from "@/db/drizzle";
 import { factusCredentials } from "@/db/schemas/factus-credentials";
 import { AKINA_SANDBOX_ID, type FactusEnvironment } from "@/lib/constants";
 import { decrypt, encrypt } from "@/lib/crypto";
 import { NotFoundError, UnprocessableEntityError } from "@/lib/elysia/errors";
 import { getFactusClientForUser } from "@/lib/factus";
-import { and, asc, eq } from "drizzle-orm";
-import {
-  FactusClient,
-  FactusError,
-  IdentityDocumentTypeId,
-  type NumberingRangeDocumentTypeCode,
-} from "factus-js";
 
 // ─── Input types ──────────────────────────────────────────────────────────────
 
@@ -172,12 +172,12 @@ function normalizeNumberingRange(range: {
 
 // ─── Service ─────────────────────────────────────────────────────────────────
 
-export class FactusService {
+export const FactusService = {
   /**
    * List all credential sets for a user, each with a live validity check
    * (run in parallel). Invalid credentials are sorted to the end.
    */
-  static async listCredentials(userId: string): Promise<CredentialListItem[]> {
+  async listCredentials(userId: string): Promise<CredentialListItem[]> {
     const rows = await db.query.factusCredentials.findMany({
       where: eq(factusCredentials.userId, userId),
       orderBy: [asc(factusCredentials.createdAt)],
@@ -231,13 +231,13 @@ export class FactusService {
     };
 
     return [sandbox, ...validated];
-  }
+  },
 
   /**
    * Get a single credential set with decrypted secrets (for edit prefill).
    * Includes a live validity check. Throws if the credential doesn't belong to the user.
    */
-  static async getCredential(
+  async getCredential(
     userId: string,
     id: string,
   ): Promise<CredentialDetailResult> {
@@ -287,14 +287,14 @@ export class FactusService {
       isActive: row.isActive,
       isValid,
     };
-  }
+  },
 
   /**
    * Validate + create a new credential set.
    * If this is the user's first credential, it is automatically set as active.
    * Throws if credentials are invalid.
    */
-  static async createCredential(input: CredentialInput): Promise<void> {
+  async createCredential(input: CredentialInput): Promise<void> {
     const {
       userId,
       name,
@@ -351,13 +351,13 @@ export class FactusService {
       environment,
       isActive: false,
     });
-  }
+  },
 
   /**
    * Validate + update an existing credential set.
    * Throws if the credential doesn't belong to the user or if credentials are invalid.
    */
-  static async updateCredential(
+  async updateCredential(
     userId: string,
     id: string,
     input: Omit<CredentialInput, "userId">,
@@ -406,14 +406,14 @@ export class FactusService {
       .where(
         and(eq(factusCredentials.id, id), eq(factusCredentials.userId, userId)),
       );
-  }
+  },
 
   /**
    * Delete a credential set. If it was the active one, no automatic fallback
    * is set — the user will fall back to Akina Sandbox on next use.
    * Throws if the credential doesn't belong to the user.
    */
-  static async deleteCredential(userId: string, id: string): Promise<void> {
+  async deleteCredential(userId: string, id: string): Promise<void> {
     const row = await db.query.factusCredentials.findFirst({
       where: and(
         eq(factusCredentials.id, id),
@@ -430,16 +430,13 @@ export class FactusService {
       .where(
         and(eq(factusCredentials.id, id), eq(factusCredentials.userId, userId)),
       );
-  }
+  },
 
   /**
    * Set a credential as active (deactivates all others for the user).
    * Pass id = null to deactivate all (revert to Akina Sandbox).
    */
-  static async setActiveCredential(
-    userId: string,
-    id: string | null,
-  ): Promise<void> {
+  async setActiveCredential(userId: string, id: string | null): Promise<void> {
     // Deactivate all for this user first
     await db
       .update(factusCredentials)
@@ -468,10 +465,10 @@ export class FactusService {
           ),
         );
     }
-  }
+  },
 
   /** Get municipalities from the current user's active Factus client. */
-  static async getMunicipalities(
+  async getMunicipalities(
     userId: string,
     name?: string,
   ): Promise<{ id: number; code: string; name: string; department: string }[]> {
@@ -488,10 +485,10 @@ export class FactusService {
         department: m.department,
       }),
     );
-  }
+  },
 
   /** Get an acquirer by document type + number. */
-  static async getAcquirer(
+  async getAcquirer(
     userId: string,
     identificationDocumentId: IdentityDocumentTypeId,
     identificationNumber: string,
@@ -512,10 +509,10 @@ export class FactusService {
 
       throw error;
     }
-  }
+  },
 
   /** Get measurement units from the current user's active Factus client. */
-  static async getMeasurementUnits(
+  async getMeasurementUnits(
     userId: string,
   ): Promise<{ id: number; code: string; name: string }[]> {
     const client = await getFactusClientForUser(userId);
@@ -525,10 +522,10 @@ export class FactusService {
       code: u.code,
       name: u.name,
     }));
-  }
+  },
 
   /** Get product tributes from the current user's active Factus client. */
-  static async getTributes(
+  async getTributes(
     userId: string,
   ): Promise<
     { id: number; code: string; name: string; description: string }[]
@@ -543,10 +540,10 @@ export class FactusService {
         description: t.description,
       }),
     );
-  }
+  },
 
   /** List numbering ranges from the current user's active Factus client. */
-  static async listNumberingRanges(
+  async listNumberingRanges(
     userId: string,
     query: NumberingRangeListQueryInput,
   ): Promise<NumberingRangeListResult> {
@@ -573,10 +570,10 @@ export class FactusService {
       page,
       limit,
     };
-  }
+  },
 
   /** Create a numbering range in the current user's active Factus client. */
-  static async createNumberingRange(
+  async createNumberingRange(
     userId: string,
     input: NumberingRangeCreateInput,
   ): Promise<NumberingRangeItemResult> {
@@ -590,16 +587,16 @@ export class FactusService {
     });
 
     return normalizeNumberingRange(res.data);
-  }
+  },
 
   /** Delete a numbering range by id in the current user's active Factus client. */
-  static async deleteNumberingRange(userId: string, id: number): Promise<void> {
+  async deleteNumberingRange(userId: string, id: number): Promise<void> {
     const client = await getFactusClientForUser(userId);
     await client.numberingRanges.delete(id);
-  }
+  },
 
   /** Update numbering range current consecutive number by id. */
-  static async updateNumberingRangeCurrent(
+  async updateNumberingRangeCurrent(
     userId: string,
     id: number,
     current: number,
@@ -607,5 +604,5 @@ export class FactusService {
     const client = await getFactusClientForUser(userId);
     const res = await client.numberingRanges.updateCurrent(id, { current });
     return normalizeNumberingRange(res.data);
-  }
-}
+  },
+};

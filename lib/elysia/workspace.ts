@@ -1,7 +1,7 @@
-import { db } from "@/db/drizzle";
-import { factusCredentials } from "@/db/schemas/factus-credentials";
 import { and, eq, isNull, type SQL } from "drizzle-orm";
 import type { PgColumn } from "drizzle-orm/pg-core";
+import { db } from "@/db/drizzle";
+import { factusCredentials } from "@/db/schemas/factus-credentials";
 
 /**
  * Resolves the active credentials_id for the given user.
@@ -60,18 +60,24 @@ interface WorkspaceScopedTable {
 export function createWorkspaceFilter<T extends WorkspaceScopedTable>(
   table: T,
 ) {
-  return function (
+  return (
     userId: string,
     credentialsId: string | null,
     rowId?: string,
-  ): SQL {
+  ): SQL => {
     const credFilter =
       credentialsId === null
         ? isNull(table.credentialsId)
         : eq(table.credentialsId, credentialsId);
 
-    return rowId
-      ? and(eq(table.id, rowId), eq(table.userId, userId), credFilter)!
-      : and(eq(table.userId, userId), credFilter)!;
+    const where = rowId
+      ? and(eq(table.id, rowId), eq(table.userId, userId), credFilter)
+      : and(eq(table.userId, userId), credFilter);
+
+    if (where === undefined) {
+      throw new Error("workspace filter: expected combined conditions");
+    }
+
+    return where;
   };
 }

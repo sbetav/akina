@@ -1,3 +1,5 @@
+import { notFound } from "next/navigation";
+import type { FC } from "react";
 import BackButton from "@/components/back-button";
 import {
   PageHeader,
@@ -8,9 +10,10 @@ import {
 import CredentialsForm from "@/components/dashboard/settings/factus/credentials-form";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { requireUser } from "@/lib/dal";
-import { FactusService } from "@/lib/elysia/modules/factus/service";
-import { notFound } from "next/navigation";
-import { FC } from "react";
+import {
+  type CredentialDetailResult,
+  FactusService,
+} from "@/lib/elysia/modules/factus/service";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -20,7 +23,7 @@ const Page: FC<PageProps> = async ({ params }) => {
   const { id } = await params;
   const user = await requireUser();
 
-  let credential;
+  let credential: CredentialDetailResult;
   try {
     credential = await FactusService.getCredential(user.id, id);
   } catch {

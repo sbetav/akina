@@ -6,7 +6,9 @@
     "dev": "node scripts/run.mjs dev",
     "build": "node scripts/run.mjs build",
     "start": "node scripts/run.mjs start",
-    "lint": "eslint",
+    "lint": "biome check .",
+    "lint:fix": "biome check . --write",
+    "format": "prettier --write .",
     "email": "email dev --dir emails --port 3001"
   },
   "dependencies": {
@@ -45,19 +47,15 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.4.10",
     "@react-email/preview-server": "5.2.10",
     "@tailwindcss/postcss": "4.2.2",
-    "@tanstack/eslint-plugin-query": "^5.95.2",
     "@types/node": "25.5.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@types/three": "^0.183.1",
     "drizzle-kit": "^0.31.10",
-    "eslint": "10.1.0",
-    "eslint-config-next": "16.2.1",
-    "eslint-plugin-react": "^7.37.5",
     "prettier": "^3.8.1",
-    "prettier-plugin-organize-imports": "4.3.0",
     "prettier-plugin-tailwindcss": "0.7.2",
     "tailwindcss": "4.2.2",
     "tsx": "^4.21.0",

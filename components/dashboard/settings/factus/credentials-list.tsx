@@ -1,38 +1,5 @@
 "use client";
 
-import EllipsisIcon from "@/components/icons/ellipsis-icon";
-import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Field,
-  FieldContent,
-  FieldDescription,
-  FieldLabel,
-  FieldTitle,
-} from "@/components/ui/field";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Skeleton } from "@/components/ui/skeleton";
-
-import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@/components/ui/empty";
-import { useCredentialsContext } from "@/contexts/credentials-context";
-import { AKINA_SANDBOX_ID } from "@/lib/constants";
-import { CredentialListItem } from "@/lib/elysia/modules/factus/service";
-import { cn } from "@/lib/utils";
 import { useRouter } from "@bprogress/next";
 import {
   AlertTriangleIcon,
@@ -43,7 +10,40 @@ import {
   Trash2Icon,
 } from "lucide-react";
 import Link from "next/link";
-import { FC, useMemo, useState } from "react";
+import { type FC, useMemo, useState } from "react";
+import EllipsisIcon from "@/components/icons/ellipsis-icon";
+import { Badge } from "@/components/ui/badge";
+import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldLabel,
+  FieldTitle,
+} from "@/components/ui/field";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useCredentialsContext } from "@/contexts/credentials-context";
+import { AKINA_SANDBOX_ID } from "@/lib/constants";
+import type { CredentialListItem } from "@/lib/elysia/modules/factus/service";
+import { cn } from "@/lib/utils";
 import DeleteCredentialsDialog from "./delete-credentials-dialog";
 
 const CredentialsList: FC = () => {
@@ -172,10 +172,12 @@ const CredentialsItem: FC<CredentialsItemProps> = ({
               <Badge
                 size="sm"
                 variant={
-                  credential.environment == "sandbox" ? "warning" : "info"
+                  credential.environment === "sandbox" ? "warning" : "info"
                 }
               >
-                {credential.environment == "sandbox" ? "Sandbox" : "Producción"}
+                {credential.environment === "sandbox"
+                  ? "Sandbox"
+                  : "Producción"}
               </Badge>
             </div>
             <FieldDescription className="line-clamp-2 text-ellipsis">
@@ -186,7 +188,7 @@ const CredentialsItem: FC<CredentialsItemProps> = ({
           </FieldContent>
         </Field>
       </FieldLabel>
-      {credential.id != AKINA_SANDBOX_ID && (
+      {credential.id !== AKINA_SANDBOX_ID && (
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
@@ -251,9 +253,9 @@ const InvalidCredentialItem: FC<InvalidCredentialItemProps> = ({
           </Badge>
           <Badge
             size="sm"
-            variant={credential.environment == "sandbox" ? "warning" : "info"}
+            variant={credential.environment === "sandbox" ? "warning" : "info"}
           >
-            {credential.environment == "sandbox" ? "Sandbox" : "Producción"}
+            {credential.environment === "sandbox" ? "Sandbox" : "Producción"}
           </Badge>
         </div>
         <p className="text-muted-foreground text-xs">

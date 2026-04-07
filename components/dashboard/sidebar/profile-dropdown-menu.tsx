@@ -1,5 +1,14 @@
 "use client";
 
+import type { User } from "better-auth";
+import {
+  ChevronDownIcon,
+  HeadsetIcon,
+  LogOutIcon,
+  SettingsIcon,
+} from "lucide-react";
+import Link from "next/link";
+import type { FC } from "react";
 import GitHubIcon from "@/components/icons/github-icon";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -12,15 +21,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Spinner } from "@/components/ui/spinner";
 import { useLogout } from "@/hooks/auth/use-logout";
-import { User } from "better-auth";
-import {
-  ChevronDownIcon,
-  HeadsetIcon,
-  LogOutIcon,
-  SettingsIcon,
-} from "lucide-react";
-import Link from "next/link";
-import { FC } from "react";
 
 interface ProfileDropdownMenuProps {
   user: User;
@@ -36,7 +36,10 @@ const ProfileDropdownMenu: FC<ProfileDropdownMenuProps> = ({
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <button className="group data-popup-open:bg-accent hover:bg-accent focus-effect relative mx-4 flex cursor-pointer items-center gap-3 px-2.5 py-2 transition">
+          <button
+            type="button"
+            className="group data-popup-open:bg-accent hover:bg-accent focus-effect relative mx-4 flex cursor-pointer items-center gap-3 px-2.5 py-2 transition"
+          >
             <Avatar size="lg">
               <AvatarFallback className="text-lg">
                 {user.name[0]}
