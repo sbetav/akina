@@ -29,7 +29,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { useActiveCredentials } from "@/hooks/factus/use-active-credentials";
+import { useCredentialsContext } from "@/contexts/credentials-context";
 import { AKINA_SANDBOX_ID } from "@/lib/constants";
 import { CredentialListItem } from "@/lib/elysia/modules/factus/service";
 import { cn } from "@/lib/utils";
@@ -49,13 +49,12 @@ import DeleteCredentialsDialog from "./delete-credentials-dialog";
 const CredentialsList: FC = () => {
   const {
     credentials,
-    isLoading,
+    loadingCredentials,
     activate,
     isActivating,
-    active,
-    uiSelectedCredentialId,
-    setUiSelectedCredentialId,
-  } = useActiveCredentials();
+    selectedCredentialId,
+    setSelectedCredentialId,
+  } = useCredentialsContext();
 
   const { validItems, invalidItems } = useMemo(() => {
     return {
@@ -64,7 +63,7 @@ const CredentialsList: FC = () => {
     };
   }, [credentials]);
 
-  if (isLoading) {
+  if (loadingCredentials) {
     return <Skeleton className="w-full flex-1" />;
   }
 
@@ -98,12 +97,12 @@ const CredentialsList: FC = () => {
       <div className="flex flex-1 flex-col gap-5">
         <Label>Seleccionar credenciales</Label>
         <RadioGroup
-          value={uiSelectedCredentialId ?? active?.id}
+          value={selectedCredentialId}
           onValueChange={(value) => {
-            const previousId = uiSelectedCredentialId ?? active?.id;
-            setUiSelectedCredentialId(value);
+            const previousId = selectedCredentialId;
+            setSelectedCredentialId(value);
             activate(value as string | typeof AKINA_SANDBOX_ID, {
-              onError: () => setUiSelectedCredentialId(previousId),
+              onError: () => setSelectedCredentialId(previousId),
             });
           }}
           disabled={isActivating}

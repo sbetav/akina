@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/input-group";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
+import { useCredentialsContext } from "@/contexts/credentials-context";
 import useDebounce from "@/hooks/ui/use-debounce";
 import { api } from "@/lib/elysia/eden";
 import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
@@ -36,6 +37,12 @@ import DeleteCustomerDialog from "../delete-customer-dialog";
 import { columns } from "./columns";
 
 export default function CustomersTable() {
+  const { active } = useCredentialsContext();
+
+  return <CustomersTableContent key={active?.id} />;
+}
+
+function CustomersTableContent() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(DEFAULT_CUSTOMERS_LIMIT);

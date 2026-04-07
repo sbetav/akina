@@ -3,6 +3,7 @@
 import { AppProgressProvider } from "@bprogress/next";
 
 import type { FC, ReactNode } from "react";
+import AuthSyncListener from "./auth-sync-listener";
 import QueryClientProvider from "./query-client-provider";
 
 interface ProvidersProps {
@@ -19,6 +20,7 @@ const Providers: FC<ProvidersProps> = ({ children }) => {
         shallowRouting
       >
         {children}
+        <AuthSyncListener />
       </AppProgressProvider>
     </QueryClientProvider>
   );

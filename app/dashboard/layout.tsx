@@ -1,5 +1,5 @@
 import SideBar from "@/components/dashboard/sidebar";
-import { ActiveCredentialsProvider } from "@/contexts/active-credentials-context";
+import { CredentialsContextProvider } from "@/contexts/credentials-context";
 import { requireUser } from "@/lib/dal";
 import { FactusService } from "@/lib/elysia/modules/factus/service";
 import { getQueryClient } from "@/lib/query-client";
@@ -26,7 +26,7 @@ const Layout = async ({ children }: LayoutProps) => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ActiveCredentialsProvider>
+      <CredentialsContextProvider>
         <div className="flex h-svh w-full">
           <SideBar user={user} />
           <main className="w-full flex-1 overflow-auto pt-16 lg:pt-0">
@@ -35,7 +35,7 @@ const Layout = async ({ children }: LayoutProps) => {
             </div>
           </main>
         </div>
-      </ActiveCredentialsProvider>
+      </CredentialsContextProvider>
     </HydrationBoundary>
   );
 };

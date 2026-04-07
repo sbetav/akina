@@ -16,9 +16,9 @@ import {
   AlertTitle,
 } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useActiveCredentials } from "@/hooks/factus/use-active-credentials";
+import { useCredentialsContext } from "@/contexts/credentials-context";
+import useHasPendingQueries from "@/hooks/ui/use-pending-queries";
 import { NUMBERING_RANGES_QUERY_KEY } from "@/lib/query-keys";
-import { useIsFetching } from "@tanstack/react-query";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 import { FC } from "react";
@@ -36,14 +36,11 @@ const CredentialsLink: FC = () => (
 );
 
 const Page: FC = () => {
-  const { isAkinaSandbox, isActivating } = useActiveCredentials();
+  const { isAkinaSandbox, isActivating } = useCredentialsContext();
 
-  const isFetchingRanges = useIsFetching({
-    queryKey: NUMBERING_RANGES_QUERY_KEY,
-    predicate: (query) => query.state.data === undefined,
-  });
+  const pendingRanges = useHasPendingQueries(NUMBERING_RANGES_QUERY_KEY);
 
-  const rangesBusy = isActivating || isFetchingRanges > 0;
+  const rangesBusy = isActivating || pendingRanges;
 
   return (
     <div className="flex min-h-full w-full flex-1 flex-col gap-6">

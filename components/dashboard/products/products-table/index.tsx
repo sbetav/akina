@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/input-group";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
+import { useCredentialsContext } from "@/contexts/credentials-context";
 import useDebounce from "@/hooks/ui/use-debounce";
 import { api } from "@/lib/elysia/eden";
 import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
@@ -36,6 +37,12 @@ import DeleteProductDialog from "../delete-product-dialog";
 import { columns } from "./columns";
 
 export default function ProductsTable() {
+  const { active } = useCredentialsContext();
+
+  return <ProductsTableContent key={active?.id} />;
+}
+
+function ProductsTableContent() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(DEFAULT_PRODUCTS_LIMIT);

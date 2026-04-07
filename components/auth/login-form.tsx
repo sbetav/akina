@@ -4,6 +4,7 @@ import { useResendVerification } from "@/hooks/auth/use-resend-verification";
 import { useAnimatedEllipsis } from "@/hooks/ui/use-animated-ellipsis";
 import { authClient } from "@/lib/auth/client";
 import { getAuthErrorMessage } from "@/lib/auth/utils";
+import { publishCrossTabSyncEvent } from "@/lib/cross-tab-sync";
 import { LoginFormValues, loginFormSchema } from "@/lib/validations/auth";
 import { useRouter } from "@bprogress/next";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -52,6 +53,7 @@ const LoginForm: FC = () => {
         },
         {
           onSuccess: () => {
+            publishCrossTabSyncEvent({ type: "login", at: Date.now() });
             router.replace("/dashboard");
           },
         },

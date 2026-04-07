@@ -19,7 +19,7 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useActiveCredentials } from "@/hooks/factus/use-active-credentials";
+import { useCredentialsContext } from "@/contexts/credentials-context";
 import { useNumberingRangesQuery } from "@/hooks/factus/use-numbering-ranges-query";
 import { NumberingRangeItemResult } from "@/lib/elysia/modules/factus/service";
 import { DEFAULT_NUMBERING_RANGES_LIMIT } from "@/lib/query-keys";
@@ -40,8 +40,23 @@ import DeleteNumberingRangeDialog from "./delete-numbering-range-dialog";
 import UpdateNumberingRangeDialog from "./update-numbering-range-dialog";
 
 const NumberingRangesList: FC = () => {
-  const { isAkinaSandbox } = useActiveCredentials();
+  const { active, isAkinaSandbox } = useCredentialsContext();
 
+  return (
+    <NumberingRangesListContent
+      key={active?.id}
+      isAkinaSandbox={isAkinaSandbox}
+    />
+  );
+};
+
+interface NumberingRangesListContentProps {
+  isAkinaSandbox: boolean;
+}
+
+const NumberingRangesListContent: FC<NumberingRangesListContentProps> = ({
+  isAkinaSandbox,
+}) => {
   const [page, setPage] = useState(1);
   const limit = DEFAULT_NUMBERING_RANGES_LIMIT;
 
@@ -176,7 +191,7 @@ const NumberingRangeItem: FC<NumberingRangeItemProps> = ({
   onDelete,
   onUpdateRange,
 }) => {
-  const { isAkinaSandbox } = useActiveCredentials();
+  const { isAkinaSandbox } = useCredentialsContext();
 
   const DETAILS_MAP = useMemo(() => {
     return [

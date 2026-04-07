@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
-import { useActiveCredentials } from "@/hooks/factus/use-active-credentials";
+import { useCredentialsContext } from "@/contexts/credentials-context";
 import { api } from "@/lib/elysia/eden";
 import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
 import { NUMBERING_RANGES_QUERY_KEY } from "@/lib/query-keys";
@@ -55,7 +55,7 @@ interface CreateNumberingRangeDialogProps {
 const CreateNumberingRangeDialog: FC<CreateNumberingRangeDialogProps> = ({
   isDisabled,
 }) => {
-  const { isAkinaSandbox } = useActiveCredentials();
+  const { isAkinaSandbox } = useCredentialsContext();
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
 
