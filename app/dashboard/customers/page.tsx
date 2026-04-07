@@ -11,8 +11,8 @@ import {
   PageHeaderTitle,
 } from "@/components/dashboard/page-header";
 import { buttonVariants } from "@/components/ui/button";
+import { CustomerService } from "@/elysia/modules/customers/service";
 import { requireUser } from "@/lib/dal";
-import { CustomerService } from "@/lib/elysia/modules/customers/service";
 import { getQueryClient } from "@/lib/query-client";
 import { CUSTOMERS_QUERY_KEY, DEFAULT_CUSTOMERS_LIMIT } from "@/lib/query-keys";
 

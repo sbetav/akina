@@ -37,8 +37,8 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
 import { useCredentialsContext } from "@/contexts/credentials-context";
-import { api } from "@/lib/elysia/eden";
-import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
+import { api } from "@/elysia/eden";
+import { getApiErrorMessage } from "@/elysia/get-api-error-message";
 import { NUMBERING_RANGES_QUERY_KEY } from "@/lib/query-keys";
 import {
   type NumberingRangeFormValues,

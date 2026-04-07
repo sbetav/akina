@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
-import { betterAuth } from "@/lib/elysia/better-auth";
-import { ApiError } from "@/lib/elysia/errors";
+import { betterAuth } from "@/elysia/better-auth";
+import { ApiError } from "@/elysia/errors";
 import { customersModule } from "./modules/customers";
 import { factusModule } from "./modules/factus";
 import { productsModule } from "./modules/products";

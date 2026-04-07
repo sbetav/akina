@@ -2,12 +2,12 @@ import { and, count, desc, eq, ilike, inArray, or } from "drizzle-orm";
 import type { ProductStandardId } from "factus-js";
 import { db } from "@/db/drizzle";
 import { products } from "@/db/schemas/products";
-import type { ProductType } from "@/lib/constants";
-import { NotFoundError, UnprocessableEntityError } from "@/lib/elysia/errors";
+import { NotFoundError, UnprocessableEntityError } from "@/elysia/errors";
 import {
   createWorkspaceFilter,
   getActiveCredentialsIdForUser,
-} from "@/lib/elysia/workspace";
+} from "@/elysia/workspace";
+import type { ProductType } from "@/lib/constants";
 import { formatRef } from "@/lib/utils";
 
 // ─── Shared types ─────────────────────────────────────────────────────────────

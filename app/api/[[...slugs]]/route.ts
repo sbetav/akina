@@ -1,4 +1,4 @@
-import { app } from "@/lib/elysia/app";
+import { app } from "@/elysia/app";
 
 const fetch = app.fetch;
 

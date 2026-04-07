@@ -32,8 +32,8 @@ import {
 } from "@/components/ui/empty";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCredentialsContext } from "@/contexts/credentials-context";
+import type { NumberingRangeItemResult } from "@/elysia/modules/factus/service";
 import { useNumberingRangesQuery } from "@/hooks/factus/use-numbering-ranges-query";
-import type { NumberingRangeItemResult } from "@/lib/elysia/modules/factus/service";
 import { DEFAULT_NUMBERING_RANGES_LIMIT } from "@/lib/query-keys";
 import CreateNumberingRangeDialog from "./create-numbering-range-dialog";
 import DeleteNumberingRangeDialog from "./delete-numbering-range-dialog";

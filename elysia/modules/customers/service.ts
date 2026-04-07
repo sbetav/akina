@@ -6,11 +6,11 @@ import type {
 } from "factus-js";
 import { db } from "@/db/drizzle";
 import { customers } from "@/db/schemas/customers";
-import { NotFoundError } from "@/lib/elysia/errors";
+import { NotFoundError } from "@/elysia/errors";
 import {
   createWorkspaceFilter,
   getActiveCredentialsIdForUser,
-} from "@/lib/elysia/workspace";
+} from "@/elysia/workspace";
 
 // ─── Shared types ─────────────────────────────────────────────────────────────
 

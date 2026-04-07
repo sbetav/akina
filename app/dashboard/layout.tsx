@@ -2,8 +2,8 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import SideBar from "@/components/dashboard/sidebar";
 import { CredentialsContextProvider } from "@/contexts/credentials-context";
+import { FactusService } from "@/elysia/modules/factus/service";
 import { requireUser } from "@/lib/dal";
-import { FactusService } from "@/lib/elysia/modules/factus/service";
 import { getQueryClient } from "@/lib/query-client";
 import { CREDENTIALS_QUERY_KEY } from "@/lib/query-keys";
 

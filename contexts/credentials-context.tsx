@@ -14,15 +14,15 @@ import {
   useState,
 } from "react";
 import { toast } from "@/components/ui/toast";
+import { api } from "@/elysia/eden";
+import { getApiErrorMessage } from "@/elysia/get-api-error-message";
+import type { CredentialListItem } from "@/elysia/modules/factus/service";
 import { credentialsListQueryOptions } from "@/hooks/factus/credentials-query-options";
 import { AKINA_SANDBOX_ID } from "@/lib/constants";
 import {
   publishCrossTabSyncEvent,
   subscribeCrossTabSyncEvents,
 } from "@/lib/cross-tab-sync";
-import { api } from "@/lib/elysia/eden";
-import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
-import type { CredentialListItem } from "@/lib/elysia/modules/factus/service";
 import {
   CREDENTIAL_DEPENDENT_KEYS,
   CREDENTIALS_QUERY_KEY,

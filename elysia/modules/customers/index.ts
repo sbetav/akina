@@ -1,5 +1,5 @@
 import { Elysia, t } from "elysia";
-import { betterAuth } from "@/lib/elysia/better-auth";
+import { betterAuth } from "@/elysia/better-auth";
 import {
   CustomerBody,
   CustomerDetail,

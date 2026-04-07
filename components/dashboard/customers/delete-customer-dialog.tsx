@@ -14,9 +14,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
-import { api } from "@/lib/elysia/eden";
-import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
-import type { CustomerListItem } from "@/lib/elysia/modules/customers";
+import { api } from "@/elysia/eden";
+import { getApiErrorMessage } from "@/elysia/get-api-error-message";
+import type { CustomerListItem } from "@/elysia/modules/customers";
 import { CUSTOMERS_QUERY_KEY } from "@/lib/query-keys";
 
 interface DeleteCustomerDialogProps {

@@ -9,11 +9,11 @@ import {
 } from "@/components/dashboard/page-header";
 import CredentialsForm from "@/components/dashboard/settings/factus/credentials-form";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { requireUser } from "@/lib/dal";
 import {
   type CredentialDetailResult,
   FactusService,
-} from "@/lib/elysia/modules/factus/service";
+} from "@/elysia/modules/factus/service";
+import { requireUser } from "@/lib/dal";
 
 interface PageProps {
   params: Promise<{ id: string }>;

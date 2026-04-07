@@ -1,5 +1,5 @@
-import { api } from "@/lib/elysia/eden";
-import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
+import { api } from "@/elysia/eden";
+import { getApiErrorMessage } from "@/elysia/get-api-error-message";
 import { CREDENTIALS_QUERY_KEY } from "@/lib/query-keys";
 
 export async function fetchCredentialsList() {

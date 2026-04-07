@@ -6,8 +6,8 @@ import {
   PageHeaderDescription,
   PageHeaderTitle,
 } from "@/components/dashboard/page-header";
+import { FactusService } from "@/elysia/modules/factus/service";
 import { requireUser } from "@/lib/dal";
-import { FactusService } from "@/lib/elysia/modules/factus/service";
 
 const Page = async () => {
   const user = await requireUser();

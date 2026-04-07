@@ -29,9 +29,9 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { useCredentialsContext } from "@/contexts/credentials-context";
+import { api } from "@/elysia/eden";
+import { getApiErrorMessage } from "@/elysia/get-api-error-message";
 import useDebounce from "@/hooks/ui/use-debounce";
-import { api } from "@/lib/elysia/eden";
-import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
 import { CUSTOMERS_QUERY_KEY, DEFAULT_CUSTOMERS_LIMIT } from "@/lib/query-keys";
 import DeleteCustomerDialog from "../delete-customer-dialog";
 import { columns } from "./columns";

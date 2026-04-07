@@ -8,12 +8,12 @@ import {
   PageHeaderTitle,
 } from "@/components/dashboard/page-header";
 import ProductForm from "@/components/dashboard/products/product-form";
-import { requireUser } from "@/lib/dal";
-import { FactusService } from "@/lib/elysia/modules/factus/service";
+import { FactusService } from "@/elysia/modules/factus/service";
 import {
   type ProductDetailResult,
   ProductService,
-} from "@/lib/elysia/modules/products/service";
+} from "@/elysia/modules/products/service";
+import { requireUser } from "@/lib/dal";
 
 interface PageProps {
   params: Promise<{ id: string }>;

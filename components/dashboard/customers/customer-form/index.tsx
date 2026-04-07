@@ -10,12 +10,12 @@ import { useForm, useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
+import { api } from "@/elysia/eden";
+import { getApiErrorMessage } from "@/elysia/get-api-error-message";
+import type { CustomerDetailResult } from "@/elysia/modules/customers";
 import { useSearchAcquirer } from "@/hooks/factus/use-search-acquirer";
 import useDebounce from "@/hooks/ui/use-debounce";
 import { useGoBack } from "@/hooks/ui/use-go-back";
-import { api } from "@/lib/elysia/eden";
-import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
-import type { CustomerDetailResult } from "@/lib/elysia/modules/customers";
 import { CUSTOMERS_QUERY_KEY } from "@/lib/query-keys";
 import {
   type CustomerFormValues,

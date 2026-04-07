@@ -10,10 +10,10 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
+import { api } from "@/elysia/eden";
+import { getApiErrorMessage } from "@/elysia/get-api-error-message";
+import type { ProductDetailResult } from "@/elysia/modules/products/service";
 import { useGoBack } from "@/hooks/ui/use-go-back";
-import { api } from "@/lib/elysia/eden";
-import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
-import type { ProductDetailResult } from "@/lib/elysia/modules/products/service";
 import { PRODUCTS_QUERY_KEY } from "@/lib/query-keys";
 import {
   type ProductFormValues,

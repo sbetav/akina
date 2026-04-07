@@ -7,9 +7,9 @@ import {
 } from "factus-js";
 import { db } from "@/db/drizzle";
 import { factusCredentials } from "@/db/schemas/factus-credentials";
+import { NotFoundError, UnprocessableEntityError } from "@/elysia/errors";
 import { AKINA_SANDBOX_ID, type FactusEnvironment } from "@/lib/constants";
 import { decrypt, encrypt } from "@/lib/crypto";
-import { NotFoundError, UnprocessableEntityError } from "@/lib/elysia/errors";
 import { getFactusClientForUser } from "@/lib/factus";
 
 // ─── Input types ──────────────────────────────────────────────────────────────

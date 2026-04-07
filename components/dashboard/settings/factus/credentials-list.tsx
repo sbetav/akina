@@ -21,7 +21,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 import {
   Empty,
   EmptyContent,
@@ -41,8 +40,8 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCredentialsContext } from "@/contexts/credentials-context";
+import type { CredentialListItem } from "@/elysia/modules/factus/service";
 import { AKINA_SANDBOX_ID } from "@/lib/constants";
-import type { CredentialListItem } from "@/lib/elysia/modules/factus/service";
 import { cn } from "@/lib/utils";
 import DeleteCredentialsDialog from "./delete-credentials-dialog";
 

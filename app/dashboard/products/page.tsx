@@ -11,8 +11,8 @@ import {
 } from "@/components/dashboard/page-header";
 import ProductsTable from "@/components/dashboard/products/products-table";
 import { buttonVariants } from "@/components/ui/button";
+import { ProductService } from "@/elysia/modules/products/service";
 import { requireUser } from "@/lib/dal";
-import { ProductService } from "@/lib/elysia/modules/products/service";
 import { getQueryClient } from "@/lib/query-client";
 import { DEFAULT_PRODUCTS_LIMIT, PRODUCTS_QUERY_KEY } from "@/lib/query-keys";
 

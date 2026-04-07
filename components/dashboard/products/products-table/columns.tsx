@@ -16,7 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { ProductListItem } from "@/lib/elysia/modules/products/service";
+import type { ProductListItem } from "@/elysia/modules/products/service";
 import { COP } from "@/lib/utils";
 import DeleteProductDialog from "../delete-product-dialog";
 

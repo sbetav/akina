@@ -20,9 +20,9 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { NumberInput } from "@/components/ui/number-input";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
-import { api } from "@/lib/elysia/eden";
-import { getApiErrorMessage } from "@/lib/elysia/get-api-error-message";
-import type { NumberingRangeItemResult } from "@/lib/elysia/modules/factus/service";
+import { api } from "@/elysia/eden";
+import { getApiErrorMessage } from "@/elysia/get-api-error-message";
+import type { NumberingRangeItemResult } from "@/elysia/modules/factus/service";
 import { NUMBERING_RANGES_QUERY_KEY } from "@/lib/query-keys";
 
 interface UpdateNumberingRangeDialogProps {
