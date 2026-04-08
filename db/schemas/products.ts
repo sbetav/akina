@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   boolean,
   index,
@@ -6,7 +6,7 @@ import {
   pgTable,
   text,
   timestamp,
-  unique,
+  uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
 import type { ProductStandardId } from "factus-js";
@@ -97,12 +97,12 @@ export const products = pgTable(
       table.credentialsId,
       table.name,
     ),
-    // Unique code per workspace (userId + credentialsId)
-    unique("products_userId_credentialsId_code_unique").on(
-      table.userId,
-      table.credentialsId,
-      table.code,
-    ),
+    uniqueIndex("products_user_code_sandbox_unique")
+      .on(table.userId, table.code)
+      .where(sql`${table.credentialsId} is null`),
+    uniqueIndex("products_user_credentials_code_unique")
+      .on(table.userId, table.credentialsId, table.code)
+      .where(sql`${table.credentialsId} is not null`),
   ],
 );
 
