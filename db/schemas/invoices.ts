@@ -1,4 +1,4 @@
-import { relations, sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import {
   index,
   integer,
@@ -79,12 +79,7 @@ export const invoices = pgTable(
   (table) => [
     index("invoices_userId_idx").on(table.userId),
     index("invoices_credentialsId_idx").on(table.credentialsId),
-    uniqueIndex("invoices_user_referenceCode_sandbox_unique")
-      .on(table.userId, table.referenceCode)
-      .where(sql`${table.credentialsId} is null`),
-    uniqueIndex("invoices_user_credentials_referenceCode_unique")
-      .on(table.userId, table.credentialsId, table.referenceCode)
-      .where(sql`${table.credentialsId} is not null`),
+    uniqueIndex("invoices_referenceCode_unique").on(table.referenceCode),
   ],
 );
 

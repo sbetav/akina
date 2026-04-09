@@ -66,11 +66,6 @@ export const InvoiceItemBody = t.Object({
 });
 
 export const InvoiceCreateBody = t.Object({
-  /**
-   * Our internal reference code (e.g. "F-0001").
-   * Pre-populated from GET /api/invoices/next-reference-code, editable by the user.
-   */
-  referenceCode: t.String({ minLength: 1 }),
   /** Factus numbering range ID. Optional when there is only one active range. */
   numberingRangeId: t.Optional(t.Number({ minimum: 1 })),
   observation: t.Optional(t.String()),
@@ -88,7 +83,7 @@ export const InvoiceCreateBody = t.Object({
 // ─── Query params ─────────────────────────────────────────────────────────────
 
 export const InvoiceListQuery = t.Object({
-  /** Searches against customerName, referenceCode, and number. */
+  /** Searches against customerName and number. */
   search: t.Optional(t.String()),
   page: t.Optional(t.Numeric({ minimum: 1, default: 1 })),
   limit: t.Optional(t.Numeric({ minimum: 1, maximum: 100, default: 20 })),
@@ -103,7 +98,6 @@ export const InvoiceListQuery = t.Object({
 export const InvoiceRecord = t.Object({
   id: t.String(),
   number: t.String(),
-  referenceCode: t.String(),
   /** 0 = not validated (can be deleted), 1 = validated by DIAN. */
   status: t.Number(),
   customerName: t.String(),

@@ -99,6 +99,13 @@
       "when": 1775625857273,
       "tag": "0013_thankful_eddie_brock",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1775763310098,
+      "tag": "0014_wild_black_tarantula",
+      "breakpoints": true
     }
   ]
 }

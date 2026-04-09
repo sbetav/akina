@@ -1,4 +1,4 @@
-import { and, count, desc, eq, ilike, or } from "drizzle-orm";
+import { and, count, desc, ilike, or } from "drizzle-orm";
 import type {
   ApiResponse,
   BillListItem,
@@ -10,15 +10,15 @@ import type {
   ProductStandardId,
 } from "factus-js";
 import { FactusError } from "factus-js";
+import { ulid } from "ulid";
 import { db } from "@/db/drizzle";
 import { invoices } from "@/db/schemas/invoices";
-import { NotFoundError, UnprocessableEntityError } from "@/elysia/errors";
+import { NotFoundError } from "@/elysia/errors";
 import {
   createWorkspaceFilter,
   getActiveCredentialsIdForUser,
 } from "@/elysia/workspace";
 import { getFactusClientForUser } from "@/lib/factus";
-import { formatRef } from "@/lib/utils";
 
 // ─── Input types ──────────────────────────────────────────────────────────────
 
@@ -50,7 +50,6 @@ export interface InvoiceItemInput {
 }
 
 export interface InvoiceCreateInput {
-  referenceCode: string;
   numberingRangeId?: number;
   observation?: string;
   paymentForm?: PaymentFormCode;
@@ -72,7 +71,6 @@ export interface InvoiceListQueryInput {
 export interface InvoiceRecordResult {
   id: string;
   number: string;
-  referenceCode: string;
   status: number;
   customerName: string;
   customerIdentification: string;
@@ -122,7 +120,6 @@ function isFactusNotFoundError(error: unknown): boolean {
 function normalizeRow(row: {
   id: string;
   number: string;
-  referenceCode: string;
   status: number;
   customerName: string;
   customerIdentification: string;
@@ -133,7 +130,6 @@ function normalizeRow(row: {
   return {
     id: row.id,
     number: row.number,
-    referenceCode: row.referenceCode,
     status: row.status,
     customerName: row.customerName,
     customerIdentification: row.customerIdentification,
@@ -151,51 +147,16 @@ function toTaxRateString(rate: number): string {
   return (rate * 100).toFixed(2);
 }
 
+function generateInvoiceReferenceCode(): string {
+  return `AKN-${ulid()}`;
+}
+
 // ─── Service ─────────────────────────────────────────────────────────────────
 
 export const InvoiceService = {
   /**
-   * Returns the next auto-suggested reference code for the active workspace.
-   * Uses the count of existing invoices as a sequence seed — equivalent to
-   * the `ProductService.nextCode` pattern.
-   *
-   * Exposed via GET /api/invoices/next-reference-code so the UI can
-   * pre-fill the field before submission.
-   */
-  async nextReferenceCode(userId: string): Promise<string> {
-    const credentialsId = await getActiveCredentialsIdForUser(userId);
-    const baseFilter = buildFilter(userId, credentialsId);
-
-    const [{ value: total }] = await db
-      .select({ value: count() })
-      .from(invoices)
-      .where(baseFilter);
-
-    return formatRef("F", Number(total) + 1);
-  },
-
-  /**
-   * Checks whether a reference code is available in the active workspace.
-   * Used internally by `create` to prevent duplicates.
-   */
-  async isReferenceCodeAvailable(
-    userId: string,
-    referenceCode: string,
-  ): Promise<boolean> {
-    const credentialsId = await getActiveCredentialsIdForUser(userId);
-    const baseFilter = buildFilter(userId, credentialsId);
-
-    const existing = await db.query.invoices.findFirst({
-      where: and(baseFilter, eq(invoices.referenceCode, referenceCode.trim())),
-      columns: { id: true },
-    });
-
-    return !existing;
-  },
-
-  /**
    * Creates and validates a new invoice:
-   * 1. Validates the referenceCode is unique in the workspace.
+   * 1. Generates an internal Factus reference code.
    * 2. Maps the customer and items to the Factus API format.
    * 3. Calls `bills.create()` on the active Factus client.
    * 4. Persists the invoice record to our DB.
@@ -209,17 +170,6 @@ export const InvoiceService = {
     input: InvoiceCreateInput,
   ): Promise<InvoiceRecordResult> {
     const credentialsId = await getActiveCredentialsIdForUser(userId);
-
-    // Validate referenceCode uniqueness in workspace
-    const available = await InvoiceService.isReferenceCodeAvailable(
-      userId,
-      input.referenceCode,
-    );
-    if (!available) {
-      throw new UnprocessableEntityError(
-        `El código de referencia "${input.referenceCode}" ya existe en este espacio de trabajo`,
-      );
-    }
 
     const client = await getFactusClientForUser(userId);
 
@@ -258,7 +208,7 @@ export const InvoiceService = {
       tribute_id: Number(item.tributeId),
     }));
 
-    const referenceCode = input.referenceCode.trim();
+    const referenceCode = generateInvoiceReferenceCode();
 
     // Call Factus. If DIAN validation fails, Factus may leave a pending draft
     // bound to the reference code; clean it up immediately to avoid later
@@ -311,7 +261,7 @@ export const InvoiceService = {
 
   /**
    * Returns a paginated list of invoices for the active workspace.
-   * Search matches against customerName, referenceCode, and number (case-insensitive).
+   * Search matches against customerName and number (case-insensitive).
    */
   async list(
     userId: string,
@@ -331,7 +281,6 @@ export const InvoiceService = {
             baseFilter,
             or(
               ilike(invoices.customerName, `%${options.search.trim()}%`),
-              ilike(invoices.referenceCode, `%${options.search.trim()}%`),
               ilike(invoices.number, `%${options.search.trim()}%`),
             ),
           )
@@ -342,7 +291,6 @@ export const InvoiceService = {
         .select({
           id: invoices.id,
           number: invoices.number,
-          referenceCode: invoices.referenceCode,
           status: invoices.status,
           customerName: invoices.customerName,
           customerIdentification: invoices.customerIdentification,

@@ -15,36 +15,12 @@ import { InvoiceService } from "./service";
 export const invoicesModule = new Elysia({ prefix: "/invoices" })
   .use(betterAuth)
 
-  // ─── Next reference code ────────────────────────────────────────────────────
-
-  /**
-   * GET /api/invoices/next-reference-code
-   * Returns the next auto-generated reference code for the active workspace
-   * (e.g. "F-0005"). The UI pre-fills this value; the user may edit it before
-   * submitting.
-   *
-   * IMPORTANT: Must be defined before /:id to avoid being matched as an ID.
-   */
-  .get(
-    "/next-reference-code",
-    async ({ user }) => {
-      const referenceCode = await InvoiceService.nextReferenceCode(user.id);
-      return { referenceCode };
-    },
-    {
-      auth: true,
-      response: {
-        200: t.Object({ referenceCode: t.String() }),
-      },
-    },
-  )
-
   // ─── List ───────────────────────────────────────────────────────────────────
 
   /**
    * GET /api/invoices
    * Returns a paginated list of invoices for the active workspace (from our DB).
-   * Supports search against customerName, referenceCode, and number.
+   * Supports search against customerName and number.
    */
   .get(
     "/",
