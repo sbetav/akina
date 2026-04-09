@@ -85,6 +85,20 @@
       "when": 1774937227210,
       "tag": "0011_opposite_clint_barton",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1775624515245,
+      "tag": "0012_curved_siren",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1775625857273,
+      "tag": "0013_thankful_eddie_brock",
+      "breakpoints": true
     }
   ]
 }

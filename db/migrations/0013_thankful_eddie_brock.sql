@@ -1,0 +1,5 @@
+ALTER TABLE "products" DROP CONSTRAINT "products_userId_credentialsId_code_unique";--> statement-breakpoint
+CREATE UNIQUE INDEX "invoices_user_referenceCode_sandbox_unique" ON "invoices" USING btree ("user_id","reference_code") WHERE "invoices"."credentials_id" is null;--> statement-breakpoint
+CREATE UNIQUE INDEX "invoices_user_credentials_referenceCode_unique" ON "invoices" USING btree ("user_id","credentials_id","reference_code") WHERE "invoices"."credentials_id" is not null;--> statement-breakpoint
+CREATE UNIQUE INDEX "products_user_code_sandbox_unique" ON "products" USING btree ("user_id","code") WHERE "products"."credentials_id" is null;--> statement-breakpoint
+CREATE UNIQUE INDEX "products_user_credentials_code_unique" ON "products" USING btree ("user_id","credentials_id","code") WHERE "products"."credentials_id" is not null;

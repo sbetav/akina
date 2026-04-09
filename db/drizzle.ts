@@ -5,6 +5,7 @@ import {
   factusCredentials,
   factusCredentialsRelations,
 } from "@/db/schemas/factus-credentials";
+import { invoices, invoicesRelations } from "@/db/schemas/invoices";
 import { products, productsRelations } from "@/db/schemas/products";
 import { env } from "@/lib/env";
 
@@ -16,6 +17,8 @@ const schema = {
   customersRelations,
   products,
   productsRelations,
+  invoices,
+  invoicesRelations,
 };
 
 export const db = drizzle(env.DATABASE_URL, { schema });

@@ -3,6 +3,7 @@ import { betterAuth } from "@/elysia/better-auth";
 import { ApiError } from "@/elysia/errors";
 import { customersModule } from "./modules/customers";
 import { factusModule } from "./modules/factus";
+import { invoicesModule } from "./modules/invoices";
 import { productsModule } from "./modules/products";
 
 export const app = new Elysia({ prefix: "/api" })
@@ -11,6 +12,7 @@ export const app = new Elysia({ prefix: "/api" })
   .use(factusModule)
   .use(customersModule)
   .use(productsModule)
+  .use(invoicesModule)
   .onError(({ error, code, status }) => {
     if (error instanceof ApiError) {
       return status(error.status, { error: error.message });
