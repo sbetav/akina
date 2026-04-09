@@ -1,6 +1,7 @@
 export const CREDENTIALS_QUERY_KEY = ["factus", "credentials"] as const;
 export const CUSTOMERS_QUERY_KEY = ["customers"] as const;
 export const PRODUCTS_QUERY_KEY = ["products"] as const;
+export const INVOICES_QUERY_KEY = ["invoices"] as const;
 export const MUNICIPALITIES_QUERY_KEY = ["factus", "municipalities"] as const;
 export const MEASUREMENT_UNITS_QUERY_KEY = [
   "factus",
@@ -15,6 +16,7 @@ export const NUMBERING_RANGES_QUERY_KEY = [
 
 export const DEFAULT_CUSTOMERS_LIMIT = 20;
 export const DEFAULT_PRODUCTS_LIMIT = 20;
+export const DEFAULT_INVOICES_LIMIT = 20;
 export const DEFAULT_NUMBERING_RANGES_LIMIT = 10;
 
 /**
@@ -26,6 +28,7 @@ export const DEFAULT_NUMBERING_RANGES_LIMIT = 10;
 export const CREDENTIAL_DEPENDENT_KEYS = [
   CUSTOMERS_QUERY_KEY,
   PRODUCTS_QUERY_KEY,
+  INVOICES_QUERY_KEY,
   ACQUIRER_QUERY_KEY,
   NUMBERING_RANGES_QUERY_KEY,
 ] as const;

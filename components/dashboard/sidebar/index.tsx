@@ -5,6 +5,7 @@ import {
   LayoutDashboardIcon,
   MenuIcon,
   PackageIcon,
+  ReceiptIcon,
   UsersIcon,
   XIcon,
 } from "lucide-react";
@@ -32,6 +33,11 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
       href: "/dashboard",
       label: "Dashboard",
       icon: LayoutDashboardIcon,
+    },
+    {
+      href: "/dashboard/invoices",
+      label: "Facturas",
+      icon: ReceiptIcon,
     },
     {
       href: "/dashboard/customers",
