@@ -26,34 +26,37 @@ import type { ProductFormValues } from "@/lib/validations/product";
 
 interface DetailsFieldSetProps {
   editMode: boolean;
+  disableReferenceCheck: boolean;
 }
 
-export function DetailsFieldSet({ editMode }: DetailsFieldSetProps) {
+export function DetailsFieldSet({
+  editMode,
+  disableReferenceCheck,
+}: DetailsFieldSetProps) {
   const { control, setError, trigger } = useFormContext<ProductFormValues>();
 
   const code = useWatch({ control, name: "code" });
   const debouncedCode = useDebounce(code, 500);
-  const { data: isCodeAvailable, isFetching: checkingCodeAvailability } =
-    useQuery({
-      queryKey: [...PRODUCTS_QUERY_KEY, "code-available", debouncedCode],
-      queryFn: async () => {
-        const { data } = await api.products["code-available"].get({
-          query: {
-            code: debouncedCode,
-          },
-        });
-        if (!data?.available) {
-          setError("code", { message: "El código ya está en uso" });
-        } else {
-          trigger("code");
-        }
+  const { data: isCodeAvailable, isFetching } = useQuery({
+    queryKey: [...PRODUCTS_QUERY_KEY, "code-available", debouncedCode],
+    queryFn: async () => {
+      const { data } = await api.products["code-available"].get({
+        query: {
+          code: debouncedCode,
+        },
+      });
+      if (!data?.available) {
+        setError("code", { message: "El código ya está en uso" });
+      } else {
+        trigger("code");
+      }
 
-        return !!data?.available;
-      },
-      enabled: !!debouncedCode && !editMode,
-      staleTime: 0,
-      refetchOnWindowFocus: false,
-    });
+      return !!data?.available;
+    },
+    enabled: !!debouncedCode && !editMode && !disableReferenceCheck,
+    staleTime: 0,
+    refetchOnWindowFocus: false,
+  });
   return (
     <FieldSet>
       <FieldLegend>Información general</FieldLegend>
@@ -81,7 +84,7 @@ export function DetailsFieldSet({ editMode }: DetailsFieldSetProps) {
                   <InputGroupAddon align="inline-end">
                     {editMode ? (
                       <LockIcon />
-                    ) : checkingCodeAvailability ? (
+                    ) : isFetching ? (
                       <Spinner />
                     ) : isCodeAvailable ? (
                       <CheckIcon className="text-primary" />

@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { MeasurementUnit, Tribute } from "factus-js";
 import { SaveIcon } from "lucide-react";
-import type { FC } from "react";
+import { type FC, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -62,6 +62,7 @@ const ProductForm: FC<ProductFormProps> = ({
 
   const { handleSubmit, control } = methods;
 
+  const [redirecting, setRedirecting] = useState(false);
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: ProductFormValues) => {
       if (selectedProduct) {
@@ -80,11 +81,14 @@ const ProductForm: FC<ProductFormProps> = ({
       return res.data;
     },
     onSuccess: () => {
-      toast.success(
-        `Producto ${selectedProduct ? "actualizado" : "creado"} exitosamente`,
-      );
-      queryClient.invalidateQueries({ queryKey: PRODUCTS_QUERY_KEY });
-      router.replace("/dashboard/products");
+      setRedirecting(true);
+      setTimeout(() => {
+        toast.success(
+          `Producto ${selectedProduct ? "actualizado" : "creado"} exitosamente`,
+        );
+        queryClient.invalidateQueries({ queryKey: PRODUCTS_QUERY_KEY });
+        router.replace("/dashboard/products");
+      }, 1);
     },
     onError: (e: Error) => toast.error(e.message),
   });
@@ -97,7 +101,10 @@ const ProductForm: FC<ProductFormProps> = ({
           className="flex w-full flex-col gap-8"
         >
           <div className="flex flex-1 flex-col gap-8">
-            <DetailsFieldSet editMode={!!selectedProduct} />
+            <DetailsFieldSet
+              editMode={!!selectedProduct}
+              disableReferenceCheck={redirecting}
+            />
             <PricingFieldSet />
             <CatalogFieldSet
               control={control}
