@@ -11,6 +11,7 @@ import {
 } from "@/components/dashboard/page-header";
 import ProductsTable from "@/components/dashboard/products/products-table";
 import { buttonVariants } from "@/components/ui/button";
+import { FactusService } from "@/elysia/modules/factus/service";
 import { ProductService } from "@/elysia/modules/products/service";
 import { requireUser } from "@/lib/dal";
 import { getQueryClient } from "@/lib/query-client";
@@ -20,17 +21,23 @@ const Page: FC = async () => {
   const user = await requireUser();
   const queryClient = getQueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: [
-      ...PRODUCTS_QUERY_KEY,
-      { search: "", page: 1, limit: DEFAULT_PRODUCTS_LIMIT },
-    ],
-    queryFn: () =>
-      ProductService.list(user.id, {
-        page: 1,
-        limit: DEFAULT_PRODUCTS_LIMIT,
-      }),
-  });
+  const [, tributesResult] = await Promise.allSettled([
+    queryClient.prefetchQuery({
+      queryKey: [
+        ...PRODUCTS_QUERY_KEY,
+        { search: "", page: 1, limit: DEFAULT_PRODUCTS_LIMIT },
+      ],
+      queryFn: () =>
+        ProductService.list(user.id, {
+          page: 1,
+          limit: DEFAULT_PRODUCTS_LIMIT,
+        }),
+    }),
+    FactusService.getTributes(user.id),
+  ]);
+
+  const tributes =
+    tributesResult.status === "fulfilled" ? tributesResult.value : [];
 
   return (
     <div className="flex min-h-full w-full flex-1 flex-col gap-6">
@@ -53,7 +60,7 @@ const Page: FC = async () => {
       </PageHeader>
 
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <ProductsTable />
+        <ProductsTable tributes={tributes} />
       </HydrationBoundary>
     </div>
   );

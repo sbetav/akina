@@ -6,6 +6,7 @@ import {
   type RowSelectionState,
   useReactTable,
 } from "@tanstack/react-table";
+import type { Tribute } from "factus-js";
 import { PackageIcon, PlusIcon, SearchIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import { type FC, useState } from "react";
@@ -34,15 +35,19 @@ import { getApiErrorMessage } from "@/elysia/get-api-error-message";
 import useDebounce from "@/hooks/ui/use-debounce";
 import { DEFAULT_PRODUCTS_LIMIT, PRODUCTS_QUERY_KEY } from "@/lib/query-keys";
 import DeleteProductDialog from "../delete-product-dialog";
-import { columns } from "./columns";
+import { buildColumns } from "./columns";
 
-export default function ProductsTable() {
-  const { active } = useCredentialsContext();
-
-  return <ProductsTableContent key={active?.id} />;
+interface ProductsTableProps {
+  tributes?: Tribute[];
 }
 
-function ProductsTableContent() {
+export default function ProductsTable({ tributes = [] }: ProductsTableProps) {
+  const { active } = useCredentialsContext();
+
+  return <ProductsTableContent key={active?.id} tributes={tributes} />;
+}
+
+function ProductsTableContent({ tributes }: { tributes: Tribute[] }) {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(DEFAULT_PRODUCTS_LIMIT);
@@ -82,7 +87,7 @@ function ProductsTableContent() {
 
   const table = useReactTable({
     data: items,
-    columns,
+    columns: buildColumns(tributes),
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     pageCount,

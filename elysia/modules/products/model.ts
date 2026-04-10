@@ -1,7 +1,6 @@
 import { t } from "elysia";
 import { ProductStandardId } from "factus-js";
-import { PRODUCT_TYPES } from "@/lib/constants";
-import { toElysiaEnum, toElysiaLiterals } from "@/lib/utils";
+import { toElysiaEnum } from "@/lib/utils";
 
 // ─── Request bodies ───────────────────────────────────────────────────────────
 
@@ -15,7 +14,6 @@ export const ProductBody = t.Object({
   tributeId: t.String({ minLength: 1 }),
   taxRate: t.Numeric({ minimum: 0, maximum: 100 }),
   isExcluded: t.Boolean(),
-  type: toElysiaLiterals(PRODUCT_TYPES),
 });
 
 // ─── Query params ─────────────────────────────────────────────────────────────
@@ -45,7 +43,6 @@ export const ProductItem = t.Object({
   tributeId: t.String(),
   taxRate: t.Numeric(),
   isExcluded: t.Boolean(),
-  type: toElysiaLiterals(PRODUCT_TYPES),
   createdAt: t.String(),
 });
 
@@ -63,7 +60,6 @@ export const ProductDetail = t.Object({
   tributeId: t.String(),
   taxRate: t.Numeric(),
   isExcluded: t.Boolean(),
-  type: toElysiaLiterals(PRODUCT_TYPES),
   createdAt: t.String(),
   updatedAt: t.String(),
 });

@@ -1,6 +1,5 @@
 import { ProductStandardId } from "factus-js";
 import z from "zod";
-import { PRODUCT_TYPES } from "@/lib/constants";
 import { toEnumValues, zodAlwaysRefine } from "@/lib/utils";
 
 const productStandardIds = toEnumValues(ProductStandardId);
@@ -33,7 +32,6 @@ export const productFormSchema = zodAlwaysRefine(
       .min(0, { message: "El valor mínimo es 0%" })
       .max(1, { message: "El valor máximo es 100%" }),
     isExcluded: z.boolean(),
-    type: z.enum(PRODUCT_TYPES, { error: () => "Campo requerido" }),
   }),
 );
 

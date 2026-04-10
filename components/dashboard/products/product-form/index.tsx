@@ -8,6 +8,7 @@ import { SaveIcon } from "lucide-react";
 import { type FC, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
 import { api } from "@/elysia/eden";
@@ -20,9 +21,8 @@ import {
   productFormSchema,
 } from "@/lib/validations/product";
 import DashboardCard from "../../dashboard-card";
-import { CatalogFieldSet } from "./catalog-fieldset";
 import { DetailsFieldSet } from "./details-fieldset";
-import { PricingFieldSet } from "./pricing-fieldset";
+import { TaxesFieldSet } from "./taxes-fieldset";
 
 interface ProductFormProps {
   selectedProduct?: ProductDetailResult;
@@ -41,6 +41,16 @@ const ProductForm: FC<ProductFormProps> = ({
   const router = useRouter();
   const { goBack } = useGoBack({ fallbackHref: "/dashboard/products" });
 
+  const DEFAULT_TRIBUTE_ID =
+    tributes
+      .find((tribute) => tribute.name.toLowerCase() === "iva")
+      ?.id.toString() ?? tributes[0]?.id.toString();
+
+  const DEFAULT_UNIT_MEASURE_ID =
+    measurementUnits
+      .find((unit) => unit.name.toLowerCase() === "unidad")
+      ?.id.toString() ?? measurementUnits[0]?.id.toString();
+
   const methods = useForm<ProductFormValues>({
     resolver: zodResolver(productFormSchema),
     defaultValues: {
@@ -49,18 +59,15 @@ const ProductForm: FC<ProductFormProps> = ({
       description: selectedProduct?.description ?? "",
       price: selectedProduct?.price ?? 0,
       unitMeasureId:
-        selectedProduct?.unitMeasureId ??
-        measurementUnits[0]?.id.toString() ??
-        "",
+        selectedProduct?.unitMeasureId ?? DEFAULT_UNIT_MEASURE_ID ?? "",
       standardCodeId: selectedProduct?.standardCodeId ?? "1",
-      tributeId: selectedProduct?.tributeId ?? tributes[0]?.id.toString() ?? "",
-      taxRate: selectedProduct?.taxRate ?? 0,
+      tributeId: selectedProduct?.tributeId ?? DEFAULT_TRIBUTE_ID ?? "",
+      taxRate: selectedProduct?.taxRate ?? 0.19,
       isExcluded: selectedProduct?.isExcluded ?? false,
-      type: selectedProduct?.type ?? "product",
     },
   });
 
-  const { handleSubmit, control } = methods;
+  const { handleSubmit } = methods;
 
   const [redirecting, setRedirecting] = useState(false);
   const { mutate, isPending } = useMutation({
@@ -104,13 +111,10 @@ const ProductForm: FC<ProductFormProps> = ({
             <DetailsFieldSet
               editMode={!!selectedProduct}
               disableReferenceCheck={redirecting}
-            />
-            <PricingFieldSet />
-            <CatalogFieldSet
-              control={control}
               measurementUnits={measurementUnits}
-              tributes={tributes}
             />
+            <Separator />
+            <TaxesFieldSet tributes={tributes} />
           </div>
 
           <div className="flex w-full flex-col-reverse items-center justify-end gap-3 md:flex-row">
@@ -120,7 +124,7 @@ const ProductForm: FC<ProductFormProps> = ({
               variant="outline"
               className="w-full md:w-auto"
               onClick={goBack}
-              disabled={isPending}
+              disabled={isPending || redirecting}
             >
               Cancelar
             </Button>
@@ -128,7 +132,7 @@ const ProductForm: FC<ProductFormProps> = ({
               size="lg"
               type="submit"
               className="w-full md:w-auto"
-              disabled={isPending}
+              disabled={isPending || redirecting}
             >
               {isPending ? <Spinner /> : <SaveIcon />}
               Guardar

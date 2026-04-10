@@ -10,11 +10,6 @@
  *   - TypeScript → `(typeof CONSTANT)[number]`
  */
 
-// ─── Products ─────────────────────────────────────────────────────────────────
-
-export const PRODUCT_TYPES = ["product", "service"] as const;
-export type ProductType = (typeof PRODUCT_TYPES)[number];
-
 // ─── Factus credentials ───────────────────────────────────────────────────────
 
 export const AKINA_SANDBOX_ID = "akina-sandbox";

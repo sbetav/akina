@@ -1,11 +1,18 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { CheckIcon, LockIcon, ScanBarcode, TagIcon, XIcon } from "lucide-react";
+import type { MeasurementUnit } from "factus-js";
+import {
+  CheckIcon,
+  LockIcon,
+  RulerIcon,
+  ScanBarcode,
+  TagIcon,
+  XIcon,
+} from "lucide-react";
 import { Controller, useFormContext, useWatch } from "react-hook-form";
 import {
   Field,
-  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
@@ -17,6 +24,15 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
+import { NumberInput } from "@/components/ui/number-input";
+import {
+  Select,
+  SelectAddon,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 import { api } from "@/elysia/eden";
@@ -27,11 +43,13 @@ import type { ProductFormValues } from "@/lib/validations/product";
 interface DetailsFieldSetProps {
   editMode: boolean;
   disableReferenceCheck: boolean;
+  measurementUnits: MeasurementUnit[];
 }
 
 export function DetailsFieldSet({
   editMode,
   disableReferenceCheck,
+  measurementUnits,
 }: DetailsFieldSetProps) {
   const { control, setError, trigger } = useFormContext<ProductFormValues>();
 
@@ -94,9 +112,6 @@ export function DetailsFieldSet({
                   </InputGroupAddon>
                 </InputGroup>
                 <FieldError errors={[fieldState.error]} />
-                <FieldDescription>
-                  El código de referencia es único y no puede ser editado.
-                </FieldDescription>
               </Field>
             )}
           />
@@ -147,6 +162,76 @@ export function DetailsFieldSet({
             </Field>
           )}
         />
+
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+          <Controller
+            control={control}
+            name="price"
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel htmlFor={field.name}>Precio</FieldLabel>
+                <NumberInput
+                  id={field.name}
+                  placeholder="$100,000"
+                  aria-invalid={fieldState.invalid}
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  format={{
+                    style: "currency",
+                    currencyDisplay: "narrowSymbol",
+                    currency: "COP",
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2,
+                  }}
+                />
+                <FieldError errors={[fieldState.error]} />
+              </Field>
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="unitMeasureId"
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel htmlFor={field.name}>Unidad de medida</FieldLabel>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger
+                    id={field.name}
+                    aria-invalid={fieldState.invalid}
+                    className="w-full capitalize"
+                  >
+                    <SelectAddon>
+                      <RulerIcon />
+                    </SelectAddon>
+                    <SelectValue placeholder="Selecciona una unidad">
+                      {(value: string) => {
+                        const match = measurementUnits?.find(
+                          (u) => String(u.id) === value,
+                        );
+                        return (
+                          (match?.name ?? value) || "Selecciona una unidad"
+                        );
+                      }}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {measurementUnits?.map((unit) => (
+                      <SelectItem
+                        key={unit.id}
+                        value={String(unit.id)}
+                        className="capitalize"
+                      >
+                        {unit.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FieldError errors={[fieldState.error]} />
+              </Field>
+            )}
+          />
+        </div>
       </FieldGroup>
     </FieldSet>
   );

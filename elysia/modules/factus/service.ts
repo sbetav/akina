@@ -532,14 +532,12 @@ export const FactusService = {
   > {
     const client = await getFactusClientForUser(userId);
     const res = await client.catalog.listTributes();
-    return res.data.map(
-      (t: { id: number; code: string; name: string; description: string }) => ({
-        id: t.id,
-        code: t.code,
-        name: t.name,
-        description: t.description,
-      }),
-    );
+    return res.data.map((t) => ({
+      id: t.id,
+      code: t.code,
+      name: t.name,
+      description: t.description,
+    }));
   },
 
   /** List numbering ranges from the current user's active Factus client. */

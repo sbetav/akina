@@ -10,7 +10,6 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 import type { ProductStandardId } from "factus-js";
-import { PRODUCT_TYPES } from "@/lib/constants";
 import { user } from "./auth-schema";
 import { factusCredentials } from "./factus-credentials";
 
@@ -77,9 +76,6 @@ export const products = pgTable(
 
     /** Whether the product/service is excluded from the tax regime */
     isExcluded: boolean("is_excluded").notNull().default(false),
-
-    /** "product" | "service" */
-    type: text("type", { enum: PRODUCT_TYPES }).notNull(),
 
     // ─── Timestamps ──────────────────────────────────────────────────────────
 

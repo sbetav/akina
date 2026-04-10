@@ -7,7 +7,6 @@ import {
   createWorkspaceFilter,
   getActiveCredentialsIdForUser,
 } from "@/elysia/workspace";
-import type { ProductType } from "@/lib/constants";
 import { formatRef } from "@/lib/utils";
 
 // ─── Shared types ─────────────────────────────────────────────────────────────
@@ -22,7 +21,6 @@ export interface ProductInput {
   tributeId: string;
   taxRate: number;
   isExcluded: boolean;
-  type: ProductType;
 }
 
 export interface ProductListItem {
@@ -35,7 +33,6 @@ export interface ProductListItem {
   tributeId: string;
   taxRate: number;
   isExcluded: boolean;
-  type: ProductType;
   createdAt: string;
 }
 
@@ -50,7 +47,6 @@ export interface ProductDetailResult {
   tributeId: string;
   taxRate: number;
   isExcluded: boolean;
-  type: ProductType;
   createdAt: string;
   updatedAt: string;
 }
@@ -108,7 +104,6 @@ export const ProductService = {
           tributeId: products.tributeId,
           taxRate: products.taxRate,
           isExcluded: products.isExcluded,
-          type: products.type,
           createdAt: products.createdAt,
         })
         .from(products)
@@ -125,7 +120,6 @@ export const ProductService = {
         ...r,
         price: Number(r.price ?? 0),
         taxRate: Number(r.taxRate ?? 0),
-        type: r.type,
         createdAt: r.createdAt.toISOString(),
       })),
       total: Number(total),
@@ -163,7 +157,6 @@ export const ProductService = {
       tributeId: data.tributeId,
       taxRate: data.taxRate.toString(),
       isExcluded: data.isExcluded,
-      type: data.type,
     });
   },
 
@@ -193,7 +186,6 @@ export const ProductService = {
       tributeId: row.tributeId,
       taxRate: Number(row.taxRate ?? 0),
       isExcluded: row.isExcluded,
-      type: row.type as ProductType,
       createdAt: row.createdAt.toISOString(),
       updatedAt: row.updatedAt.toISOString(),
     };
@@ -228,7 +220,6 @@ export const ProductService = {
         tributeId: data.tributeId,
         taxRate: data.taxRate.toString(),
         isExcluded: data.isExcluded,
-        type: data.type,
         updatedAt: new Date(),
       })
       .where(filter);
