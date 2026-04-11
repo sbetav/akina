@@ -22,20 +22,21 @@ export interface CustomerInput {
   tributeId: CustomerTributeId;
   name: string;
   tradeName?: string;
-  address: string;
-  email: string;
-  phone: string;
-  municipalityId: string;
+  address?: string;
+  email?: string;
+  phone?: string;
+  municipalityId?: string;
 }
 
 export interface CustomerListItem {
   id: string;
   identification: string;
+  dv: string | null;
   identificationDocumentId: IdentityDocumentTypeId;
   name: string;
-  email: string;
-  phone: string;
-  municipalityId: string;
+  email: string | null;
+  phone: string | null;
+  municipalityId: string | null;
   createdAt: string;
 }
 
@@ -48,10 +49,10 @@ export interface CustomerDetailResult {
   tributeId: CustomerTributeId;
   name: string;
   tradeName: string | null;
-  address: string;
-  email: string;
-  phone: string;
-  municipalityId: string;
+  address: string | null;
+  email: string | null;
+  phone: string | null;
+  municipalityId: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -103,6 +104,7 @@ export const CustomerService = {
         .select({
           id: customers.id,
           identification: customers.identification,
+          dv: customers.dv,
           identificationDocumentId: customers.identificationDocumentId,
           name: customers.name,
           email: customers.email,
@@ -147,10 +149,10 @@ export const CustomerService = {
       tributeId: data.tributeId,
       name: data.name,
       tradeName: data.tradeName ?? null,
-      address: data.address,
-      email: data.email,
-      phone: data.phone,
-      municipalityId: data.municipalityId,
+      address: data.address ?? null,
+      email: data.email ?? null,
+      phone: data.phone ?? null,
+      municipalityId: data.municipalityId ?? null,
     });
   },
 
@@ -214,10 +216,10 @@ export const CustomerService = {
         tributeId: data.tributeId,
         name: data.name,
         tradeName: data.tradeName ?? null,
-        address: data.address,
-        email: data.email,
-        phone: data.phone,
-        municipalityId: data.municipalityId,
+        address: data.address ?? null,
+        email: data.email ?? null,
+        phone: data.phone ?? null,
+        municipalityId: data.municipalityId ?? null,
         updatedAt: new Date(),
       })
       .where(filter);

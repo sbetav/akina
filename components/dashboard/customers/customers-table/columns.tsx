@@ -140,11 +140,13 @@ const columns: ColumnDef<CustomerListItem>[] = [
   {
     accessorKey: "identification",
     header: "N\u00BA Documento",
-    cell: ({ getValue }) => {
-      const value = getValue<string>();
+    cell: ({ row }) => {
+      const value = row.original.identification;
+      const dv = row.original.dv;
+      const formatted = formatDocumentNumber(value);
       return (
         <span className="text-muted-foreground">
-          {formatDocumentNumber(value)}
+          {dv ? `${formatted}-${dv}` : formatted}
         </span>
       );
     },
@@ -157,8 +159,12 @@ const columns: ColumnDef<CustomerListItem>[] = [
     accessorKey: "email",
     header: "Correo electrónico",
     cell: ({ getValue }) => {
-      const value = getValue<string>();
-      return <span className="text-muted-foreground">{value}</span>;
+      const value = getValue<string | null>();
+      return (
+        <span className="text-muted-foreground">
+          {value?.length ? value : "N/A"}
+        </span>
+      );
     },
   },
   {

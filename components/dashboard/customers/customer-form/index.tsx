@@ -4,9 +4,10 @@ import { useRouter } from "@bprogress/next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Municipality } from "factus-js";
+import { IdentityDocumentTypeId } from "factus-js";
 import { SaveIcon } from "lucide-react";
-import { type FC, useEffect } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import type { FC } from "react";
+import { FormProvider, useForm, useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
@@ -39,37 +40,31 @@ const CustomerForm: FC<CustomerFormProps> = ({
   const router = useRouter();
   const { goBack } = useGoBack({ fallbackHref: "/dashboard/customers" });
 
-  const { handleSubmit, control, resetField, setValue } =
-    useForm<CustomerFormValues>({
-      resolver: zodResolver(customerFormSchema),
-      defaultValues: {
-        identificationDocumentId:
-          selectedCustomer?.identificationDocumentId ?? "",
-        identification: selectedCustomer?.identification ?? "",
-        dv: selectedCustomer?.dv ?? "",
-        legalOrganizationId: selectedCustomer?.legalOrganizationId ?? "2",
-        tributeId: selectedCustomer?.tributeId ?? "18",
-        name: selectedCustomer?.name ?? "",
-        tradeName: selectedCustomer?.tradeName ?? "",
-        email: selectedCustomer?.email ?? "",
-        phone: selectedCustomer?.phone ?? "",
-        municipalityId: selectedCustomer?.municipalityId ?? "",
-        address: selectedCustomer?.address ?? "",
-      } as CustomerFormValues,
-    });
+  const methods = useForm<CustomerFormValues>({
+    resolver: zodResolver(customerFormSchema),
+    defaultValues: {
+      identificationDocumentId:
+        selectedCustomer?.identificationDocumentId ??
+        IdentityDocumentTypeId.CitizenshipId,
+      identification: selectedCustomer?.identification ?? "",
+      dv: selectedCustomer?.dv ?? "",
+      legalOrganizationId: selectedCustomer?.legalOrganizationId ?? "2",
+      tributeId: selectedCustomer?.tributeId ?? "18",
+      name: selectedCustomer?.name ?? "",
+      tradeName: selectedCustomer?.tradeName ?? "",
+      email: selectedCustomer?.email ?? "",
+      phone: selectedCustomer?.phone ?? "",
+      municipalityId: selectedCustomer?.municipalityId ?? "",
+      address: selectedCustomer?.address ?? "",
+    } as CustomerFormValues,
+  });
 
-  const [identificationDocumentId, identification, legalOrganizationId] =
-    useWatch({
-      control,
-      name: [
-        "identificationDocumentId",
-        "identification",
-        "legalOrganizationId",
-      ],
-    });
+  const { handleSubmit, control, setValue } = methods;
 
-  const isNIT = identificationDocumentId === "6";
-  const isNaturalPerson = legalOrganizationId === "2";
+  const [identificationDocumentId, identification] = useWatch({
+    control,
+    name: ["identificationDocumentId", "identification"],
+  });
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: CustomerFormValues) => {
@@ -102,10 +97,6 @@ const CustomerForm: FC<CustomerFormProps> = ({
     onError: (e: Error) => toast.error(e.message),
   });
 
-  useEffect(() => {
-    if (!isNIT) resetField("dv", { defaultValue: "" });
-  }, [isNIT, resetField]);
-
   /* Autofill acquirer when identification changes */
   const debouncedIdentification = useDebounce(identification, 500);
   const { isPending: isSearchingAcquirer } = useSearchAcquirer({
@@ -123,47 +114,42 @@ const CustomerForm: FC<CustomerFormProps> = ({
 
   return (
     <DashboardCard className="flex flex-1">
-      <form
-        onSubmit={handleSubmit((data) => mutate(data))}
-        className="flex w-full flex-col gap-8"
-      >
-        <div className="flex flex-1 flex-col gap-8">
-          <IdentificationFieldSet
-            control={control}
-            isNIT={isNIT}
-            isSearchingAcquirer={isSearchingAcquirer}
-          />
+      <FormProvider {...methods}>
+        <form
+          onSubmit={handleSubmit((data) => mutate(data))}
+          className="flex w-full flex-col gap-8"
+        >
+          <div className="flex flex-1 flex-col gap-8">
+            <IdentificationFieldSet isSearchingAcquirer={isSearchingAcquirer} />
 
-          <OrganizationFieldSet
-            control={control}
-            isNaturalPerson={isNaturalPerson}
-          />
+            <OrganizationFieldSet />
 
-          <ContactFieldSet control={control} municipalities={municipalities} />
-        </div>
+            <ContactFieldSet municipalities={municipalities} />
+          </div>
 
-        <div className="flex w-full flex-col-reverse items-center justify-end gap-3 md:flex-row">
-          <Button
-            size="lg"
-            type="button"
-            variant="outline"
-            className="w-full md:w-auto"
-            onClick={goBack}
-            disabled={isPending}
-          >
-            Cancelar
-          </Button>
-          <Button
-            size="lg"
-            type="submit"
-            className="w-full md:w-auto"
-            disabled={isPending}
-          >
-            {isPending ? <Spinner /> : <SaveIcon />}
-            Guardar
-          </Button>
-        </div>
-      </form>
+          <div className="flex w-full flex-col-reverse items-center justify-end gap-3 md:flex-row">
+            <Button
+              size="lg"
+              type="button"
+              variant="outline"
+              className="w-full md:w-auto"
+              onClick={goBack}
+              disabled={isPending}
+            >
+              Cancelar
+            </Button>
+            <Button
+              size="lg"
+              type="submit"
+              className="w-full md:w-auto"
+              disabled={isPending}
+            >
+              {isPending ? <Spinner /> : <SaveIcon />}
+              Guardar
+            </Button>
+          </div>
+        </form>
+      </FormProvider>
     </DashboardCard>
   );
 };

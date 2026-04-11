@@ -16,10 +16,10 @@ export const CustomerBody = t.Object({
   tributeId: toElysiaEnum(CustomerTributeId),
   name: t.String({ minLength: 1 }),
   tradeName: t.Optional(t.String()),
-  address: t.String({ minLength: 1, maxLength: 150 }),
-  email: t.String({ format: "email" }),
-  phone: t.String({ minLength: 1 }),
-  municipalityId: t.String({ minLength: 1 }),
+  address: t.Optional(t.String({ maxLength: 150 })),
+  email: t.Optional(t.String()),
+  phone: t.Optional(t.String()),
+  municipalityId: t.Optional(t.String()),
 });
 
 // ─── Query params ─────────────────────────────────────────────────────────────
@@ -39,11 +39,12 @@ export const CustomerListQuery = t.Object({
 export const CustomerItem = t.Object({
   id: t.String(),
   identification: t.String(),
+  dv: t.Union([t.String(), t.Null()]),
   identificationDocumentId: toElysiaEnum(IdentityDocumentTypeId),
   name: t.String(),
-  email: t.String(),
-  phone: t.String(),
-  municipalityId: t.String(),
+  email: t.Union([t.String(), t.Null()]),
+  phone: t.Union([t.String(), t.Null()]),
+  municipalityId: t.Union([t.String(), t.Null()]),
   createdAt: t.String(),
 });
 
@@ -59,10 +60,10 @@ export const CustomerDetail = t.Object({
   tributeId: t.String(),
   name: t.String(),
   tradeName: t.Union([t.String(), t.Null()]),
-  address: t.String(),
-  email: t.String(),
-  phone: t.String(),
-  municipalityId: t.String(),
+  address: t.Union([t.String(), t.Null()]),
+  email: t.Union([t.String(), t.Null()]),
+  phone: t.Union([t.String(), t.Null()]),
+  municipalityId: t.Union([t.String(), t.Null()]),
   createdAt: t.String(),
   updatedAt: t.String(),
 });

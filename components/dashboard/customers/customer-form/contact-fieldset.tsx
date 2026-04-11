@@ -3,7 +3,7 @@
 import type { Municipality } from "factus-js";
 import { MailIcon, MapPinHouseIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 import { useRef } from "react";
-import { type Control, Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import PhoneInput from "react-phone-number-input/input";
 import {
   Combobox,
@@ -31,14 +31,11 @@ import {
 } from "./virtualized-municipality-list";
 
 interface ContactFieldSetProps {
-  control: Control<CustomerFormValues>;
   municipalities: Municipality[];
 }
 
-export function ContactFieldSet({
-  control,
-  municipalities,
-}: ContactFieldSetProps) {
+export function ContactFieldSet({ municipalities }: ContactFieldSetProps) {
+  const { control } = useFormContext<CustomerFormValues>();
   const virtualizerRef = useRef<MunicipalityVirtualizer | null>(null);
 
   return (
@@ -51,7 +48,12 @@ export function ContactFieldSet({
             name="email"
             render={({ field, fieldState }) => (
               <Field>
-                <FieldLabel htmlFor={field.name}>Correo electrónico</FieldLabel>
+                <FieldLabel htmlFor={field.name}>
+                  Correo electrónico{" "}
+                  <span className="text-muted-foreground font-normal">
+                    (opcional)
+                  </span>
+                </FieldLabel>
                 <InputGroup>
                   <InputGroupAddon>
                     <MailIcon />
@@ -74,7 +76,12 @@ export function ContactFieldSet({
             name="phone"
             render={({ field, fieldState }) => (
               <Field>
-                <FieldLabel htmlFor={field.name}>Teléfono</FieldLabel>
+                <FieldLabel htmlFor={field.name}>
+                  Teléfono{" "}
+                  <span className="text-muted-foreground font-normal">
+                    (opcional)
+                  </span>
+                </FieldLabel>
                 <InputGroup>
                   <InputGroupAddon>
                     <PhoneIcon />
@@ -101,7 +108,12 @@ export function ContactFieldSet({
             name="municipalityId"
             render={({ field, fieldState }) => (
               <Field>
-                <FieldLabel htmlFor={field.name}>Municipio</FieldLabel>
+                <FieldLabel htmlFor={field.name}>
+                  Municipio{" "}
+                  <span className="text-muted-foreground font-normal">
+                    (opcional)
+                  </span>
+                </FieldLabel>
                 <Combobox
                   id={field.name}
                   virtualized
@@ -167,7 +179,12 @@ export function ContactFieldSet({
             name="address"
             render={({ field, fieldState }) => (
               <Field>
-                <FieldLabel htmlFor={field.name}>Dirección</FieldLabel>
+                <FieldLabel htmlFor={field.name}>
+                  Dirección{" "}
+                  <span className="text-muted-foreground font-normal">
+                    (opcional)
+                  </span>
+                </FieldLabel>
                 <InputGroup>
                   <InputGroupAddon>
                     <MapPinHouseIcon />

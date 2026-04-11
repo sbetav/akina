@@ -62,14 +62,14 @@ export const customers = pgTable(
 
     // ─── Contact ─────────────────────────────────────────────────────────────
 
-    address: text("address").notNull(),
-    email: text("email").notNull(),
+    address: text("address"),
+    email: text("email"),
 
     /** E.164 formatted phone number — e.g. "+573001234567" */
-    phone: text("phone").notNull(),
+    phone: text("phone"),
 
     /** Factus municipality code */
-    municipalityId: text("municipality_id").notNull(),
+    municipalityId: text("municipality_id"),
 
     // ─── Timestamps ──────────────────────────────────────────────────────────
 

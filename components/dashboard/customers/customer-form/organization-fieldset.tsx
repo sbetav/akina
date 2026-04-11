@@ -13,7 +13,7 @@ import {
   StoreIcon,
   UserIcon,
 } from "lucide-react";
-import { type Control, Controller } from "react-hook-form";
+import { Controller, useFormContext, useWatch } from "react-hook-form";
 import {
   Field,
   FieldError,
@@ -40,15 +40,14 @@ import type { CustomerFormValues } from "@/lib/validations/customer";
 const organizationTypes = Object.values(OrganizationTypeId);
 const customerTributes = Object.values(CustomerTributeId);
 
-interface OrganizationFieldSetProps {
-  control: Control<CustomerFormValues>;
-  isNaturalPerson: boolean;
-}
-
-export function OrganizationFieldSet({
-  control,
-  isNaturalPerson,
-}: OrganizationFieldSetProps) {
+export function OrganizationFieldSet() {
+  const { control } = useFormContext<CustomerFormValues>();
+  const legalOrganizationId = useWatch({
+    control,
+    name: "legalOrganizationId",
+  });
+  const isNaturalPerson =
+    legalOrganizationId === OrganizationTypeId.NaturalPerson;
   return (
     <FieldSet>
       <FieldLegend>Organización</FieldLegend>

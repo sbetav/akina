@@ -2,7 +2,8 @@
 
 import { IdentityDocumentTypeId, IdentityDocumentTypeIdInfo } from "factus-js";
 import { HashIcon, ScrollTextIcon } from "lucide-react";
-import { type Control, Controller } from "react-hook-form";
+import { useEffect } from "react";
+import { Controller, useFormContext, useWatch } from "react-hook-form";
 import {
   Field,
   FieldError,
@@ -25,21 +26,37 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
+import { calculateDV } from "@/lib/utils";
 import type { CustomerFormValues } from "@/lib/validations/customer";
 
 const identityDocumentTypes = Object.values(IdentityDocumentTypeId);
 
 interface IdentificationFieldSetProps {
-  control: Control<CustomerFormValues>;
-  isNIT: boolean;
   isSearchingAcquirer: boolean;
 }
 
 export function IdentificationFieldSet({
-  control,
-  isNIT,
   isSearchingAcquirer,
 }: IdentificationFieldSetProps) {
+  const { control, setValue, resetField } =
+    useFormContext<CustomerFormValues>();
+
+  const identification = useWatch({ control, name: "identification" });
+  const documentTypeId = useWatch({
+    control,
+    name: "identificationDocumentId",
+  });
+
+  const isNIT = documentTypeId === IdentityDocumentTypeId.NIT;
+
+  useEffect(() => {
+    if (!isNIT) {
+      if (!isNIT) resetField("dv", { defaultValue: "" });
+      return;
+    }
+    setValue("dv", calculateDV(identification));
+  }, [identification, documentTypeId, isNIT, setValue]);
+
   return (
     <FieldSet>
       <FieldLegend>Identificación</FieldLegend>
