@@ -103,7 +103,7 @@ function InvoicesTableContent() {
                 <SearchIcon className="text-muted-foreground" />
               </InputGroupAddon>
               <InputGroupInput
-                placeholder="Buscar por cliente, referencia o número..."
+                placeholder="Buscar por cliente o número de factura..."
                 value={search}
                 onChange={(e) => handleSearchChange(e.target.value)}
               />

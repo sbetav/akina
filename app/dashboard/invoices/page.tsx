@@ -1,12 +1,16 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { PlusIcon } from "lucide-react";
+import Link from "next/link";
 import type { FC } from "react";
 import InvoicesTable from "@/components/dashboard/invoices/invoices-table";
 import {
   PageHeader,
+  PageHeaderActions,
   PageHeaderContent,
   PageHeaderDescription,
   PageHeaderTitle,
 } from "@/components/dashboard/page-header";
+import { buttonVariants } from "@/components/ui/button";
 import { InvoiceService } from "@/elysia/modules/invoices/service";
 import { requireUser } from "@/lib/dal";
 import { getQueryClient } from "@/lib/query-client";
@@ -37,6 +41,15 @@ const Page: FC = async () => {
             &#47;&#47; Gestión de facturas electrónicas
           </PageHeaderDescription>
         </PageHeaderContent>
+        <PageHeaderActions>
+          <Link
+            href="/dashboard/invoices/new-invoice"
+            className={buttonVariants({ size: "lg" })}
+          >
+            <PlusIcon />
+            Nueva factura
+          </Link>
+        </PageHeaderActions>
       </PageHeader>
 
       <HydrationBoundary state={dehydrate(queryClient)}>

@@ -22,14 +22,6 @@ const invoiceStatusConfig: Record<
 
 const columns: ColumnDef<InvoiceRecordResult>[] = [
   {
-    accessorKey: "referenceCode",
-    header: "Referencia",
-    cell: ({ getValue }) => {
-      const value = getValue<string>();
-      return <Badge variant="info">{value}</Badge>;
-    },
-  },
-  {
     accessorKey: "number",
     header: "N° Factura",
     cell: ({ getValue }) => {
