@@ -35,6 +35,7 @@ export function VirtualizedMunicipalityList({
     scrollPaddingStart: 4,
     paddingStart: 4,
     paddingEnd: 4,
+    gap: 4,
   });
 
   useImperativeHandle(virtualizerRef, () => virtualizer);
