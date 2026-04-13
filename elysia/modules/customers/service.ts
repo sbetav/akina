@@ -28,18 +28,6 @@ export interface CustomerInput {
   municipalityId?: string;
 }
 
-export interface CustomerListItem {
-  id: string;
-  identification: string;
-  dv: string | null;
-  identificationDocumentId: IdentityDocumentTypeId;
-  name: string;
-  email: string | null;
-  phone: string | null;
-  municipalityId: string | null;
-  createdAt: string;
-}
-
 export interface CustomerDetailResult {
   id: string;
   identification: string;
@@ -58,7 +46,7 @@ export interface CustomerDetailResult {
 }
 
 export interface CustomerListResult {
-  items: CustomerListItem[];
+  items: CustomerDetailResult[];
   total: number;
   page: number;
   limit: number;
@@ -106,11 +94,16 @@ export const CustomerService = {
           identification: customers.identification,
           dv: customers.dv,
           identificationDocumentId: customers.identificationDocumentId,
+          legalOrganizationId: customers.legalOrganizationId,
+          tributeId: customers.tributeId,
           name: customers.name,
+          tradeName: customers.tradeName,
+          address: customers.address,
           email: customers.email,
           phone: customers.phone,
           municipalityId: customers.municipalityId,
           createdAt: customers.createdAt,
+          updatedAt: customers.updatedAt,
         })
         .from(customers)
         .where(whereClause)
@@ -125,6 +118,7 @@ export const CustomerService = {
       items: rows.map((r) => ({
         ...r,
         createdAt: r.createdAt.toISOString(),
+        updatedAt: r.updatedAt.toISOString(),
       })),
       total: Number(total),
       page,

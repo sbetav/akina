@@ -1,6 +1,5 @@
 "use client";
 
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
   getCoreRowModel,
   type RowSelectionState,
@@ -29,10 +28,8 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { useCredentialsContext } from "@/contexts/credentials-context";
-import { api } from "@/elysia/eden";
-import { getApiErrorMessage } from "@/elysia/get-api-error-message";
-import useDebounce from "@/hooks/ui/use-debounce";
-import { CUSTOMERS_QUERY_KEY, DEFAULT_CUSTOMERS_LIMIT } from "@/lib/query-keys";
+import { useCustomers } from "@/hooks/api/use-customer";
+import { DEFAULT_CUSTOMERS_LIMIT } from "@/lib/query-keys";
 import DeleteCustomerDialog from "../delete-customer-dialog";
 import { columns } from "./columns";
 
@@ -49,28 +46,24 @@ function CustomersTableContent() {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [showBulkDelete, setShowBulkDelete] = useState(false);
 
-  const debouncedSearch = useDebounce(search, 300);
-
-  const { data, error, isError, isFetching, isPending, refetch } = useQuery({
-    queryKey: [
-      ...CUSTOMERS_QUERY_KEY,
-      { search: debouncedSearch, page, limit },
-    ],
-    queryFn: async () => {
-      const res = await api.customers.get({
-        query: { search: debouncedSearch, page, limit },
-      });
-      if (res.error)
-        throw new Error(
-          getApiErrorMessage(res.error, "Error al obtener los clientes"),
-        );
-      return res.data;
-    },
-    placeholderData: keepPreviousData,
+  const {
+    data,
+    error,
+    isError,
+    isFetching,
+    isPending,
+    refetch,
+    debouncedSearch,
+  } = useCustomers({
+    search,
+    page,
+    limit,
+    paginated: true,
   });
 
   const items = data?.items ?? [];
   const total = data?.total ?? 0;
+
   const pageCount = Math.max(1, Math.ceil(total / limit));
 
   const handleSearchChange = (value: string) => {

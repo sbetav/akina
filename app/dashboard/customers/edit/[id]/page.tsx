@@ -12,7 +12,6 @@ import {
   type CustomerDetailResult,
   CustomerService,
 } from "@/elysia/modules/customers/service";
-import { FactusService } from "@/elysia/modules/factus/service";
 import { requireUser } from "@/lib/dal";
 
 interface PageProps {
@@ -30,15 +29,6 @@ const Page: FC<PageProps> = async ({ params }) => {
     notFound();
   }
 
-  let municipalities: Awaited<
-    ReturnType<typeof FactusService.getMunicipalities>
-  > = [];
-  try {
-    municipalities = await FactusService.getMunicipalities(user.id);
-  } catch {
-    // Fallback to empty — the form still works, user just can't pick a municipality
-  }
-
   return (
     <div className="flex min-h-full w-full flex-1 flex-col gap-6">
       <PageHeader>
@@ -50,10 +40,7 @@ const Page: FC<PageProps> = async ({ params }) => {
           </PageHeaderDescription>
         </PageHeaderContent>
       </PageHeader>
-      <CustomerForm
-        municipalities={municipalities}
-        selectedCustomer={customer}
-      />
+      <CustomerForm selectedCustomer={customer} />
     </div>
   );
 };

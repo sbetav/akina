@@ -13,7 +13,12 @@ import {
   StoreIcon,
   UserIcon,
 } from "lucide-react";
-import { Controller, useFormContext, useWatch } from "react-hook-form";
+import {
+  Controller,
+  type FieldValues,
+  useFormContext,
+  useWatch,
+} from "react-hook-form";
 import {
   Field,
   FieldError,
@@ -35,16 +40,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { CustomerFormValues } from "@/lib/validations/customer";
+import type { CustomerFieldNames } from "./field-names";
 
 const organizationTypes = Object.values(OrganizationTypeId);
 const customerTributes = Object.values(CustomerTributeId);
 
-export function OrganizationFieldSet() {
-  const { control } = useFormContext<CustomerFormValues>();
+export function OrganizationFieldSet<T extends FieldValues>({
+  names,
+}: {
+  names: CustomerFieldNames<T>;
+}) {
+  const { control } = useFormContext<T>();
   const legalOrganizationId = useWatch({
     control,
-    name: "legalOrganizationId",
+    name: names.legalOrganizationId,
   });
   const isNaturalPerson =
     legalOrganizationId === OrganizationTypeId.NaturalPerson;
@@ -52,10 +61,10 @@ export function OrganizationFieldSet() {
     <FieldSet>
       <FieldLegend>Organización</FieldLegend>
       <FieldGroup>
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 @xl/field-group:grid-cols-2">
           <Controller
             control={control}
-            name="legalOrganizationId"
+            name={names.legalOrganizationId}
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel htmlFor={field.name}>
@@ -98,7 +107,7 @@ export function OrganizationFieldSet() {
 
           <Controller
             control={control}
-            name="tributeId"
+            name={names.tributeId}
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel htmlFor={field.name}>Régimen tributario</FieldLabel>
@@ -139,7 +148,7 @@ export function OrganizationFieldSet() {
 
           <Controller
             control={control}
-            name="name"
+            name={names.name}
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel htmlFor={field.name}>
@@ -165,7 +174,7 @@ export function OrganizationFieldSet() {
 
           <Controller
             control={control}
-            name="tradeName"
+            name={names.tradeName}
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel htmlFor={field.name}>

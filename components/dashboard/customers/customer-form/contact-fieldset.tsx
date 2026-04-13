@@ -1,9 +1,10 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import type { Municipality } from "factus-js";
 import { MailIcon, MapPinHouseIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 import { useRef } from "react";
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller, type FieldValues, useFormContext } from "react-hook-form";
 import PhoneInput from "react-phone-number-input/input";
 import {
   Combobox,
@@ -24,28 +25,46 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import type { CustomerFormValues } from "@/lib/validations/customer";
+import { api } from "@/elysia/eden";
+import { getApiErrorMessage } from "@/elysia/get-api-error-message";
+import { MUNICIPALITIES_QUERY_KEY } from "@/lib/query-keys";
+import type { CustomerFieldNames } from "./field-names";
 import {
   type MunicipalityVirtualizer,
   VirtualizedMunicipalityList,
 } from "./virtualized-municipality-list";
 
-interface ContactFieldSetProps {
-  municipalities: Municipality[];
-}
-
-export function ContactFieldSet({ municipalities }: ContactFieldSetProps) {
-  const { control } = useFormContext<CustomerFormValues>();
+export function ContactFieldSet<T extends FieldValues>({
+  names,
+}: {
+  names: CustomerFieldNames<T>;
+}) {
+  const { control } = useFormContext<T>();
   const virtualizerRef = useRef<MunicipalityVirtualizer | null>(null);
+
+  const { data: municipalities = [], isPending: isLoadingMunicipalities } =
+    useQuery({
+      queryKey: [...MUNICIPALITIES_QUERY_KEY],
+      queryFn: async () => {
+        const res = await api.factus.municipalities.get({
+          query: { name: "" },
+        });
+        if (res.error)
+          throw new Error(
+            getApiErrorMessage(res.error, "Error al obtener los municipios"),
+          );
+        return res.data.data ?? [];
+      },
+    });
 
   return (
     <FieldSet>
       <FieldLegend>Contacto</FieldLegend>
       <FieldGroup>
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 @xl/field-group:grid-cols-2">
           <Controller
             control={control}
-            name="email"
+            name={names.email}
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel htmlFor={field.name}>
@@ -73,7 +92,7 @@ export function ContactFieldSet({ municipalities }: ContactFieldSetProps) {
 
           <Controller
             control={control}
-            name="phone"
+            name={names.phone}
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel htmlFor={field.name}>
@@ -105,7 +124,7 @@ export function ContactFieldSet({ municipalities }: ContactFieldSetProps) {
 
           <Controller
             control={control}
-            name="municipalityId"
+            name={names.municipalityId}
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel htmlFor={field.name}>
@@ -156,14 +175,18 @@ export function ContactFieldSet({ municipalities }: ContactFieldSetProps) {
                   <ComboboxInput
                     placeholder="Buscar municipio"
                     aria-invalid={fieldState.invalid}
-                    showClear
+                    showPending={isLoadingMunicipalities}
                   >
                     <InputGroupAddon>
                       <MapPinIcon />
                     </InputGroupAddon>
                   </ComboboxInput>
                   <ComboboxContent>
-                    <ComboboxEmpty>No se encontraron resultados.</ComboboxEmpty>
+                    <ComboboxEmpty>
+                      {isLoadingMunicipalities
+                        ? "Cargando municipios..."
+                        : "No se encontraron resultados."}
+                    </ComboboxEmpty>
                     <VirtualizedMunicipalityList
                       virtualizerRef={virtualizerRef}
                     />
@@ -176,7 +199,7 @@ export function ContactFieldSet({ municipalities }: ContactFieldSetProps) {
 
           <Controller
             control={control}
-            name="address"
+            name={names.address}
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel htmlFor={field.name}>

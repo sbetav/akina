@@ -32,32 +32,14 @@ export const CustomerListQuery = t.Object({
 
 // ─── Response shapes ──────────────────────────────────────────────────────────
 
-/**
- * Compact row returned in list view — enough to populate table columns
- * and drive a "select customer" flow (e.g. when creating an invoice).
- */
-export const CustomerItem = t.Object({
-  id: t.String(),
-  identification: t.String(),
-  dv: t.Union([t.String(), t.Null()]),
-  identificationDocumentId: toElysiaEnum(IdentityDocumentTypeId),
-  name: t.String(),
-  email: t.Union([t.String(), t.Null()]),
-  phone: t.Union([t.String(), t.Null()]),
-  municipalityId: t.Union([t.String(), t.Null()]),
-  createdAt: t.String(),
-});
-
-/**
- * Full customer detail — used for edit prefill.
- */
+/** Full customer detail shape used by both list and get-by-id. */
 export const CustomerDetail = t.Object({
   id: t.String(),
   identification: t.String(),
   dv: t.Union([t.String(), t.Null()]),
-  identificationDocumentId: t.String(),
-  legalOrganizationId: t.String(),
-  tributeId: t.String(),
+  identificationDocumentId: toElysiaEnum(IdentityDocumentTypeId),
+  legalOrganizationId: toElysiaEnum(OrganizationTypeId),
+  tributeId: toElysiaEnum(CustomerTributeId),
   name: t.String(),
   tradeName: t.Union([t.String(), t.Null()]),
   address: t.Union([t.String(), t.Null()]),
@@ -69,7 +51,7 @@ export const CustomerDetail = t.Object({
 });
 
 export const CustomerListResponse = t.Object({
-  items: t.Array(CustomerItem),
+  items: t.Array(CustomerDetail),
   total: t.Number(),
   page: t.Number(),
   limit: t.Number(),

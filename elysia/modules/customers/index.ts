@@ -122,8 +122,4 @@ export const customersModule = new Elysia({ prefix: "/customers" })
   );
 
 // Re-export types for Eden client consumption
-export type {
-  CustomerDetailResult,
-  CustomerListItem,
-  CustomerListResult,
-} from "./service";
+export type { CustomerDetailResult, CustomerListResult } from "./service";

@@ -17,7 +17,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { CustomerListItem } from "@/elysia/modules/customers";
+import type { CustomerDetailResult } from "@/elysia/modules/customers";
 import { formatDocumentNumber } from "@/lib/utils";
 import DeleteCustomerDialog from "../delete-customer-dialog";
 
@@ -50,7 +50,7 @@ function identityDocumentBadgeVariant(
 // ─── Row actions cell ─────────────────────────────────────────────────────────
 
 interface RowActionsCellProps {
-  customer: CustomerListItem;
+  customer: CustomerDetailResult;
 }
 
 const RowActionsCell: FC<RowActionsCellProps> = ({ customer }) => {
@@ -102,7 +102,7 @@ const RowActionsCell: FC<RowActionsCellProps> = ({ customer }) => {
 
 // ─── Columns ──────────────────────────────────────────────────────────────────
 
-const columns: ColumnDef<CustomerListItem>[] = [
+const columns: ColumnDef<CustomerDetailResult>[] = [
   {
     id: "select",
     header: ({ table }) => (

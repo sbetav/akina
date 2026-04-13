@@ -3,7 +3,13 @@
 import { IdentityDocumentTypeId, IdentityDocumentTypeIdInfo } from "factus-js";
 import { HashIcon, ScrollTextIcon } from "lucide-react";
 import { useEffect } from "react";
-import { Controller, useFormContext, useWatch } from "react-hook-form";
+import {
+  Controller,
+  type FieldPathValue,
+  type FieldValues,
+  useFormContext,
+  useWatch,
+} from "react-hook-form";
 import {
   Field,
   FieldError,
@@ -27,7 +33,7 @@ import {
 } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
 import { calculateDV } from "@/lib/utils";
-import type { CustomerFormValues } from "@/lib/validations/customer";
+import type { CustomerFieldNames } from "./field-names";
 
 const identityDocumentTypes = Object.values(IdentityDocumentTypeId);
 
@@ -35,36 +41,44 @@ interface IdentificationFieldSetProps {
   isSearchingAcquirer: boolean;
 }
 
-export function IdentificationFieldSet({
+export function IdentificationFieldSet<T extends FieldValues>({
   isSearchingAcquirer,
-}: IdentificationFieldSetProps) {
-  const { control, setValue, resetField } =
-    useFormContext<CustomerFormValues>();
+  names,
+}: IdentificationFieldSetProps & { names: CustomerFieldNames<T> }) {
+  const { control, setValue, resetField } = useFormContext<T>();
 
-  const identification = useWatch({ control, name: "identification" });
+  const identification = useWatch({ control, name: names.identification });
   const documentTypeId = useWatch({
     control,
-    name: "identificationDocumentId",
+    name: names.identificationDocumentId,
   });
 
   const isNIT = documentTypeId === IdentityDocumentTypeId.NIT;
 
   useEffect(() => {
     if (!isNIT) {
-      if (!isNIT) resetField("dv", { defaultValue: "" });
+      resetField(names.dv, {
+        defaultValue: "" as FieldPathValue<T, typeof names.dv>,
+      });
       return;
     }
-    setValue("dv", calculateDV(identification));
-  }, [identification, documentTypeId, isNIT, setValue]);
+    setValue(
+      names.dv,
+      calculateDV(String(identification ?? "")) as FieldPathValue<
+        T,
+        typeof names.dv
+      >,
+    );
+  }, [identification, documentTypeId, isNIT, names.dv, resetField, setValue]);
 
   return (
     <FieldSet>
       <FieldLegend>Identificación</FieldLegend>
       <FieldGroup>
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 @xl/field-group:grid-cols-2">
           <Controller
             control={control}
-            name="identificationDocumentId"
+            name={names.identificationDocumentId}
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel htmlFor={field.name}>Tipo de documento</FieldLabel>
@@ -103,10 +117,10 @@ export function IdentificationFieldSet({
             )}
           />
 
-          <div className="flex flex-col gap-3 xl:flex-row">
+          <div className="flex flex-col gap-3 @2xl/field-group:flex-row">
             <Controller
               control={control}
-              name="identification"
+              name={names.identification}
               render={({ field, fieldState }) => (
                 <Field className="w-full flex-1">
                   <FieldLabel htmlFor={field.name}>
@@ -136,9 +150,9 @@ export function IdentificationFieldSet({
             {isNIT && (
               <Controller
                 control={control}
-                name="dv"
+                name={names.dv}
                 render={({ field, fieldState }) => (
-                  <Field className="w-full xl:max-w-32">
+                  <Field className="w-full @2xl/field-group:max-w-32">
                     <FieldLabel htmlFor={field.name}>DV</FieldLabel>
                     <InputGroup>
                       <InputGroupInput
