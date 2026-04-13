@@ -18,8 +18,7 @@ export default function Page() {
         <PageHeaderContent>
           <PageHeaderTitle>Conexión a Factus</PageHeaderTitle>
           <PageHeaderDescription className="normal-case">
-            &#47;&#47; Conecta Akina con Factus y comienza a emitir documentos
-            electrónicos
+            Conecta Akina con Factus y comienza a emitir documentos electrónicos
           </PageHeaderDescription>
         </PageHeaderContent>
         <PageHeaderActions>

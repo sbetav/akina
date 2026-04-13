@@ -48,8 +48,7 @@ const Page: FC = () => {
         <PageHeaderContent>
           <PageHeaderTitle>Rangos de numeración</PageHeaderTitle>
           <PageHeaderDescription className="normal-case">
-            &#47;&#47; Gestiona los rangos de numeración de los documentos
-            electrónicos
+            Gestiona los rangos de numeración de los documentos electrónicos
           </PageHeaderDescription>
         </PageHeaderContent>
         <PageHeaderActions>

@@ -69,10 +69,17 @@ function PageHeaderDescription({
   className,
   ...props
 }: React.ComponentProps<"p">) {
+  const { size } = useContext(PageHeaderContext);
   return (
     <p
       data-slot="page-header-description"
-      className={cn("text-muted-foreground text-xs uppercase", className)}
+      className={cn(
+        "text-muted-foreground text-xs uppercase",
+        {
+          "normal-case": size === "sm",
+        },
+        className,
+      )}
       {...props}
     />
   );
