@@ -16,13 +16,13 @@ import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
 import { api } from "@/elysia/eden";
 import { getApiErrorMessage } from "@/elysia/get-api-error-message";
-import type { ProductListItem } from "@/elysia/modules/products/service";
+import type { ProductDetailResult } from "@/elysia/modules/products/service";
 import { PRODUCTS_QUERY_KEY } from "@/lib/query-keys";
 
 interface DeleteProductDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  products: ProductListItem[];
+  products: ProductDetailResult[];
 }
 
 const DeleteProductDialog: FC<DeleteProductDialogProps> = ({
