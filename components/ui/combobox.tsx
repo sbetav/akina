@@ -1,5 +1,5 @@
 import { Combobox as ComboboxPrimitive } from "@base-ui/react";
-import { CheckIcon, ChevronDownIcon, XIcon } from "lucide-react";
+import { CheckIcon, ChevronDownIcon, LockIcon, XIcon } from "lucide-react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -58,14 +58,31 @@ function ComboboxInput({
 }) {
   return (
     <ComboboxPrimitive.InputGroup
-      render={<InputGroup className={cn("w-auto", className)} />}
+      render={
+        <InputGroup
+          className={cn(
+            "w-auto",
+            disabled && "cursor-not-allowed **:cursor-not-allowed",
+            className,
+          )}
+        />
+      }
     >
       <ComboboxPrimitive.Input
-        render={<InputGroupInput disabled={disabled} />}
+        render={
+          <InputGroupInput
+            disabled={disabled}
+            className={cn(disabled && "cursor-not-allowed")}
+          />
+        }
         {...props}
       />
       <InputGroupAddon align="inline-end">
-        {showPending ? (
+        {disabled ? (
+          <span className="text-muted-foreground flex size-8 cursor-not-allowed items-center justify-center">
+            <LockIcon className="pointer-events-none size-4" />
+          </span>
+        ) : showPending ? (
           <Spinner />
         ) : (
           <>

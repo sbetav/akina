@@ -22,7 +22,7 @@ const buttonVariants = cva(
           "aria-expanded:bg-muted/50 aria-expanded:text-foreground border-transparent",
 
         destructive:
-          "bg-destructive/20 focus-visible:ring-destructive/40 text-destructive focus-visible:border-destructive/40 border-transparent",
+          "bg-destructive/20 focus-visible:ring-destructive/40 text-destructive focus-visible:border-destructive/40 border-destructive/35 border",
 
         link: "text-primary h-auto! border-transparent p-0! underline-offset-4 hover:opacity-80",
       },
