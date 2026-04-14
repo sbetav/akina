@@ -13,8 +13,8 @@ import { toast } from "@/components/ui/toast";
 import { api } from "@/elysia/eden";
 import { getApiErrorMessage } from "@/elysia/get-api-error-message";
 import type { ProductDetailResult } from "@/elysia/modules/products/service";
-import { useMeasurementUnits } from "@/hooks/api/use-measurement-units";
-import { useTributes } from "@/hooks/api/use-tributes";
+import { useMeasurementUnits } from "@/hooks/factus/use-measurement-units";
+import { useTributes } from "@/hooks/factus/use-tributes";
 import { useGoBack } from "@/hooks/ui/use-go-back";
 import { PRODUCTS_QUERY_KEY } from "@/lib/query-keys";
 import {

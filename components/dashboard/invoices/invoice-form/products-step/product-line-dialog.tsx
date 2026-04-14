@@ -38,7 +38,7 @@ import {
 import { NumberInput } from "@/components/ui/number-input";
 import { toast } from "@/components/ui/toast";
 import type { ProductDetailResult } from "@/elysia/modules/products/service";
-import { useProducts } from "@/hooks/api/use-product";
+import { useProducts } from "@/hooks/api/use-products";
 import { COP } from "@/lib/utils";
 import {
   type InvoiceItemValues,

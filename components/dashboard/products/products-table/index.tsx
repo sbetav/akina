@@ -29,7 +29,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { useCredentialsContext } from "@/contexts/credentials-context";
-import { useProducts } from "@/hooks/api/use-product";
+import { useProducts } from "@/hooks/api/use-products";
 import { DEFAULT_PRODUCTS_LIMIT } from "@/lib/query-keys";
 import DeleteProductDialog from "../delete-product-dialog";
 import { buildColumns } from "./columns";

@@ -17,7 +17,6 @@ import { toast } from "@/components/ui/toast";
 import { api } from "@/elysia/eden";
 import { getApiErrorMessage } from "@/elysia/get-api-error-message";
 import type { CredentialListItem } from "@/elysia/modules/factus/service";
-import { credentialsListQueryOptions } from "@/hooks/factus/credentials-query-options";
 import { AKINA_SANDBOX_ID } from "@/lib/constants";
 import {
   publishCrossTabSyncEvent,
@@ -27,6 +26,7 @@ import {
   CREDENTIAL_DEPENDENT_KEYS,
   CREDENTIALS_QUERY_KEY,
 } from "@/lib/query-keys";
+import { credentialsListQueryOptions } from "@/lib/query-options/factus/credentials";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 

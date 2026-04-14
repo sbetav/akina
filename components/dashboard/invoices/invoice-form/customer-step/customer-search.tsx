@@ -20,7 +20,7 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 import type { CustomerDetailResult } from "@/elysia/modules/customers";
-import { useCustomers } from "@/hooks/api/use-customer";
+import { useCustomers } from "@/hooks/api/use-customers";
 import type { InvoiceFormValues } from "@/lib/validations/invoice";
 import type { CustomerStepProps } from ".";
 

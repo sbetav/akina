@@ -3,15 +3,12 @@ import { api } from "@/elysia/eden";
 import { getApiErrorMessage } from "@/elysia/get-api-error-message";
 import { NUMBERING_RANGES_QUERY_KEY } from "@/lib/query-keys";
 
-interface UseNumberingRangesQueryParams {
+interface UseNumberingRangesParams {
   page: number;
   limit: number;
 }
 
-export function useNumberingRangesQuery({
-  page,
-  limit,
-}: UseNumberingRangesQueryParams) {
+export function useNumberingRanges({ page, limit }: UseNumberingRangesParams) {
   return useQuery({
     queryKey: [...NUMBERING_RANGES_QUERY_KEY, { page, limit }],
     queryFn: async () => {

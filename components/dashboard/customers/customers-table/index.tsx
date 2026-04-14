@@ -28,7 +28,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { useCredentialsContext } from "@/contexts/credentials-context";
-import { useCustomers } from "@/hooks/api/use-customer";
+import { useCustomers } from "@/hooks/api/use-customers";
 import { DEFAULT_CUSTOMERS_LIMIT } from "@/lib/query-keys";
 import DeleteCustomerDialog from "../delete-customer-dialog";
 import { columns } from "./columns";

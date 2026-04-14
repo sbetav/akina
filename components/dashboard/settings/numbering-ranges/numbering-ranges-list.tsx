@@ -33,7 +33,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCredentialsContext } from "@/contexts/credentials-context";
 import type { NumberingRangeItemResult } from "@/elysia/modules/factus/service";
-import { useNumberingRangesQuery } from "@/hooks/factus/use-numbering-ranges-query";
+import { useNumberingRanges } from "@/hooks/factus/use-numbering-ranges";
 import { DEFAULT_NUMBERING_RANGES_LIMIT } from "@/lib/query-keys";
 import CreateNumberingRangeDialog from "./create-numbering-range-dialog";
 import DeleteNumberingRangeDialog from "./delete-numbering-range-dialog";
@@ -65,7 +65,7 @@ const NumberingRangesListContent: FC<NumberingRangesListContentProps> = ({
   const [showDeleteRange, setShowDeleteRange] = useState(false);
   const [showUpdateRange, setShowUpdateRange] = useState(false);
 
-  const { data, isPending } = useNumberingRangesQuery({ page, limit });
+  const { data, isPending } = useNumberingRanges({ page, limit });
 
   const items = data?.items ?? [];
   const total = data?.total ?? 0;

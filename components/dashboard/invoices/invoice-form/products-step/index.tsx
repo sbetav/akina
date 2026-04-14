@@ -20,7 +20,7 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { toast } from "@/components/ui/toast";
-import { useTributes } from "@/hooks/api/use-tributes";
+import { useTributes } from "@/hooks/factus/use-tributes";
 import type {
   InvoiceFormValues,
   InvoiceItemValues,
