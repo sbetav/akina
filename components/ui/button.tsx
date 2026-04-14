@@ -8,16 +8,22 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-primary-foreground hover:bg-primary/80 border-transparent",
+        default: "bg-primary text-primary-foreground border-transparent",
+
+        "default-subtle": "bg-primary/10 text-primary border-primary/20",
+
         outline:
-          "border-border bg-input! text-foreground/90 hover:bg-input! hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground shadow-xs",
+          "border-border bg-input! text-foreground/90 aria-expanded:bg-muted aria-expanded:text-foreground shadow-xs",
+
         secondary:
-          "bg-secondary border-border text-secondary-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+          "bg-secondary border-border text-secondary-foreground aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+
         ghost:
-          "hover:bg-muted/50 hover:text-foreground aria-expanded:bg-muted/50 aria-expanded:text-foreground border-transparent",
+          "aria-expanded:bg-muted/50 aria-expanded:text-foreground border-transparent",
+
         destructive:
-          "bg-destructive/20 hover:bg-destructive/30 focus-visible:ring-destructive/40 text-destructive focus-visible:border-destructive/40 border-transparent",
+          "bg-destructive/20 focus-visible:ring-destructive/40 text-destructive focus-visible:border-destructive/40 border-transparent",
+
         link: "text-primary h-auto! border-transparent p-0! underline-offset-4 hover:opacity-80",
       },
       size: {
@@ -48,7 +54,11 @@ function Button({
   return (
     <ButtonPrimitive
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(
+        buttonVariants({ variant, size }),
+        variant !== "link" && "hover:brightness-85 active:translate-y-px",
+        className,
+      )}
       {...props}
     />
   );
