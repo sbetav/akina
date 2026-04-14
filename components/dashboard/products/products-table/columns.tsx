@@ -1,13 +1,12 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import type { VariantProps } from "class-variance-authority";
 import type { Tribute } from "factus-js";
 import { SquarePenIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import { type FC, useState } from "react";
 import EllipsisIcon from "@/components/icons/ellipsis-icon";
-import { Badge, type badgeVariants } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -20,33 +19,7 @@ import {
 import type { ProductDetailResult } from "@/elysia/modules/products/service";
 import { COP } from "@/lib/utils";
 import DeleteProductDialog from "../delete-product-dialog";
-
-/** Cycles for every numeric `tributeId` (and future codes). */
-const tributeBadgePalette = [
-  "teal",
-  "cyan",
-  "indigo",
-  "violet",
-  "purple",
-  "fuchsia",
-] as const satisfies readonly NonNullable<
-  VariantProps<typeof badgeVariants>["variant"]
->[];
-
-function tributeBadgeVariant(
-  id: string,
-): NonNullable<VariantProps<typeof badgeVariants>["variant"]> {
-  const n = Number(id);
-  if (!Number.isFinite(n) || n < 1) {
-    return "info";
-  }
-  return tributeBadgePalette[(Math.trunc(n) - 1) % tributeBadgePalette.length];
-}
-
-function formatTaxRate(rate: number): string {
-  if (rate === 0) return "0%";
-  return `${+(rate * 100).toFixed(2)}%`;
-}
+import { formatRate, getTributeLabel, tributeBadgeVariant } from "../utils";
 
 // ─── Row actions cell ─────────────────────────────────────────────────────────
 
@@ -154,8 +127,7 @@ export function buildColumns(
       header: "Tributo",
       cell: ({ getValue }) => {
         const value = getValue<string>();
-        const label =
-          tributes.find((t) => t.id.toString() === value)?.name ?? value;
+        const label = getTributeLabel(tributes, value);
         return <Badge variant={tributeBadgeVariant(value)}>{label}</Badge>;
       },
     },
@@ -169,7 +141,7 @@ export function buildColumns(
         }
         return (
           <span className="text-muted-foreground tabular-nums">
-            {formatTaxRate(taxRate)}
+            {formatRate(taxRate)}
           </span>
         );
       },
