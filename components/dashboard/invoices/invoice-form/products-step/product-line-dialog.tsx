@@ -203,7 +203,13 @@ const ProductLineDialog: FC<ProductLineDialogProps> = ({
           </DialogDescription>
         </DialogHeader>
 
-        <form id="product-line-form" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          id="product-line-form"
+          onSubmit={(event) => {
+            event.stopPropagation();
+            void handleSubmit(onSubmit)(event);
+          }}
+        >
           <FieldGroup>
             <Controller
               control={control}
