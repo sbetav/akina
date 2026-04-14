@@ -60,6 +60,36 @@ export function formatDocumentNumber(value: string | number): string {
 }
 
 /**
+ * Tokenizes a free-text search query into reusable terms.
+ *
+ * - Trims and removes punctuation.
+ * - Splits by whitespace.
+ * - Adds a compact numeric token (digits only) when present.
+ * - De-duplicates resulting terms.
+ */
+export function getSearchTerms(rawSearch?: string): string[] {
+  if (!rawSearch) return [];
+
+  const trimmed = rawSearch.trim();
+  if (!trimmed) return [];
+
+  const textTerms = trimmed
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .split(/\s+/)
+    .filter((term) => term.length > 0);
+
+  const compactDigits = trimmed.replace(/\D/g, "");
+  const isAlreadyCompact =
+    textTerms.length === 1 && textTerms[0] === compactDigits;
+  const terms =
+    compactDigits && !isAlreadyCompact
+      ? [...textTerms, compactDigits]
+      : textTerms;
+
+  return [...new Set(terms)];
+}
+
+/**
  * Calculates the verification digit (DV) for a Colombian NIT number.
  *
  * The DV is a single digit derived from the NIT using the official DIAN

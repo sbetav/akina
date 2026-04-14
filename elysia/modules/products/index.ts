@@ -56,7 +56,8 @@ export const productsModule = new Elysia({ prefix: "/products" })
   /**
    * GET /api/products?search=&page=&limit=
    * Returns a paginated list of products for the user's active credential.
-   * Search matches against name or code (case-insensitive).
+   * Search tokenizes the query and matches partial terms against name or
+   * code (case-insensitive), ignoring punctuation.
    */
   .get(
     "/",

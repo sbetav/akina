@@ -16,7 +16,8 @@ export const customersModule = new Elysia({ prefix: "/customers" })
   /**
    * GET /api/customers?search=&page=&limit=
    * Returns a paginated list of customers for the user's active credential.
-   * Search matches against name or identification number (case-insensitive).
+   * Search tokenizes the query and matches partial terms against name or
+   * identification number (case-insensitive), ignoring punctuation.
    */
   .get(
     "/",

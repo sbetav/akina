@@ -7,7 +7,7 @@ import {
   createWorkspaceFilter,
   getActiveCredentialsIdForUser,
 } from "@/elysia/workspace";
-import { formatRef } from "@/lib/utils";
+import { formatRef, getSearchTerms } from "@/lib/utils";
 
 // ─── Shared types ─────────────────────────────────────────────────────────────
 
@@ -55,7 +55,8 @@ export const ProductService = {
   /**
    * Returns a paginated + searchable list of products scoped to the active
    * workspace (userId + credentialsId). NULL credentialsId = Akina Sandbox.
-   * Search matches against name OR code (case-insensitive).
+   * Search is tokenized and matches partial terms against name OR
+   * code (case-insensitive), ignoring punctuation.
    */
   async list(
     userId: string,
@@ -69,16 +70,20 @@ export const ProductService = {
 
     const baseFilter = buildFilter(userId, credentialsId);
 
-    const whereClause =
-      options.search && options.search.trim().length > 0
-        ? and(
-            baseFilter,
-            or(
-              ilike(products.name, `%${options.search.trim()}%`),
-              ilike(products.code, `%${options.search.trim()}%`),
-            ),
+    const searchTerms = getSearchTerms(options.search);
+    const searchFilter =
+      searchTerms.length > 0
+        ? or(
+            ...searchTerms.flatMap((term) => [
+              ilike(products.name, `%${term}%`),
+              ilike(products.code, `%${term}%`),
+            ]),
           )
-        : baseFilter;
+        : undefined;
+
+    const whereClause = searchFilter
+      ? and(baseFilter, searchFilter)
+      : baseFilter;
 
     const [rows, [{ value: total }]] = await Promise.all([
       db
