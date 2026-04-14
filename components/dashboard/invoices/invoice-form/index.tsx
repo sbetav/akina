@@ -15,10 +15,12 @@ import {
   ReceiptIcon,
   UserIcon,
 } from "lucide-react";
-import { type FC, useState } from "react";
+import { type FC, useEffect, useRef, useState } from "react";
 import { Fragment } from "react/jsx-runtime";
 import { type FieldPath, FormProvider, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import { Field, FieldLabel } from "@/components/ui/field";
+import { Progress } from "@/components/ui/progress";
 import { toast } from "@/components/ui/toast";
 import { useCredentialsContext } from "@/contexts/credentials-context";
 import type { CustomerDetailResult } from "@/elysia/modules/customers";
@@ -32,6 +34,7 @@ import CustomerStep from "./customer-step";
 import InvoiceDetailsStep from "./invoice-details-step";
 import ProductsStep from "./products-step";
 import ReviewStep from "./review-step";
+import SummaryCard from "./summary-card";
 
 const FORM_STEPS = [
   {
@@ -66,6 +69,7 @@ const InvoiceForm: FC = () => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [selectedCustomer, setSelectedCustomer] =
     useState<CustomerDetailResult | null>(null);
+  const prevStepIndexRef = useRef(currentStepIndex);
 
   const methods = useForm<InvoiceFormValues>({
     resolver: zodResolver(invoiceFormSchema),
@@ -99,16 +103,31 @@ const InvoiceForm: FC = () => {
 
   const currentStep = FORM_STEPS[currentStepIndex];
   const CurrentStepComponent = currentStep?.component;
-  const stepProps =
-    currentStep?.value === "customer"
-      ? {
-          selectedCustomer,
-          onSelectedCustomerChange: setSelectedCustomer,
-        }
-      : {};
+  const isReviewStep = currentStep?.value === "summary";
+
+  const stepProps = (() => {
+    if (currentStep?.value === "customer") {
+      return {
+        selectedCustomer,
+        onSelectedCustomerChange: setSelectedCustomer,
+      };
+    }
+
+    if (currentStep?.value === "summary") {
+      return {
+        onEditStep: (stepIndex: number) => setCurrentStepIndex(stepIndex),
+      };
+    }
+
+    return {};
+  })();
 
   const isFirstStep = currentStepIndex === 0;
   const isLastStep = currentStepIndex === FORM_STEPS.length - 1;
+  const currentStepNumber = currentStepIndex + 1;
+  const totalSteps = FORM_STEPS.length;
+  const progressValue =
+    totalSteps > 0 ? Math.round((currentStepNumber / totalSteps) * 100) : 0;
 
   const getFieldsForStep = (
     stepValue: (typeof FORM_STEPS)[number]["value"],
@@ -168,11 +187,28 @@ const InvoiceForm: FC = () => {
     toast.info("Envío de factura pendiente por implementar");
   });
 
+  useEffect(() => {
+    if (prevStepIndexRef.current !== currentStepIndex) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      prevStepIndexRef.current = currentStepIndex;
+    }
+  }, [currentStepIndex]);
+
   return (
     <FormProvider {...methods}>
       <form onSubmit={onSubmit} className="flex flex-1 flex-col gap-6">
         {/* Steps */}
-        <div className="flex items-center gap-2.5">
+        <Field className="w-full sm:hidden">
+          <FieldLabel htmlFor="invoice-form-progress">
+            <span>{currentStep?.label ?? "Paso"}</span>
+            <span className="ml-auto">
+              {currentStepNumber}/{totalSteps}
+            </span>
+          </FieldLabel>
+          <Progress value={progressValue} id="invoice-form-progress" />
+        </Field>
+
+        <div className="hidden items-center gap-2.5 sm:flex">
           {FORM_STEPS.map((step, index) => {
             const isActive = index === currentStepIndex;
             const isCompleted = index < currentStepIndex;
@@ -201,7 +237,12 @@ const InvoiceForm: FC = () => {
         </div>
 
         {/* Main layout */}
-        <div className="grid flex-1 grid-cols-1 items-stretch gap-6 lg:grid-cols-[1fr_350px]">
+        <div
+          className={cn(
+            "grid flex-1 grid-cols-1 items-stretch gap-6",
+            isReviewStep ? "lg:grid-cols-1" : "xl:grid-cols-[1fr_350px]",
+          )}
+        >
           <DashboardCard className="flex flex-1 flex-col gap-8">
             {CurrentStepComponent && (
               <div className="flex flex-1 flex-col">
@@ -238,10 +279,11 @@ const InvoiceForm: FC = () => {
             </div>
           </DashboardCard>
 
-          {/* sticky summary */}
-          <DashboardCard className="sticky top-6 flex flex-col gap-5 self-start">
-            Summary
-          </DashboardCard>
+          {!isReviewStep && (
+            <div className="sticky top-6 hidden self-start xl:block">
+              <SummaryCard />
+            </div>
+          )}
         </div>
       </form>
     </FormProvider>

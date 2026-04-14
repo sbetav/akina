@@ -5,6 +5,7 @@ import { PackageIcon } from "lucide-react";
 import { type FC, useEffect, useMemo, useState } from "react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
+import { normalizeDiscountRate } from "@/components/dashboard/products/utils";
 import { Button } from "@/components/ui/button";
 import {
   Combobox,
@@ -98,7 +99,7 @@ const ProductLineDialog: FC<ProductLineDialogProps> = ({
     () => ({
       productId: editingItem?.productId ?? "",
       quantity: editingItem?.quantity ?? 1,
-      discountRate: editingItem?.discountRate ?? 0,
+      discountRate: normalizeDiscountRate(editingItem?.discountRate ?? 0),
     }),
     [editingItem],
   );
@@ -168,7 +169,7 @@ const ProductLineDialog: FC<ProductLineDialogProps> = ({
       isExcluded: product.isExcluded,
       tributeId: product.tributeId,
       quantity: values.quantity,
-      discountRate: values.discountRate,
+      discountRate: normalizeDiscountRate(values.discountRate),
     });
 
     if (!parsed.success) {
@@ -318,11 +319,6 @@ const ProductLineDialog: FC<ProductLineDialogProps> = ({
                       aria-invalid={fieldState.invalid}
                       value={field.value}
                       onValueChange={(value) => field.onChange(value ?? 0)}
-                      format={{
-                        style: "percent",
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 2,
-                      }}
                     />
                     <FieldError errors={[fieldState.error]} />
                   </Field>

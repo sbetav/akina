@@ -63,7 +63,10 @@ const CustomerSearch: FC<
     Pick<CustomerStepProps, "onSelectedCustomerChange">
 > = ({ selectedCustomer, onSelectedCustomerChange }) => {
   const { setValue } = useFormContext<InvoiceFormValues>();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(() => {
+    if (!selectedCustomer) return "";
+    return `${selectedCustomer.name}, ${IdentityDocumentTypeIdInfo[selectedCustomer.identificationDocumentId].abbreviation}. ${selectedCustomer.identification}`;
+  });
 
   const { data, isFetching } = useCustomers({ search, paginated: true });
 

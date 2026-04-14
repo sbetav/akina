@@ -4,8 +4,10 @@ import type { Tribute } from "factus-js";
 import { EditIcon, Trash2Icon } from "lucide-react";
 import type { FC } from "react";
 import {
+  formatPercentagePoints,
   formatRate,
   getTributeLabel,
+  normalizeDiscountRate,
   tributeBadgeVariant,
 } from "@/components/dashboard/products/utils";
 import { Badge } from "@/components/ui/badge";
@@ -50,8 +52,9 @@ const ProductLinesTable: FC<ProductLinesTableProps> = ({
         </TableHeader>
         <TableBody>
           {items.map((item, index) => {
+            const discountRate = normalizeDiscountRate(item.discountRate);
             const baseAmount =
-              item.price * item.quantity * (1 - item.discountRate / 100);
+              item.price * item.quantity * (1 - discountRate / 100);
             const subtotal = item.isExcluded
               ? baseAmount
               : baseAmount * (1 + item.taxRate);
@@ -68,7 +71,7 @@ const ProductLinesTable: FC<ProductLinesTableProps> = ({
                 </TableCell>
                 <TableCell>{COP.format(item.price)}</TableCell>
                 <TableCell>{item.quantity}</TableCell>
-                <TableCell>{formatRate(item.discountRate)}</TableCell>
+                <TableCell>{formatPercentagePoints(discountRate)}</TableCell>
                 <TableCell>
                   <Badge variant={tributeBadgeVariant(item.tributeId)}>
                     {getTributeLabel(tributes, item.tributeId)}{" "}

@@ -28,6 +28,22 @@ export function formatRate(rate: number): string {
   return `${+(rate * 100).toFixed(2)}%`;
 }
 
+export function formatPercentagePoints(percentage: number): string {
+  if (percentage === 0) return "0%";
+  return `${+percentage.toFixed(2)}%`;
+}
+
+/**
+ * Normalizes percentage-point inputs for discounts.
+ * Supports legacy decimal values (0.19 => 19).
+ */
+export function normalizeDiscountRate(discountRate: number): number {
+  if (discountRate > 0 && discountRate <= 1) {
+    return discountRate * 100;
+  }
+  return discountRate;
+}
+
 export function getTributeLabel(
   tributes: Tribute[],
   tributeId: string,
