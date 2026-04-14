@@ -5,8 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EyeIcon, EyeOffIcon, SaveIcon } from "lucide-react";
 import { type FC, useState } from "react";
-import { Controller, useForm, useWatch } from "react-hook-form";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Controller, useForm } from "react-hook-form";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -61,7 +61,6 @@ const CredentialsForm: FC<CredentialsFormProps> = ({ selectedCredential }) => {
 
   const [showClientSecret, setShowClientSecret] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [environment] = useWatch({ control, name: ["environment"] });
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: CredentialFormValues) => {
@@ -249,24 +248,12 @@ const CredentialsForm: FC<CredentialsFormProps> = ({ selectedCredential }) => {
             </Field>
           )}
         />
-
-        {environment === "sandbox" ? (
-          <Alert variant="warning">
-            <AlertTitle>Modo sandbox</AlertTitle>
-            <AlertDescription>
-              Los documentos emitidos usando esta opción son únicamente de
-              prueba y no son válidos ante la DIAN.
-            </AlertDescription>
-          </Alert>
-        ) : (
-          <Alert variant="info">
-            <AlertTitle>Modo producción</AlertTitle>
-            <AlertDescription>
-              Una vez validadas tus credenciales, podrás emitir documentos
-              electrónicos válidos ante la DIAN.
-            </AlertDescription>
-          </Alert>
-        )}
+        <Alert variant="warning" size="sm">
+          <AlertTitle>
+            Akina utiliza la API de Factus v1, asegúrate de que tus credenciales
+            soportan esta versión
+          </AlertTitle>
+        </Alert>
       </FieldGroup>
 
       <div className="flex w-full flex-col-reverse items-center justify-end gap-3 md:flex-row">
