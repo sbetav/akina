@@ -79,9 +79,7 @@ function ComboboxInput({
       />
       <InputGroupAddon align="inline-end">
         {disabled ? (
-          <span className="text-muted-foreground flex size-8 cursor-not-allowed items-center justify-center">
-            <LockIcon className="pointer-events-none size-4" />
-          </span>
+          <LockIcon className="pointer-events-none size-4" />
         ) : showPending ? (
           <Spinner />
         ) : (
