@@ -44,12 +44,14 @@ interface DetailsFieldSetProps {
   editMode: boolean;
   disableReferenceCheck: boolean;
   measurementUnits: MeasurementUnit[];
+  isLoadingMeasurementUnits: boolean;
 }
 
 export function DetailsFieldSet({
   editMode,
   disableReferenceCheck,
   measurementUnits,
+  isLoadingMeasurementUnits,
 }: DetailsFieldSetProps) {
   const { control, setError, trigger } = useFormContext<ProductFormValues>();
 
@@ -199,6 +201,7 @@ export function DetailsFieldSet({
                   <SelectTrigger
                     id={field.name}
                     aria-invalid={fieldState.invalid}
+                    isPending={isLoadingMeasurementUnits}
                     className="w-full capitalize"
                   >
                     <SelectAddon>

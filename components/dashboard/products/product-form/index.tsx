@@ -3,9 +3,8 @@
 import { useRouter } from "@bprogress/next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { MeasurementUnit, Tribute } from "factus-js";
 import { SaveIcon } from "lucide-react";
-import { type FC, useState } from "react";
+import { type FC, useEffect, useMemo, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -14,6 +13,8 @@ import { toast } from "@/components/ui/toast";
 import { api } from "@/elysia/eden";
 import { getApiErrorMessage } from "@/elysia/get-api-error-message";
 import type { ProductDetailResult } from "@/elysia/modules/products/service";
+import { useMeasurementUnits } from "@/hooks/api/use-measurement-units";
+import { useTributes } from "@/hooks/api/use-tributes";
 import { useGoBack } from "@/hooks/ui/use-go-back";
 import { PRODUCTS_QUERY_KEY } from "@/lib/query-keys";
 import {
@@ -26,30 +27,35 @@ import { TaxesFieldSet } from "./taxes-fieldset";
 
 interface ProductFormProps {
   selectedProduct?: ProductDetailResult;
-  measurementUnits: MeasurementUnit[];
-  tributes: Tribute[];
   initialCode?: string;
 }
 
 const ProductForm: FC<ProductFormProps> = ({
   selectedProduct,
-  measurementUnits,
-  tributes,
   initialCode,
 }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { goBack } = useGoBack({ fallbackHref: "/dashboard/products" });
+  const { data: measurementUnits = [], isPending: isLoadingMeasurementUnits } =
+    useMeasurementUnits();
+  const { data: tributes = [], isPending: isLoadingTributes } = useTributes();
 
-  const DEFAULT_TRIBUTE_ID =
-    tributes
-      .find((tribute) => tribute.name.toLowerCase() === "iva")
-      ?.id.toString() ?? tributes[0]?.id.toString();
+  const DEFAULT_TRIBUTE_ID = useMemo(
+    () =>
+      tributes
+        .find((tribute) => tribute.name.toLowerCase() === "iva")
+        ?.id.toString() ?? tributes[0]?.id.toString(),
+    [tributes],
+  );
 
-  const DEFAULT_UNIT_MEASURE_ID =
-    measurementUnits
-      .find((unit) => unit.name.toLowerCase() === "unidad")
-      ?.id.toString() ?? measurementUnits[0]?.id.toString();
+  const DEFAULT_UNIT_MEASURE_ID = useMemo(
+    () =>
+      measurementUnits
+        .find((unit) => unit.name.toLowerCase() === "unidad")
+        ?.id.toString() ?? measurementUnits[0]?.id.toString(),
+    [measurementUnits],
+  );
 
   const methods = useForm<ProductFormValues>({
     resolver: zodResolver(productFormSchema),
@@ -67,7 +73,23 @@ const ProductForm: FC<ProductFormProps> = ({
     },
   });
 
-  const { handleSubmit } = methods;
+  const { getValues, handleSubmit, setValue } = methods;
+
+  useEffect(() => {
+    if (selectedProduct) return;
+    if (!DEFAULT_TRIBUTE_ID) return;
+    if (getValues("tributeId")) return;
+    setValue("tributeId", DEFAULT_TRIBUTE_ID, { shouldValidate: false });
+  }, [DEFAULT_TRIBUTE_ID, getValues, selectedProduct, setValue]);
+
+  useEffect(() => {
+    if (selectedProduct) return;
+    if (!DEFAULT_UNIT_MEASURE_ID) return;
+    if (getValues("unitMeasureId")) return;
+    setValue("unitMeasureId", DEFAULT_UNIT_MEASURE_ID, {
+      shouldValidate: false,
+    });
+  }, [DEFAULT_UNIT_MEASURE_ID, getValues, selectedProduct, setValue]);
 
   const [redirecting, setRedirecting] = useState(false);
   const { mutate, isPending } = useMutation({
@@ -112,9 +134,13 @@ const ProductForm: FC<ProductFormProps> = ({
               editMode={!!selectedProduct}
               disableReferenceCheck={redirecting}
               measurementUnits={measurementUnits}
+              isLoadingMeasurementUnits={isLoadingMeasurementUnits}
             />
             <Separator />
-            <TaxesFieldSet tributes={tributes} />
+            <TaxesFieldSet
+              tributes={tributes}
+              isLoadingTributes={isLoadingTributes}
+            />
           </div>
 
           <div className="flex w-full flex-col-reverse items-center justify-end gap-3 md:flex-row">

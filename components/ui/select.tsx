@@ -1,6 +1,7 @@
 import { Select as SelectPrimitive } from "@base-ui/react/select";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import type * as React from "react";
+import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 
 const Select = SelectPrimitive.Root;
@@ -50,19 +51,28 @@ function SelectTrigger({
   className,
   size = "default",
   children,
+  isPending = false,
+  disabled,
   ...props
 }: SelectPrimitive.Trigger.Props & {
   size?: "sm" | "default";
+  /** Shows a spinner instead of the chevron and disables the trigger. */
+  isPending?: boolean;
 }) {
+  const mergedDisabled = Boolean(disabled || isPending);
+
   return (
     <SelectPrimitive.Trigger
+      {...props}
       data-slot="select-trigger"
+      data-pending={isPending ? "" : undefined}
       data-size={size}
+      aria-busy={isPending || undefined}
+      disabled={mergedDisabled}
       className={cn(
         "group focus-visible:border-ring focus-visible:ring-ring/50 data-placeholder:text-muted-foreground bg-input aria-invalid:border-destructive aria-invalid:ring-destructive/40 flex w-fit min-w-0 items-center gap-1.5 border py-2 pr-2 pl-3 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 data-[size=default]:h-10 data-[size=sm]:h-8 **:data-[slot=select-value]:line-clamp-1 **:data-[slot=select-value]:flex **:data-[slot=select-value]:items-center **:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className,
       )}
-      {...props}
     >
       <span
         data-slot="select-trigger-content"
@@ -70,11 +80,20 @@ function SelectTrigger({
       >
         {children}
       </span>
-      <SelectPrimitive.Icon
-        render={
-          <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 transition-transform group-data-popup-open:rotate-180" />
-        }
-      />
+      {isPending ? (
+        <span
+          className="text-muted-foreground pointer-events-none mr-1 flex size-4 shrink-0 items-center justify-center"
+          aria-hidden
+        >
+          <Spinner className="size-4" />
+        </span>
+      ) : (
+        <SelectPrimitive.Icon
+          render={
+            <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 transition-transform group-data-popup-open:rotate-180" />
+          }
+        />
+      )}
     </SelectPrimitive.Trigger>
   );
 }

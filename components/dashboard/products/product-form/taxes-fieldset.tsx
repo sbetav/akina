@@ -38,9 +38,13 @@ const IVA_TAX_RATE_OPTIONS = [
 
 interface TaxesFieldSetProps {
   tributes: Tribute[];
+  isLoadingTributes: boolean;
 }
 
-export function TaxesFieldSet({ tributes }: TaxesFieldSetProps) {
+export function TaxesFieldSet({
+  tributes,
+  isLoadingTributes,
+}: TaxesFieldSetProps) {
   const { control, setValue } = useFormContext<ProductFormValues>();
 
   const isExcluded = useWatch({ control, name: "isExcluded" });
@@ -74,6 +78,7 @@ export function TaxesFieldSet({ tributes }: TaxesFieldSetProps) {
                 <SelectTrigger
                   id={field.name}
                   aria-invalid={fieldState.invalid}
+                  isPending={isLoadingTributes}
                   className="w-full"
                 >
                   <SelectAddon>
