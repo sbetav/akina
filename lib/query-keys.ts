@@ -13,6 +13,10 @@ export const NUMBERING_RANGES_QUERY_KEY = [
   "factus",
   "numbering-ranges",
 ] as const;
+export const NUMBERING_RANGES_CATALOG_QUERY_KEY = [
+  "factus",
+  "numbering-ranges-catalog",
+] as const;
 
 export const DEFAULT_CUSTOMERS_LIMIT = 20;
 export const DEFAULT_PRODUCTS_LIMIT = 20;
@@ -31,4 +35,5 @@ export const CREDENTIAL_DEPENDENT_KEYS = [
   INVOICES_QUERY_KEY,
   ACQUIRER_QUERY_KEY,
   NUMBERING_RANGES_QUERY_KEY,
+  NUMBERING_RANGES_CATALOG_QUERY_KEY,
 ] as const;

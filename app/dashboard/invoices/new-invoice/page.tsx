@@ -10,7 +10,11 @@ import {
 import { FactusService } from "@/elysia/modules/factus/service";
 import { requireUser } from "@/lib/dal";
 import { getQueryClient } from "@/lib/query-client";
-import { MUNICIPALITIES_QUERY_KEY, TRIBUTES_QUERY_KEY } from "@/lib/query-keys";
+import {
+  MUNICIPALITIES_QUERY_KEY,
+  NUMBERING_RANGES_CATALOG_QUERY_KEY,
+  TRIBUTES_QUERY_KEY,
+} from "@/lib/query-keys";
 
 const Page = async () => {
   const user = await requireUser();
@@ -24,6 +28,10 @@ const Page = async () => {
     queryClient.prefetchQuery({
       queryKey: [...TRIBUTES_QUERY_KEY],
       queryFn: () => FactusService.getTributes(user.id),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: [...NUMBERING_RANGES_CATALOG_QUERY_KEY],
+      queryFn: () => FactusService.listAllNumberingRanges(user.id),
     }),
   ]);
 

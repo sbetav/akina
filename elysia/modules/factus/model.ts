@@ -129,3 +129,7 @@ export const NumberingRangeListResponse = t.Object({
   page: t.Number(),
   limit: t.Number(),
 });
+
+export const NumberingRangeCatalogResponse = t.Object({
+  data: t.Array(NumberingRangeItem),
+});

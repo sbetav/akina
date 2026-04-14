@@ -218,9 +218,19 @@ const InvoiceForm: FC = () => {
               )}
 
               {isLastStep ? (
-                <Button type="submit">Crear factura</Button>
+                <Button key="submit" type="submit">
+                  Crear factura
+                </Button>
               ) : (
-                <Button type="button" onClick={nextStep}>
+                <Button
+                  key="next"
+                  type="button"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    void nextStep();
+                  }}
+                >
                   Siguiente
                   <ArrowRightIcon />
                 </Button>

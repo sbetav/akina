@@ -13,6 +13,7 @@ import {
   MunicipalitiesQuery,
   MunicipalityItem,
   NumberingRangeCreateBody,
+  NumberingRangeCatalogResponse,
   NumberingRangeItem,
   NumberingRangeListQuery,
   NumberingRangeListResponse,
@@ -263,6 +264,24 @@ export const factusModule = new Elysia({ prefix: "/factus" })
       query: NumberingRangeListQuery,
       response: {
         200: NumberingRangeListResponse,
+      },
+    },
+  )
+
+  /**
+   * GET /api/factus/numbering-ranges/catalog
+   * Lists all numbering ranges for selection controls (non-paginated).
+   */
+  .get(
+    "/numbering-ranges/catalog",
+    async ({ user }) => {
+      const data = await FactusService.listAllNumberingRanges(user.id);
+      return { data };
+    },
+    {
+      auth: true,
+      response: {
+        200: NumberingRangeCatalogResponse,
       },
     },
   )

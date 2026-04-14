@@ -570,6 +570,33 @@ export const FactusService = {
     };
   },
 
+  /** List all numbering ranges for select-like consumers. */
+  async listAllNumberingRanges(
+    userId: string,
+  ): Promise<NumberingRangeItemResult[]> {
+    const client = await getFactusClientForUser(userId);
+    const perPage = 100;
+    let page = 1;
+    let total = Number.POSITIVE_INFINITY;
+    const items: NumberingRangeItemResult[] = [];
+
+    while (items.length < total) {
+      const res = await client.numberingRanges.list({
+        page,
+        per_page: perPage,
+      });
+
+      const currentItems = res.data.data.map(normalizeNumberingRange);
+      items.push(...currentItems);
+      total = res.data.pagination.total;
+
+      if (currentItems.length === 0) break;
+      page += 1;
+    }
+
+    return items;
+  },
+
   /** Create a numbering range in the current user's active Factus client. */
   async createNumberingRange(
     userId: string,
