@@ -1,5 +1,10 @@
 import { Select as SelectPrimitive } from "@base-ui/react/select";
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
+import {
+  CheckIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  LockIcon,
+} from "lucide-react";
 import type * as React from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
@@ -53,11 +58,14 @@ function SelectTrigger({
   children,
   isPending = false,
   disabled,
+  showLock,
   ...props
 }: SelectPrimitive.Trigger.Props & {
   size?: "sm" | "default";
   /** Shows a spinner instead of the chevron and disables the trigger. */
   isPending?: boolean;
+  /** Shows a lock icon instead of the chevron and disables the trigger. */
+  showLock?: boolean;
 }) {
   const mergedDisabled = Boolean(disabled || isPending);
 
@@ -87,6 +95,8 @@ function SelectTrigger({
         >
           <Spinner className="size-4" />
         </span>
+      ) : showLock ? (
+        <LockIcon className="text-muted-foreground pointer-events-none size-4" />
       ) : (
         <SelectPrimitive.Icon
           render={
