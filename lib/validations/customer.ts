@@ -11,8 +11,8 @@ const identificationDocumentIds = toEnumValues(IdentityDocumentTypeId);
 const legalOrganizationIds = toEnumValues(OrganizationTypeId);
 const tributeIds = toEnumValues(CustomerTributeId);
 
-export const customerFormSchema = zodAlwaysRefine(
-  z.object({
+export const customerSchema = z
+  .object({
     identification: z
       .string("Campo requerido")
       .nonempty("Campo requerido")
@@ -43,18 +43,20 @@ export const customerFormSchema = zodAlwaysRefine(
         message: "Numero de teléfono inválido",
       }),
     municipalityId: z.string().optional(),
-  }),
-).refine(
-  (data) => {
-    if (data.identificationDocumentId === "6") {
-      return !!data.dv && data.dv.trim().length > 0;
-    }
-    return true;
-  },
-  {
-    path: ["dv"],
-    message: "Campo requerido",
-  },
-);
+  })
+  .refine(
+    (data) => {
+      if (data.identificationDocumentId === "6") {
+        return !!data.dv && data.dv.trim().length > 0;
+      }
+      return true;
+    },
+    {
+      path: ["dv"],
+      message: "Campo requerido",
+    },
+  );
+
+export const customerFormSchema = zodAlwaysRefine(customerSchema);
 
 export type CustomerFormValues = z.infer<typeof customerFormSchema>;

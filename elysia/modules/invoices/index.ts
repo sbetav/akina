@@ -20,7 +20,8 @@ export const invoicesModule = new Elysia({ prefix: "/invoices" })
   /**
    * GET /api/invoices
    * Returns a paginated list of invoices for the active workspace (from our DB).
-   * Supports search against customerName and number.
+   * Search tokenizes the query and matches partial terms against customerName
+   * and number, ignoring punctuation.
    */
   .get(
     "/",

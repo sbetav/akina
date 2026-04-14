@@ -19,6 +19,7 @@ import {
   getActiveCredentialsIdForUser,
 } from "@/elysia/workspace";
 import { getFactusClientForUser } from "@/lib/factus";
+import { getSearchTerms } from "@/lib/utils";
 
 // ─── Input types ──────────────────────────────────────────────────────────────
 
@@ -261,7 +262,8 @@ export const InvoiceService = {
 
   /**
    * Returns a paginated list of invoices for the active workspace.
-   * Search matches against customerName and number (case-insensitive).
+   * Search tokenizes the query and matches partial terms against customerName
+   * and number (case-insensitive), ignoring punctuation.
    */
   async list(
     userId: string,
@@ -275,16 +277,20 @@ export const InvoiceService = {
 
     const baseFilter = buildFilter(userId, credentialsId);
 
-    const whereClause =
-      options.search && options.search.trim().length > 0
-        ? and(
-            baseFilter,
-            or(
-              ilike(invoices.customerName, `%${options.search.trim()}%`),
-              ilike(invoices.number, `%${options.search.trim()}%`),
-            ),
+    const searchTerms = getSearchTerms(options.search);
+    const searchFilter =
+      searchTerms.length > 0
+        ? or(
+            ...searchTerms.flatMap((term) => [
+              ilike(invoices.customerName, `%${term}%`),
+              ilike(invoices.number, `%${term}%`),
+            ]),
           )
-        : baseFilter;
+        : undefined;
+
+    const whereClause = searchFilter
+      ? and(baseFilter, searchFilter)
+      : baseFilter;
 
     const [rows, [{ value: total }]] = await Promise.all([
       db
