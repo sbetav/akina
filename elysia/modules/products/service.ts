@@ -23,19 +23,6 @@ export interface ProductInput {
   isExcluded: boolean;
 }
 
-export interface ProductListItem {
-  id: string;
-  code: string;
-  name: string;
-  /** Stored as numeric string from the DB */
-  price: number;
-  unitMeasureId: string;
-  tributeId: string;
-  taxRate: number;
-  isExcluded: boolean;
-  createdAt: string;
-}
-
 export interface ProductDetailResult {
   id: string;
   code: string;
@@ -52,7 +39,7 @@ export interface ProductDetailResult {
 }
 
 export interface ProductListResult {
-  items: ProductListItem[];
+  items: ProductDetailResult[];
   total: number;
   page: number;
   limit: number;
@@ -99,12 +86,15 @@ export const ProductService = {
           id: products.id,
           code: products.code,
           name: products.name,
+          description: products.description,
           price: products.price,
           unitMeasureId: products.unitMeasureId,
+          standardCodeId: products.standardCodeId,
           tributeId: products.tributeId,
           taxRate: products.taxRate,
           isExcluded: products.isExcluded,
           createdAt: products.createdAt,
+          updatedAt: products.updatedAt,
         })
         .from(products)
         .where(whereClause)
@@ -121,6 +111,7 @@ export const ProductService = {
         price: Number(r.price ?? 0),
         taxRate: Number(r.taxRate ?? 0),
         createdAt: r.createdAt.toISOString(),
+        updatedAt: r.updatedAt.toISOString(),
       })),
       total: Number(total),
       page,

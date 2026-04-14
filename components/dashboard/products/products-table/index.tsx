@@ -1,6 +1,5 @@
 "use client";
 
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
   getCoreRowModel,
   type RowSelectionState,
@@ -30,10 +29,8 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { useCredentialsContext } from "@/contexts/credentials-context";
-import { api } from "@/elysia/eden";
-import { getApiErrorMessage } from "@/elysia/get-api-error-message";
-import useDebounce from "@/hooks/ui/use-debounce";
-import { DEFAULT_PRODUCTS_LIMIT, PRODUCTS_QUERY_KEY } from "@/lib/query-keys";
+import { useProducts } from "@/hooks/api/use-product";
+import { DEFAULT_PRODUCTS_LIMIT } from "@/lib/query-keys";
 import DeleteProductDialog from "../delete-product-dialog";
 import { buildColumns } from "./columns";
 
@@ -54,21 +51,19 @@ function ProductsTableContent({ tributes }: { tributes: Tribute[] }) {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [showBulkDelete, setShowBulkDelete] = useState(false);
 
-  const debouncedSearch = useDebounce(search, 300);
-
-  const { data, error, isError, isFetching, isPending, refetch } = useQuery({
-    queryKey: [...PRODUCTS_QUERY_KEY, { search: debouncedSearch, page, limit }],
-    queryFn: async () => {
-      const res = await api.products.get({
-        query: { search: debouncedSearch, page, limit },
-      });
-      if (res.error)
-        throw new Error(
-          getApiErrorMessage(res.error, "Error al obtener los productos"),
-        );
-      return res.data;
-    },
-    placeholderData: keepPreviousData,
+  const {
+    data,
+    error,
+    isError,
+    isFetching,
+    isPending,
+    refetch,
+    debouncedSearch,
+  } = useProducts({
+    search,
+    page,
+    limit,
+    paginated: true,
   });
 
   const items = data?.items ?? [];

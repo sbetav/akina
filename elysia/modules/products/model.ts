@@ -31,23 +31,7 @@ export const ProductCodeAvailabilityQuery = t.Object({
 // ─── Response shapes ──────────────────────────────────────────────────────────
 
 /**
- * Compact row returned in list view — enough to populate a product table
- * and drive a "select product" flow (e.g. when creating an invoice).
- */
-export const ProductItem = t.Object({
-  id: t.String(),
-  code: t.String(),
-  name: t.String(),
-  price: t.Numeric(),
-  unitMeasureId: t.String(),
-  tributeId: t.String(),
-  taxRate: t.Numeric(),
-  isExcluded: t.Boolean(),
-  createdAt: t.String(),
-});
-
-/**
- * Full product detail — used for edit prefill.
+ * Full product shape used by both list and get-by-id.
  */
 export const ProductDetail = t.Object({
   id: t.String(),
@@ -65,7 +49,7 @@ export const ProductDetail = t.Object({
 });
 
 export const ProductListResponse = t.Object({
-  items: t.Array(ProductItem),
+  items: t.Array(ProductDetail),
   total: t.Number(),
   page: t.Number(),
   limit: t.Number(),

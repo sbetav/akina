@@ -17,7 +17,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { ProductListItem } from "@/elysia/modules/products/service";
+import type { ProductDetailResult } from "@/elysia/modules/products/service";
 import { COP } from "@/lib/utils";
 import DeleteProductDialog from "../delete-product-dialog";
 
@@ -51,7 +51,7 @@ function formatTaxRate(rate: number): string {
 // ─── Row actions cell ─────────────────────────────────────────────────────────
 
 interface RowActionsCellProps {
-  product: ProductListItem;
+  product: ProductDetailResult;
 }
 
 const RowActionsCell: FC<RowActionsCellProps> = ({ product }) => {
@@ -105,7 +105,7 @@ const RowActionsCell: FC<RowActionsCellProps> = ({ product }) => {
 
 export function buildColumns(
   tributes: Tribute[],
-): ColumnDef<ProductListItem>[] {
+): ColumnDef<ProductDetailResult>[] {
   return [
     {
       id: "select",
