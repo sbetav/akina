@@ -20,6 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getInvoiceLineTotal } from "@/lib/invoices/utils";
 import { COP } from "@/lib/utils";
 import type { InvoiceItemValues } from "@/lib/validations/invoice";
 
@@ -53,11 +54,7 @@ const ProductLinesTable: FC<ProductLinesTableProps> = ({
         <TableBody>
           {items.map((item, index) => {
             const discountRate = normalizeDiscountRate(item.discountRate);
-            const baseAmount =
-              item.price * item.quantity * (1 - discountRate / 100);
-            const subtotal = item.isExcluded
-              ? baseAmount
-              : baseAmount * (1 + item.taxRate);
+            const subtotal = getInvoiceLineTotal(item);
 
             return (
               <TableRow key={item.productId}>

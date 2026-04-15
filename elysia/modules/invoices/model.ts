@@ -39,7 +39,11 @@ export const InvoiceItemBody = t.Object({
   /** Product reference code (code_reference in Factus). */
   code: t.String({ minLength: 1 }),
   name: t.String({ minLength: 1 }),
-  /** Unit price — sent as-is to Factus. */
+  /**
+   * Base unit price from our catalog.
+   * Before sending to Factus we convert it to a unit price including taxes,
+   * while discounts continue to travel separately in `discountRate`.
+   */
   price: t.Number({ minimum: 0 }),
   /**
    * Tax rate as a decimal (e.g. 0.19 for 19% IVA).

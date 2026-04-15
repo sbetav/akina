@@ -3,20 +3,34 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
 import Link from "next/link";
+import { InvoiceDownloadPdfButton } from "@/components/dashboard/invoices/invoice-download-pdf-button";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import type { InvoiceRecordResult } from "@/elysia/modules/invoices/service";
-import { COP } from "@/lib/utils";
+import { getInvoiceStatusDisplay } from "@/lib/invoices/utils";
+import { COP, formatDocumentNumber } from "@/lib/utils";
 
-// ─── Status display ───────────────────────────────────────────────────────────
+function InvoiceActions({ invoice }: { invoice: InvoiceRecordResult }) {
+  return (
+    <div className="flex items-center justify-end gap-2">
+      <InvoiceDownloadPdfButton
+        invoiceId={invoice.id}
+        invoiceNumber={invoice.number}
+        label="PDF"
+        size="sm"
+        variant="default-subtle"
+      />
 
-const invoiceStatusConfig: Record<
-  number,
-  { label: string; variant: "warning" | "teal" }
-> = {
-  0: { label: "Pendiente", variant: "warning" },
-  1: { label: "Validada", variant: "teal" },
-};
+      <Link
+        href={`/dashboard/invoices/${invoice.id}`}
+        className={buttonVariants({ size: "sm", variant: "secondary" })}
+      >
+        <EyeIcon />
+        Ver
+      </Link>
+    </div>
+  );
+}
 
 // ─── Columns ──────────────────────────────────────────────────────────────────
 
@@ -38,7 +52,11 @@ const columns: ColumnDef<InvoiceRecordResult>[] = [
     header: "Identificación",
     cell: ({ getValue }) => {
       const value = getValue<string>();
-      return <span className="text-muted-foreground">{value}</span>;
+      return (
+        <span className="text-muted-foreground">
+          {formatDocumentNumber(value)}
+        </span>
+      );
     },
   },
   {
@@ -59,30 +77,17 @@ const columns: ColumnDef<InvoiceRecordResult>[] = [
     header: "Estado",
     cell: ({ getValue }) => {
       const value = getValue<number>();
-      const config = invoiceStatusConfig[value] ?? {
-        label: String(value),
-        variant: "warning" as const,
-      };
+      const config = getInvoiceStatusDisplay(value);
       return <Badge variant={config.variant}>{config.label}</Badge>;
     },
   },
   {
     id: "actions",
-    maxSize: 60,
+    maxSize: 220,
     cell: ({ row }) => {
       const invoice = row.original;
-      return (
-        <div className="grid place-items-end!">
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            className="text-muted-foreground active:text-foreground"
-            render={<Link href={`/dashboard/invoices/${invoice.id}`} />}
-          >
-            <EyeIcon />
-          </Button>
-        </div>
-      );
+
+      return <InvoiceActions invoice={invoice} />;
     },
   },
 ];

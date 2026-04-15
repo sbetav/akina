@@ -137,7 +137,6 @@ function InvoicesTableContent() {
         pageCount={pageCount}
         limit={limit}
         totalRows={total}
-        selectedRows={0}
         onPageChange={setPage}
         onLimitChange={handleLimitChange}
       />

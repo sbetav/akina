@@ -59,7 +59,7 @@ interface DataTableControlsProps {
   pageCount: number;
   /** Current items-per-page value. */
   limit: number;
-  /** Total number of rows currently displayed (for "X de Y" label). */
+  /** Total number of rows currently displayed. */
   totalRows: number;
   /** Number of selected rows (for "X de Y seleccionados" label). */
   selectedRows?: number;
@@ -74,7 +74,7 @@ export function DataTableControls({
   pageCount,
   limit,
   totalRows,
-  selectedRows = 0,
+  selectedRows,
   onPageChange,
   onLimitChange,
 }: DataTableControlsProps) {
@@ -87,9 +87,11 @@ export function DataTableControls({
 
   return (
     <div className="grid grid-cols-1 items-center gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {/* Selected rows (LEFT) */}
+      {/* Row counter (LEFT) */}
       <span className="text-muted-foreground order-1 text-center text-xs uppercase sm:text-left">
-        {selectedRows} de {totalRows} registros seleccionados
+        {typeof selectedRows === "number"
+          ? `${selectedRows} de ${totalRows} registros seleccionados`
+          : `${totalRows} registros`}
       </span>
 
       {/* Pagination (CENTER) */}

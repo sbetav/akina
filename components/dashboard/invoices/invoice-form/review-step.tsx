@@ -1,6 +1,12 @@
 "use client";
 
-import { PaymentFormCodeInfo, PaymentMethodCodeInfo } from "factus-js";
+import {
+  CustomerTributeIdInfo,
+  IdentityDocumentTypeIdInfo,
+  OrganizationTypeIdInfo,
+  PaymentFormCodeInfo,
+  PaymentMethodCodeInfo,
+} from "factus-js";
 import { PackageIcon, PencilIcon, ReceiptIcon, UserIcon } from "lucide-react";
 import type { ComponentType, FC } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
@@ -27,35 +33,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useNumberingRangesCatalog } from "@/hooks/factus/use-numbering-ranges";
+import { getInvoiceLineTotal, getInvoiceTotals } from "@/lib/invoices/utils";
 import { COP } from "@/lib/utils";
 import type { InvoiceFormValues } from "@/lib/validations/invoice";
 
 export interface ReviewStepProps {
   onEditStep?: (stepIndex: number) => void;
 }
-
-// Map identity document type IDs to labels
-const IDENTITY_DOCUMENT_LABELS: Record<string, string> = {
-  "1": "Cédula de ciudadanía",
-  "2": "NIT",
-  "3": "Pasaporte",
-  "4": "Tarjeta de extranjería",
-  "5": "Cédula de extranjería",
-  "6": "PEP",
-  "7": "Registro civil",
-  "8": "Tarjeta de identidad",
-};
-
-const LEGAL_ORGANIZATION_LABELS: Record<string, string> = {
-  "1": "Persona jurídica",
-  "2": "Persona natural",
-};
-
-const TRIBUTE_LABELS: Record<string, string> = {
-  "18": "IVA",
-  "21": "No aplica",
-  "22": "No aplica - Persona natural",
-};
 
 // --- Sub-components ---
 
@@ -122,26 +106,8 @@ const ReviewStep: FC<ReviewStepProps> = ({ onEditStep }) => {
   const observation = useWatch({ control, name: "observation" });
   const sendEmail = useWatch({ control, name: "sendEmail" });
 
-  const subtotal = items.reduce((sum, item) => {
-    const discountRate = normalizeDiscountRate(item.discountRate);
-    return sum + item.price * item.quantity * (1 - discountRate / 100);
-  }, 0);
-  const taxes = items.reduce((sum, item) => {
-    if (item.isExcluded) return sum;
-    const discountRate = normalizeDiscountRate(item.discountRate);
-    const baseAmount = item.price * item.quantity * (1 - discountRate / 100);
-    return sum + baseAmount * item.taxRate;
-  }, 0);
-  const total = subtotal + taxes;
-  const discountTotal = items.reduce((sum, item) => {
-    const discountRate = normalizeDiscountRate(item.discountRate);
-    return sum + item.price * item.quantity * (discountRate / 100);
-  }, 0);
+  const { subtotal, taxes, total, discountTotal } = getInvoiceTotals(items);
 
-  const identificationLabel = customer?.identificationDocumentId
-    ? (IDENTITY_DOCUMENT_LABELS[String(customer.identificationDocumentId)] ??
-      `Tipo ${customer.identificationDocumentId}`)
-    : null;
   const numberingRangeLabel = numberingRangeId
     ? numberingRanges.find((range) => range.id === numberingRangeId)
     : undefined;
@@ -177,7 +143,16 @@ const ReviewStep: FC<ReviewStepProps> = ({ onEditStep }) => {
             />
             <FieldRow label="Correo electrónico" value={customer?.email} />
             <FieldRow label="Teléfono" value={formattedPhone} />
-            <FieldRow label="Tipo de documento" value={identificationLabel} />
+            <FieldRow
+              label="Tipo de documento"
+              value={
+                customer?.identificationDocumentId
+                  ? IdentityDocumentTypeIdInfo[
+                      customer.identificationDocumentId
+                    ]?.description
+                  : null
+              }
+            />
             <FieldRow
               label="Número de documento"
               value={
@@ -190,9 +165,8 @@ const ReviewStep: FC<ReviewStepProps> = ({ onEditStep }) => {
               label="Tipo de organización"
               value={
                 customer?.legalOrganizationId
-                  ? LEGAL_ORGANIZATION_LABELS[
-                      String(customer.legalOrganizationId)
-                    ]
+                  ? OrganizationTypeIdInfo[customer.legalOrganizationId]
+                      ?.description
                   : null
               }
             />
@@ -200,7 +174,7 @@ const ReviewStep: FC<ReviewStepProps> = ({ onEditStep }) => {
               label="Régimen tributario"
               value={
                 customer?.tributeId
-                  ? TRIBUTE_LABELS[String(customer.tributeId)]
+                  ? CustomerTributeIdInfo[customer.tributeId]?.description
                   : null
               }
             />
@@ -255,15 +229,10 @@ const ReviewStep: FC<ReviewStepProps> = ({ onEditStep }) => {
 
                   <TableBody>
                     {items.map((item) => {
+                      const lineTotal = getInvoiceLineTotal(item);
                       const discountRate = normalizeDiscountRate(
                         item.discountRate,
                       );
-                      const lineBase =
-                        item.price * item.quantity * (1 - discountRate / 100);
-
-                      const lineTotal = item.isExcluded
-                        ? lineBase
-                        : lineBase * (1 + item.taxRate);
 
                       return (
                         <TableRow key={item.productId}>
@@ -438,7 +407,7 @@ const ReviewStep: FC<ReviewStepProps> = ({ onEditStep }) => {
                 Observación
               </p>
               {observation ? (
-                <p className="bg-muted/40 text-muted-foreground border-border/50 border px-3 py-1.5 text-xs leading-relaxed font-medium">
+                <p className="bg-muted/40 border-border/50 w-fit border px-3 py-1.5 text-xs leading-relaxed font-medium">
                   {observation}
                 </p>
               ) : (

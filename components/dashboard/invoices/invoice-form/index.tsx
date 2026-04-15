@@ -1,6 +1,8 @@
 "use client";
 
+import { useRouter } from "@bprogress/next";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   IdentityDocumentTypeId,
   PaymentFormCode,
@@ -18,12 +20,26 @@ import {
 import { type FC, useEffect, useRef, useState } from "react";
 import { Fragment } from "react/jsx-runtime";
 import { type FieldPath, FormProvider, useForm } from "react-hook-form";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Progress } from "@/components/ui/progress";
+import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
 import { useCredentialsContext } from "@/contexts/credentials-context";
+import { api } from "@/elysia/eden";
+import { getApiErrorMessage } from "@/elysia/get-api-error-message";
 import type { CustomerDetailResult } from "@/elysia/modules/customers";
+import { INVOICES_QUERY_KEY } from "@/lib/query-keys";
 import { cn } from "@/lib/utils";
 import {
   type InvoiceFormValues,
@@ -63,10 +79,35 @@ const FORM_STEPS = [
   },
 ];
 
+interface InvoiceCreateError extends Error {
+  validationErrors?: Record<string, string>;
+}
+
+function extractValidationErrors(error: unknown): Record<string, string> {
+  if (!error || typeof error !== "object") return {};
+
+  const value = "value" in error ? error.value : error;
+  if (!value || typeof value !== "object") return {};
+  if (!("validationErrors" in value)) return {};
+
+  const validationErrors = value.validationErrors;
+  if (!validationErrors || typeof validationErrors !== "object") return {};
+
+  const entries = Object.entries(validationErrors).filter(
+    ([key, val]) => typeof key === "string" && typeof val === "string",
+  );
+
+  return Object.fromEntries(entries);
+}
+
 const InvoiceForm: FC = () => {
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const { isAkinaSandbox } = useCredentialsContext();
 
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
   const [selectedCustomer, setSelectedCustomer] =
     useState<CustomerDetailResult | null>(null);
   const prevStepIndexRef = useRef(currentStepIndex);
@@ -183,9 +224,55 @@ const InvoiceForm: FC = () => {
     setCurrentStepIndex((prev) => Math.max(prev - 1, 0));
   };
 
-  const onSubmit = methods.handleSubmit((_values) => {
-    toast.info("Envío de factura pendiente por implementar");
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (values: InvoiceFormValues) => {
+      const res = await api.invoices.post(values);
+
+      if (res.error) {
+        const error = new Error(
+          getApiErrorMessage(res.error, "Error al crear la factura"),
+        ) as InvoiceCreateError;
+        error.validationErrors = extractValidationErrors(res.error);
+        throw error;
+      }
+
+      return res.data;
+    },
+    onSuccess: (invoice) => {
+      setRedirecting(true);
+      setIsConfirmOpen(false);
+      toast.success("Factura creada exitosamente");
+      void queryClient.invalidateQueries({ queryKey: INVOICES_QUERY_KEY });
+      router.replace(`/dashboard/invoices/${invoice.id}`);
+    },
+    onError: (error: InvoiceCreateError) => {
+      setRedirecting(false);
+      setIsConfirmOpen(false);
+      const validationEntries = Object.entries(error.validationErrors ?? {});
+      const description = validationEntries.length
+        ? validationEntries
+            .slice(0, 3)
+            .map(([code, message]) => `${code}: ${message}`)
+            .join(" · ")
+        : undefined;
+
+      toast.error(error.message, { description });
+    },
   });
+
+  const onConfirmSubmit = () => {
+    void methods.handleSubmit(
+      (values) => {
+        mutate(values);
+      },
+      () => {
+        setIsConfirmOpen(false);
+        toast.error("Revisa los campos requeridos antes de crear la factura");
+      },
+    )();
+  };
+
+  const isSubmitting = isPending || redirecting;
 
   useEffect(() => {
     if (prevStepIndexRef.current !== currentStepIndex) {
@@ -196,7 +283,12 @@ const InvoiceForm: FC = () => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={onSubmit} className="flex flex-1 flex-col gap-6">
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+        }}
+        className="flex flex-1 flex-col gap-6"
+      >
         {/* Steps */}
         <Field className="w-full sm:hidden">
           <FieldLabel htmlFor="invoice-form-progress">
@@ -252,20 +344,31 @@ const InvoiceForm: FC = () => {
 
             <div className="flex items-center justify-end gap-3">
               {!isFirstStep && (
-                <Button type="button" variant="secondary" onClick={prevStep}>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={prevStep}
+                  disabled={isSubmitting}
+                >
                   <ArrowLeftIcon />
                   Anterior
                 </Button>
               )}
 
               {isLastStep ? (
-                <Button key="submit" type="submit">
+                <Button
+                  key="submit"
+                  type="button"
+                  disabled={isSubmitting}
+                  onClick={() => setIsConfirmOpen(true)}
+                >
                   Crear factura
                 </Button>
               ) : (
                 <Button
                   key="next"
                   type="button"
+                  disabled={isSubmitting}
                   onClick={(event) => {
                     event.preventDefault();
                     event.stopPropagation();
@@ -286,6 +389,36 @@ const InvoiceForm: FC = () => {
           )}
         </div>
       </form>
+
+      <AlertDialog
+        open={isConfirmOpen}
+        onOpenChange={(open) => {
+          if (isSubmitting) return;
+          setIsConfirmOpen(open);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Emitir factura electrónica</AlertDialogTitle>
+            <AlertDialogDescription>
+              Se enviará la factura a Factus para validación DIAN. Esta acción
+              puede tardar unos segundos.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isSubmitting}>
+              Cancelar
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={onConfirmSubmit}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? <Spinner /> : null}
+              Enviar factura
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </FormProvider>
   );
 };

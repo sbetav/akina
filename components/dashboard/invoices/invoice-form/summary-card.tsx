@@ -3,8 +3,8 @@
 import { IdentityDocumentTypeIdInfo } from "factus-js";
 import type { FC } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
-import { normalizeDiscountRate } from "@/components/dashboard/products/utils";
 import { Separator } from "@/components/ui/separator";
+import { getInvoiceTotals } from "@/lib/invoices/utils";
 import { COP, formatDocumentNumber } from "@/lib/utils";
 import type { InvoiceFormValues } from "@/lib/validations/invoice";
 import DashboardCard from "../../dashboard-card";
@@ -16,18 +16,7 @@ const SummaryCard: FC = () => {
   const customerName = customer?.tradeName || customer?.name;
 
   const items = useWatch({ control, name: "items" }) ?? [];
-
-  const subtotal = items.reduce((sum, item) => {
-    const discountRate = normalizeDiscountRate(item.discountRate);
-    return sum + item.price * item.quantity * (1 - discountRate / 100);
-  }, 0);
-  const taxes = items.reduce((sum, item) => {
-    if (item.isExcluded) return sum;
-    const discountRate = normalizeDiscountRate(item.discountRate);
-    const baseAmount = item.price * item.quantity * (1 - discountRate / 100);
-    return sum + baseAmount * item.taxRate;
-  }, 0);
-  const total = subtotal + taxes;
+  const { subtotal, taxes, total } = getInvoiceTotals(items);
 
   return (
     <DashboardCard className="flex flex-col gap-4">

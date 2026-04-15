@@ -1,13 +1,13 @@
 import { and, count, desc, ilike, or } from "drizzle-orm";
 import type {
   ApiResponse,
-  BillListItem,
   CustomerTributeId,
   IdentityDocumentTypeId,
   OrganizationTypeId,
   PaymentFormCode,
   PaymentMethodCode,
   ProductStandardId,
+  ViewBillData,
 } from "factus-js";
 import { FactusError } from "factus-js";
 import { ulid } from "ulid";
@@ -19,6 +19,7 @@ import {
   getActiveCredentialsIdForUser,
 } from "@/elysia/workspace";
 import { getFactusClientForUser } from "@/lib/factus";
+import { buildFactusInvoiceItems } from "@/lib/invoices/factus";
 import { getSearchTerms } from "@/lib/utils";
 
 // ─── Input types ──────────────────────────────────────────────────────────────
@@ -140,16 +141,109 @@ function normalizeRow(row: {
   };
 }
 
-/**
- * Converts a decimal tax rate (e.g. 0.19) to the percentage string
- * expected by the Factus API (e.g. "19.00").
- */
-function toTaxRateString(rate: number): string {
-  return (rate * 100).toFixed(2);
-}
-
 function generateInvoiceReferenceCode(): string {
   return `AKN-${ulid()}`;
+}
+
+function getRecord(value: unknown): Record<string, unknown> | null {
+  if (!value || typeof value !== "object") return null;
+  return value as Record<string, unknown>;
+}
+
+function toNonEmptyString(value: unknown): string | null {
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+}
+
+function toFiniteNumber(value: unknown): number | null {
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? value : null;
+  }
+
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (!trimmed.length) return null;
+    const parsed = Number(trimmed);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  return null;
+}
+
+function toNumericString(value: unknown): string | null {
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? String(value) : null;
+  }
+
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : null;
+  }
+
+  return null;
+}
+
+function pickFirstString(...values: unknown[]): string | null {
+  for (const value of values) {
+    const parsed = toNonEmptyString(value);
+    if (parsed) return parsed;
+  }
+  return null;
+}
+
+function extractPersistableFields(
+  payload: unknown,
+  fallbackReferenceCode: string,
+): {
+  number: string;
+  referenceCode: string;
+  status: number;
+  customerName: string;
+  customerIdentification: string;
+  total: string | null;
+} {
+  const root = getRecord(payload);
+  const bill = getRecord(root?.bill);
+  const customer = getRecord(root?.customer);
+
+  const number = pickFirstString(root?.number, bill?.number);
+  if (!number) {
+    throw new Error("Factus no devolvio el numero de la factura creada");
+  }
+
+  const customerIdentification = pickFirstString(
+    root?.identification,
+    customer?.identification,
+  );
+  if (!customerIdentification) {
+    throw new Error("Factus no devolvió la identificación del cliente");
+  }
+
+  const customerName = pickFirstString(
+    root?.graphic_representation_name,
+    root?.names,
+    root?.trade_name,
+    root?.company,
+    customer?.graphic_representation_name,
+    customer?.trade_name,
+    customer?.company,
+    customer?.names,
+  );
+  if (!customerName) {
+    throw new Error("Factus no devolvió el nombre del cliente");
+  }
+
+  return {
+    number,
+    referenceCode:
+      pickFirstString(root?.reference_code, bill?.reference_code) ??
+      fallbackReferenceCode,
+    status: toFiniteNumber(root?.status ?? bill?.status) ?? 0,
+    customerName,
+    customerIdentification,
+    total: toNumericString(root?.total ?? bill?.total),
+  };
 }
 
 // ─── Service ─────────────────────────────────────────────────────────────────
@@ -191,23 +285,8 @@ export const InvoiceService = {
       municipality_id: input.customer.municipalityId,
     };
 
-    // Map items: camelCase DB format → snake_case Factus format
-    const items = input.items.map((item) => ({
-      code_reference: item.code,
-      name: item.name,
-      quantity: item.quantity,
-      discount_rate: item.discountRate,
-      price: item.price,
-      // Convert decimal rate (0.19) to percentage string ("19.00")
-      tax_rate: toTaxRateString(item.taxRate),
-      // unitMeasureId stored as text in our DB — Factus expects a number
-      unit_measure_id: Number(item.unitMeasureId),
-      standard_code_id: item.standardCodeId,
-      // isExcluded stored as boolean — Factus expects 0 | 1
-      is_excluded: (item.isExcluded ? 1 : 0) as 0 | 1,
-      // tributeId stored as text in our DB — Factus expects a number
-      tribute_id: Number(item.tributeId),
-    }));
+    // Map items: camelCase DB format -> snake_case Factus format.
+    const items = buildFactusInvoiceItems(input.items);
 
     const referenceCode = generateInvoiceReferenceCode();
 
@@ -239,7 +318,7 @@ export const InvoiceService = {
       throw error;
     }
 
-    const bill = res.data;
+    const persisted = extractPersistableFields(res.data, referenceCode);
 
     // Persist to DB — denormalize key display fields from the Factus response
     const [row] = await db
@@ -247,13 +326,12 @@ export const InvoiceService = {
       .values({
         credentialsId,
         userId,
-        number: bill.number,
-        referenceCode: bill.reference_code ?? referenceCode,
-        status: bill.status,
-        customerName:
-          bill.graphic_representation_name || bill.names || bill.company,
-        customerIdentification: bill.identification,
-        total: bill.total,
+        number: persisted.number,
+        referenceCode: persisted.referenceCode,
+        status: persisted.status,
+        customerName: persisted.customerName,
+        customerIdentification: persisted.customerIdentification,
+        total: persisted.total,
       })
       .returning();
 
@@ -326,7 +404,7 @@ export const InvoiceService = {
    * First verifies ownership via our DB (userId + active credentialsId).
    * Throws 404 if the invoice is not found or doesn't belong to the user.
    */
-  async getFromFactus(userId: string, id: string): Promise<unknown> {
+  async getFromFactus(userId: string, id: string): Promise<ViewBillData> {
     const credentialsId = await getActiveCredentialsIdForUser(userId);
 
     const row = await db.query.invoices.findFirst({

@@ -2,6 +2,8 @@ import type { VariantProps } from "class-variance-authority";
 import type { Tribute } from "factus-js";
 import type { badgeVariants } from "@/components/ui/badge";
 
+export { normalizeDiscountRate } from "@/lib/invoices/utils";
+
 const tributeBadgePalette = [
   "teal",
   "cyan",
@@ -31,17 +33,6 @@ export function formatRate(rate: number): string {
 export function formatPercentagePoints(percentage: number): string {
   if (percentage === 0) return "0%";
   return `${+percentage.toFixed(2)}%`;
-}
-
-/**
- * Normalizes percentage-point inputs for discounts.
- * Supports legacy decimal values (0.19 => 19).
- */
-export function normalizeDiscountRate(discountRate: number): number {
-  if (discountRate > 0 && discountRate <= 1) {
-    return discountRate * 100;
-  }
-  return discountRate;
 }
 
 export function getTributeLabel(
