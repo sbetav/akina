@@ -43,7 +43,8 @@ const buttonVariants = cva(
           "ghost",
           "destructive",
         ],
-        className: "hover:brightness-85 active:translate-y-px",
+        className:
+          "hover:brightness-85 active:translate-y-px disabled:translate-y-0 disabled:hover:brightness-100",
       },
     ],
 
