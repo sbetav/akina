@@ -138,8 +138,11 @@ export const InvoiceViewResponse = t.Object({
  * 422 response that may carry DIAN validation rule violations.
  * validationErrors keys are DIAN rule codes (e.g. "FAK24"),
  * values are the rejection descriptions.
+ * Factus returns values as string arrays; the union type keeps response validation passing.
  */
 export const InvoiceValidationError = t.Object({
   error: t.String(),
-  validationErrors: t.Optional(t.Record(t.String(), t.String())),
+  validationErrors: t.Optional(
+    t.Record(t.String(), t.Union([t.String(), t.Array(t.String())])),
+  ),
 });

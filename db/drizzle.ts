@@ -8,6 +8,11 @@ import {
 } from "@/db/schemas/factus-credentials";
 import { invoices, invoicesRelations } from "@/db/schemas/invoices";
 import { products, productsRelations } from "@/db/schemas/products";
+import { providers, providersRelations } from "@/db/schemas/providers";
+import {
+  supportDocuments,
+  supportDocumentsRelations,
+} from "@/db/schemas/support-documents";
 import { env } from "@/lib/env";
 
 const schema = {
@@ -22,6 +27,10 @@ const schema = {
   productsRelations,
   invoices,
   invoicesRelations,
+  supportDocuments,
+  supportDocumentsRelations,
+  providers,
+  providersRelations,
 };
 
 export const db = drizzle(env.DATABASE_URL, { schema });

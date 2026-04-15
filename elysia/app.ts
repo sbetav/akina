@@ -6,6 +6,8 @@ import { customersModule } from "./modules/customers";
 import { factusModule } from "./modules/factus";
 import { invoicesModule } from "./modules/invoices";
 import { productsModule } from "./modules/products";
+import { providersModule } from "./modules/providers";
+import { supportDocumentsModule } from "./modules/support-documents";
 
 export const app = new Elysia({ prefix: "/api" })
   .error({ ApiError })
@@ -15,6 +17,8 @@ export const app = new Elysia({ prefix: "/api" })
   .use(creditNotesModule)
   .use(productsModule)
   .use(invoicesModule)
+  .use(supportDocumentsModule)
+  .use(providersModule)
   .onError(({ error, code, status }) => {
     if (error instanceof ApiError) {
       return status(error.status, { error: error.message });

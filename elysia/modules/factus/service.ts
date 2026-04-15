@@ -487,6 +487,23 @@ export const FactusService = {
     );
   },
 
+  /** Get countries from the current user's active Factus client. */
+  async getCountries(
+    userId: string,
+    name?: string,
+  ): Promise<{ id: number; code: string; name: string }[]> {
+    const client = await getFactusClientForUser(userId);
+
+    const res = await client.catalog.listCountries(
+      name ? { filter: { name } } : undefined,
+    );
+    return res.data.map((c: { id: number; code: string; name: string }) => ({
+      id: c.id,
+      code: c.code,
+      name: c.name,
+    }));
+  },
+
   /** Get an acquirer by document type + number. */
   async getAcquirer(
     userId: string,

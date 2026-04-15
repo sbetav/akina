@@ -127,6 +127,20 @@
       "when": 1776229287670,
       "tag": "0017_red_menace",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1776277339140,
+      "tag": "0018_support_documents",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1776281174214,
+      "tag": "0019_bent_katie_power",
+      "breakpoints": true
     }
   ]
 }

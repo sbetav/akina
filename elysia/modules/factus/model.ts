@@ -30,6 +30,10 @@ export const MunicipalitiesQuery = t.Object({
   name: t.Optional(t.String()),
 });
 
+export const CountriesQuery = t.Object({
+  name: t.Optional(t.String()),
+});
+
 export const NumberingRangeListQuery = t.Object({
   id: t.Optional(t.String()),
   document: t.Optional(toElysiaEnum(NumberingRangeDocumentTypeCode)),
@@ -84,6 +88,12 @@ export const MunicipalityItem = t.Object({
   code: t.String(),
   name: t.String(),
   department: t.String(),
+});
+
+export const CountryItem = t.Object({
+  id: t.Number(),
+  code: t.String(),
+  name: t.String(),
 });
 
 export const AcquirerResponse = t.Object({

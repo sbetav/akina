@@ -6,6 +6,8 @@ import { isUsingSharedAkinaSandbox } from "@/lib/factus";
 import {
   AcquirerQuery,
   AcquirerResponse,
+  CountriesQuery,
+  CountryItem,
   CredentialBody,
   CredentialDetail,
   CredentialListResponse,
@@ -184,6 +186,25 @@ export const factusModule = new Elysia({ prefix: "/factus" })
       query: MunicipalitiesQuery,
       response: {
         200: t.Object({ data: t.Array(MunicipalityItem) }),
+      },
+    },
+  )
+
+  /**
+   * GET /api/factus/countries?name=...
+   * Lists countries, optionally filtered by name.
+   */
+  .get(
+    "/countries",
+    async ({ user, query }) => {
+      const data = await FactusService.getCountries(user.id, query.name);
+      return { data };
+    },
+    {
+      auth: true,
+      query: CountriesQuery,
+      response: {
+        200: t.Object({ data: t.Array(CountryItem) }),
       },
     },
   )
