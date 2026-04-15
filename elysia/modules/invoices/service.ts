@@ -1,6 +1,7 @@
 import { and, count, desc, ilike, or } from "drizzle-orm";
 import type {
   ApiResponse,
+  BillListItem,
   CustomerTributeId,
   IdentityDocumentTypeId,
   OrganizationTypeId,

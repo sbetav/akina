@@ -10,18 +10,26 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 import { user } from "./auth-schema";
-import { creditNotes } from "./credit-notes";
 import { factusCredentials } from "./factus-credentials";
+import { invoices } from "./invoices";
 
-export const invoices = pgTable(
-  "invoices",
+export const creditNotes = pgTable(
+  "credit_notes",
   {
     id: uuid("id").primaryKey().defaultRandom(),
 
     /**
-     * The Factus credential (workspace) this invoice belongs to.
-     * NULL means the user was on the Akina Sandbox when the invoice was created.
-     * Cascade delete: removing a credential set wipes its invoices.
+     * Parent invoice for ownership checks and invoice-detail listing.
+     * Cascade delete: removing an invoice wipes its linked credit notes.
+     */
+    invoiceId: uuid("invoice_id")
+      .notNull()
+      .references(() => invoices.id, { onDelete: "cascade" }),
+
+    /**
+     * The Factus credential (workspace) this credit note belongs to.
+     * NULL means the user was on the Akina Sandbox when it was created.
+     * Cascade delete: removing a credential set wipes its credit notes.
      */
     credentialsId: uuid("credentials_id").references(
       () => factusCredentials.id,
@@ -30,7 +38,7 @@ export const invoices = pgTable(
 
     /**
      * Denormalized user reference for fast ownership checks without a join.
-     * Cascade delete: removing the user wipes all their invoices.
+     * Cascade delete: removing the user wipes all their credit notes.
      */
     userId: text("user_id")
       .notNull()
@@ -38,35 +46,21 @@ export const invoices = pgTable(
 
     // ─── Factus identifiers ───────────────────────────────────────────────────
 
-    /**
-     * DIAN-assigned invoice number returned by Factus after creation
-     * (e.g. "SETP990000203"). Used to fetch details and download the PDF.
-     */
+    /** DIAN-assigned credit note number returned by Factus. */
     number: text("number").notNull(),
 
-    /**
-     * Our internal reference code sent at creation time (e.g. "F-0001").
-     * Used to delete a non-validated invoice from Factus.
-     */
+    /** Internal reference code used for same-request cleanup and deletion. */
     referenceCode: text("reference_code").notNull(),
 
     // ─── Status ──────────────────────────────────────────────────────────────
 
-    /**
-     * Invoice status code returned by Factus.
-     * 0 = not validated (can be deleted), 1 = validated by DIAN.
-     */
+    /** 0 = not validated, 1 = validated by DIAN. */
     status: integer("status").notNull().default(0),
 
-    // ─── Denormalized fields (for list display) ───────────────────────────────
+    // ─── Denormalized fields (for list display) ──────────────────────────────
 
-    /** Customer display name (graphic_representation_name from Factus). */
     customerName: text("customer_name").notNull(),
-
-    /** Customer document number. */
     customerIdentification: text("customer_identification").notNull(),
-
-    /** Invoice total amount — stored as numeric string. */
     total: numeric("total", { precision: 12, scale: 2 }),
 
     // ─── Timestamps ──────────────────────────────────────────────────────────
@@ -78,20 +72,24 @@ export const invoices = pgTable(
       .notNull(),
   },
   (table) => [
-    index("invoices_userId_idx").on(table.userId),
-    index("invoices_credentialsId_idx").on(table.credentialsId),
-    uniqueIndex("invoices_referenceCode_unique").on(table.referenceCode),
+    index("credit_notes_invoiceId_idx").on(table.invoiceId),
+    index("credit_notes_userId_idx").on(table.userId),
+    index("credit_notes_credentialsId_idx").on(table.credentialsId),
+    uniqueIndex("credit_notes_referenceCode_unique").on(table.referenceCode),
   ],
 );
 
-export const invoicesRelations = relations(invoices, ({ many, one }) => ({
+export const creditNotesRelations = relations(creditNotes, ({ one }) => ({
+  invoice: one(invoices, {
+    fields: [creditNotes.invoiceId],
+    references: [invoices.id],
+  }),
   credential: one(factusCredentials, {
-    fields: [invoices.credentialsId],
+    fields: [creditNotes.credentialsId],
     references: [factusCredentials.id],
   }),
-  creditNotes: many(creditNotes),
   user: one(user, {
-    fields: [invoices.userId],
+    fields: [creditNotes.userId],
     references: [user.id],
   }),
 }));

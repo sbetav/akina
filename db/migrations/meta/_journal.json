@@ -120,6 +120,13 @@
       "when": 1775878765118,
       "tag": "0016_young_mother_askani",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1776229287670,
+      "tag": "0017_red_menace",
+      "breakpoints": true
     }
   ]
 }

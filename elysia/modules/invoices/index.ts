@@ -2,6 +2,13 @@ import { Elysia, t } from "elysia";
 import { FactusError } from "factus-js";
 import { betterAuth } from "@/elysia/better-auth";
 import {
+  CreditNoteCreateBody,
+  CreditNoteListResponse,
+  CreditNoteRecord,
+  CreditNoteValidationError,
+} from "@/elysia/modules/credit-notes/model";
+import { CreditNoteService } from "@/elysia/modules/credit-notes/service";
+import {
   InvoiceCreateBody,
   InvoiceListQuery,
   InvoiceListResponse,
@@ -93,6 +100,49 @@ export const invoicesModule = new Elysia({ prefix: "/invoices" })
       response: {
         200: InvoiceViewResponse,
         404: t.Object({ error: t.String() }),
+      },
+    },
+  )
+
+  // ─── Credit notes ───────────────────────────────────────────────────────────
+
+  .get(
+    "/:id/credit-notes",
+    async ({ user, params }) => {
+      return await CreditNoteService.listForInvoice(user.id, params.id);
+    },
+    {
+      auth: true,
+      params: t.Object({ id: t.String() }),
+      response: {
+        200: CreditNoteListResponse,
+        404: t.Object({ error: t.String() }),
+      },
+    },
+  )
+  .post(
+    "/:id/credit-notes",
+    async ({ user, params, body, status }) => {
+      try {
+        return await CreditNoteService.create(user.id, params.id, body);
+      } catch (err) {
+        if (err instanceof FactusError) {
+          return status(422, {
+            error: err.message,
+            validationErrors: err.validationErrors ?? undefined,
+          });
+        }
+        throw err;
+      }
+    },
+    {
+      auth: true,
+      params: t.Object({ id: t.String() }),
+      body: CreditNoteCreateBody,
+      response: {
+        200: CreditNoteRecord,
+        404: t.Object({ error: t.String() }),
+        422: CreditNoteValidationError,
       },
     },
   )
