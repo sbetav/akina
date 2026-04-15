@@ -2,10 +2,12 @@
 
 import type { User } from "better-auth";
 import {
+  FileTextIcon,
   LayoutDashboardIcon,
   MenuIcon,
   PackageIcon,
   ReceiptIcon,
+  TruckIcon,
   UsersIcon,
   XIcon,
 } from "lucide-react";
@@ -40,9 +42,19 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
       icon: ReceiptIcon,
     },
     {
+      href: "/dashboard/support-documents",
+      label: "Documentos soporte",
+      icon: FileTextIcon,
+    },
+    {
       href: "/dashboard/customers",
       label: "Clientes",
       icon: UsersIcon,
+    },
+    {
+      href: "/dashboard/providers",
+      label: "Proveedores",
+      icon: TruckIcon,
     },
     {
       href: "/dashboard/products",

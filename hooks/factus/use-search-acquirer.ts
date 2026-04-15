@@ -4,7 +4,8 @@ import { api } from "@/elysia/eden";
 import { ACQUIRER_QUERY_KEY } from "@/lib/query-keys";
 
 interface UseAcquirerAutofillProps {
-  identificationDocumentId: IdentityDocumentTypeId | undefined;
+  /** Accepts any identification document type id string (customers or support documents). */
+  identificationDocumentId: string | undefined;
   identification: string;
   onSuccess?: (data: Acquirer) => void;
   enabled?: boolean;
@@ -22,7 +23,8 @@ export function useSearchAcquirer({
       if (!identificationDocumentId) return;
       const res = await api.factus.acquirer.get({
         query: {
-          identificationDocumentId,
+          identificationDocumentId:
+            identificationDocumentId as IdentityDocumentTypeId,
           identificationNumber: identification,
         },
         fetch: {
