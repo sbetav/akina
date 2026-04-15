@@ -2,6 +2,7 @@ export const CREDENTIALS_QUERY_KEY = ["factus", "credentials"] as const;
 export const CUSTOMERS_QUERY_KEY = ["customers"] as const;
 export const PRODUCTS_QUERY_KEY = ["products"] as const;
 export const INVOICES_QUERY_KEY = ["invoices"] as const;
+export const CREDIT_NOTES_QUERY_KEY = ["credit-notes"] as const;
 export const MUNICIPALITIES_QUERY_KEY = ["factus", "municipalities"] as const;
 export const MEASUREMENT_UNITS_QUERY_KEY = [
   "factus",
@@ -33,6 +34,7 @@ export const CREDENTIAL_DEPENDENT_KEYS = [
   CUSTOMERS_QUERY_KEY,
   PRODUCTS_QUERY_KEY,
   INVOICES_QUERY_KEY,
+  CREDIT_NOTES_QUERY_KEY,
   ACQUIRER_QUERY_KEY,
   NUMBERING_RANGES_QUERY_KEY,
   NUMBERING_RANGES_CATALOG_QUERY_KEY,

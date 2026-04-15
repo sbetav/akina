@@ -1,9 +1,10 @@
-import { formatDate } from "date-fns";
-import { es } from "date-fns/locale";
 import type { ViewBillData } from "factus-js";
-import { ExternalLinkIcon } from "lucide-react";
+import { ExternalLinkIcon, FileTextIcon, PlusIcon } from "lucide-react";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import BackButton from "@/components/back-button";
+import { CreditNoteDetailsDialog } from "@/components/dashboard/credit-notes/credit-note-details-dialog";
+import { CreditNoteDownloadPdfButton } from "@/components/dashboard/credit-notes/credit-note-download-pdf-button";
 import DashboardCard from "@/components/dashboard/dashboard-card";
 import { InvoiceDownloadPdfButton } from "@/components/dashboard/invoices/invoice-download-pdf-button";
 import {
@@ -15,6 +16,13 @@ import {
 } from "@/components/dashboard/page-header";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
 import { Separator } from "@/components/ui/separator";
 import {
   Table,
@@ -25,36 +33,19 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { NotFoundError } from "@/elysia/errors";
+import { CreditNoteService } from "@/elysia/modules/credit-notes/service";
 import { InvoiceService } from "@/elysia/modules/invoices/service";
 import { requireUser } from "@/lib/dal";
+import {
+  formatDocumentCurrency,
+  formatDocumentDate,
+  getBillCustomerName,
+} from "@/lib/documents/display";
 import { getInvoiceStatusDisplay } from "@/lib/invoices/utils";
-import { COP, formatDocumentNumber } from "@/lib/utils";
+import { formatDocumentNumber } from "@/lib/utils";
 
 interface PageProps {
   params: Promise<{ id: string }>;
-}
-
-function formatCurrency(value: string | number | null | undefined): string {
-  const num = typeof value === "string" ? Number(value) : value;
-  if (typeof num !== "number" || !Number.isFinite(num)) return "N/A";
-  return COP.format(num);
-}
-
-function formatDateTime(value?: string | null): string {
-  if (!value) return "N/A";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "N/A";
-  return formatDate(date, "d 'de' MMMM 'de' yyyy", { locale: es });
-}
-
-function getCustomerName(invoice: ViewBillData): string {
-  return (
-    invoice.customer.graphic_representation_name ||
-    invoice.customer.trade_name ||
-    invoice.customer.company ||
-    invoice.customer.names ||
-    "N/A"
-  );
 }
 
 const Page = async ({ params }: PageProps) => {
@@ -62,8 +53,12 @@ const Page = async ({ params }: PageProps) => {
   const user = await requireUser();
 
   let invoice: ViewBillData;
+  let creditNotes: Awaited<ReturnType<typeof CreditNoteService.listForInvoice>>;
   try {
-    invoice = await InvoiceService.getFromFactus(user.id, id);
+    [invoice, creditNotes] = await Promise.all([
+      InvoiceService.getFromFactus(user.id, id),
+      CreditNoteService.listForInvoice(user.id, id),
+    ]);
   } catch (error) {
     if (error instanceof NotFoundError) {
       notFound();
@@ -103,8 +98,8 @@ const Page = async ({ params }: PageProps) => {
         </PageHeaderActions>
       </PageHeader>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <DashboardCard className="space-y-3 lg:col-span-2">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+        <DashboardCard className="space-y-3 xl:col-span-2">
           <h3 className="font-sans text-lg font-medium">Información general</h3>
           <div className="grid grid-cols-1 gap-x-6 gap-y-3 text-sm md:grid-cols-2">
             <div className="flex items-center justify-between gap-3 md:block">
@@ -115,11 +110,11 @@ const Page = async ({ params }: PageProps) => {
             <Detail label="CUFE" value={invoice.bill.cufe} />
             <Detail
               label="Fecha de emisión"
-              value={formatDateTime(invoice.bill.created_at)}
+              value={formatDocumentDate(invoice.bill.created_at)}
             />
             <Detail
               label="Fecha de validación"
-              value={formatDateTime(invoice.bill.validated)}
+              value={formatDocumentDate(invoice.bill.validated)}
             />
             <Detail
               label="Forma de pago"
@@ -148,7 +143,7 @@ const Page = async ({ params }: PageProps) => {
         <DashboardCard className="space-y-3">
           <h3 className="font-sans text-lg font-medium">Cliente</h3>
           <div className="space-y-3 text-sm">
-            <Detail label="Nombre" value={getCustomerName(invoice)} />
+            <Detail label="Nombre" value={getBillCustomerName(invoice)} />
             <Detail
               label="Identificación"
               value={formatDocumentNumber(invoice.customer.identification)}
@@ -167,8 +162,8 @@ const Page = async ({ params }: PageProps) => {
         </DashboardCard>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <DashboardCard className="w-full space-y-4 lg:col-span-2">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+        <DashboardCard className="w-full space-y-4 xl:col-span-2">
           <div>
             <h3 className="font-sans text-lg font-medium">
               Productos facturados
@@ -205,7 +200,7 @@ const Page = async ({ params }: PageProps) => {
                       {item.quantity}
                     </TableCell>
                     <TableCell className="text-right">
-                      {formatCurrency(item.price)}
+                      {formatDocumentCurrency(item.price)}
                     </TableCell>
                     <TableCell className="text-right">
                       {item.discount_rate}%
@@ -214,7 +209,7 @@ const Page = async ({ params }: PageProps) => {
                       {item.tax_rate}%
                     </TableCell>
                     <TableCell className="text-right">
-                      {formatCurrency(item.total)}
+                      {formatDocumentCurrency(item.total)}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -228,33 +223,112 @@ const Page = async ({ params }: PageProps) => {
             <h3 className="font-sans text-lg font-medium">Totales</h3>
             <TotalRow
               label="Bruto"
-              value={formatCurrency(invoice.bill.gross_value)}
+              value={formatDocumentCurrency(invoice.bill.gross_value)}
             />
             <TotalRow
               label="Base gravable"
-              value={formatCurrency(invoice.bill.taxable_amount)}
+              value={formatDocumentCurrency(invoice.bill.taxable_amount)}
             />
             <TotalRow
               label="Impuestos"
-              value={formatCurrency(invoice.bill.tax_amount)}
+              value={formatDocumentCurrency(invoice.bill.tax_amount)}
             />
             <TotalRow
               label="Descuentos"
-              value={formatCurrency(invoice.bill.discount_amount)}
+              value={formatDocumentCurrency(invoice.bill.discount_amount)}
             />
             <TotalRow
               label="Recargos"
-              value={formatCurrency(invoice.bill.surcharge_amount)}
+              value={formatDocumentCurrency(invoice.bill.surcharge_amount)}
             />
             <Separator className="my-3" />
             <TotalRow
               label="Total"
-              value={formatCurrency(invoice.bill.total)}
+              value={formatDocumentCurrency(invoice.bill.total)}
               strong
             />
           </DashboardCard>
         </div>
       </div>
+
+      <DashboardCard className="space-y-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <h3 className="font-sans text-lg font-medium">Notas crédito</h3>
+            <p className="text-muted-foreground text-xs">
+              Gestiona las notas crédito emitidas para esta factura.
+            </p>
+          </div>
+
+          <Link
+            href={`/dashboard/invoices/${id}/credit-notes/new`}
+            className={buttonVariants()}
+          >
+            <PlusIcon />
+            Crear nota crédito
+          </Link>
+        </div>
+
+        {creditNotes.items.length === 0 ? (
+          <Empty className="bg-background/30 border border-dashed py-10">
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <FileTextIcon />
+              </EmptyMedia>
+              <EmptyTitle>Sin notas crédito aún</EmptyTitle>
+              <EmptyDescription className="max-w-[360px]">
+                Las notas crédito emitidas para esta factura aparecerán aquí.
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        ) : (
+          <div className="space-y-3">
+            {creditNotes.items.map((creditNote) => {
+              const creditNoteStatus = getInvoiceStatusDisplay(
+                creditNote.status,
+              );
+
+              return (
+                <div
+                  key={creditNote.id}
+                  className="border-border/60 flex flex-col gap-4 border p-4 md:flex-row md:items-center md:justify-between"
+                >
+                  <div className="flex min-w-0 flex-1 flex-col gap-x-16 gap-y-6 md:flex-row md:flex-wrap md:items-start">
+                    <Detail label="Número" value={creditNote.number} />
+                    <div className="space-y-1">
+                      <p className="text-muted-foreground text-xs uppercase">
+                        Estado
+                      </p>
+                      <Badge variant={creditNoteStatus.variant}>
+                        {creditNoteStatus.label}
+                      </Badge>
+                    </div>
+                    <Detail
+                      label="Fecha"
+                      value={formatDocumentDate(creditNote.createdAt)}
+                    />
+                    <Detail
+                      label="Total"
+                      value={formatDocumentCurrency(creditNote.total)}
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
+                    <CreditNoteDetailsDialog
+                      creditNoteId={creditNote.id}
+                      creditNoteNumber={creditNote.number}
+                    />
+                    <CreditNoteDownloadPdfButton
+                      creditNoteId={creditNote.id}
+                      creditNoteNumber={creditNote.number}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </DashboardCard>
     </div>
   );
 };
