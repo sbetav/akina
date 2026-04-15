@@ -93,11 +93,16 @@ function extractValidationErrors(error: unknown): Record<string, string> {
   const validationErrors = value.validationErrors;
   if (!validationErrors || typeof validationErrors !== "object") return {};
 
-  const entries = Object.entries(validationErrors).filter(
-    ([key, val]) => typeof key === "string" && typeof val === "string",
-  );
-
-  return Object.fromEntries(entries);
+  const result: Record<string, string> = {};
+  for (const [key, val] of Object.entries(validationErrors)) {
+    if (typeof key !== "string") continue;
+    if (typeof val === "string") {
+      result[key] = val;
+    } else if (Array.isArray(val) && val.length > 0) {
+      result[key] = val.filter((v) => typeof v === "string").join(" ");
+    }
+  }
+  return result;
 }
 
 const InvoiceForm: FC = () => {
@@ -252,7 +257,7 @@ const InvoiceForm: FC = () => {
       const description = validationEntries.length
         ? validationEntries
             .slice(0, 3)
-            .map(([code, message]) => `${code}: ${message}`)
+            .map(([, message]) => message)
             .join(" · ")
         : undefined;
 

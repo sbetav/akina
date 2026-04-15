@@ -75,10 +75,20 @@ const columns: ColumnDef<InvoiceRecordResult>[] = [
   {
     accessorKey: "status",
     header: "Estado",
-    cell: ({ getValue }) => {
+    cell: ({ getValue, row }) => {
       const value = getValue<number>();
       const config = getInvoiceStatusDisplay(value);
-      return <Badge variant={config.variant}>{config.label}</Badge>;
+      const creditNoteCount = row.original.creditNoteCount;
+      return (
+        <div className="flex items-center gap-2">
+          <Badge variant={config.variant}>{config.label}</Badge>
+          {creditNoteCount > 0 && (
+            <Badge variant="warning">
+              {creditNoteCount} Ajuste{creditNoteCount === 1 ? "" : "s"}
+            </Badge>
+          )}
+        </div>
+      );
     },
   },
   {

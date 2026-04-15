@@ -1,4 +1,4 @@
-import { and, count, desc, ilike, or } from "drizzle-orm";
+import { and, count, desc, eq, ilike, or, sql } from "drizzle-orm";
 import type {
   ApiResponse,
   BillListItem,
@@ -13,6 +13,7 @@ import type {
 import { FactusError } from "factus-js";
 import { ulid } from "ulid";
 import { db } from "@/db/drizzle";
+import { creditNotes } from "@/db/schemas/credit-notes";
 import { invoices } from "@/db/schemas/invoices";
 import { NotFoundError } from "@/elysia/errors";
 import {
@@ -78,6 +79,7 @@ export interface InvoiceRecordResult {
   customerName: string;
   customerIdentification: string;
   total: string | null;
+  creditNoteCount: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -127,6 +129,7 @@ function normalizeRow(row: {
   customerName: string;
   customerIdentification: string;
   total: string | null;
+  creditNoteCount: number;
   createdAt: Date;
   updatedAt: Date;
 }): InvoiceRecordResult {
@@ -137,6 +140,7 @@ function normalizeRow(row: {
     customerName: row.customerName,
     customerIdentification: row.customerIdentification,
     total: row.total,
+    creditNoteCount: row.creditNoteCount,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
   };
@@ -336,7 +340,7 @@ export const InvoiceService = {
       })
       .returning();
 
-    return normalizeRow(row);
+    return normalizeRow({ ...row, creditNoteCount: 0 });
   },
 
   /**
@@ -380,6 +384,11 @@ export const InvoiceService = {
           customerName: invoices.customerName,
           customerIdentification: invoices.customerIdentification,
           total: invoices.total,
+          creditNoteCount: sql<number>`(
+            select count(*)::int
+            from ${creditNotes}
+            where ${eq(creditNotes.invoiceId, invoices.id)}
+          )`.mapWith(Number),
           createdAt: invoices.createdAt,
           updatedAt: invoices.updatedAt,
         })
