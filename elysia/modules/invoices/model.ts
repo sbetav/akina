@@ -107,6 +107,8 @@ export const InvoiceRecord = t.Object({
   customerName: t.String(),
   customerIdentification: t.String(),
   total: t.Union([t.String(), t.Null()]),
+  /** Number of credit notes linked to this invoice. */
+  creditNoteCount: t.Number(),
   createdAt: t.String(),
   updatedAt: t.String(),
 });
