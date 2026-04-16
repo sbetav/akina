@@ -6,6 +6,7 @@ import { isUsingSharedAkinaSandbox } from "@/lib/factus";
 import {
   AcquirerQuery,
   AcquirerResponse,
+  CompanyResponse,
   CountriesQuery,
   CountryItem,
   CredentialBody,
@@ -265,6 +266,24 @@ export const factusModule = new Elysia({ prefix: "/factus" })
       auth: true,
       response: {
         200: t.Object({ data: t.Array(TributeItem) }),
+      },
+    },
+  )
+
+  /**
+   * GET /api/factus/company
+   * Returns company profile from the active Factus client.
+   */
+  .get(
+    "/company",
+    async ({ user }) => {
+      return await FactusService.getCompany(user.id);
+    },
+    {
+      auth: true,
+      response: {
+        200: CompanyResponse,
+        500: t.Object({ error: t.String() }),
       },
     },
   )

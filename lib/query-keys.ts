@@ -1,5 +1,6 @@
 export const DASHBOARD_QUERY_KEY = ["dashboard"] as const;
 export const CREDENTIALS_QUERY_KEY = ["factus", "credentials"] as const;
+export const COMPANY_QUERY_KEY = ["factus", "company"] as const;
 export const CUSTOMERS_QUERY_KEY = ["customers"] as const;
 export const PROVIDERS_QUERY_KEY = ["providers"] as const;
 export const PRODUCTS_QUERY_KEY = ["products"] as const;
@@ -39,6 +40,7 @@ export const DEFAULT_NUMBERING_RANGES_LIMIT = 10;
  */
 export const CREDENTIAL_DEPENDENT_KEYS = [
   DASHBOARD_QUERY_KEY,
+  COMPANY_QUERY_KEY,
   CUSTOMERS_QUERY_KEY,
   PROVIDERS_QUERY_KEY,
   PRODUCTS_QUERY_KEY,

@@ -114,6 +114,37 @@ export const TributeItem = t.Object({
   description: t.String(),
 });
 
+const CodeNameObject = t.Object({
+  code: t.String(),
+  name: t.String(),
+});
+
+export const CompanyResponse = t.Object({
+  url_logo: t.String(),
+  nit: t.String(),
+  dv: t.String(),
+  company: t.String(),
+  trade_name: t.String(),
+  names: t.String(),
+  surnames: t.String(),
+  graphic_representation_name: t.String(),
+  registration_code: t.String(),
+  economic_activity: t.Union([t.Number(), t.String()]),
+  phone: t.String(),
+  email: t.String(),
+  address: t.String(),
+  tribute: CodeNameObject,
+  legal_organization: CodeNameObject,
+  municipality: t.Object({
+    code: t.String(),
+    name: t.String(),
+    department: CodeNameObject,
+  }),
+  responsibilities: t.Array(CodeNameObject),
+  created_at: t.String(),
+  updated_at: t.String(),
+});
+
 export const NumberingRangeItem = t.Object({
   id: t.Number(),
   document: t.String(),

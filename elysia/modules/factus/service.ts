@@ -8,10 +8,10 @@ import {
 import { db } from "@/db/drizzle";
 import { factusCredentials } from "@/db/schemas/factus-credentials";
 import { NotFoundError, UnprocessableEntityError } from "@/elysia/errors";
+import { isFactusNotFoundError } from "@/elysia/factus-errors";
 import { AKINA_SANDBOX_ID, type FactusEnvironment } from "@/lib/constants";
 import { decrypt, encrypt } from "@/lib/crypto";
 import { getFactusClientForUser } from "@/lib/factus";
-import { isFactusNotFoundError } from "@/elysia/factus-errors";
 
 // ─── Input types ──────────────────────────────────────────────────────────────
 
@@ -92,6 +92,32 @@ export interface NumberingRangeListResult {
   limit: number;
 }
 
+export interface CompanyResult {
+  url_logo: string;
+  nit: string;
+  dv: string;
+  company: string;
+  trade_name: string;
+  names: string;
+  surnames: string;
+  graphic_representation_name: string;
+  registration_code: string;
+  economic_activity: number | string;
+  phone: string;
+  email: string;
+  address: string;
+  tribute: { code: string; name: string };
+  legal_organization: { code: string; name: string };
+  municipality: {
+    code: string;
+    name: string;
+    department: { code: string; name: string };
+  };
+  responsibilities: { code: string; name: string }[];
+  created_at: string;
+  updated_at: string;
+}
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 /**
@@ -107,7 +133,6 @@ async function validateClient(client: FactusClient): Promise<boolean> {
     throw e;
   }
 }
-
 
 function normalizeNumberingRange(range: {
   id: number;
@@ -532,6 +557,13 @@ export const FactusService = {
       name: t.name,
       description: t.description,
     }));
+  },
+
+  /** Get company profile from the current user's active Factus client. */
+  async getCompany(userId: string): Promise<CompanyResult> {
+    const client = await getFactusClientForUser(userId);
+    const response = await client.company.get();
+    return response.data as CompanyResult;
   },
 
   /** List numbering ranges from the current user's active Factus client. */
