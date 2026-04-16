@@ -45,13 +45,14 @@ export function IdentificationFieldSet<T extends FieldValues>({
   isSearchingAcquirer,
   names,
 }: IdentificationFieldSetProps & { names: CustomerFieldNames<T> }) {
-  const { control, setValue, resetField } = useFormContext<T>();
+  const { control, setValue, resetField, trigger } = useFormContext<T>();
 
   const identification = useWatch({ control, name: names.identification });
   const documentTypeId = useWatch({
     control,
     name: names.identificationDocumentId,
   });
+  const dv = useWatch({ control, name: names.dv });
 
   const isNIT = documentTypeId === IdentityDocumentTypeId.NIT;
 
@@ -69,7 +70,18 @@ export function IdentificationFieldSet<T extends FieldValues>({
         typeof names.dv
       >,
     );
-  }, [identification, documentTypeId, isNIT, names.dv, resetField, setValue]);
+    if (identification?.length > 0 && dv?.length > 0) {
+      trigger(names.dv);
+    }
+  }, [
+    identification,
+    documentTypeId,
+    isNIT,
+    names.dv,
+    resetField,
+    setValue,
+    trigger,
+  ]);
 
   return (
     <FieldSet>

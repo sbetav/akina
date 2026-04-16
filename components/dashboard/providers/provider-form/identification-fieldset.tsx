@@ -61,7 +61,7 @@ export function ProviderIdentificationFieldset<T extends FieldValues>({
   names,
   isSearchingAcquirer = false,
 }: ProviderIdentificationFieldsetProps & { names: ProviderFieldNames<T> }) {
-  const { control, setValue, resetField } = useFormContext<T>();
+  const { control, setValue, resetField, trigger } = useFormContext<T>();
   const virtualizerRef = useRef<CountryVirtualizer | null>(null);
 
   const identification = useWatch({ control, name: names.identification });
@@ -70,6 +70,7 @@ export function ProviderIdentificationFieldset<T extends FieldValues>({
     name: names.identificationDocumentId,
   });
   const countryCode = useWatch({ control, name: names.countryCode });
+  const dv = useWatch({ control, name: names.dv });
 
   const isNIT = documentTypeId === SupportDocumentIdentityTypeId.NIT;
 
@@ -91,7 +92,18 @@ export function ProviderIdentificationFieldset<T extends FieldValues>({
         typeof names.dv
       >,
     );
-  }, [identification, documentTypeId, isNIT, names.dv, resetField, setValue]);
+    if (identification?.length > 0 && dv?.length > 0) {
+      trigger(names.dv);
+    }
+  }, [
+    identification,
+    documentTypeId,
+    isNIT,
+    names.dv,
+    resetField,
+    setValue,
+    trigger,
+  ]);
 
   // Auto-derive isResident from countryCode
   useEffect(() => {
