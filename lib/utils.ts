@@ -199,3 +199,29 @@ export const COP = new Intl.NumberFormat("es-CO", {
   currency: "COP",
   maximumFractionDigits: 0,
 });
+
+/**
+ * Performs a shallow comparison between two objects.
+ *
+ * Only compares first-level keys using strict equality (`===`).
+ * Does NOT support nested structures.
+ *
+ * @param {Record<string, unknown>} initial - The original object.
+ * @param {Record<string, unknown>} current - The current object.
+ * @returns {boolean} Returns `true` if any top-level value differs.
+ *
+ * @example
+ * hasShallowChanges({ a: 1 }, { a: 1 }) // false
+ * hasShallowChanges({ a: 1 }, { a: 2 }) // true
+ */
+export function hasShallowChanges(
+  initial: Record<string, unknown>,
+  current: Record<string, unknown>,
+): boolean {
+  if (initial === current) return false;
+
+  const keys = Object.keys(initial);
+  if (keys.length !== Object.keys(current).length) return true;
+
+  return keys.some((key) => initial[key] !== current[key]);
+}

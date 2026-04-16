@@ -17,3 +17,5 @@ export const authClient = createAuthClient({
     inferAdditionalFields<typeof auth>(),
   ],
 });
+
+export type User = (typeof authClient.$Infer.Session)["user"];
