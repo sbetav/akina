@@ -225,3 +225,93 @@ export function hasShallowChanges(
 
   return keys.some((key) => initial[key] !== current[key]);
 }
+
+/**
+ * Parses a user agent string and extracts basic device, browser, and OS information.
+ *
+ * @param ua - The user agent string to parse. Can be null or undefined.
+ * @returns An object containing:
+ * - `device`: A human-readable label combining browser and OS, or a fallback string.
+ * - `browser`: Detected browser name, or null if unknown.
+ * - `os`: Detected operating system, or null if unknown.
+ * - `icon`: A simplified device type ("desktop", "laptop", or "mobile").
+ */
+export function parseUserAgent(ua: string | null | undefined): {
+  device: string;
+  browser: string | null;
+  os: string | null;
+  icon: "desktop" | "laptop" | "mobile";
+} {
+  if (!ua)
+    return {
+      device: "Dispositivo desconocido",
+      browser: null,
+      os: null,
+      icon: "desktop",
+    };
+
+  const isMobile = /android|iphone|ipad|mobile/i.test(ua);
+  const isLaptop = /macintosh|mac os x/i.test(ua) && !isMobile;
+
+  const browser = ua.match(/Edg\/[\d.]+/)
+    ? "Edge"
+    : ua.match(/OPR\/[\d.]+/)
+      ? "Opera"
+      : ua.match(/Chrome\/[\d.]+/)
+        ? "Chrome"
+        : ua.match(/Firefox\/[\d.]+/)
+          ? "Firefox"
+          : ua.match(/Safari\/[\d.]+/)
+            ? "Safari"
+            : null;
+
+  const os = ua.match(/Windows NT/i)
+    ? "Windows"
+    : ua.match(/Mac OS X/i)
+      ? "macOS"
+      : ua.match(/Linux/i)
+        ? "Linux"
+        : ua.match(/Android/i)
+          ? "Android"
+          : ua.match(/iPhone|iPad/i)
+            ? "iOS"
+            : null;
+
+  const parts = [browser, os].filter(Boolean);
+  return {
+    device: parts.length > 0 ? parts.join(" · ") : "Navegador",
+    browser,
+    os,
+    icon: isMobile ? "mobile" : isLaptop ? "laptop" : "desktop",
+  };
+}
+
+/**
+ * Fetches an approximate geographic location (city and country) for a given IP address.
+ *
+ * Uses the ip-api.com service to resolve the IP into a human-readable location.
+ *
+ * @param ip - The IP address to look up. Can be null, undefined, or a loopback address.
+ * @returns A string in the format "City, Country" if successful, or null if:
+ * - The IP is invalid, local, or unspecified
+ * - The API request fails
+ * - The lookup is unsuccessful
+ */
+export async function fetchLocation(
+  ip: string | null | undefined,
+): Promise<string | null> {
+  // Skip loopback / unspecified addresses
+  if (!ip || ip === "::1" || /^0+(:0+)*$/.test(ip) || ip === "127.0.0.1")
+    return null;
+
+  try {
+    const res = await fetch(
+      `https://ip-api.com/json/${ip}?fields=city,country,status`,
+    );
+    const data = await res.json();
+    if (data.status !== "success") return null;
+    return [data.city, data.country].filter(Boolean).join(", ");
+  } catch {
+    return null;
+  }
+}

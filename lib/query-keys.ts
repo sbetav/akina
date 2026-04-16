@@ -1,3 +1,4 @@
+export const SESSIONS_QUERY_KEY = ["sessions"] as const;
 export const DASHBOARD_QUERY_KEY = ["dashboard"] as const;
 export const CREDENTIALS_QUERY_KEY = ["factus", "credentials"] as const;
 export const COMPANY_QUERY_KEY = ["factus", "company"] as const;
