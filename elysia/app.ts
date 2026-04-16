@@ -4,6 +4,7 @@ import { ApiError } from "@/elysia/errors";
 import { adjustmentNotesModule } from "./modules/adjustment-notes";
 import { creditNotesModule } from "./modules/credit-notes";
 import { customersModule } from "./modules/customers";
+import { dashboardModule } from "./modules/dashboard";
 import { factusModule } from "./modules/factus";
 import { invoicesModule } from "./modules/invoices";
 import { productsModule } from "./modules/products";
@@ -13,6 +14,7 @@ import { supportDocumentsModule } from "./modules/support-documents";
 export const app = new Elysia({ prefix: "/api" })
   .error({ ApiError })
   .use(betterAuth)
+  .use(dashboardModule)
   .use(factusModule)
   .use(customersModule)
   .use(creditNotesModule)
