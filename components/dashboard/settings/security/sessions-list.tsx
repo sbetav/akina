@@ -58,10 +58,10 @@ const SessionsList: FC = () => {
       <FieldLegend>Sesiones activas</FieldLegend>
       <div className="mt-2 flex flex-col gap-4">
         {isPending
-          ? Array.from({ length: 3 }).map((_, i) => (
+          ? Array.from({ length: 2 }).map((_, i) => (
               <Fragment key={i}>
                 <Skeleton className="h-[38px] w-full" />
-                {i < 2 && <Separator />}
+                {i < 1 && <Separator />}
               </Fragment>
             ))
           : sessions.map((session, i) => (
