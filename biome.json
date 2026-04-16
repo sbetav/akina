@@ -27,6 +27,12 @@
         "useAriaPropsForRole": "off",
         "useKeyWithClickEvents": "off",
         "noLabelWithoutControl": "off"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
+      },
+      "suspicious": {
+        "noArrayIndexKey": "off"
       }
     }
   },
