@@ -23,7 +23,7 @@ export const CreditNoteCreateBody = t.Object({
   numberingRangeId: t.Optional(t.Number({ minimum: 1 })),
   correctionConceptCode: toElysiaEnum(CreditNoteCorrectionCode),
   observation: t.Optional(t.String()),
-  paymentMethodCode: toElysiaEnum(PaymentMethodCode),
+  paymentMethodCode: t.Optional(toElysiaEnum(PaymentMethodCode)),
   sendEmail: t.Optional(t.Boolean()),
   items: t.Array(CreditNoteItemBody, { minItems: 1 }),
 });
@@ -55,5 +55,5 @@ export const CreditNoteViewResponse = t.Object({
 
 export const CreditNoteValidationError = t.Object({
   error: t.String(),
-  validationErrors: t.Optional(t.Record(t.String(), t.String())),
+  validationErrors: t.Optional(t.Record(t.String(), t.Union([t.String(), t.Array(t.String())]))),
 });

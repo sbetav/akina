@@ -1,16 +1,16 @@
 import { and, count, desc, eq, ilike, or, sql } from "drizzle-orm";
-import type {
-  ApiResponse,
-  BillListItem,
-  CustomerTributeId,
-  IdentityDocumentTypeId,
-  OrganizationTypeId,
-  PaymentFormCode,
-  PaymentMethodCode,
-  ProductStandardId,
-  ViewBillData,
+import {
+  type ApiResponse,
+  type BillListItem,
+  type CustomerTributeId,
+  type IdentityDocumentTypeId,
+  type OrganizationTypeId,
+  type PaymentFormCode,
+  type PaymentMethodCode,
+  type ProductStandardId,
+  type ViewBillData,
+  FactusError,
 } from "factus-js";
-import { FactusError } from "factus-js";
 import { ulid } from "ulid";
 import { db } from "@/db/drizzle";
 import { creditNotes } from "@/db/schemas/credit-notes";
@@ -23,6 +23,7 @@ import {
 import { getFactusClientForUser } from "@/lib/factus";
 import { buildFactusInvoiceItems } from "@/lib/invoices/factus";
 import { getSearchTerms } from "@/lib/utils";
+import { isFactusNotFoundError } from "@/elysia/factus-errors";
 
 // ─── Input types ──────────────────────────────────────────────────────────────
 
@@ -97,30 +98,6 @@ const buildFilter = createWorkspaceFilter(invoices);
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-function isFactusNotFoundError(error: unknown): boolean {
-  if (!(error instanceof FactusError)) return false;
-
-  const candidate = error as FactusError & {
-    status?: number;
-    statusCode?: number;
-    response?: { status?: number };
-    cause?: {
-      status?: number;
-      statusCode?: number;
-      response?: { status?: number };
-    };
-  };
-
-  return (
-    candidate.status === 404 ||
-    candidate.statusCode === 404 ||
-    candidate.response?.status === 404 ||
-    candidate.cause?.status === 404 ||
-    candidate.cause?.statusCode === 404 ||
-    candidate.cause?.response?.status === 404 ||
-    candidate.message.toLowerCase().includes("not found")
-  );
-}
 
 function normalizeRow(row: {
   id: string;

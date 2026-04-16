@@ -61,7 +61,7 @@ export const SupportDocumentItemBody = t.Object({
 export const SupportDocumentCreateBody = t.Object({
   /** Factus numbering range ID. Optional when only one active range exists. */
   numberingRangeId: t.Optional(t.Number({ minimum: 1 })),
-  paymentMethodCode: toElysiaEnum(PaymentMethodCode),
+  paymentMethodCode: t.Optional(toElysiaEnum(PaymentMethodCode)),
   observation: t.Optional(t.String()),
   provider: SupportDocumentProviderBody,
   items: t.Array(SupportDocumentItemBody, { minItems: 1 }),
@@ -90,6 +90,7 @@ export const SupportDocumentRecord = t.Object({
   providerName: t.String(),
   providerIdentification: t.String(),
   total: t.Union([t.String(), t.Null()]),
+  adjustmentNoteCount: t.Number(),
   createdAt: t.String(),
   updatedAt: t.String(),
 });

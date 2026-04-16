@@ -1,15 +1,16 @@
-import { and, count, desc, ilike, or } from "drizzle-orm";
-import type {
-  ApiResponse,
-  PaymentMethodCode,
-  ProductStandardId,
-  SupportDocument,
-  SupportDocumentIdentityTypeId,
-  ViewSupportDocumentData,
+import { and, count, desc, eq, ilike, or, sql } from "drizzle-orm";
+import {
+  type ApiResponse,
+  type PaymentMethodCode,
+  type ProductStandardId,
+  type SupportDocument,
+  type SupportDocumentIdentityTypeId,
+  type ViewSupportDocumentData,
+  FactusError,
 } from "factus-js";
-import { FactusError } from "factus-js";
 import { ulid } from "ulid";
 import { db } from "@/db/drizzle";
+import { adjustmentNotes } from "@/db/schemas/adjustment-notes";
 import { supportDocuments } from "@/db/schemas/support-documents";
 import { NotFoundError } from "@/elysia/errors";
 import {
@@ -18,6 +19,7 @@ import {
 } from "@/elysia/workspace";
 import { getFactusClientForUser } from "@/lib/factus";
 import { getSearchTerms } from "@/lib/utils";
+import { isFactusNotFoundError } from "@/elysia/factus-errors";
 
 // ─── Input types ──────────────────────────────────────────────────────────────
 
@@ -74,6 +76,7 @@ export interface SupportDocumentRecordResult {
   providerName: string;
   providerIdentification: string;
   total: string | null;
+  adjustmentNoteCount: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -91,30 +94,6 @@ const buildFilter = createWorkspaceFilter(supportDocuments);
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-function isFactusNotFoundError(error: unknown): boolean {
-  if (!(error instanceof FactusError)) return false;
-
-  const candidate = error as FactusError & {
-    status?: number;
-    statusCode?: number;
-    response?: { status?: number };
-    cause?: {
-      status?: number;
-      statusCode?: number;
-      response?: { status?: number };
-    };
-  };
-
-  return (
-    candidate.status === 404 ||
-    candidate.statusCode === 404 ||
-    candidate.response?.status === 404 ||
-    candidate.cause?.status === 404 ||
-    candidate.cause?.statusCode === 404 ||
-    candidate.cause?.response?.status === 404 ||
-    candidate.message.toLowerCase().includes("not found")
-  );
-}
 
 function normalizeRow(row: {
   id: string;
@@ -123,6 +102,7 @@ function normalizeRow(row: {
   providerName: string;
   providerIdentification: string;
   total: string | null;
+  adjustmentNoteCount: number;
   createdAt: Date;
   updatedAt: Date;
 }): SupportDocumentRecordResult {
@@ -133,6 +113,7 @@ function normalizeRow(row: {
     providerName: row.providerName,
     providerIdentification: row.providerIdentification,
     total: row.total,
+    adjustmentNoteCount: row.adjustmentNoteCount,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
   };
@@ -341,7 +322,7 @@ export const SupportDocumentService = {
       })
       .returning();
 
-    return normalizeRow(row);
+    return normalizeRow({ ...row, adjustmentNoteCount: 0 });
   },
 
   /**
@@ -385,6 +366,11 @@ export const SupportDocumentService = {
           providerName: supportDocuments.providerName,
           providerIdentification: supportDocuments.providerIdentification,
           total: supportDocuments.total,
+          adjustmentNoteCount: sql<number>`(
+            select count(*)::int
+            from ${adjustmentNotes}
+            where ${eq(adjustmentNotes.supportDocumentId, supportDocuments.id)}
+          )`.mapWith(Number),
           createdAt: supportDocuments.createdAt,
           updatedAt: supportDocuments.updatedAt,
         })

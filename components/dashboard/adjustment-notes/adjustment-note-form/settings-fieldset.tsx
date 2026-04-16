@@ -1,8 +1,8 @@
 "use client";
 
 import {
-  CreditNoteCorrectionCode,
-  CreditNoteCorrectionCodeInfo,
+  AdjustmentNoteReasonCode,
+  AdjustmentNoteReasonCodeInfo,
   type PaymentMethodCode,
   PaymentMethodCodeInfo,
 } from "factus-js";
@@ -14,7 +14,6 @@ import {
   PageHeaderDescription,
   PageHeaderTitle,
 } from "@/components/dashboard/page-header";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Field,
   FieldContent,
@@ -23,6 +22,7 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -33,10 +33,9 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useCredentialsContext } from "@/contexts/credentials-context";
 import { useNumberingRangesCatalog } from "@/hooks/factus/use-numbering-ranges";
-import type { CreditNoteFormValues } from "@/lib/validations/credit-note";
+import type { AdjustmentNoteFormValues } from "@/lib/validations/adjustment-note";
 
-/** Factus sandbox numbering range ID for credit notes. Verify against your sandbox account. */
-const SANDBOX_NUMBERING_RANGE_ID = 9;
+const SANDBOX_NUMBERING_RANGE_ID = 149;
 
 const PAYMENT_METHOD_OPTIONS = Object.entries(PaymentMethodCodeInfo).map(
   ([value, info]) => ({
@@ -46,11 +45,11 @@ const PAYMENT_METHOD_OPTIONS = Object.entries(PaymentMethodCodeInfo).map(
 );
 
 const SUPPORTED_CORRECTION_CONCEPTS = new Set<string>([
-  CreditNoteCorrectionCode.PartialReturn,
-  CreditNoteCorrectionCode.InvoiceCancellation,
+  AdjustmentNoteReasonCode.PartialReturn,
+  AdjustmentNoteReasonCode.SupportDocumentCancellation,
 ]);
 
-const CORRECTION_CONCEPT_OPTIONS = Object.entries(CreditNoteCorrectionCodeInfo)
+const CORRECTION_CONCEPT_OPTIONS = Object.entries(AdjustmentNoteReasonCodeInfo)
   .filter(([value]) => SUPPORTED_CORRECTION_CONCEPTS.has(value))
   .map(([value, info]) => ({
     value,
@@ -61,7 +60,7 @@ const SettingsFieldset: FC = () => {
   const { isAkinaSandbox } = useCredentialsContext();
   const { data: numberingRanges = [], isPending: isLoadingRanges } =
     useNumberingRangesCatalog();
-  const { control, setValue } = useFormContext<CreditNoteFormValues>();
+  const { control, setValue } = useFormContext<AdjustmentNoteFormValues>();
 
   const numberingRangeId = useWatch({ control, name: "numberingRangeId" });
   const observation = useWatch({ control, name: "observation" }) ?? "";
@@ -91,7 +90,7 @@ const SettingsFieldset: FC = () => {
         <PageHeaderContent>
           <PageHeaderTitle>Configuración</PageHeaderTitle>
           <PageHeaderDescription>
-            Define el concepto y los datos de emisión de la nota crédito.
+            Define el concepto y los datos de emisión de la nota de ajuste.
           </PageHeaderDescription>
         </PageHeaderContent>
       </PageHeader>
@@ -219,10 +218,15 @@ const SettingsFieldset: FC = () => {
           name="observation"
           render={({ field, fieldState }) => (
             <Field>
-              <FieldLabel htmlFor={field.name}>Observación</FieldLabel>
+              <FieldLabel htmlFor={field.name}>
+                Observación{" "}
+                <span className="text-muted-foreground font-normal">
+                  (opcional)
+                </span>
+              </FieldLabel>
               <Textarea
                 id={field.name}
-                placeholder="Motivo o detalle adicional de la nota crédito"
+                placeholder="Motivo o detalle adicional de la nota de ajuste"
                 maxLength={250}
                 aria-invalid={fieldState.invalid}
                 {...field}
@@ -248,10 +252,10 @@ const SettingsFieldset: FC = () => {
               />
               <FieldContent>
                 <FieldLabel htmlFor={field.name}>
-                  Enviar nota crédito por correo
+                  Enviar nota de ajuste por correo
                 </FieldLabel>
                 <FieldDescription>
-                  Factus notificará al cliente al emitir la nota crédito.
+                  Factus notificará al proveedor al emitir la nota de ajuste.
                 </FieldDescription>
                 <FieldError errors={[fieldState.error]} />
               </FieldContent>

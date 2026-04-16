@@ -175,6 +175,7 @@ const SupportDocumentForm: FC = () => {
       paymentMethodCode: PaymentMethodCode.Cash,
       observation: "",
     },
+    mode: "all",
   });
 
   const currentStep = FORM_STEPS[currentStepIndex];

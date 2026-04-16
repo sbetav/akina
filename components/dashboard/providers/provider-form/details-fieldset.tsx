@@ -47,14 +47,8 @@ import type { ProviderFieldNames } from "./field-names";
 
 export function ProviderDetailsFieldset<T extends FieldValues>({
   names,
-  addressRequired = false,
-  emailRequired = false,
-  municipalityRequired = false,
 }: {
   names: ProviderFieldNames<T>;
-  addressRequired?: boolean;
-  emailRequired?: boolean;
-  municipalityRequired?: boolean;
 }) {
   const { control } = useFormContext<T>();
   const virtualizerRef = useRef<MunicipalityVirtualizer | null>(null);
@@ -139,14 +133,7 @@ export function ProviderDetailsFieldset<T extends FieldValues>({
             name={names.email}
             render={({ field, fieldState }) => (
               <Field>
-                <FieldLabel htmlFor={field.name}>
-                  Correo electrónico{" "}
-                  {!emailRequired && (
-                    <span className="text-muted-foreground font-normal">
-                      (opcional)
-                    </span>
-                  )}
-                </FieldLabel>
+                <FieldLabel htmlFor={field.name}>Correo electrónico</FieldLabel>
                 <InputGroup>
                   <InputGroupAddon>
                     <MailIcon />
@@ -202,14 +189,7 @@ export function ProviderDetailsFieldset<T extends FieldValues>({
               name={names.municipalityId}
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel htmlFor={field.name}>
-                    Municipio{" "}
-                    {!municipalityRequired && (
-                      <span className="text-muted-foreground font-normal">
-                        (opcional)
-                      </span>
-                    )}
-                  </FieldLabel>
+                  <FieldLabel htmlFor={field.name}>Municipio</FieldLabel>
                   <Combobox
                     id={field.name}
                     virtualized
@@ -280,14 +260,7 @@ export function ProviderDetailsFieldset<T extends FieldValues>({
             name={names.address}
             render={({ field, fieldState }) => (
               <Field>
-                <FieldLabel htmlFor={field.name}>
-                  Dirección{" "}
-                  {!addressRequired && (
-                    <span className="text-muted-foreground font-normal">
-                      (opcional)
-                    </span>
-                  )}
-                </FieldLabel>
+                <FieldLabel htmlFor={field.name}>Dirección</FieldLabel>
                 <InputGroup>
                   <InputGroupAddon>
                     <MapPinHouseIcon />

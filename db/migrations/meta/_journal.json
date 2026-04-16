@@ -141,6 +141,13 @@
       "when": 1776281174214,
       "tag": "0019_bent_katie_power",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1776295756621,
+      "tag": "0020_breezy_the_renegades",
+      "breakpoints": true
     }
   ]
 }

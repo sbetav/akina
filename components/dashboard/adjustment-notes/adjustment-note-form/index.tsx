@@ -4,9 +4,9 @@ import { useRouter } from "@bprogress/next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  CreditNoteCorrectionCode,
+  AdjustmentNoteReasonCode,
   PaymentMethodCode,
-  type ViewBillData,
+  type ViewSupportDocumentData,
 } from "factus-js";
 import { type FC, useState } from "react";
 import { FormProvider, type Resolver, useForm } from "react-hook-form";
@@ -18,17 +18,17 @@ import { toast } from "@/components/ui/toast";
 import { api } from "@/elysia/eden";
 import { getApiErrorMessage } from "@/elysia/get-api-error-message";
 import { useGoBack } from "@/hooks/ui/use-go-back";
-import { CREDIT_NOTES_QUERY_KEY } from "@/lib/query-keys";
+import { ADJUSTMENT_NOTES_QUERY_KEY } from "@/lib/query-keys";
 import {
-  type CreditNoteFormValues,
-  creditNoteFormSchema,
-  getDefaultCreditNoteItems,
-} from "@/lib/validations/credit-note";
+  type AdjustmentNoteFormValues,
+  adjustmentNoteFormSchema,
+  getDefaultAdjustmentNoteItems,
+} from "@/lib/validations/adjustment-note";
 import ItemsFieldset from "./items-fieldset";
 import SettingsFieldset from "./settings-fieldset";
 import SummaryCard from "./summary-card";
 
-interface CreditNoteCreateError extends Error {
+interface AdjustmentNoteCreateError extends Error {
   validationErrors?: Record<string, string>;
 }
 
@@ -54,42 +54,50 @@ function extractValidationErrors(error: unknown): Record<string, string> {
   return result;
 }
 
-interface CreditNoteFormProps {
-  invoiceId: string;
-  invoice: ViewBillData;
+interface AdjustmentNoteFormProps {
+  supportDocumentId: string;
+  supportDocumentFactusId: number;
+  document: ViewSupportDocumentData;
 }
 
-const CreditNoteForm: FC<CreditNoteFormProps> = ({ invoiceId, invoice }) => {
+const AdjustmentNoteForm: FC<AdjustmentNoteFormProps> = ({
+  supportDocumentId,
+  supportDocumentFactusId,
+  document,
+}) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { goBack } = useGoBack({
-    fallbackHref: `/dashboard/invoices/${invoiceId}`,
+    fallbackHref: `/dashboard/support-documents/${supportDocumentId}`,
   });
   const [redirecting, setRedirecting] = useState(false);
 
-  const methods = useForm<CreditNoteFormValues>({
+  const providerName =
+    document.provider.trade_name || document.provider.names || "N/A";
+
+  const methods = useForm<AdjustmentNoteFormValues>({
     resolver: zodResolver(
-      creditNoteFormSchema,
-    ) as Resolver<CreditNoteFormValues>,
+      adjustmentNoteFormSchema,
+    ) as Resolver<AdjustmentNoteFormValues>,
     defaultValues: {
       numberingRangeId: undefined as never,
-      correctionConceptCode: CreditNoteCorrectionCode.PartialReturn,
+      correctionConceptCode: AdjustmentNoteReasonCode.PartialReturn,
       observation: "",
-      paymentMethodCode:
-        (invoice.bill.payment_method.code as PaymentMethodCode) ??
-        PaymentMethodCode.Cash,
-      sendEmail: invoice.bill.send_email === 1,
-      items: getDefaultCreditNoteItems(invoice),
+      paymentMethodCode: document.support_document.payment_method
+        .code as PaymentMethodCode,
+      sendEmail: document.support_document.send_email === 1,
+      items: getDefaultAdjustmentNoteItems(document),
     },
   });
-
-  console.log(methods.formState.errors);
 
   const { handleSubmit } = methods;
 
   const { mutate, isPending } = useMutation({
-    mutationFn: async (values: CreditNoteFormValues) => {
-      const res = await api.invoices({ id: invoiceId })["credit-notes"].post({
+    mutationFn: async (values: AdjustmentNoteFormValues) => {
+      const res = await api["support-documents"]({
+        id: supportDocumentId,
+      })["adjustment-notes"].post({
+        supportDocumentFactusId,
         numberingRangeId: values.numberingRangeId,
         correctionConceptCode: values.correctionConceptCode,
         observation: values.observation?.trim() || undefined,
@@ -98,14 +106,11 @@ const CreditNoteForm: FC<CreditNoteFormProps> = ({ invoiceId, invoice }) => {
         items: values.items
           .filter((item) => item.quantity > 0)
           .map((item) => ({
-            code: item.code,
+            codeReference: item.codeReference,
             name: item.name,
             price: item.price,
-            taxRate: item.taxRate,
             unitMeasureId: item.unitMeasureId,
             standardCodeId: item.standardCodeId,
-            isExcluded: item.isExcluded,
-            tributeId: item.tributeId,
             quantity: item.quantity,
             discountRate: item.discountRate,
           })),
@@ -113,8 +118,8 @@ const CreditNoteForm: FC<CreditNoteFormProps> = ({ invoiceId, invoice }) => {
 
       if (res.error) {
         const error = new Error(
-          getApiErrorMessage(res.error, "Error al crear la nota crédito"),
-        ) as CreditNoteCreateError;
+          getApiErrorMessage(res.error, "Error al crear la nota de ajuste"),
+        ) as AdjustmentNoteCreateError;
         error.validationErrors = extractValidationErrors(res.error);
         throw error;
       }
@@ -123,11 +128,13 @@ const CreditNoteForm: FC<CreditNoteFormProps> = ({ invoiceId, invoice }) => {
     },
     onSuccess: () => {
       setRedirecting(true);
-      toast.success("Nota crédito creada exitosamente");
-      void queryClient.invalidateQueries({ queryKey: CREDIT_NOTES_QUERY_KEY });
-      router.replace(`/dashboard/invoices/${invoiceId}`);
+      toast.success("Nota de ajuste creada exitosamente");
+      void queryClient.invalidateQueries({
+        queryKey: ADJUSTMENT_NOTES_QUERY_KEY,
+      });
+      router.replace(`/dashboard/support-documents/${supportDocumentId}`);
     },
-    onError: (error: CreditNoteCreateError) => {
+    onError: (error: AdjustmentNoteCreateError) => {
       setRedirecting(false);
       const validationEntries = Object.entries(error.validationErrors ?? {});
       const description = validationEntries.length
@@ -141,7 +148,7 @@ const CreditNoteForm: FC<CreditNoteFormProps> = ({ invoiceId, invoice }) => {
     },
   });
 
-  const onSubmit = (values: CreditNoteFormValues) => {
+  const onSubmit = (values: AdjustmentNoteFormValues) => {
     mutate(values);
   };
 
@@ -178,20 +185,15 @@ const CreditNoteForm: FC<CreditNoteFormProps> = ({ invoiceId, invoice }) => {
               disabled={isPending || redirecting}
             >
               {isPending && <Spinner />}
-              Crear nota crédito
+              Crear nota de ajuste
             </Button>
           </div>
         </DashboardCard>
 
         <aside className="xl:sticky xl:top-6 xl:self-start">
           <SummaryCard
-            invoiceNumber={invoice.bill.number}
-            customerName={
-              invoice.customer.graphic_representation_name ||
-              invoice.customer.trade_name ||
-              invoice.customer.company ||
-              invoice.customer.names
-            }
+            supportDocumentNumber={document.support_document.number}
+            providerName={providerName}
           />
         </aside>
       </form>
@@ -199,4 +201,4 @@ const CreditNoteForm: FC<CreditNoteFormProps> = ({ invoiceId, invoice }) => {
   );
 };
 
-export default CreditNoteForm;
+export default AdjustmentNoteForm;

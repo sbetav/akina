@@ -2,6 +2,13 @@ import { Elysia, t } from "elysia";
 import { FactusError } from "factus-js";
 import { betterAuth } from "@/elysia/better-auth";
 import {
+  AdjustmentNoteCreateBody,
+  AdjustmentNoteListResponse,
+  AdjustmentNoteRecord,
+  AdjustmentNoteValidationError,
+} from "@/elysia/modules/adjustment-notes/model";
+import { AdjustmentNoteService } from "@/elysia/modules/adjustment-notes/service";
+import {
   SupportDocumentCreateBody,
   SupportDocumentListQuery,
   SupportDocumentListResponse,
@@ -160,6 +167,64 @@ export const supportDocumentsModule = new Elysia({
         200: t.Object({ success: t.Literal(true) }),
         404: t.Object({ error: t.String() }),
         422: SupportDocumentValidationError,
+      },
+    },
+  )
+
+  // ─── Adjustment notes ────────────────────────────────────────────────────────
+
+  /**
+   * GET /api/support-documents/:id/adjustment-notes
+   * Returns the list of adjustment notes for a support document (from our DB).
+   */
+  .get(
+    "/:id/adjustment-notes",
+    async ({ user, params }) => {
+      return await AdjustmentNoteService.listForSupportDocument(
+        user.id,
+        params.id,
+      );
+    },
+    {
+      auth: true,
+      params: t.Object({ id: t.String() }),
+      response: {
+        200: AdjustmentNoteListResponse,
+        404: t.Object({ error: t.String() }),
+      },
+    },
+  )
+
+  /**
+   * POST /api/support-documents/:id/adjustment-notes
+   * Creates a new adjustment note via Factus and persists it to our DB.
+   * Returns the saved record on success.
+   *
+   * On DIAN validation failure, returns 422 with structured validationErrors.
+   */
+  .post(
+    "/:id/adjustment-notes",
+    async ({ user, params, body, status }) => {
+      try {
+        return await AdjustmentNoteService.create(user.id, params.id, body);
+      } catch (err) {
+        if (err instanceof FactusError) {
+          return status(422, {
+            error: err.message,
+            validationErrors: err.validationErrors ?? undefined,
+          });
+        }
+        throw err;
+      }
+    },
+    {
+      auth: true,
+      params: t.Object({ id: t.String() }),
+      body: AdjustmentNoteCreateBody,
+      response: {
+        200: AdjustmentNoteRecord,
+        404: t.Object({ error: t.String() }),
+        422: AdjustmentNoteValidationError,
       },
     },
   );

@@ -1,22 +1,24 @@
 import { and, asc, eq } from "drizzle-orm";
-import type {
-  ApiResponse,
-  CreditNoteCorrectionCode,
-  CreditNoteListItem,
-  CustomerTributeId,
-  OrganizationTypeId,
-  PaymentMethodCode,
-  ProductStandardId,
-  ViewBillData,
-  ViewCreditNoteData,
+import {
+  type ApiResponse,
+  type CreditNoteCorrectionCode,
+  type CreditNoteListItem,
+  CreditNoteOperationTypeCode,
+  type CustomerTributeId,
+  FactusError,
+  type OrganizationTypeId,
+  type PaymentMethodCode,
+  type ProductStandardId,
+  type ViewBillData,
+  type ViewCreditNoteData,
 } from "factus-js";
-import { CreditNoteOperationTypeCode, FactusError } from "factus-js";
 import { ulid } from "ulid";
 import { db } from "@/db/drizzle";
 import { creditNotes } from "@/db/schemas/credit-notes";
 import { customers } from "@/db/schemas/customers";
 import { invoices } from "@/db/schemas/invoices";
 import { NotFoundError } from "@/elysia/errors";
+import { isFactusNotFoundError } from "@/elysia/factus-errors";
 import {
   createWorkspaceFilter,
   getActiveCredentialsIdForUser,
@@ -41,7 +43,7 @@ export interface CreditNoteCreateInput {
   numberingRangeId?: number;
   correctionConceptCode: CreditNoteCorrectionCode;
   observation?: string;
-  paymentMethodCode: PaymentMethodCode;
+  paymentMethodCode?: PaymentMethodCode;
   sendEmail?: boolean;
   items: CreditNoteItemInput[];
 }
@@ -61,31 +63,6 @@ export interface CreditNoteRecordResult {
 const buildInvoiceFilter = createWorkspaceFilter(invoices);
 const buildCreditNoteFilter = createWorkspaceFilter(creditNotes);
 const buildCustomerFilter = createWorkspaceFilter(customers);
-
-function isFactusNotFoundError(error: unknown): boolean {
-  if (!(error instanceof FactusError)) return false;
-
-  const candidate = error as FactusError & {
-    status?: number;
-    statusCode?: number;
-    response?: { status?: number };
-    cause?: {
-      status?: number;
-      statusCode?: number;
-      response?: { status?: number };
-    };
-  };
-
-  return (
-    candidate.status === 404 ||
-    candidate.statusCode === 404 ||
-    candidate.response?.status === 404 ||
-    candidate.cause?.status === 404 ||
-    candidate.cause?.statusCode === 404 ||
-    candidate.cause?.response?.status === 404 ||
-    candidate.message.toLowerCase().includes("not found")
-  );
-}
 
 function getRecord(value: unknown): Record<string, unknown> | null {
   if (!value || typeof value !== "object") return null;

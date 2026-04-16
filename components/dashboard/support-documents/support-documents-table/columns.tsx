@@ -78,10 +78,21 @@ const columns: ColumnDef<SupportDocumentRecordResult>[] = [
   {
     accessorKey: "status",
     header: "Estado",
-    cell: ({ getValue }) => {
+    cell: ({ getValue, row }) => {
       const value = getValue<number>();
       const config = getInvoiceStatusDisplay(value);
-      return <Badge variant={config.variant}>{config.label}</Badge>;
+      const adjustmentNoteCount = row.original.adjustmentNoteCount;
+      return (
+        <div className="flex items-center gap-2">
+          <Badge variant={config.variant}>{config.label}</Badge>
+          {adjustmentNoteCount > 0 && (
+            <Badge variant="warning">
+              {adjustmentNoteCount} Ajuste
+              {adjustmentNoteCount === 1 ? "" : "s"}
+            </Badge>
+          )}
+        </div>
+      );
     },
   },
   {

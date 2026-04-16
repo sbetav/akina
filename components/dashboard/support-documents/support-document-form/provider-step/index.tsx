@@ -1,20 +1,20 @@
 "use client";
 
 import type { FC } from "react";
-import type { ProviderFieldNames } from "@/components/dashboard/providers/provider-form/field-names";
-import { ProviderFormFieldsets } from "@/components/dashboard/providers/provider-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import {
   PageHeader,
   PageHeaderContent,
   PageHeaderDescription,
   PageHeaderTitle,
 } from "@/components/dashboard/page-header";
+import { ProviderFormFieldsets } from "@/components/dashboard/providers/provider-form";
+import type { ProviderFieldNames } from "@/components/dashboard/providers/provider-form/field-names";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "@/components/ui/toast";
 import type { ProviderDetailResult } from "@/elysia/modules/providers";
 import { useSearchAcquirer } from "@/hooks/factus/use-search-acquirer";
 import useDebounce from "@/hooks/ui/use-debounce";
-import { toast } from "@/components/ui/toast";
-import { useFormContext, useWatch } from "react-hook-form";
 import type { SupportDocumentFormValues } from "@/lib/validations/support-document";
 import ProviderSearch from "./provider-search";
 
@@ -85,9 +85,6 @@ const ProviderStep: FC<ProviderStepProps> = ({
       <ProviderFormFieldsets
         names={SUPPORT_DOC_PROVIDER_FIELD_NAMES}
         isSearchingAcquirer={isSearchingAcquirer}
-        addressRequired
-        emailRequired
-        municipalityRequired
       />
     </div>
   );

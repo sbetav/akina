@@ -156,17 +156,11 @@ const ProviderForm: FC<ProviderFormProps> = ({ selectedProvider }) => {
 interface ProviderFormFieldsetsProps<T extends FieldValues> {
   names: ProviderFieldNames<T>;
   isSearchingAcquirer?: boolean;
-  addressRequired?: boolean;
-  emailRequired?: boolean;
-  municipalityRequired?: boolean;
 }
 
 export const ProviderFormFieldsets = <T extends FieldValues>({
   names,
   isSearchingAcquirer = false,
-  addressRequired = false,
-  emailRequired = false,
-  municipalityRequired = false,
 }: ProviderFormFieldsetsProps<T>) => {
   return (
     <div className="@container/provider-form flex flex-1 flex-col gap-8">
@@ -174,12 +168,7 @@ export const ProviderFormFieldsets = <T extends FieldValues>({
         names={names}
         isSearchingAcquirer={isSearchingAcquirer}
       />
-      <ProviderDetailsFieldset<T>
-        names={names}
-        addressRequired={addressRequired}
-        emailRequired={emailRequired}
-        municipalityRequired={municipalityRequired}
-      />
+      <ProviderDetailsFieldset<T> names={names} />
     </div>
   );
 };

@@ -1,7 +1,10 @@
 import type { ViewSupportDocumentData } from "factus-js";
-import { ExternalLinkIcon, FileTextIcon } from "lucide-react";
+import { ExternalLinkIcon, FileTextIcon, PlusIcon } from "lucide-react";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import BackButton from "@/components/back-button";
+import { AdjustmentNoteDetailsDialog } from "@/components/dashboard/adjustment-notes/adjustment-note-details-dialog";
+import { AdjustmentNoteDownloadPdfButton } from "@/components/dashboard/adjustment-notes/adjustment-note-download-pdf-button";
 import DashboardCard from "@/components/dashboard/dashboard-card";
 import {
   PageHeader,
@@ -30,6 +33,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { NotFoundError } from "@/elysia/errors";
+import { AdjustmentNoteService } from "@/elysia/modules/adjustment-notes/service";
 import { SupportDocumentService } from "@/elysia/modules/support-documents/service";
 import { requireUser } from "@/lib/dal";
 import {
@@ -48,8 +52,14 @@ const Page = async ({ params }: PageProps) => {
   const user = await requireUser();
 
   let document: ViewSupportDocumentData;
+  let adjustmentNotes: Awaited<
+    ReturnType<typeof AdjustmentNoteService.listForSupportDocument>
+  >;
   try {
-    document = await SupportDocumentService.getFromFactus(user.id, id);
+    [document, adjustmentNotes] = await Promise.all([
+      SupportDocumentService.getFromFactus(user.id, id),
+      AdjustmentNoteService.listForSupportDocument(user.id, id),
+    ]);
   } catch (error) {
     if (error instanceof NotFoundError) {
       notFound();
@@ -57,7 +67,7 @@ const Page = async ({ params }: PageProps) => {
     throw error;
   }
 
-  const { support_document, provider, adjustment_notes, items } = document;
+  const { support_document, provider, items } = document;
   const status = getDocumentValidationStatus(support_document.status);
   const providerName = provider.trade_name || provider.names || "N/A";
 
@@ -201,36 +211,44 @@ const Page = async ({ params }: PageProps) => {
           </div>
         </DashboardCard>
 
-        <div className="w-full">
-          <DashboardCard className="space-y-3">
-            <h3 className="font-sans text-lg font-medium">Totales</h3>
-            <TotalRow
-              label="Bruto"
-              value={formatDocumentCurrency(support_document.gross_value)}
-            />
-            <TotalRow
-              label="Descuentos"
-              value={formatDocumentCurrency(support_document.discount_amount)}
-            />
-            <Separator className="my-3" />
-            <TotalRow
-              label="Total"
-              value={formatDocumentCurrency(support_document.total)}
-              strong
-            />
-          </DashboardCard>
-        </div>
+        <DashboardCard className="flex-1 space-y-3">
+          <h3 className="font-sans text-lg font-medium">Totales</h3>
+          <TotalRow
+            label="Bruto"
+            value={formatDocumentCurrency(support_document.gross_value)}
+          />
+          <TotalRow
+            label="Descuentos"
+            value={formatDocumentCurrency(support_document.discount_amount)}
+          />
+          <Separator className="my-3" />
+          <TotalRow
+            label="Total"
+            value={formatDocumentCurrency(support_document.total)}
+            strong
+          />
+        </DashboardCard>
       </div>
 
       <DashboardCard className="space-y-4">
-        <div>
-          <h3 className="font-sans text-lg font-medium">Notas de ajuste</h3>
-          <p className="text-muted-foreground text-xs">
-            Notas de ajuste emitidas para este documento soporte.
-          </p>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <h3 className="font-sans text-lg font-medium">Notas de ajuste</h3>
+            <p className="text-muted-foreground text-xs">
+              Gestiona las notas de ajuste emitidas para este documento soporte.
+            </p>
+          </div>
+
+          <Link
+            href={`/dashboard/support-documents/${id}/adjustment-notes/new`}
+            className={buttonVariants()}
+          >
+            <PlusIcon />
+            Nueva nota de ajuste
+          </Link>
         </div>
 
-        {adjustment_notes.length === 0 ? (
+        {adjustmentNotes.items.length === 0 ? (
           <Empty className="bg-background/30 border border-dashed py-10">
             <EmptyHeader>
               <EmptyMedia variant="icon">
@@ -245,7 +263,7 @@ const Page = async ({ params }: PageProps) => {
           </Empty>
         ) : (
           <div className="space-y-3">
-            {adjustment_notes.map((note) => {
+            {adjustmentNotes.items.map((note) => {
               const noteStatus = getDocumentValidationStatus(note.status);
 
               return (
@@ -263,14 +281,24 @@ const Page = async ({ params }: PageProps) => {
                         {noteStatus.label}
                       </Badge>
                     </div>
-                    <Detail label="Referencia" value={note.reference_code} />
                     <Detail
                       label="Fecha"
-                      value={formatDocumentDate(note.created_at)}
+                      value={formatDocumentDate(note.createdAt)}
                     />
                     <Detail
                       label="Total"
                       value={formatDocumentCurrency(note.total)}
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
+                    <AdjustmentNoteDetailsDialog
+                      adjustmentNoteId={note.id}
+                      adjustmentNoteNumber={note.number}
+                    />
+                    <AdjustmentNoteDownloadPdfButton
+                      adjustmentNoteId={note.id}
+                      adjustmentNoteNumber={note.number}
                     />
                   </div>
                 </div>

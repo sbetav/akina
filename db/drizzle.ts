@@ -1,4 +1,8 @@
 import { drizzle } from "drizzle-orm/neon-http";
+import {
+  adjustmentNotes,
+  adjustmentNotesRelations,
+} from "@/db/schemas/adjustment-notes";
 import { authSchema } from "@/db/schemas/auth-schema";
 import { creditNotes, creditNotesRelations } from "@/db/schemas/credit-notes";
 import { customers, customersRelations } from "@/db/schemas/customers";
@@ -19,6 +23,8 @@ const schema = {
   ...authSchema,
   factusCredentials,
   factusCredentialsRelations,
+  adjustmentNotes,
+  adjustmentNotesRelations,
   creditNotes,
   creditNotesRelations,
   customers,

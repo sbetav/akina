@@ -1,6 +1,7 @@
 import { Elysia } from "elysia";
 import { betterAuth } from "@/elysia/better-auth";
 import { ApiError } from "@/elysia/errors";
+import { adjustmentNotesModule } from "./modules/adjustment-notes";
 import { creditNotesModule } from "./modules/credit-notes";
 import { customersModule } from "./modules/customers";
 import { factusModule } from "./modules/factus";
@@ -15,6 +16,7 @@ export const app = new Elysia({ prefix: "/api" })
   .use(factusModule)
   .use(customersModule)
   .use(creditNotesModule)
+  .use(adjustmentNotesModule)
   .use(productsModule)
   .use(invoicesModule)
   .use(supportDocumentsModule)

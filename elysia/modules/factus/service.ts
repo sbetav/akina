@@ -11,6 +11,7 @@ import { NotFoundError, UnprocessableEntityError } from "@/elysia/errors";
 import { AKINA_SANDBOX_ID, type FactusEnvironment } from "@/lib/constants";
 import { decrypt, encrypt } from "@/lib/crypto";
 import { getFactusClientForUser } from "@/lib/factus";
+import { isFactusNotFoundError } from "@/elysia/factus-errors";
 
 // ─── Input types ──────────────────────────────────────────────────────────────
 
@@ -107,30 +108,6 @@ async function validateClient(client: FactusClient): Promise<boolean> {
   }
 }
 
-function isFactusNotFoundError(error: unknown): boolean {
-  if (!(error instanceof FactusError)) return false;
-
-  const candidate = error as FactusError & {
-    status?: number;
-    statusCode?: number;
-    response?: { status?: number };
-    cause?: {
-      status?: number;
-      statusCode?: number;
-      response?: { status?: number };
-    };
-  };
-
-  return (
-    candidate.status === 404 ||
-    candidate.statusCode === 404 ||
-    candidate.response?.status === 404 ||
-    candidate.cause?.status === 404 ||
-    candidate.cause?.statusCode === 404 ||
-    candidate.cause?.response?.status === 404 ||
-    candidate.message.toLowerCase().includes("not found")
-  );
-}
 
 function normalizeNumberingRange(range: {
   id: number;
