@@ -27,7 +27,7 @@ export default function Hero() {
   return (
     <section className="relative min-h-dvh overflow-hidden pt-20">
       {/* ColorBends WebGL background */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-2">
         <ColorBends
           rotation={90}
           speed={0.34}
@@ -47,10 +47,10 @@ export default function Hero() {
       </div>
 
       {/* Dark overlay to ensure text readability */}
-      <div className="bg-background/75 pointer-events-none absolute inset-0 z-1" />
+      <div className="bg-background/70 pointer-events-none absolute inset-0 z-1" />
 
       {/* Content */}
-      <div className="relative z-3 mx-auto flex max-w-7xl flex-col items-center px-6 pt-20 pb-24 sm:px-8 sm:pt-28 lg:px-12 lg:pt-32">
+      <div className="relative z-3 mx-auto flex max-w-7xl flex-col items-center px-6 pt-20 pb-32 sm:px-8 sm:pt-28 sm:pb-36 lg:px-12 lg:pt-32 lg:pb-40">
         {/* Badge */}
         <motion.div
           variants={fadeUp}
@@ -139,7 +139,7 @@ export default function Hero() {
       </div>
 
       {/* Bottom gradient fade into next section */}
-      <div className="to-background via-background pointer-events-none absolute inset-x-0 bottom-0 z-4 h-50 bg-linear-to-b from-transparent" />
+      <div className="to-background pointer-events-none absolute inset-x-0 bottom-0 z-4 h-64 bg-linear-to-b from-transparent" />
     </section>
   );
 }
