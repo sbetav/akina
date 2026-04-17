@@ -2,7 +2,9 @@
 
 Modern electronic invoicing platform for Colombia, built with Next.js, Elysia, Better Auth, and Drizzle ORM.
 
-![Akina Dashboard](./public/dashboard.png)
+Powered by [Factus](https://www.factus.com.co/), the electronic invoicing provider used by Akina for document issuance and validation workflows.
+
+![Akina Dashboard](./public/dashboard-demo.png)
 
 ## Overview
 
@@ -48,7 +50,7 @@ The project combines:
 - [Neon Serverless Postgres](https://neon.tech/) compatible PostgreSQL driver
 - [Zod](https://zod.dev/) and [@t3-oss/env-nextjs](https://env.t3.gg/docs/nextjs) for runtime env validation
 - [Resend](https://resend.com/) + [React Email](https://react.email/) for transactional email
-- [Factus JS](https://www.npmjs.com/package/factus-js) for Factus API integration
+- [Factus JS](https://factusjs.vercel.app/) for Factus API integration
 
 ### Tooling
 
@@ -65,9 +67,9 @@ components/          Reusable UI + domain components
 elysia/              API modules, services, and typed route layer
 db/                  Drizzle schema and migrations
 lib/                 Shared utilities (auth, env, crypto, Factus client)
-hooks/               React Query hooks for API interaction
+hooks/               Reusable application hooks (API, state, and UI logic)
 emails/              Transactional email templates (React Email)
-public/              Static assets (including dashboard preview)
+public/              Static assets
 ```
 
 ## Environment Variables
@@ -96,7 +98,7 @@ The required variables are documented in `.env.example`:
 ### 1) Install dependencies
 
 ```bash
-npm install
+bun install
 ```
 
 ### 2) Configure environment
@@ -108,20 +110,20 @@ cp .env.example .env.local
 ### 3) Run the development server
 
 ```bash
-npm run dev
+bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
 
 ## Available Scripts
 
-- `npm run dev` - starts the development server.
-- `npm run build` - builds the production app.
-- `npm run start` - serves the production build.
-- `npm run lint` - runs Biome checks.
-- `npm run lint:fix` - runs Biome with auto-fix.
-- `npm run format` - formats code with Prettier.
-- `npm run email` - runs React Email preview server on port 3001.
+- `bun dev` - starts the development server.
+- `bun build` - builds the production app.
+- `bun start` - serves the production build.
+- `bun lint` - runs Biome checks.
+- `bun lint:fix` - runs Biome with auto-fix.
+- `bun format` - formats code with Prettier.
+- `bun email` - runs React Email preview server on port 3001.
 
 ## API and Architecture Notes
 
@@ -133,8 +135,8 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Build for Production
 
 ```bash
-npm run build
-npm run start
+bun build
+bun start
 ```
 
 ## Contributing
