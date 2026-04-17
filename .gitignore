@@ -42,34 +42,4 @@ yarn-error.log*
 next-env.d.ts
 
 # agent skills (skills-lock.json stays tracked)
-.agents/skills
-.agent/skills
-.augment/skills
-.claude/skills
-skills
-.codebuddy/skills
-.commandcode/skills
-.continue/skills
-.cortex/skills
-.crush/skills
-.factory/skills
-.goose/skills
-.junie/skills
-.iflow/skills
-.kilocode/skills
-.kiro/skills
-.kode/skills
-.mcpjam/skills
-.vibe/skills
-.mux/skills
-.openhands/skills
-.pi/skills
-.qoder/skills
-.qwen/skills
-.roo/skills
-.trae/skills
-.windsurf/skills
-.zencoder/skills
-.neovate/skills
-.pochi/skills
-.adal/skills
+.agents/*
