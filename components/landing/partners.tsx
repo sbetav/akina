@@ -9,8 +9,8 @@ export default function Partners() {
     <section className="py-10">
       <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.6 }}
           className="group border-border/70 hover:border-primary/40 hover:shadow-primary/10 bg-card/40 hover:bg-card relative overflow-hidden border backdrop-blur-sm transition-all duration-400 hover:shadow-[0_0_32px_-8px]"
