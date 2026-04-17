@@ -43,7 +43,7 @@ export default function Footer() {
         </div>
 
         {/* Powered by Factus + Bottom bar */}
-        <div className="mt-6 flex flex-col items-start justify-between gap-4 border-t pt-6 sm:flex-row sm:items-center">
+        <div className="mt-6 flex flex-row items-center justify-between gap-4 border-t pt-6">
           <p className="text-muted-foreground font-mono text-xs">
             © 2026 {APP_NAME}.
           </p>

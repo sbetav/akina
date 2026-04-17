@@ -29,15 +29,21 @@ export default function CtaSection() {
             <p className="text-primary mb-3 font-mono text-xs font-semibold tracking-[0.2em] uppercase">
               ¿Listo para empezar?
             </p>
-            <h2 className="mb-6 font-sans text-3xl leading-[1.06] font-bold tracking-tight sm:text-6xl lg:text-5xl">
+            <h2 className="mb-6 font-sans text-2xl leading-[1.06] font-bold tracking-tight sm:text-5xl lg:text-6xl">
               Empieza a explorar Akina
             </h2>
-            <p className="text-muted-foreground mx-auto mb-10 max-w-xl text-sm leading-relaxed sm:text-base">
+            <p className="text-muted-foreground mx-auto mb-10 max-w-xl text-xs leading-relaxed sm:text-sm md:text-base">
               Conecta tus credenciales de Factus, crea facturas y valida
               directamente con la DIAN desde esta demo gratuita.
             </p>
             <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Link href="/register" className={buttonVariants({ size: "lg" })}>
+              <Link
+                href="/register"
+                className={buttonVariants({
+                  size: "lg",
+                  className: "w-full sm:w-auto",
+                })}
+              >
                 Comenzar
                 <ArrowRight size={14} />
               </Link>
@@ -45,7 +51,11 @@ export default function CtaSection() {
                 href="https://github.com/sbetav/akina"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={buttonVariants({ variant: "outline", size: "lg" })}
+                className={buttonVariants({
+                  variant: "outline",
+                  size: "lg",
+                  className: "w-full sm:w-auto",
+                })}
               >
                 <GitHubIcon />
                 VER CÓDIGO FUENTE
