@@ -54,6 +54,10 @@ interface CredentialsContextValue {
 
 const CredentialsContext = createContext<CredentialsContextValue | null>(null);
 
+function CredentialScopeResetBoundary({ children }: { children: ReactNode }) {
+  return <>{children}</>;
+}
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 type QueryClient = ReturnType<typeof useQueryClient>;
@@ -207,6 +211,7 @@ export function CredentialsContextProvider({
     selectedCredentialId !== undefined && selectedCredentialId !== active?.id;
 
   const isActivating = isActivatingCrossTab || isPending;
+  const credentialScopeKey = active?.id ?? "no-active-credential";
 
   return (
     <CredentialsContext
@@ -221,7 +226,9 @@ export function CredentialsContextProvider({
         setSelectedCredentialId,
       }}
     >
-      {children}
+      <CredentialScopeResetBoundary key={credentialScopeKey}>
+        {children}
+      </CredentialScopeResetBoundary>
     </CredentialsContext>
   );
 }
