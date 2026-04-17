@@ -68,9 +68,8 @@ function VerificationEmail({
                 }}
               >
                 Gracias por registrarte en Akina. Para activar tu cuenta y
-                comenzar a usar nuestro sistema de punto de venta, por favor
-                verifica tu dirección de correo electrónico haciendo clic en el
-                botón de abajo.
+                comenzar a usar la plataforma, por favor verifica tu dirección
+                de correo electrónico haciendo clic en el botón de abajo.
               </Text>
 
               {/* CTA Button */}
