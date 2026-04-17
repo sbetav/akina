@@ -100,7 +100,7 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
             <span className="text-muted-foreground/70 px-6 text-xs font-medium uppercase">
               &#47;&#47; Menú
             </span>
-            <div className="space-y-1">
+            <div className="space-y-1" data-tour="sidebar-navigation">
               {links.map((link) => {
                 const Icon = link.icon;
                 const isDashboard = link.href === "/dashboard";
@@ -111,6 +111,17 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
                   <Link
                     href={link.href}
                     aria-label={`Ir a ${link.label}`}
+                    data-tour={
+                      link.href === "/dashboard/products"
+                        ? "nav-products"
+                        : link.href === "/dashboard/customers"
+                          ? "nav-customers"
+                          : link.href === "/dashboard/invoices"
+                            ? "nav-invoices"
+                            : link.href === "/dashboard/support-documents"
+                              ? "nav-support-documents"
+                              : undefined
+                    }
                     key={link.href}
                     onClick={() => {
                       setIsOpen(false);

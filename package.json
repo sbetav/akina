@@ -27,6 +27,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "driver.js": "^1.4.0",
     "drizzle-orm": "^0.45.2",
     "elysia": "^1.4.28",
     "factus-js": "1.1.0",

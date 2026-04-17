@@ -1,6 +1,7 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import DashboardTour from "@/components/dashboard/dashboard-tour";
 import SideBar from "@/components/dashboard/sidebar";
 import { CredentialsContextProvider } from "@/contexts/credentials-context";
 import { FactusService } from "@/elysia/modules/factus/service";
@@ -36,6 +37,7 @@ const Layout = async ({ children }: LayoutProps) => {
     <HydrationBoundary state={dehydrate(queryClient)}>
       <CredentialsContextProvider>
         <div className="flex h-svh w-full">
+          <DashboardTour />
           <SideBar user={user} />
           <main className="w-full flex-1 overflow-auto pt-16 lg:pt-0">
             <div className="bg-bg mx-auto flex min-h-full w-full max-w-[1500px] flex-col p-6 lg:px-12 lg:py-10">

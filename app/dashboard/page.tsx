@@ -61,6 +61,7 @@ function SectionCard({
   style,
   children,
   action,
+  ...rest
 }: {
   title: string;
   subtitle?: string;
@@ -68,11 +69,12 @@ function SectionCard({
   style?: CSSProperties;
   children: ReactNode;
   action?: ReactNode;
-}) {
+} & React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn("bg-card flex flex-col gap-5 border p-5 lg:p-6", className)}
       style={style}
+      {...rest}
     >
       <div className="flex items-start justify-between gap-4">
         <div>
@@ -123,14 +125,16 @@ const DashboardPage: FC = () => {
   return (
     <div className="flex flex-col gap-6">
       {/* ── Page header ───────────────────────────────────── */}
-      <PageHeader>
-        <PageHeaderContent>
-          <PageHeaderTitle>Dashboard</PageHeaderTitle>
-          <PageHeaderDescription className="capitalize">
-            {today}
-          </PageHeaderDescription>
-        </PageHeaderContent>
-      </PageHeader>
+      <div data-tour="general-dashboard">
+        <PageHeader>
+          <PageHeaderContent>
+            <PageHeaderTitle>Dashboard</PageHeaderTitle>
+            <PageHeaderDescription className="capitalize">
+              {today}
+            </PageHeaderDescription>
+          </PageHeaderContent>
+        </PageHeader>
+      </div>
 
       {/* ── Error banner ──────────────────────────────────── */}
       {error && (
@@ -140,7 +144,7 @@ const DashboardPage: FC = () => {
       )}
 
       {/* ── Quick actions (inline row) ─────────────────────── */}
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-3" data-tour="dashboard-quick-actions">
         {QUICK_ACTIONS.map((action) => (
           <Link
             key={action.href}
@@ -164,7 +168,10 @@ const DashboardPage: FC = () => {
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div
+          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+          data-tour="dashboard-kpi-cards"
+        >
           <KpiCard
             label="Facturas totales"
             value={data?.summary.totalInvoices ?? 0}
@@ -206,7 +213,10 @@ const DashboardPage: FC = () => {
           <Skeleton className="h-[280px]" />
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div
+          className="grid grid-cols-1 gap-6 lg:grid-cols-3"
+          data-tour="dashboard-charts"
+        >
           {/* Monthly revenue bar chart (2/3 width) */}
           <SectionCard
             title="Ingresos mensuales"
@@ -283,7 +293,10 @@ const DashboardPage: FC = () => {
       ) : (
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {/* Recent invoices (2/3 width) */}
-          <div className="bg-card flex flex-col border lg:col-span-2">
+          <div
+            className="bg-card flex flex-col border lg:col-span-2"
+            data-tour="dashboard-recent-invoices"
+          >
             {/* Card header */}
             <div className="flex items-center justify-between border-b px-5 py-4 lg:px-6">
               <div>
@@ -378,7 +391,11 @@ const DashboardPage: FC = () => {
 
           {/* Right column: General summary + Top customers */}
           <div className="flex flex-col gap-3 lg:gap-4">
-            <SectionCard title="Resumen general" className="flex-1">
+            <SectionCard
+              title="Resumen general"
+              className="flex-1"
+              data-tour="dashboard-disclaimer"
+            >
               <div className="flex flex-col gap-3">
                 {[
                   {

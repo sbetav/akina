@@ -73,6 +73,7 @@ const CredentialsDropdownMenu: FC<CredentialsDropdownMenuProps> = ({
           <button
             type="button"
             disabled={isActivating}
+            data-tour="credentials-selector"
             className="group data-popup-open:bg-accent hover:bg-accent focus-effect relative flex cursor-pointer items-center justify-between gap-3 border px-3 py-2.5 pl-4 transition disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
           >
             <div className="space-y-0.5 text-left text-xs">

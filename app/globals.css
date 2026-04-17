@@ -272,3 +272,88 @@ input[type="number"] {
   mix-blend-mode: soft-light;
   z-index: 1;
 }
+
+/* -------------------------------------------------------------------------- */
+/* Dashboard tour (Driver.js)                                                */
+/* -------------------------------------------------------------------------- */
+.driver-popover.akina-tour-popover {
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: var(--card);
+  color: var(--card-foreground);
+  box-shadow: 10px 10px 0 color-mix(in srgb, var(--primary) 18%, transparent);
+  max-width: 340px;
+  padding: 14px;
+}
+
+.driver-popover.akina-tour-popover * {
+  font-family: var(--font-jetbrains-mono), monospace;
+}
+
+.driver-popover.akina-tour-popover .driver-popover-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.driver-popover.akina-tour-popover .driver-popover-description {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--foreground) 82%, transparent);
+}
+
+.driver-popover.akina-tour-popover .driver-popover-close-btn {
+  color: color-mix(in srgb, var(--foreground) 70%, transparent);
+}
+
+.driver-popover.akina-tour-popover .driver-popover-close-btn:hover,
+.driver-popover.akina-tour-popover .driver-popover-close-btn:focus {
+  color: var(--foreground);
+}
+
+.driver-popover.akina-tour-popover .driver-popover-progress-text {
+  font-size: 11px;
+  color: color-mix(in srgb, var(--foreground) 65%, transparent);
+}
+
+.driver-popover.akina-tour-popover .driver-popover-footer {
+  margin-top: 12px;
+}
+
+.driver-popover.akina-tour-popover .driver-popover-footer button {
+  border-radius: 0;
+  border: 1px solid var(--border);
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+  text-shadow: none;
+  padding: 5px 9px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: background-color 0.2s ease;
+}
+
+.driver-popover.akina-tour-popover .driver-popover-footer button:hover,
+.driver-popover.akina-tour-popover .driver-popover-footer button:focus {
+  background: color-mix(in srgb, var(--primary) 16%, var(--secondary));
+}
+
+.driver-popover.akina-tour-popover
+  .driver-popover-footer
+  .driver-popover-next-btn {
+  border-color: color-mix(in srgb, var(--primary) 55%, var(--border));
+  background: color-mix(in srgb, var(--primary) 18%, var(--secondary));
+  color: var(--foreground);
+}
+
+.driver-popover.akina-tour-popover .driver-popover-arrow {
+  border-color: var(--border);
+}
+
+.driver-active-element {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--primary) 65%, transparent),
+    0 0 0 4px color-mix(in srgb, var(--primary) 16%, transparent) !important;
+}
