@@ -64,14 +64,19 @@ const ProfileDropdownMenu: FC<ProfileDropdownMenuProps> = ({
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <HeadsetIcon />
-            Soporte
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <GitHubIcon />
-            Github
-          </DropdownMenuItem>
+          <DropdownMenuItem
+            render={
+              <Link
+                href="https://github.com/sbetav/akina"
+                target="_blank"
+                onClick={onNavigate}
+              >
+                <GitHubIcon />
+                Github
+              </Link>
+            }
+          />
+
           <DropdownMenuGroup>
             <DropdownMenuItem
               render={

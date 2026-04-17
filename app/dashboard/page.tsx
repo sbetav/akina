@@ -144,7 +144,10 @@ const DashboardPage: FC = () => {
       )}
 
       {/* ── Quick actions (inline row) ─────────────────────── */}
-      <div className="flex flex-wrap gap-3" data-tour="dashboard-quick-actions">
+      <div
+        className="flex w-fit flex-wrap gap-3"
+        data-tour="dashboard-quick-actions"
+      >
         {QUICK_ACTIONS.map((action) => (
           <Link
             key={action.href}

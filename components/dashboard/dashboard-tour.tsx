@@ -141,9 +141,11 @@ const DashboardTour = () => {
         popoverClass: "akina-tour-popover",
         onDestroyed: (_, __, { driver: tourDriver }) => {
           const completedAll = tourDriver.getActiveIndex() === steps.length - 1;
-          if (!completedAll) return;
 
           window.localStorage.setItem(TOUR_STORAGE_KEY, "1");
+
+          if (!completedAll) return;
+
           setShowMvpDialog(true);
           toast.success("Tour completado", {
             description:
