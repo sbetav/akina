@@ -127,7 +127,7 @@ export default function Hero() {
             {/* Dashboard image */}
             <div className="relative aspect-video w-full">
               <Image
-                src="/dashboard.webp"
+                src="/dashboard.png"
                 alt="Akina Dashboard"
                 fill
                 className="object-cover object-top"
