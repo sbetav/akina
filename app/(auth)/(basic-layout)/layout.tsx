@@ -1,9 +1,17 @@
+import type { Metadata } from "next";
 import type { FC, ReactNode } from "react";
 import { AppLogo } from "@/components/ui/app-logo";
 
 interface LayoutProps {
   children: ReactNode;
 }
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   return (

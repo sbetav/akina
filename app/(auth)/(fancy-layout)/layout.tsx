@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import type { FC, ReactNode } from "react";
 import BackButton from "@/components/back-button";
 import Silk from "@/components/backgrounds/silk";
@@ -7,6 +8,13 @@ import Container from "@/components/ui/container";
 interface LayoutProps {
   children: ReactNode;
 }
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   return (

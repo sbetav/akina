@@ -1,4 +1,5 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import SideBar from "@/components/dashboard/sidebar";
 import { CredentialsContextProvider } from "@/contexts/credentials-context";
@@ -10,6 +11,13 @@ import { CREDENTIALS_QUERY_KEY } from "@/lib/query-keys";
 interface LayoutProps {
   children: ReactNode;
 }
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 const Layout = async ({ children }: LayoutProps) => {
   const user = await requireUser();

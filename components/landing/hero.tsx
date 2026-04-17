@@ -47,7 +47,7 @@ export default function Hero() {
       </div>
 
       {/* Dark overlay to ensure text readability */}
-      <div className="bg-background/70 pointer-events-none absolute inset-0 z-1" />
+      <div className="bg-background/60 pointer-events-none absolute inset-0 z-3" />
 
       {/* Content */}
       <div className="relative z-3 mx-auto flex max-w-7xl flex-col items-center px-6 pt-20 pb-32 sm:px-8 sm:pt-28 sm:pb-36 lg:px-12 lg:pt-32 lg:pb-40">
