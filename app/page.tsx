@@ -1,18 +1,21 @@
-"use client";
+import AppPreview from "@/components/landing/app-preview";
+import CtaSection from "@/components/landing/cta-section";
+import Features from "@/components/landing/features";
+import Footer from "@/components/landing/footer";
+import Hero from "@/components/landing/hero";
+import Navbar from "@/components/landing/navbar";
+import Partners from "@/components/landing/partners";
 
-import { useRouter } from "@bprogress/next";
-import type { FC } from "react";
-import { Button } from "@/components/ui/button";
-
-const Page: FC = () => {
-  const router = useRouter();
+export default function Page() {
   return (
-    <div className="flex min-h-dvh w-full items-center justify-center">
-      <Button size="lg" onClick={() => router.push("/login")}>
-        Click me
-      </Button>
-    </div>
+    <main className="bg-background min-h-dvh">
+      <Navbar />
+      <Hero />
+      <Partners />
+      <Features />
+      <AppPreview />
+      <CtaSection />
+      <Footer />
+    </main>
   );
-};
-
-export default Page;
+}

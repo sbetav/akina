@@ -22,11 +22,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
 
       {/* IMAGE COLUMN */}
       <section className="bg-primary/5 relative hidden h-full flex-1 xl:block">
-        <Silk
-          brightness={0.45}
-          vignetteStrength={0.85}
-          vignetteSoftness={0.9}
-        />
+        <Silk brightness={0.35} vignetteStrength={0.9} vignetteSoftness={1} />
 
         {/* TEXT */}
         <div className="absolute right-26 bottom-26 z-11 flex max-w-[400px] flex-col items-end gap-5 font-sans text-4xl font-semibold">

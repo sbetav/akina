@@ -219,3 +219,56 @@ input[type="number"] {
   background-color: color-mix(in srgb, var(--primary) 10%, transparent);
   color: color-mix(in srgb, var(--primary) 90%, transparent);
 }
+
+/* -------------------------------------------------------------------------- */
+/* Landing page utilities                                                   */
+/* -------------------------------------------------------------------------- */
+.bento-card {
+  border: 1px solid var(--border);
+  background: var(--card);
+  transition:
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.bento-card:hover {
+  border-color: color-mix(in srgb, var(--primary) 40%, transparent);
+  box-shadow: 0 0 24px -6px color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.cta-grainy-bg::before,
+.cta-grainy-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cta-grainy-bg::before {
+  background:
+    radial-gradient(
+      180% 170% at 100% 100%,
+      color-mix(in srgb, var(--primary) 42%, black 36%) 0%,
+      transparent 82%
+    ),
+    radial-gradient(
+      180% 170% at 0% 0%,
+      color-mix(in srgb, black 99%, var(--primary) 1%) 0%,
+      transparent 86%
+    ),
+    linear-gradient(
+      135deg,
+      oklch(0.05 0 0) 0%,
+      oklch(0.09 0.01 160) 52%,
+      oklch(0.18 0.08 153) 100%
+    );
+  z-index: 0;
+}
+
+.cta-grainy-bg::after {
+  opacity: 0.2;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.7'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  mix-blend-mode: soft-light;
+  z-index: 1;
+}

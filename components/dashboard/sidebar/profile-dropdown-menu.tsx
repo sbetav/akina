@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import type { FC } from "react";
-import GitHubIcon from "@/components/icons/github-icon";
+import { GitHubIcon } from "@/components/icons/github-icon";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,

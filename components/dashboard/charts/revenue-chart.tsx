@@ -64,7 +64,7 @@ const RevenueChart: FC<RevenueChartProps> = ({ data }) => {
   });
 
   return (
-    <ChartContainer config={chartConfig} className="h-[200px] w-full">
+    <ChartContainer config={chartConfig} className="h-[300px] w-full">
       <BarChart
         data={chartData}
         margin={{ top: 4, right: 4, left: 0, bottom: 0 }}
