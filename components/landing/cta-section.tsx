@@ -15,7 +15,7 @@ export default function CtaSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.7 }}
-          className="cta-grainy-bg border-primary/20 relative isolate overflow-hidden border"
+          className="cta-grainy-bg relative isolate overflow-hidden border"
         >
           {/* Dark overlay */}
           <div className="pointer-events-none absolute inset-0 z-1 bg-linear-to-br from-black/96 via-black/82 to-emerald-400/12" />
@@ -25,14 +25,14 @@ export default function CtaSection() {
           <div className="pointer-events-none absolute right-0 bottom-0 left-0 z-2 h-24 bg-linear-to-b from-transparent to-black/40" />
 
           {/* Content */}
-          <div className="relative z-3 px-8 py-24 text-center sm:px-16 sm:py-32">
+          <div className="relative z-3 px-8 py-20 text-center sm:px-16 sm:py-24">
             <p className="text-primary mb-3 font-mono text-xs font-semibold tracking-[0.2em] uppercase">
               ¿Listo para empezar?
             </p>
-            <h2 className="mb-6 font-sans text-2xl leading-[1.06] font-bold tracking-tight sm:text-5xl lg:text-6xl">
+            <h2 className="mb-6 font-sans text-2xl leading-[1.06] font-bold tracking-tight sm:text-4xl lg:text-5xl">
               Empieza a explorar Akina
             </h2>
-            <p className="text-muted-foreground mx-auto mb-10 max-w-xl text-xs leading-relaxed sm:text-sm md:text-base">
+            <p className="text-muted-foreground mx-auto mb-10 max-w-xl text-xs leading-relaxed sm:text-sm">
               Conecta tus credenciales de Factus, crea facturas y valida
               directamente con la DIAN desde esta demo gratuita.
             </p>

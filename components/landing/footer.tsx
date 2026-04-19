@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AppLogo } from "@/components/ui/app-logo";
 import { GitHubIcon } from "../icons/github-icon";
+import { buttonVariants } from "../ui/button";
 
 const NAV_LINKS = [
   { label: "Entrar", href: "/login" },
@@ -34,7 +35,10 @@ export default function Footer() {
               href="https://github.com/sbetav/akina"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-primary transition-colors duration-200"
+              className={buttonVariants({
+                variant: "ghost",
+                size: "icon",
+              })}
               aria-label="GitHub"
             >
               <GitHubIcon />

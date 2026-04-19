@@ -32,7 +32,7 @@ const websiteLd = {
   name: "Akina",
   url: "https://www.akina.dev",
   description:
-    "Plataforma de facturacion electronica para Colombia impulsada por Factus.",
+    "Plataforma de facturación electrónica para Colombia impulsada por Factus.",
   inLanguage: "es-CO",
 };
 
