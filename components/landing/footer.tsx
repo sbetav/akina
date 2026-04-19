@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AppLogo } from "@/components/ui/app-logo";
+import { DEMO_DISCLAIMER } from "@/lib/constants";
 import { GitHubIcon } from "../icons/github-icon";
 import { buttonVariants } from "../ui/button";
 
@@ -71,6 +72,10 @@ export default function Footer() {
             </div>
           </div>
         </div>
+
+        <p className="text-muted-foreground mt-4 text-center text-[10px]">
+          *{DEMO_DISCLAIMER}
+        </p>
       </div>
     </footer>
   );

@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/toast";
+import { DEMO_DISCLAIMER } from "@/lib/constants";
 
 const TOUR_STORAGE_KEY = "akina.dashboardTourCompleted";
 
@@ -38,7 +39,7 @@ const BASE_STEPS: DriveStep[] = [
     popover: {
       title: "Selector de credenciales",
       description:
-        "Cambia rapidamente entre sandbox y produccion, y define con que credencial operas en todo el panel.",
+        "Cambia rápidamente entre sandbox y producción, y define con que credencial operas en todo el panel.",
       side: "right",
       align: "start",
     },
@@ -58,7 +59,7 @@ const BASE_STEPS: DriveStep[] = [
     popover: {
       title: "Clientes",
       description:
-        "Gestiona tus clientes para facturar mas rapido, sin volver a diligenciar sus datos en cada emision.",
+        "Gestiona tus clientes para facturar mas rápido, sin volver a diligenciar sus datos en cada emisión.",
       side: "right",
       align: "start",
     },
@@ -68,7 +69,7 @@ const BASE_STEPS: DriveStep[] = [
     popover: {
       title: "Facturas",
       description:
-        "Desde aqui emites, consultas y haces seguimiento al estado de tus facturas electronicas.",
+        "Desde aquí emites, consultas y haces seguimiento al estado de tus facturas electrónicas.",
       side: "right",
       align: "start",
     },
@@ -88,7 +89,7 @@ const BASE_STEPS: DriveStep[] = [
     popover: {
       title: "Dashboard general",
       description:
-        "Aqui tienes una vista general del rendimiento: KPIs, graficos y actividad reciente para decidir rapido.",
+        "Aquí tienes una vista general del rendimiento: KPIs, gráficos y actividad reciente para decidir rápido.",
       side: "bottom",
       align: "start",
     },
@@ -96,9 +97,9 @@ const BASE_STEPS: DriveStep[] = [
   {
     element: '[data-tour="dashboard-quick-actions"]',
     popover: {
-      title: "Acciones rapidas",
+      title: "Acciones rápidas",
       description:
-        "Crea facturas, clientes, productos o documentos soporte en un solo clic desde aqui.",
+        "Crea facturas, clientes, productos o documentos soporte en un solo clic desde aquí.",
       side: "bottom",
       align: "start",
     },
@@ -108,13 +109,24 @@ const BASE_STEPS: DriveStep[] = [
 const DashboardTour = () => {
   const pathname = usePathname();
   const driverRef = useRef<ReturnType<typeof driver> | null>(null);
-  const [showMvpDialog, setShowMvpDialog] = useState(false);
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
+  const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
 
   useEffect(() => {
     if (pathname !== "/dashboard") return;
 
     const hasCompleted = window.localStorage.getItem(TOUR_STORAGE_KEY) === "1";
+    if (hasCompleted) return;
 
+    const timer = window.setTimeout(() => setShowDisclaimer(true), 250);
+    return () => window.clearTimeout(timer);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (pathname !== "/dashboard") return;
+    if (!disclaimerAccepted) return;
+
+    const hasCompleted = window.localStorage.getItem(TOUR_STORAGE_KEY) === "1";
     if (hasCompleted) return;
 
     const timer = window.setTimeout(() => {
@@ -146,10 +158,9 @@ const DashboardTour = () => {
 
           if (!completedAll) return;
 
-          setShowMvpDialog(true);
           toast.success("Tour completado", {
             description:
-              "No se mostrara automaticamente de nuevo en este navegador.",
+              "No se mostrará automáticamente de nuevo en este navegador.",
           });
         },
         steps,
@@ -164,24 +175,29 @@ const DashboardTour = () => {
       driverRef.current?.destroy();
       driverRef.current = null;
     };
-  }, [pathname]);
+  }, [pathname, disclaimerAccepted]);
+
+  const handleAcceptDisclaimer = () => {
+    setShowDisclaimer(false);
+    setDisclaimerAccepted(true);
+  };
 
   return (
-    <Dialog open={showMvpDialog} onOpenChange={setShowMvpDialog}>
-      <DialogContent className="border-border max-w-md border-2 text-center">
-        <DialogHeader className="items-center">
-          <DialogTitle className="font-mono text-sm tracking-[0.08em] uppercase">
-            Recordatorio MVP / Demo
-          </DialogTitle>
-          <DialogDescription className="text-center text-xs leading-relaxed">
-            Akina esta en etapa MVP/demo y se ofrece para validacion de flujo y
-            pruebas. No esta pensado para uso productivo en este momento.
-          </DialogDescription>
+    <Dialog
+      open={showDisclaimer}
+      onOpenChange={(open) => {
+        if (open) setShowDisclaimer(true);
+      }}
+    >
+      <DialogContent showCloseButton={false}>
+        <DialogHeader className="text-center">
+          <DialogTitle className="text-lg">Aviso importante</DialogTitle>
+          <DialogDescription>{DEMO_DISCLAIMER}</DialogDescription>
         </DialogHeader>
 
-        <DialogFooter className="justify-center sm:justify-center">
-          <Button onClick={() => setShowMvpDialog(false)} variant="default">
-            Entendido
+        <DialogFooter className="mt-1 justify-center sm:justify-center">
+          <Button onClick={handleAcceptDisclaimer} variant="default">
+            Entendido, continuar
           </Button>
         </DialogFooter>
       </DialogContent>

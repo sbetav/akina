@@ -10,6 +10,10 @@
  *   - TypeScript → `(typeof CONSTANT)[number]`
  */
 
+/** Shown on the landing page and before the dashboard product tour. */
+export const DEMO_DISCLAIMER =
+  "Akina es una aplicación de demostración. Sirve para explorar el flujo pero no está pensada para usarse en un entorno real.";
+
 // ─── Factus credentials ───────────────────────────────────────────────────────
 
 export const AKINA_SANDBOX_ID = "akina-sandbox";
