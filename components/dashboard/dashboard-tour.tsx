@@ -39,7 +39,7 @@ const BASE_STEPS: DriveStep[] = [
     popover: {
       title: "Selector de credenciales",
       description:
-        "Cambia rápidamente entre sandbox y producción, y define con que credencial operas en todo el panel.",
+        "Cambia rápidamente entre perfiles, y define con que credencial operas en todo el panel.",
       side: "right",
       align: "start",
     },
@@ -106,6 +106,39 @@ const BASE_STEPS: DriveStep[] = [
   },
 ];
 
+const MOBILE_STEPS: DriveStep[] = [
+  {
+    element: '[data-tour="sidebar-toggle"]',
+    popover: {
+      title: "Menú principal",
+      description:
+        "En móvil, abre este menú para acceder a Productos, Clientes, Facturas y demás secciones.",
+      side: "bottom",
+      align: "end",
+    },
+  },
+  {
+    element: '[data-tour="general-dashboard"]',
+    popover: {
+      title: "Dashboard general",
+      description:
+        "Aquí tienes una vista general del rendimiento: KPIs, gráficos y actividad reciente para decidir rápido.",
+      side: "bottom",
+      align: "start",
+    },
+  },
+  {
+    element: '[data-tour="dashboard-quick-actions"]',
+    popover: {
+      title: "Acciones rápidas",
+      description:
+        "Crea facturas, clientes, productos o documentos soporte en un solo clic desde aquí.",
+      side: "bottom",
+      align: "start",
+    },
+  },
+];
+
 const DashboardTour = () => {
   const pathname = usePathname();
   const driverRef = useRef<ReturnType<typeof driver> | null>(null);
@@ -130,7 +163,10 @@ const DashboardTour = () => {
     if (hasCompleted) return;
 
     const timer = window.setTimeout(() => {
-      const steps = BASE_STEPS.filter((step) => {
+      const isMobileViewport = window.matchMedia("(max-width: 1023px)").matches;
+      const tourSteps = isMobileViewport ? MOBILE_STEPS : BASE_STEPS;
+
+      const steps = tourSteps.filter((step) => {
         if (!step.element) return false;
         const element = document.querySelector(String(step.element));
         if (!element) return false;

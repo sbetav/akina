@@ -73,6 +73,7 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
           size="icon-sm"
           onClick={toggleSidebar}
           aria-label="Abrir menú"
+          data-tour="sidebar-toggle"
         >
           {isOpen ? <XIcon /> : <MenuIcon />}
         </Button>
