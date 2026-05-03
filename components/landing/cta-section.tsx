@@ -1,7 +1,4 @@
-"use client";
-
 import { ArrowRight } from "lucide-react";
-import * as motion from "motion/react-client";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { GitHubIcon } from "../icons/github-icon";
@@ -10,13 +7,7 @@ export default function CtaSection() {
   return (
     <section className="py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7 }}
-          className="cta-grainy-bg relative isolate overflow-hidden border"
-        >
+        <div className="cta-grainy-bg relative isolate overflow-hidden border">
           {/* Dark overlay */}
           <div className="pointer-events-none absolute inset-0 z-1 bg-linear-to-br from-black/96 via-black/82 to-emerald-400/12" />
 
@@ -62,7 +53,7 @@ export default function CtaSection() {
               </Link>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

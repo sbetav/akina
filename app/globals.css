@@ -236,6 +236,10 @@ input[type="number"] {
   box-shadow: 0 0 24px -6px color-mix(in srgb, var(--primary) 12%, transparent);
 }
 
+.cta-grainy-bg {
+  contain: paint;
+}
+
 .cta-grainy-bg::before,
 .cta-grainy-bg::after {
   content: "";
