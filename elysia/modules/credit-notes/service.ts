@@ -325,7 +325,9 @@ export const CreditNoteService = {
       municipality_id: customerRow.municipalityId,
     };
 
-    const items = buildFactusInvoiceItems(input.items);
+    const items = buildFactusInvoiceItems(input.items, {
+      pricesIncludeTaxes: true,
+    });
 
     let res: ApiResponse<CreditNoteListItem>;
     try {

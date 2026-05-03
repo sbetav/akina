@@ -18,10 +18,7 @@ const SummaryCard: FC<SummaryCardProps> = ({ invoiceNumber, customerName }) => {
   const selectedItems = items.filter((item) => item.quantity > 0);
   const selectedTotal = selectedItems.reduce(
     (sum, item) =>
-      sum +
-      (item.price + (item.isExcluded ? 0 : item.price * item.taxRate)) *
-        item.quantity *
-        (1 - item.discountRate / 100),
+      sum + item.price * item.quantity * (1 - item.discountRate / 100),
     0,
   );
 

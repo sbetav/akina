@@ -16,6 +16,10 @@ interface FactusInvoiceItemInput {
   discountRate: number;
 }
 
+interface BuildFactusInvoiceItemsOptions {
+  pricesIncludeTaxes?: boolean;
+}
+
 function roundMoney(value: number): number {
   return Math.round((value + Number.EPSILON) * 100) / 100;
 }
@@ -30,6 +34,7 @@ export function getFactusItemPrice(item: FactusInvoiceItemInput): number {
 
 export function buildFactusInvoiceItems(
   items: FactusInvoiceItemInput[],
+  options: BuildFactusInvoiceItemsOptions = {},
 ): CreateBillInput["items"] {
   return items.map(
     (item): FactusBillItem => ({
@@ -39,7 +44,9 @@ export function buildFactusInvoiceItems(
       discount_rate: normalizeDiscountRate(item.discountRate),
       // Factus expects the unit price including taxes, while discounts travel
       // separately in `discount_rate`.
-      price: getFactusItemPrice(item),
+      price: options.pricesIncludeTaxes
+        ? roundMoney(item.price)
+        : getFactusItemPrice(item),
       tax_rate: toTaxRateString(item.taxRate),
       unit_measure_id: Number(item.unitMeasureId),
       standard_code_id: item.standardCodeId,
