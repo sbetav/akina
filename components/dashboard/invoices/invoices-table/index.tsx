@@ -2,13 +2,16 @@
 
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { ReceiptIcon, SearchIcon } from "lucide-react";
+import { PlusIcon, ReceiptIcon, SearchIcon } from "lucide-react";
+import Link from "next/link";
 import { type FC, useEffect, useState } from "react";
 import ErrorFallback from "@/components/error-fallback";
+import { buttonVariants } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { DataTableControls } from "@/components/ui/data-table-controls";
 import {
   Empty,
+  EmptyContent,
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
@@ -163,5 +166,15 @@ const EmptyStatus: FC<EmptyStatusProps> = ({ mode = "empty" }) => (
           : "No se encontraron facturas con los criterios de búsqueda."}
       </EmptyDescription>
     </EmptyHeader>
+
+    <EmptyContent>
+      <Link
+        href="/dashboard/invoices/new-invoice"
+        className={buttonVariants({ size: "lg" })}
+      >
+        <PlusIcon />
+        Nueva factura
+      </Link>
+    </EmptyContent>
   </Empty>
 );
