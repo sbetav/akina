@@ -37,7 +37,7 @@ uniform int uTransparent;
 uniform float uScale;
 uniform float uFrequency;
 uniform float uWarpStrength;
-uniform vec2 uPointer; // in NDC [-1,1]
+uniform vec2 uPointer;
 uniform float uMouseInfluence;
 uniform float uParallax;
 uniform float uNoise;
@@ -58,65 +58,65 @@ void main() {
   vec2 toward = (uPointer - rp);
   q += toward * uMouseInfluence * 0.2;
 
-    for (int j = 0; j < 5; j++) {
-      if (j >= uIterations - 1) break;
-      vec2 rr = sin(1.5 * (q.yx * uFrequency) + 2.0 * cos(q * uFrequency));
-      q += (rr - q) * 0.15;
+  for (int j = 0; j < 5; j++) {
+    if (j >= uIterations - 1) break;
+    vec2 rr = sin(1.5 * (q.yx * uFrequency) + 2.0 * cos(q * uFrequency));
+    q += (rr - q) * 0.15;
+  }
+
+  vec3 col = vec3(0.0);
+  float a = 1.0;
+
+  if (uColorCount > 0) {
+    vec2 s = q;
+    vec3 sumCol = vec3(0.0);
+    float cover = 0.0;
+    for (int i = 0; i < MAX_COLORS; ++i) {
+      if (i >= uColorCount) break;
+      s -= 0.01;
+      vec2 r = sin(1.5 * (s.yx * uFrequency) + 2.0 * cos(s * uFrequency));
+      float m0 = length(r + sin(5.0 * r.y * uFrequency - 3.0 * t + float(i)) / 4.0);
+      float kBelow = clamp(uWarpStrength, 0.0, 1.0);
+      float kMix = pow(kBelow, 0.3);
+      float gain = 1.0 + max(uWarpStrength - 1.0, 0.0);
+      vec2 disp = (r - s) * kBelow;
+      vec2 warped = s + disp * gain;
+      float m1 = length(warped + sin(5.0 * warped.y * uFrequency - 3.0 * t + float(i)) / 4.0);
+      float m = mix(m0, m1, kMix);
+      float w = 1.0 - exp(-uBandWidth / exp(uBandWidth * m));
+      sumCol += uColors[i] * w;
+      cover = max(cover, w);
     }
-
-    vec3 col = vec3(0.0);
-    float a = 1.0;
-
-    if (uColorCount > 0) {
-      vec2 s = q;
-      vec3 sumCol = vec3(0.0);
-      float cover = 0.0;
-      for (int i = 0; i < MAX_COLORS; ++i) {
-            if (i >= uColorCount) break;
-            s -= 0.01;
-            vec2 r = sin(1.5 * (s.yx * uFrequency) + 2.0 * cos(s * uFrequency));
-            float m0 = length(r + sin(5.0 * r.y * uFrequency - 3.0 * t + float(i)) / 4.0);
-            float kBelow = clamp(uWarpStrength, 0.0, 1.0);
-            float kMix = pow(kBelow, 0.3); // strong response across 0..1
-            float gain = 1.0 + max(uWarpStrength - 1.0, 0.0); // allow >1 to amplify displacement
-            vec2 disp = (r - s) * kBelow;
-            vec2 warped = s + disp * gain;
-            float m1 = length(warped + sin(5.0 * warped.y * uFrequency - 3.0 * t + float(i)) / 4.0);
-            float m = mix(m0, m1, kMix);
-            float w = 1.0 - exp(-uBandWidth / exp(uBandWidth * m));
-            sumCol += uColors[i] * w;
-            cover = max(cover, w);
-      }
-      col = clamp(sumCol, 0.0, 1.0);
-      a = uTransparent > 0 ? cover : 1.0;
-    } else {
-        vec2 s = q;
-        for (int k = 0; k < 3; ++k) {
-            s -= 0.01;
-            vec2 r = sin(1.5 * (s.yx * uFrequency) + 2.0 * cos(s * uFrequency));
-            float m0 = length(r + sin(5.0 * r.y * uFrequency - 3.0 * t + float(k)) / 4.0);
-            float kBelow = clamp(uWarpStrength, 0.0, 1.0);
-            float kMix = pow(kBelow, 0.3);
-            float gain = 1.0 + max(uWarpStrength - 1.0, 0.0);
-            vec2 disp = (r - s) * kBelow;
-            vec2 warped = s + disp * gain;
-            float m1 = length(warped + sin(5.0 * warped.y * uFrequency - 3.0 * t + float(k)) / 4.0);
-            float m = mix(m0, m1, kMix);
-            col[k] = 1.0 - exp(-uBandWidth / exp(uBandWidth * m));
-        }
-        a = uTransparent > 0 ? max(max(col.r, col.g), col.b) : 1.0;
+    col = clamp(sumCol, 0.0, 1.0);
+    a = uTransparent > 0 ? cover : 1.0;
+  } else {
+    vec2 s = q;
+    for (int k = 0; k < 3; ++k) {
+      s -= 0.01;
+      vec2 r = sin(1.5 * (s.yx * uFrequency) + 2.0 * cos(s * uFrequency));
+      float m0 = length(r + sin(5.0 * r.y * uFrequency - 3.0 * t + float(k)) / 4.0);
+      float kBelow = clamp(uWarpStrength, 0.0, 1.0);
+      float kMix = pow(kBelow, 0.3);
+      float gain = 1.0 + max(uWarpStrength - 1.0, 0.0);
+      vec2 disp = (r - s) * kBelow;
+      vec2 warped = s + disp * gain;
+      float m1 = length(warped + sin(5.0 * warped.y * uFrequency - 3.0 * t + float(k)) / 4.0);
+      float m = mix(m0, m1, kMix);
+      col[k] = 1.0 - exp(-uBandWidth / exp(uBandWidth * m));
     }
+    a = uTransparent > 0 ? max(max(col.r, col.g), col.b) : 1.0;
+  }
 
-    col *= uIntensity;
+  col *= uIntensity;
 
-    if (uNoise > 0.0001) {
-      float n = fract(sin(dot(gl_FragCoord.xy + vec2(uTime), vec2(12.9898, 78.233))) * 43758.5453123);
-      col += (n - 0.5) * uNoise;
-      col = clamp(col, 0.0, 1.0);
-    }
+  if (uNoise > 0.0001) {
+    float n = fract(sin(dot(gl_FragCoord.xy + vec2(uTime), vec2(12.9898, 78.233))) * 43758.5453123);
+    col += (n - 0.5) * uNoise;
+    col = clamp(col, 0.0, 1.0);
+  }
 
-    vec3 rgb = (uTransparent > 0) ? col * a : col;
-    gl_FragColor = vec4(rgb, a);
+  vec3 rgb = (uTransparent > 0) ? col * a : col;
+  gl_FragColor = vec4(rgb, a);
 }
 `;
 
@@ -127,6 +127,17 @@ void main() {
   gl_Position = vec4(position, 1.0);
 }
 `;
+
+// Defined outside the component — pure function, no reason to recreate on every render
+function hexToVec3(hex: string, target: THREE.Vector3): void {
+  const h = hex.replace("#", "").trim();
+  const full = h.length === 3 ? h[0] + h[0] + h[1] + h[1] + h[2] + h[2] : h;
+  target.set(
+    parseInt(full.slice(0, 2), 16) / 255,
+    parseInt(full.slice(2, 4), 16) / 255,
+    parseInt(full.slice(4, 6), 16) / 255,
+  );
+}
 
 export default function ColorBends({
   className,
@@ -156,18 +167,23 @@ export default function ColorBends({
   const pointerTargetRef = useRef<THREE.Vector2>(new THREE.Vector2(0, 0));
   const pointerCurrentRef = useRef<THREE.Vector2>(new THREE.Vector2(0, 0));
   const pointerSmoothRef = useRef<number>(8);
+  // Track whether the component is visible and the tab is active
+  const visibleRef = useRef<boolean>(true);
+  const activeRef = useRef<boolean>(true);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
+
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-
     const geometry = new THREE.PlaneGeometry(2, 2);
+
     const uColorsArray = Array.from(
       { length: MAX_COLORS },
       () => new THREE.Vector3(0, 0, 0),
     );
+
     const material = new THREE.ShaderMaterial({
       vertexShader: vert,
       fragmentShader: frag,
@@ -207,9 +223,7 @@ export default function ColorBends({
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setClearColor(0x000000, transparent ? 0 : 1);
-    renderer.domElement.style.width = "100%";
-    renderer.domElement.style.height = "100%";
-    renderer.domElement.style.display = "block";
+    renderer.domElement.style.cssText = "width:100%;height:100%;display:block;";
     container.appendChild(renderer.domElement);
 
     const clock = new THREE.Clock();
@@ -220,50 +234,63 @@ export default function ColorBends({
       renderer.setSize(w, h, false);
       (material.uniforms.uCanvas.value as THREE.Vector2).set(w, h);
     };
-
     handleResize();
 
-    if ("ResizeObserver" in window) {
-      const ro = new ResizeObserver(handleResize);
-      ro.observe(container);
-      resizeObserverRef.current = ro;
-    } else {
-      (window as Window).addEventListener("resize", handleResize);
-    }
+    // Pause RAF when off-screen — no point rendering what nobody sees
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visibleRef.current = entry.isIntersecting;
+      },
+      { threshold: 0 },
+    );
+    io.observe(container);
+
+    const ro = new ResizeObserver(handleResize);
+    ro.observe(container);
+    resizeObserverRef.current = ro;
+
+    // Pause RAF when tab is hidden
+    const handleVisibilityChange = () => {
+      activeRef.current = !document.hidden;
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     const loop = () => {
+      rafRef.current = requestAnimationFrame(loop);
+
+      // Skip render work entirely when invisible or tab is hidden
+      if (!visibleRef.current || !activeRef.current) return;
+
       const dt = clock.getDelta();
       const elapsed = clock.elapsedTime;
       material.uniforms.uTime.value = elapsed;
 
       const deg = (rotationRef.current % 360) + autoRotateRef.current * elapsed;
       const rad = (deg * Math.PI) / 180;
-      const c = Math.cos(rad);
-      const s = Math.sin(rad);
-      (material.uniforms.uRot.value as THREE.Vector2).set(c, s);
+      (material.uniforms.uRot.value as THREE.Vector2).set(
+        Math.cos(rad),
+        Math.sin(rad),
+      );
 
       const cur = pointerCurrentRef.current;
       const tgt = pointerTargetRef.current;
-      const amt = Math.min(1, dt * pointerSmoothRef.current);
-      cur.lerp(tgt, amt);
+      cur.lerp(tgt, Math.min(1, dt * pointerSmoothRef.current));
       (material.uniforms.uPointer.value as THREE.Vector2).copy(cur);
+
       renderer.render(scene, camera);
-      rafRef.current = requestAnimationFrame(loop);
     };
     rafRef.current = requestAnimationFrame(loop);
 
     return () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
-      if (resizeObserverRef.current) resizeObserverRef.current.disconnect();
-      else (window as Window).removeEventListener("resize", handleResize);
+      io.disconnect();
+      resizeObserverRef.current?.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       geometry.dispose();
       material.dispose();
       renderer.dispose();
       renderer.forceContextLoss();
-      if (
-        renderer.domElement &&
-        renderer.domElement.parentElement === container
-      ) {
+      if (renderer.domElement.parentElement === container) {
         container.removeChild(renderer.domElement);
       }
     };
@@ -287,31 +314,14 @@ export default function ColorBends({
     material.uniforms.uIntensity.value = intensity;
     material.uniforms.uBandWidth.value = bandWidth;
 
-    const toVec3 = (hex: string) => {
-      const h = hex.replace("#", "").trim();
-      const v =
-        h.length === 3
-          ? [
-              parseInt(h[0] + h[0], 16),
-              parseInt(h[1] + h[1], 16),
-              parseInt(h[2] + h[2], 16),
-            ]
-          : [
-              parseInt(h.slice(0, 2), 16),
-              parseInt(h.slice(2, 4), 16),
-              parseInt(h.slice(4, 6), 16),
-            ];
-      return new THREE.Vector3(v[0] / 255, v[1] / 255, v[2] / 255);
-    };
-
-    const arr = (colors || []).filter(Boolean).slice(0, MAX_COLORS).map(toVec3);
+    // Mutate existing Vector3s in the uniform array — no allocations
+    const uniformColors = material.uniforms.uColors.value as THREE.Vector3[];
+    const parsed = (colors || []).filter(Boolean).slice(0, MAX_COLORS);
     for (let i = 0; i < MAX_COLORS; i++) {
-      const vec = (material.uniforms.uColors.value as THREE.Vector3[])[i];
-      if (i < arr.length) vec.copy(arr[i]);
-      else vec.set(0, 0, 0);
+      if (i < parsed.length) hexToVec3(parsed[i], uniformColors[i]);
+      else uniformColors[i].set(0, 0, 0);
     }
-    material.uniforms.uColorCount.value = arr.length;
-
+    material.uniforms.uColorCount.value = parsed.length;
     material.uniforms.uTransparent.value = transparent ? 1 : 0;
     if (renderer) renderer.setClearColor(0x000000, transparent ? 0 : 1);
   }, [
@@ -338,15 +348,15 @@ export default function ColorBends({
 
     const handlePointerMove = (e: PointerEvent) => {
       const rect = container.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / (rect.width || 1)) * 2 - 1;
-      const y = -(((e.clientY - rect.top) / (rect.height || 1)) * 2 - 1);
-      pointerTargetRef.current.set(x, y);
+      pointerTargetRef.current.set(
+        ((e.clientX - rect.left) / (rect.width || 1)) * 2 - 1,
+        -(((e.clientY - rect.top) / (rect.height || 1)) * 2 - 1),
+      );
     };
 
     container.addEventListener("pointermove", handlePointerMove);
-    return () => {
+    return () =>
       container.removeEventListener("pointermove", handlePointerMove);
-    };
   }, []);
 
   return (

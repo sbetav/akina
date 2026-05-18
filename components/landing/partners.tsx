@@ -13,7 +13,7 @@ export default function Partners() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.6 }}
-          className="group border-border/70 hover:border-primary/40 hover:shadow-primary/10 bg-card/40 hover:bg-card relative overflow-hidden border backdrop-blur-sm transition-all duration-400 hover:shadow-[0_0_32px_-8px]"
+          className="group border-border/70 hover:border-primary/40 hover:shadow-primary/10 bg-card/40 hover:bg-card relative overflow-hidden border backdrop-blur-sm transition-[border-color,background-color,box-shadow] duration-400 hover:shadow-[0_0_32px_-8px]"
         >
           <Link
             href="https://www.factus.com.co/"
@@ -40,6 +40,7 @@ export default function Partners() {
                   src="/factus.webp"
                   alt="Factus"
                   fill
+                  sizes="160px"
                   className="object-contain"
                 />
               </div>

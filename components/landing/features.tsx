@@ -118,10 +118,10 @@ export default function Features() {
                 <div className="group-hover:bg-primary absolute top-0 bottom-0 left-0 w-[2px] bg-transparent transition-all duration-400" />
 
                 {/* Hover background glow */}
-                <div className="from-primary/3 pointer-events-none absolute inset-0 bg-linear-to-br to-transparent opacity-0 transition-opacity duration-400 group-hover:opacity-100" />
+                <div className="from-primary/3 pointer-events-none absolute inset-0 bg-linear-to-br to-transparent opacity-0 transition-colors duration-400 group-hover:opacity-100" />
 
                 {/* Icon */}
-                <div className="bg-primary/10 border-primary/20 group-hover:bg-primary/15 group-hover:border-primary/30 relative mb-6 inline-flex h-11 w-11 items-center justify-center border transition-all duration-300">
+                <div className="bg-primary/10 border-primary/20 group-hover:bg-primary/15 group-hover:border-primary/30 relative mb-6 inline-flex h-11 w-11 items-center justify-center border transition-[background-color,border-color] duration-300">
                   <Icon
                     size={18}
                     className="text-primary transition-transform duration-300 group-hover:scale-110"

@@ -38,15 +38,15 @@ export default function AppPreview() {
           className="relative"
         >
           {/* Bordered preview card */}
-          <div className="hover:border-primary/50 hover:outline-primary/15 relative overflow-hidden border-2 outline-6 outline-transparent transition-all duration-300">
+          <div className="hover:border-primary/50 hover:outline-primary/15 relative overflow-hidden border-2 outline-6 outline-transparent transition-[border-color,outline-color] duration-300">
             {/* Dashboard screenshot */}
             <div className="relative aspect-video w-full">
               <Image
                 src="/create-invoice.webp"
                 alt="Akina Dashboard - Panel de control"
                 fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1280px"
                 className="object-cover object-top"
-                unoptimized
               />
             </div>
           </div>

@@ -23,12 +23,12 @@ export default function Navbar() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{
-        duration: 1.5,
+        duration: 1.4,
         ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
-        delay: 0.5,
+        delay: 0.6,
       }}
       className={cn(
-        "fixed top-0 right-0 left-0 z-50 border-b border-transparent bg-transparent transition-all duration-300",
+        "fixed top-0 right-0 left-0 z-50 border-b border-transparent bg-transparent transition-colors duration-300",
         {
           "bg-background/90 border-border backdrop-blur-md": scrolled,
         },

@@ -46,7 +46,7 @@ export default function Hero() {
         />
       </div>
 
-      {/* Dark overlay to ensure text readability */}
+      {/* Dark overlay */}
       <div className="bg-background/60 pointer-events-none absolute inset-0 z-3" />
 
       {/* Content */}
@@ -115,7 +115,7 @@ export default function Hero() {
           </Link>
         </motion.div>
 
-        {/* Dashboard Preview — bordered bento frame */}
+        {/* Dashboard Preview */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
@@ -123,13 +123,13 @@ export default function Hero() {
           custom={7}
           className="w-full"
         >
-          <div className="hover:border-primary/50 hover:outline-primary/15 relative overflow-hidden border-2 outline-6 outline-transparent transition-all duration-300">
-            {/* Dashboard image */}
+          <div className="hover:border-primary/50 hover:outline-primary/15 relative overflow-hidden border-2 outline-6 outline-transparent transition-[border-color,outline-color] duration-300">
             <div className="relative aspect-video w-full">
               <Image
                 src="/dashboard.png"
                 alt="Akina Dashboard"
                 fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1280px"
                 className="object-cover object-top"
                 priority
               />
@@ -138,7 +138,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Bottom gradient fade into next section */}
+      {/* Bottom fade */}
       <div className="to-background pointer-events-none absolute inset-x-0 bottom-0 z-4 h-64 bg-linear-to-b from-transparent" />
     </section>
   );
