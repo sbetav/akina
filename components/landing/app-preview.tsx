@@ -28,8 +28,8 @@ export default function AppPreview() {
 
         {/* Preview container */}
         <motion.div
-          initial={{ opacity: 0, y: 32, scale: 0.97 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{
             duration: 0.8,
@@ -45,6 +45,7 @@ export default function AppPreview() {
                 src="/create-invoice.webp"
                 alt="Akina Dashboard - Panel de control"
                 fill
+                priority
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1280px"
                 className="object-cover object-top"
               />

@@ -11,8 +11,8 @@ export default function CtaSection() {
     <section className="py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
         <motion.div
-          initial={{ opacity: 0, y: 24, scale: 0.98 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{
             duration: 0.7,
@@ -32,7 +32,7 @@ export default function CtaSection() {
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: 0.15 }}
               className="text-primary mb-3 font-mono text-xs font-semibold tracking-[0.2em] uppercase"
             >
@@ -42,7 +42,7 @@ export default function CtaSection() {
             <motion.h2
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: 0.25 }}
               className="mb-6 font-sans text-2xl leading-[1.06] font-bold tracking-tight sm:text-4xl lg:text-5xl"
             >
@@ -52,7 +52,7 @@ export default function CtaSection() {
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: 0.35 }}
               className="text-muted-foreground mx-auto mb-10 max-w-xl text-xs leading-relaxed sm:text-sm"
             >
@@ -63,7 +63,7 @@ export default function CtaSection() {
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: 0.45 }}
               className="flex flex-col items-center justify-center gap-3 sm:flex-row"
             >

@@ -67,6 +67,7 @@ export default function Footer() {
                   alt="Factus"
                   fill
                   className="object-contain"
+                  sizes="64px"
                 />
               </Link>
             </div>
