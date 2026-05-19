@@ -61,6 +61,7 @@ export default function Footer() {
                 href="https://factus.com.co"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="relative block h-16 w-16"
               >
                 <Image
                   src="/factus.webp"
