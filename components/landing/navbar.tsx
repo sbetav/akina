@@ -57,15 +57,17 @@ export default function Navbar() {
           >
             <GitHubIcon />
           </Link>
-          <Link
-            href="/login"
-            className={buttonVariants({
-              variant: "default-subtle",
-            })}
-          >
-            Comenzar
-            <ArrowRightIcon className="size-4" />
-          </Link>
+          <div className="bg-secondary/50">
+            <Link
+              href="/login"
+              className={buttonVariants({
+                variant: "default-subtle",
+              })}
+            >
+              Comenzar
+              <ArrowRightIcon className="size-4" />
+            </Link>
+          </div>
         </div>
       </div>
     </motion.header>
