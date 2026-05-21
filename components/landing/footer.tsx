@@ -19,8 +19,8 @@ export default function Footer() {
   return (
     <footer className="border-border bg-card/20 border-t">
       <div className="mx-auto max-w-7xl px-6 py-12 pb-7 sm:px-8 lg:px-12">
-        <div className="flex flex-col items-start justify-between gap-10 sm:flex-row sm:items-center">
-          <AppLogo size={32} />
+        <div className="flex flex-col items-center justify-between gap-8 sm:flex-row sm:items-start sm:gap-10">
+          <AppLogo size={26} />
 
           {/* Right: Nav links + GitHub */}
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
@@ -49,13 +49,14 @@ export default function Footer() {
         </div>
 
         {/* Powered by Factus + Bottom bar */}
-        <div className="flex flex-row items-center justify-between gap-4">
+        <div className="mt-8 flex flex-col items-center justify-between gap-4 sm:mt-0 sm:flex-row sm:gap-4">
           <p className="text-muted-foreground font-mono text-xs tracking-tight">
-            © 2026 {APP_NAME} | Made with ❤️ by{" "}
+            © 2026 {APP_NAME} | Hecho con{" "}
+            <span className="text-[11px]">❤️</span> por{" "}
             <Link
               href="https://github.com/sbetav"
               target="_blank"
-              className="text-foreground/80 hover:underline"
+              className="text-foreground/90 hover:underline"
             >
               sbetav
             </Link>
@@ -64,12 +65,12 @@ export default function Footer() {
             <span className="text-muted-foreground font-mono text-xs">
               Powered by
             </span>
-            <div className="relative mb-[3px] h-15 w-15">
+            <div className="relative mb-px h-14 w-16">
               <Link
                 href="https://factus.com.co"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative block h-16 w-16"
+                className="relative block h-14 w-16"
               >
                 <Image
                   src="/factus.webp"
