@@ -51,7 +51,7 @@ export default function Footer() {
         {/* Powered by Factus + Bottom bar */}
         <div className="flex flex-row items-center justify-between gap-4">
           <p className="text-muted-foreground font-mono text-xs tracking-tight">
-            © 2026 {APP_NAME} | Made with ❤️{" "}
+            © 2026 {APP_NAME} | Made with ❤️ by{" "}
             <Link
               href="https://github.com/sbetav"
               target="_blank"
