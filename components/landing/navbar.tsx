@@ -25,7 +25,7 @@ export default function Navbar() {
       transition={{
         duration: 1.4,
         ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
-        delay: 0.6,
+        delay: 0.5,
       }}
       className={cn(
         "fixed top-0 right-0 left-0 z-50 border-b border-transparent bg-transparent transition-colors duration-300",

@@ -28,26 +28,28 @@ export default function Hero() {
     <section className="relative min-h-dvh overflow-hidden pt-20">
       {/* ColorBends WebGL background */}
       <div className="absolute inset-0 z-2">
-        <ColorBends
-          rotation={90}
-          speed={0.34}
-          colors={["#00FF8A"]}
-          transparent
-          autoRotate={0}
-          scale={1}
-          frequency={1}
-          warpStrength={1}
-          mouseInfluence={0}
-          parallax={0}
-          noise={0.3}
-          iterations={1}
-          intensity={2}
-          bandWidth={4.5}
-        />
+        <div className="absolute inset-0 left-1/2 w-full min-w-[768px] -translate-x-1/2">
+          <ColorBends
+            rotation={90}
+            speed={0.34}
+            colors={["#00FF8A"]}
+            transparent
+            autoRotate={0}
+            scale={1}
+            frequency={1}
+            warpStrength={1}
+            mouseInfluence={0}
+            parallax={0}
+            noise={0.4}
+            iterations={1}
+            intensity={2}
+            bandWidth={4.5}
+          />
+        </div>
       </div>
 
       {/* Dark overlay */}
-      <div className="bg-background/60 pointer-events-none absolute inset-0 z-3" />
+      <div className="bg-background/70 pointer-events-none absolute inset-0 z-3" />
 
       {/* Content */}
       <div className="relative z-3 mx-auto flex max-w-7xl flex-col items-center px-6 pt-20 pb-32 sm:px-8 sm:pt-28 sm:pb-36 lg:px-12 lg:pt-32 lg:pb-40">
@@ -69,7 +71,7 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           custom={1}
-          className="mb-6 text-center font-sans text-4xl leading-[1.04] font-bold tracking-tight sm:text-7xl lg:text-6xl"
+          className="xs:text-4xl mb-6 text-center font-sans text-3xl leading-[1.04] font-bold tracking-tight sm:text-5xl lg:text-6xl"
         >
           <BlurReveal as="span" className="block" delay={0.1}>
             Factura electrónicamente,
@@ -87,9 +89,8 @@ export default function Hero() {
           custom={5}
           className="text-foreground/75 mb-10 max-w-2xl text-center font-sans text-sm leading-relaxed sm:text-base"
         >
-          Akina es una aplicación de facturación electrónica colombiana,
-          construida sobre la API de Factus para envío y validación directa de
-          documentos ante la DIAN.
+          Akina es una aplicación construida sobre la API de Factus para el
+          envío y validación directa de documentos electrónicos ante la DIAN.
         </motion.p>
 
         {/* CTAs */}
@@ -98,9 +99,15 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           custom={6}
-          className="mb-16 flex flex-col items-center gap-3 sm:flex-row lg:mb-20"
+          className="mb-16 flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row lg:mb-20"
         >
-          <Link href="/login" className={buttonVariants({ size: "lg" })}>
+          <Link
+            href="/login"
+            className={buttonVariants({
+              size: "lg",
+              className: "w-full sm:w-auto",
+            })}
+          >
             Comenzar ahora
             <ArrowRight size={14} />
           </Link>
@@ -108,7 +115,11 @@ export default function Hero() {
             href="https://github.com/sbetav/akina"
             target="_blank"
             rel="noopener noreferrer"
-            className={buttonVariants({ variant: "secondary", size: "lg" })}
+            className={buttonVariants({
+              variant: "secondary",
+              size: "lg",
+              className: "w-full sm:w-auto",
+            })}
           >
             <GitHubIcon aria-hidden />
             Ver en GitHub
