@@ -58,7 +58,7 @@ export default function Hero() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          custom={0}
+          custom={2}
         >
           <Badge className="border-primary/30 mb-5 uppercase">
             Facturación Electrónica · Colombia
