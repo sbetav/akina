@@ -44,9 +44,15 @@ const LoginForm: FC = () => {
 
   const email = useWatch({ control, name: "email" });
 
-  const { mutate, isPending, data } = useMutation({
-    mutationFn: async ({ email, password }: LoginFormValues) => {
-      return await authClient.signIn.email(
+  const {
+    mutate,
+    isPending,
+    isSuccess: rawSuccess,
+    data,
+  } = useMutation({
+    mutationFn: async (values: LoginFormValues) => {
+      const { email, password } = values;
+      return authClient.signIn.email(
         {
           email,
           password,
@@ -60,6 +66,7 @@ const LoginForm: FC = () => {
       );
     },
   });
+  const isSuccess = rawSuccess && !data?.error;
   const missingVerification = data?.error?.code === "EMAIL_NOT_VERIFIED";
   const {
     resend,
@@ -170,8 +177,12 @@ const LoginForm: FC = () => {
         </Alert>
       )}
 
-      <Button type="submit" size="lg" disabled={isPending}>
-        {isPending ? <Spinner /> : <LogInIcon className="size-4" />}
+      <Button type="submit" size="lg" disabled={isPending || isSuccess}>
+        {isPending || isSuccess ? (
+          <Spinner />
+        ) : (
+          <LogInIcon className="size-4" />
+        )}
         Iniciar Sesión
       </Button>
     </form>
