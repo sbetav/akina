@@ -36,7 +36,7 @@ export default function CtaSection() {
               transition={{ duration: 0.5, delay: 0.15 }}
               className="text-primary mb-3 font-mono text-xs font-semibold tracking-[0.2em] uppercase"
             >
-              ¿Listo para empezar?
+              ¿Listo para comenzar?
             </motion.p>
 
             <motion.h2
