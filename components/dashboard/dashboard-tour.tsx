@@ -4,7 +4,7 @@ import { type DriveStep, driver } from "driver.js";
 import "driver.js/dist/driver.css";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  type MutableRefObject,
+  type RefObject,
   useCallback,
   useEffect,
   useRef,
@@ -162,7 +162,7 @@ const MOBILE_STEPS: DriveStep[] = [
 ];
 
 const startDashboardTour = (
-  driverRef: MutableRefObject<ReturnType<typeof driver> | null>,
+  driverRef: RefObject<ReturnType<typeof driver> | null>,
   onTourEnd: () => void,
 ) => {
   const isMobileViewport = window.matchMedia("(max-width: 1023px)").matches;
@@ -194,13 +194,9 @@ const startDashboardTour = (
       if (!(element instanceof HTMLElement)) return;
       if (document.activeElement === element) element.blur();
     },
-    onDestroyed: (_, __, { driver: tourDriver }) => {
-      const completedAll = tourDriver.getActiveIndex() === steps.length - 1;
-
+    onDestroyed: () => {
       window.localStorage.setItem(TOUR_STORAGE_KEY, "1");
       onTourEnd();
-
-      if (!completedAll) return;
     },
     steps,
   });
@@ -225,13 +221,14 @@ const DashboardTour = () => {
 
   useEffect(() => {
     if (pathname !== "/dashboard") return;
+    if (disclaimerAccepted) return;
 
     const hasCompleted = window.localStorage.getItem(TOUR_STORAGE_KEY) === "1";
     if (hasCompleted) return;
 
     const timer = window.setTimeout(() => setShowDisclaimer(true), 250);
     return () => window.clearTimeout(timer);
-  }, [pathname]);
+  }, [pathname, disclaimerAccepted]);
 
   useEffect(() => {
     if (pathname !== "/dashboard") return;
