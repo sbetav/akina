@@ -3,12 +3,13 @@
 import type { User } from "better-auth";
 import {
   ChevronDownIcon,
-  HeadsetIcon,
   LogOutIcon,
+  RefreshCcwIcon,
   SettingsIcon,
 } from "lucide-react";
 import Link from "next/link";
 import type { FC } from "react";
+import { requestDashboardTourReplay } from "@/components/dashboard/dashboard-tour";
 import { GitHubIcon } from "@/components/icons/github-icon";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -71,11 +72,21 @@ const ProfileDropdownMenu: FC<ProfileDropdownMenuProps> = ({
                 target="_blank"
                 onClick={onNavigate}
               >
-                <GitHubIcon />
+                <GitHubIcon className="size-4" />
                 Github
               </Link>
             }
           />
+
+          <DropdownMenuItem
+            onClick={() => {
+              requestDashboardTourReplay();
+              onNavigate?.();
+            }}
+          >
+            <RefreshCcwIcon />
+            Repetir tour
+          </DropdownMenuItem>
 
           <DropdownMenuGroup>
             <DropdownMenuItem

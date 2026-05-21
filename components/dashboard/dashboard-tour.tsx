@@ -2,8 +2,14 @@
 
 import { type DriveStep, driver } from "driver.js";
 import "driver.js/dist/driver.css";
-import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  type MutableRefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,10 +19,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { toast } from "@/components/ui/toast";
 import { DEMO_DISCLAIMER } from "@/lib/constants";
 
 const TOUR_STORAGE_KEY = "akina.dashboardTourCompleted";
+const REPLAY_PENDING_KEY = "akina.dashboardTourReplayPending";
+export const DASHBOARD_TOUR_REPLAY_EVENT = "akina:dashboard-tour-replay";
+
+export const requestDashboardTourReplay = () => {
+  window.dispatchEvent(new CustomEvent(DASHBOARD_TOUR_REPLAY_EVENT));
+};
 
 const isVisible = (element: Element) => {
   if (!(element instanceof HTMLElement)) return false;
@@ -45,21 +56,11 @@ const BASE_STEPS: DriveStep[] = [
     },
   },
   {
-    element: '[data-tour="nav-products"]',
+    element: '[data-tour="general-dashboard"]',
     popover: {
-      title: "Productos",
+      title: "Dashboard general",
       description:
-        "Administra tu catalogo para reutilizar items al crear facturas y documentos soporte.",
-      side: "right",
-      align: "start",
-    },
-  },
-  {
-    element: '[data-tour="nav-customers"]',
-    popover: {
-      title: "Clientes",
-      description:
-        "Gestiona tus clientes para facturar mas rápido, sin volver a diligenciar sus datos en cada emisión.",
+        "Aquí tienes una vista general del rendimiento: KPIs, gráficos y actividad reciente para decidir rápido.",
       side: "right",
       align: "start",
     },
@@ -85,15 +86,36 @@ const BASE_STEPS: DriveStep[] = [
     },
   },
   {
-    element: '[data-tour="general-dashboard"]',
+    element: '[data-tour="nav-customers"]',
     popover: {
-      title: "Dashboard general",
+      title: "Clientes",
       description:
-        "Aquí tienes una vista general del rendimiento: KPIs, gráficos y actividad reciente para decidir rápido.",
-      side: "bottom",
+        "Gestiona tus clientes para facturar mas rápido, sin volver a diligenciar sus datos en cada emisión.",
+      side: "right",
       align: "start",
     },
   },
+  {
+    element: '[data-tour="nav-providers"]',
+    popover: {
+      title: "Proveedores",
+      description:
+        "Gestiona tus proveedores para hacer compras mas rápido, sin volver a diligenciar sus datos en cada compra.",
+      side: "right",
+      align: "start",
+    },
+  },
+  {
+    element: '[data-tour="nav-products"]',
+    popover: {
+      title: "Productos",
+      description:
+        "Administra tu catalogo para reutilizar items al crear facturas y documentos soporte.",
+      side: "right",
+      align: "start",
+    },
+  },
+
   {
     element: '[data-tour="dashboard-quick-actions"]',
     popover: {
@@ -139,11 +161,67 @@ const MOBILE_STEPS: DriveStep[] = [
   },
 ];
 
+const startDashboardTour = (
+  driverRef: MutableRefObject<ReturnType<typeof driver> | null>,
+  onTourEnd: () => void,
+) => {
+  const isMobileViewport = window.matchMedia("(max-width: 1023px)").matches;
+  const tourSteps = isMobileViewport ? MOBILE_STEPS : BASE_STEPS;
+
+  const steps = tourSteps.filter((step) => {
+    if (!step.element) return false;
+    const element = document.querySelector(String(step.element));
+    if (!element) return false;
+    return isVisible(element);
+  });
+
+  if (steps.length === 0) return;
+
+  const tour = driver({
+    allowClose: true,
+    disableActiveInteraction: true,
+    showProgress: true,
+    nextBtnText: "Siguiente",
+    prevBtnText: "Anterior",
+    doneBtnText: "Listo",
+    overlayClickBehavior: () => {},
+    smoothScroll: true,
+    animate: true,
+    stagePadding: 0,
+    stageRadius: 0,
+    popoverClass: "akina-tour-popover",
+    onHighlighted: (element) => {
+      if (!(element instanceof HTMLElement)) return;
+      if (document.activeElement === element) element.blur();
+    },
+    onDestroyed: (_, __, { driver: tourDriver }) => {
+      const completedAll = tourDriver.getActiveIndex() === steps.length - 1;
+
+      window.localStorage.setItem(TOUR_STORAGE_KEY, "1");
+      onTourEnd();
+
+      if (!completedAll) return;
+    },
+    steps,
+  });
+
+  driverRef.current = tour;
+  tour.drive();
+};
+
 const DashboardTour = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const driverRef = useRef<ReturnType<typeof driver> | null>(null);
   const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
+  const [replayTour, setReplayTour] = useState(false);
+
+  const beginReplay = useCallback(() => {
+    window.localStorage.removeItem(TOUR_STORAGE_KEY);
+    setDisclaimerAccepted(true);
+    setReplayTour(true);
+  }, []);
 
   useEffect(() => {
     if (pathname !== "/dashboard") return;
@@ -157,53 +235,37 @@ const DashboardTour = () => {
 
   useEffect(() => {
     if (pathname !== "/dashboard") return;
-    if (!disclaimerAccepted) return;
+    if (sessionStorage.getItem(REPLAY_PENDING_KEY) !== "1") return;
+
+    sessionStorage.removeItem(REPLAY_PENDING_KEY);
+    beginReplay();
+  }, [pathname, beginReplay]);
+
+  useEffect(() => {
+    const handleReplay = () => {
+      if (pathname !== "/dashboard") {
+        sessionStorage.setItem(REPLAY_PENDING_KEY, "1");
+        router.push("/dashboard");
+        return;
+      }
+
+      beginReplay();
+    };
+
+    window.addEventListener(DASHBOARD_TOUR_REPLAY_EVENT, handleReplay);
+    return () =>
+      window.removeEventListener(DASHBOARD_TOUR_REPLAY_EVENT, handleReplay);
+  }, [pathname, router, beginReplay]);
+
+  useEffect(() => {
+    if (pathname !== "/dashboard") return;
+    if (!disclaimerAccepted && !replayTour) return;
 
     const hasCompleted = window.localStorage.getItem(TOUR_STORAGE_KEY) === "1";
-    if (hasCompleted) return;
+    if (hasCompleted && !replayTour) return;
 
     const timer = window.setTimeout(() => {
-      const isMobileViewport = window.matchMedia("(max-width: 1023px)").matches;
-      const tourSteps = isMobileViewport ? MOBILE_STEPS : BASE_STEPS;
-
-      const steps = tourSteps.filter((step) => {
-        if (!step.element) return false;
-        const element = document.querySelector(String(step.element));
-        if (!element) return false;
-        return isVisible(element);
-      });
-
-      if (steps.length === 0) return;
-
-      const tour = driver({
-        allowClose: true,
-        showProgress: true,
-        nextBtnText: "Siguiente",
-        prevBtnText: "Anterior",
-        doneBtnText: "Listo",
-        overlayClickBehavior: "close",
-        smoothScroll: true,
-        animate: true,
-        stagePadding: 8,
-        stageRadius: 0,
-        popoverClass: "akina-tour-popover",
-        onDestroyed: (_, __, { driver: tourDriver }) => {
-          const completedAll = tourDriver.getActiveIndex() === steps.length - 1;
-
-          window.localStorage.setItem(TOUR_STORAGE_KEY, "1");
-
-          if (!completedAll) return;
-
-          toast.success("Tour completado", {
-            description:
-              "No se mostrará automáticamente de nuevo en este navegador.",
-          });
-        },
-        steps,
-      });
-
-      driverRef.current = tour;
-      tour.drive();
+      startDashboardTour(driverRef, () => setReplayTour(false));
     }, 250);
 
     return () => {
@@ -211,7 +273,7 @@ const DashboardTour = () => {
       driverRef.current?.destroy();
       driverRef.current = null;
     };
-  }, [pathname, disclaimerAccepted]);
+  }, [pathname, disclaimerAccepted, replayTour]);
 
   const handleAcceptDisclaimer = () => {
     setShowDisclaimer(false);

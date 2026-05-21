@@ -35,31 +35,37 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
       href: "/dashboard",
       label: "Dashboard",
       icon: LayoutDashboardIcon,
+      dataTour: "general-dashboard",
     },
     {
       href: "/dashboard/invoices",
       label: "Facturas",
       icon: ReceiptIcon,
+      dataTour: "nav-invoices",
     },
     {
       href: "/dashboard/support-documents",
       label: "Documentos soporte",
       icon: FileTextIcon,
+      dataTour: "nav-support-documents",
     },
     {
       href: "/dashboard/customers",
       label: "Clientes",
       icon: UsersIcon,
+      dataTour: "nav-customers",
     },
     {
       href: "/dashboard/providers",
       label: "Proveedores",
       icon: TruckIcon,
+      dataTour: "nav-providers",
     },
     {
       href: "/dashboard/products",
       label: "Productos",
       icon: PackageIcon,
+      dataTour: "nav-products",
     },
   ];
 
@@ -112,17 +118,7 @@ const SideBar: FC<SideBarProps> = ({ user }) => {
                   <Link
                     href={link.href}
                     aria-label={`Ir a ${link.label}`}
-                    data-tour={
-                      link.href === "/dashboard/products"
-                        ? "nav-products"
-                        : link.href === "/dashboard/customers"
-                          ? "nav-customers"
-                          : link.href === "/dashboard/invoices"
-                            ? "nav-invoices"
-                            : link.href === "/dashboard/support-documents"
-                              ? "nav-support-documents"
-                              : undefined
-                    }
+                    data-tour={link.dataTour}
                     key={link.href}
                     onClick={() => {
                       setIsOpen(false);

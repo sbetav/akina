@@ -348,12 +348,14 @@ input[type="number"] {
   color: var(--foreground);
 }
 
-.driver-popover.akina-tour-popover .driver-popover-arrow {
+.driver-popover.akina-tour-popover {
   border-color: var(--border);
 }
 
+.driver-popover-arrow {
+  display: none;
+}
+
 .driver-active-element {
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--primary) 65%, transparent),
-    0 0 0 4px color-mix(in srgb, var(--primary) 16%, transparent) !important;
+  box-shadow: none !important;
 }
