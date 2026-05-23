@@ -33,7 +33,7 @@ function VerificationEmail({
             {/* Header */}
             <Section className="border-b border-solid border-[#2f2f2f] bg-[#141414] px-8 py-5 text-center">
               <Img
-                src={`${baseUrl}/app-logo.png`}
+                src={`${baseUrl}/app-logo.webp`}
                 width={112}
                 height={36}
                 alt="Akina"

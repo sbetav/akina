@@ -22,7 +22,7 @@ const organizationLd = {
   "@type": "Organization",
   name: "Akina",
   url: "https://www.akina.dev",
-  logo: "https://www.akina.dev/app-logo.png",
+  logo: "https://www.akina.dev/app-logo.webp",
   sameAs: ["https://www.factus.com.co/"],
 };
 
@@ -47,7 +47,7 @@ const baseUrl = (() => {
 })();
 
 organizationLd.url = baseUrl;
-organizationLd.logo = `${baseUrl}/app-logo.png`;
+organizationLd.logo = `${baseUrl}/app-logo.webp`;
 websiteLd.url = baseUrl;
 
 export default function Page() {
