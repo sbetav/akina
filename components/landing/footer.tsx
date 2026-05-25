@@ -2,15 +2,23 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import type { HTMLAttributeAnchorTarget } from "react";
 import { AppLogo } from "@/components/ui/app-logo";
 import { DEMO_DISCLAIMER } from "@/lib/constants";
-import { GitHubIcon } from "../icons/github-icon";
-import { buttonVariants } from "../ui/button";
 import { Separator } from "../ui/separator";
 
-const NAV_LINKS = [
-  { label: "Entrar", href: "/login" },
+const NAV_LINKS: {
+  label: string;
+  href: string;
+  target?: HTMLAttributeAnchorTarget;
+}[] = [
+  { label: "Iniciar", href: "/login" },
   { label: "Registrarse", href: "/register" },
+  {
+    label: "Github",
+    href: "https://github.com/sbetav/akina",
+    target: "_blank",
+  },
 ] as const;
 
 const APP_NAME = "AKINA";
@@ -18,38 +26,27 @@ const APP_NAME = "AKINA";
 export default function Footer() {
   return (
     <footer className="border-border bg-card/20 border-t">
-      <div className="mx-auto max-w-7xl px-6 py-12 pb-7 sm:px-8 lg:px-12">
-        <div className="flex flex-col items-center justify-between gap-8 sm:flex-row sm:items-start sm:gap-10">
+      <div className="mx-auto max-w-7xl px-6 py-12 pb-5.5 sm:space-y-5 sm:px-8 lg:px-12">
+        <div className="flex flex-col items-center justify-between gap-8 sm:flex-row sm:gap-10">
           <AppLogo size={26} />
 
           {/* Right: Nav links + GitHub */}
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+          <div className="flex h-full flex-wrap items-center gap-x-6 gap-y-3">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
+                target={link.target}
                 className="text-muted-foreground hover:text-primary font-mono text-xs transition-colors duration-200"
               >
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="https://github.com/sbetav/akina"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={buttonVariants({
-                variant: "ghost",
-                size: "icon",
-              })}
-              aria-label="GitHub"
-            >
-              <GitHubIcon />
-            </Link>
           </div>
         </div>
 
         {/* Powered by Factus + Bottom bar */}
-        <div className="mt-8 flex flex-col items-center justify-between gap-4 sm:mt-0 sm:flex-row sm:gap-4">
+        <div className="mt-8 flex flex-col items-center justify-between gap-8 sm:mt-0 sm:flex-row">
           <p className="text-muted-foreground font-mono text-xs tracking-tight">
             © 2026 {APP_NAME} | Hecho con{" "}
             <span className="text-[11px]">❤️</span> por{" "}
@@ -61,16 +58,16 @@ export default function Footer() {
               sbetav
             </Link>
           </p>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <span className="text-muted-foreground font-mono text-xs">
               Powered by
             </span>
-            <div className="relative mb-px h-14 w-16">
+            <div className="relative mb-px h-7 w-16">
               <Link
                 href="https://factus.com.co"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative block h-14 w-16"
+                className="relative block h-7 w-16"
               >
                 <Image
                   src="/factus.webp"
@@ -84,9 +81,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <Separator className="mt-6 mb-7" />
+        <Separator className="mt-6 mb-5" />
 
-        <p className="text-muted-foreground text-center text-[10px]">
+        <p className="text-muted-foreground text-center text-[11px]">
           *{DEMO_DISCLAIMER}
         </p>
       </div>

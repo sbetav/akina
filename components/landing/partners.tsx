@@ -37,7 +37,7 @@ export default function Partners() {
             <div className="flex items-center justify-center gap-4 sm:justify-start">
               <div className="relative mb-2 h-16 w-40">
                 <Image
-                  src="/factus.webp"
+                  src="/factus-w-label.webp"
                   alt="Factus"
                   fill
                   sizes="160px"
