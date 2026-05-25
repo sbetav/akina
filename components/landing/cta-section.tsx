@@ -18,17 +18,10 @@ export default function CtaSection() {
             duration: 0.7,
             ease: [0.25, 0.46, 0.45, 0.94],
           }}
-          className="cta-grainy-bg relative isolate overflow-hidden border"
+          className="to-primary/30 border bg-linear-to-br from-black/96 via-black/82"
         >
-          {/* Dark overlay */}
-          <div className="pointer-events-none absolute inset-0 z-1 bg-linear-to-br from-black/96 via-black/82 to-emerald-400/12" />
-
-          {/* Top + bottom gradient fades */}
-          <div className="pointer-events-none absolute top-0 right-0 left-0 z-2 h-24 bg-linear-to-b from-black/40 to-transparent" />
-          <div className="pointer-events-none absolute right-0 bottom-0 left-0 z-2 h-24 bg-linear-to-b from-transparent to-black/40" />
-
           {/* Content */}
-          <div className="relative z-3 px-8 py-20 text-center sm:px-16 sm:py-24">
+          <div className="px-8 py-20 text-center sm:px-16 sm:py-24">
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
