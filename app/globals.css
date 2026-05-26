@@ -291,19 +291,18 @@ input[type="number"] {
   font-size: 11px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
-.driver-popover.akina-tour-popover .driver-popover-footer button:hover,
-.driver-popover.akina-tour-popover .driver-popover-footer button:focus {
-  background: color-mix(in srgb, var(--primary) 16%, var(--secondary));
+.driver-popover-footer button:hover {
+  opacity: 80%;
 }
 
 .driver-popover.akina-tour-popover
   .driver-popover-footer
   .driver-popover-next-btn {
-  border-color: color-mix(in srgb, var(--primary) 55%, var(--border));
-  background: color-mix(in srgb, var(--primary) 18%, var(--secondary));
+  border-color: color-mix(in srgb, var(--primary) 20%, var(--border));
+  background: color-mix(in srgb, var(--primary) 10%, var(--secondary));
   color: var(--foreground);
 }
 
