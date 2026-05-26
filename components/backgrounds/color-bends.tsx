@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import type React from "react";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
@@ -362,7 +363,10 @@ export default function ColorBends({
   return (
     <div
       ref={containerRef}
-      className={`relative h-full w-full overflow-hidden ${className}`}
+      className={cn(
+        "bg-background relative h-full w-full overflow-hidden",
+        className,
+      )}
       style={style}
     />
   );
