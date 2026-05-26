@@ -61,7 +61,7 @@ export default function CtaSection() {
               className="flex flex-col items-center justify-center gap-3 sm:flex-row"
             >
               <Link
-                href="/register"
+                href="/login"
                 className={buttonVariants({
                   size: "lg",
                   className: "w-full sm:w-auto",

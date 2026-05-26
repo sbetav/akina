@@ -32,7 +32,7 @@ const ProfileDropdownMenu: FC<ProfileDropdownMenuProps> = ({
   user,
   onNavigate,
 }) => {
-  const { logout, isPending } = useLogout();
+  const { logout, isPending, isRedirecting } = useLogout();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -105,7 +105,7 @@ const ProfileDropdownMenu: FC<ProfileDropdownMenuProps> = ({
         <DropdownMenuItem
           variant="destructive"
           onClick={logout}
-          disabled={isPending}
+          disabled={isPending || isRedirecting}
         >
           {isPending ? (
             <Spinner className="text-muted-foreground!" />
