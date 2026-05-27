@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { HTMLAttributeAnchorTarget } from "react";
 import { AppLogo } from "@/components/ui/app-logo";
-import { DEMO_DISCLAIMER } from "@/lib/constants";
+import { APP_NAME, DEMO_DISCLAIMER } from "@/lib/constants";
 import { Separator } from "../ui/separator";
 
 const NAV_LINKS: {
@@ -21,14 +21,12 @@ const NAV_LINKS: {
   },
 ] as const;
 
-const APP_NAME = "AKINA";
-
 export default function Footer() {
   return (
     <footer className="border-border bg-card/20 border-t">
-      <div className="mx-auto max-w-7xl px-6 py-12 pb-5.5 sm:space-y-5 sm:px-8 lg:px-12">
+      <div className="mx-auto max-w-7xl px-6 py-12 pb-5 sm:space-y-4.5 sm:px-8 lg:px-12">
         <div className="flex flex-col items-center justify-between gap-8 sm:flex-row sm:gap-10">
-          <AppLogo size={26} />
+          <AppLogo size={26} labelClassName="mt-0.5" />
 
           {/* Right: Nav links + GitHub */}
           <div className="flex h-full flex-wrap items-center gap-x-6 gap-y-3">
@@ -81,7 +79,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <Separator className="mt-6 mb-5" />
+        <Separator className="mt-10.5 mb-5" />
 
         <p className="text-muted-foreground text-center text-[11px]">
           *{DEMO_DISCLAIMER}
