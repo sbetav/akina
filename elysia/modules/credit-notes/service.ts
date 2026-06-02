@@ -156,7 +156,7 @@ function extractPersistableFields(
 
   const number = pickFirstString(root?.number, creditNote?.number);
   if (!number) {
-    throw new Error("Factus no devolvio el numero de la nota credito creada");
+    throw new Error("Factus no devolvió el numero de la nota crédito creada");
   }
 
   const customerIdentification = pickFirstString(
@@ -303,11 +303,12 @@ export const CreditNoteService = {
       );
     }
 
-    if (!customerRow.municipalityId) {
-      throw new Error(
-        "El cliente de la factura no tiene municipio configurado",
-      );
-    }
+    const municipalityId =
+      customerRow.municipalityId?.trim() ||
+      invoice.customer.municipality_id?.trim() ||
+      (invoice.customer.municipality?.id != null
+        ? String(invoice.customer.municipality.id)
+        : undefined);
 
     const customer = {
       identification_document_id: customerRow.identificationDocumentId,
@@ -322,7 +323,7 @@ export const CreditNoteService = {
       legal_organization_id:
         customerRow.legalOrganizationId as OrganizationTypeId,
       tribute_id: customerRow.tributeId as CustomerTributeId,
-      municipality_id: customerRow.municipalityId,
+      ...(municipalityId ? { municipality_id: municipalityId } : {}),
     };
 
     const items = buildFactusInvoiceItems(input.items, {
